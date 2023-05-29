@@ -1,0 +1,20 @@
+# Misc
+.vscode
+*~
+tmp
+*.tmp
+
+# C and CPP
+*.o
+*.gcda
+*.gcno
+
+# Python
+.coverage
+__pycache__
+
+# Binaries
+unit_tests
+zappy_server
+zappy_ai
+zappy_gui
