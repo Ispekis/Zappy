@@ -83,20 +83,28 @@ int get_options(const int ac, char *const *av, info_t *info)
     set_non_set_info(info);
     while (opt != -1) {
         opt = getopt(ac, av, "p:x:y:n:c:f:");
-        if (opt == '?')
+        if (opt == '?') {
+            free_team(info->teams_name);
             return FAILURE;
+        }
         switch (opt) {
             case 'p':
-                if (set_number_arg(&info->port) == FAILURE)
+                if (set_number_arg(&info->port) == FAILURE) {
+                    free_team(info->teams_name);
                     return FAILURE;
+                }
                 break;
             case 'x':
-                if (set_number_arg(&info->width) == FAILURE)
+                if (set_number_arg(&info->width) == FAILURE) {
+                    free_team(info->teams_name);
                     return FAILURE;
+                }
                 break;
             case 'y':
-                if (set_number_arg(&info->height) == FAILURE)
+                if (set_number_arg(&info->height) == FAILURE) {
+                    free_team(info->teams_name);
                     return FAILURE;
+                }
                 break;
             case 'n':
                 // Check if its already set
@@ -106,14 +114,22 @@ int get_options(const int ac, char *const *av, info_t *info)
                     return FAILURE;
                 break;
             case 'c':
-                if (set_number_arg(&info->clients_nb) == FAILURE)
+                if (set_number_arg(&info->clients_nb) == FAILURE) {
+                    free_team(info->teams_name);
                     return FAILURE;
+                }
                 break;
             case 'f':
-                if (set_float_arg(&info->freq) == FAILURE)
+                if (set_float_arg(&info->freq) == FAILURE) {
+                    free_team(info->teams_name);
                     return FAILURE;
+                }
                 break;
         }
     }
-    return check_all_info_set(*info);
+    if (check_all_info_set(*info)) {
+        free_team(info->teams_name);
+        return FAILURE;
+    }
+    return SUCCESS;
 }

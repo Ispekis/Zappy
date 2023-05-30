@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 size_t get_array_length(char** array)
 {

@@ -9,8 +9,7 @@ PATH_TO_ROOT	=	../..
 
 MV	=	mv
 
-SRC	=	src/error_handler.c	\
-		src/get_options.c	\
+SRC	=	src/get_options.c	\
 		src/tools.c
 
 MAIN_SRC	=	src/main.c

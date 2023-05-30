@@ -9,8 +9,8 @@
     #define MACRO_H_
     #define SUCCESS 0
     #define FAILURE 1
-    #define EXIT_SUCCESS 0
-    #define EXIT_FAILURE 84
+    #define MY_EXIT_SUCCESS 0
+    #define MY_EXIT_FAILURE 84
     #define ARG_ERROR_LABEL "Options Error"
 
 

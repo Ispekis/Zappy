@@ -25,12 +25,10 @@ int main(const int ac, char *const *av)
 
     if (ac == 2 && strcmp(av[1], "-help") == 0) {
         show_usage(av[0], STDOUT_FILENO);
-        return EXIT_SUCCESS;
+        return MY_EXIT_SUCCESS;
     }
     if (get_options(ac, av, &server.info) == FAILURE)
-        return EXIT_FAILURE;
-    // if (error_handling(ac, av) == FAILURE)
-    //     return EXIT_FAILURE;
+        return MY_EXIT_FAILURE;
     printf("Server here !\n");
-    return EXIT_SUCCESS;
+    return MY_EXIT_SUCCESS;
 }
