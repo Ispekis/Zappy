@@ -1,0 +1,75 @@
+name: repo_check
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+env:
+  SERVER: "zappy_server"
+  AI: "zappy_ai"
+  GUI: "zappy_gui"
+
+jobs:
+  check_repository_cleanliness:
+    runs-on: ubuntu-latest
+    container:
+      image: epitechcontent/epitest-docker
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Generate Error Annotation
+        timeout-minutes: 2
+        run: |
+          CHECK=0
+          CLEANLINESS="$(find -iname "*~" -o -iname "*#*" -o -iname "*.exe" -o -iname "*.sh" -o -iname "*.o" -o -iname "*.gcda" -o -iname "*.gcov" -o -iname "tmp" -o -iname "*.a" -o -iname "*-;" -o -iname "*.gcno" -type f,d)"
+          for FILE in $CLEANLINESS
+          do
+            echo "::error file=$FILE,title=Unwanted file detected::$FILE"
+            CHECK=1
+          done
+          if [ $CHECK == 1 ]
+          then
+            exit 1
+          fi
+  check_program_compilation:
+    runs-on: ubuntu-latest
+    container:
+      image: epitechcontent/epitest-docker
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: check_make
+        run: |
+          make
+          IS_EXE="$(find *)"
+          for FILE in $IS_EXE
+          do
+            if [ $FILE == ${{ env.SERVER }} ] || [ $FILE == ${{ env.AI }} ] || [ $FILE == ${{ env.GUI }} ]
+            then
+              test -x $FILE && exit 0 || echo "::error file=$FILE,title=Binary is not an executable::$FILE" && exit 1
+            fi
+          done
+          echo "::error file=${{ env.SERVER }},title=Binary not found::${{ env.SERVER }}"
+          echo "::error file=${{ env.AI }},title=Binary not found::${{ env.AI }}"
+          echo "::error file=${{ env.GUI }},title=Binary not found::${{ env.GUI }}"
+          exit 1
+      - name: check_clean
+        run: |
+          make fclean
+          CHECK="$(find *)"
+          for FILE in $CHECK
+          do
+            if [ $FILE == ${{ env.SERVER }} ] || [ $FILE == ${{ env.AI }} ] || [ $FILE == ${{ env.GUI }} ]
+            then
+              echo "::error file=$FILE,title=Binary is not cleared::$FILE"
+              exit 1
+            fi
+          done
