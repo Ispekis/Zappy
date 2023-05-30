@@ -12,6 +12,11 @@
     #include <string.h>
     #include <stdlib.h>
     #include <stdbool.h>
+    #include <sys/socket.h>
+    #include <netinet/in.h>
+    #include <netinet/ip.h>
+    #include <arpa/inet.h>
+    #include <sys/select.h>
 
 typedef struct info_s {
     int port;
@@ -22,12 +27,23 @@ typedef struct info_s {
     float freq;
 } info_t;
 
+typedef struct sock_addrs_s {
+    struct sockaddr_in server;
+    struct timeval timeout;
+    int socket_fd;
+    int name;
+    int status;
+    fd_set rfds;
+} sock_addrs_t;
+
 typedef struct server_s {
+    sock_addrs_t addrs;
     info_t info;
 
 } server_t;
 
-int error_handling(const int ac, const char **av);
+void show_usage(const char *binary, int fd);
+
 int get_options(const int ac, char *const *av, info_t *info);
 
 // Tools
@@ -37,5 +53,8 @@ bool can_convert_to_int(const char* str);
 bool can_convert_to_float(const char* str);
 bool is_int(int value);
 bool is_float(float value);
+
+// Init
+int init_server(sock_addrs_t *addrs, int port);
 
 #endif /* !SERVER_H_ */

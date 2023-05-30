@@ -129,7 +129,7 @@ int get_options(const int ac, char *const *av, info_t *info)
     }
     if (check_all_info_set(*info)) {
         free_team(info->teams_name);
-        return FAILURE;
+        return write_error("All the option needs to be set : -help to display help message", ARG_ERROR_LABEL, FAILURE);
     }
     return SUCCESS;
 }

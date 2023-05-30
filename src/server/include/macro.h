@@ -12,6 +12,7 @@
     #define MY_EXIT_SUCCESS 0
     #define MY_EXIT_FAILURE 84
     #define ARG_ERROR_LABEL "Options Error"
+    #define MAX_CONNECTIONS 100
 
 
 #endif /* !MACRO_H_ */

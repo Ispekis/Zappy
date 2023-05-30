@@ -10,7 +10,8 @@ PATH_TO_ROOT	=	../..
 MV	=	mv
 
 SRC	=	src/get_options.c	\
-		src/tools.c
+		src/tools.c			\
+		src/init.c
 
 MAIN_SRC	=	src/main.c
 
@@ -38,7 +39,7 @@ $(NAME): $(OBJ) $(MAIN_OBJ)
 
 tests_run: LDFLAGS += -lcriterion --coverage
 tests_run:
-	$(CC) $(SRC) $(TEST_FILE) $(LDFLAGS) -o $(TEST_NAME)
+	$(CC) $(SRC) $(TEST_FILE) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) -o $(TEST_NAME)
 	./${TEST_NAME}
 	gcovr --exclude tests/
 	gcovr --exclude tests/ --branches
