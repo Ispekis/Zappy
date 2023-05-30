@@ -6,6 +6,7 @@
 */
 
 #include "server.h"
+#include "macro.h"
 
 static void show_usage(const char *binary, int fd)
 {
@@ -18,12 +19,18 @@ static void show_usage(const char *binary, int fd)
     dprintf(fd, "\tfreq\t\tis the reciprocal of time unit for execution of actions\n");
 }
 
-int main(const int ac, const char **av)
+int main(const int ac, char *const *av)
 {
+    server_t server;
+
     if (ac == 2 && strcmp(av[1], "-help") == 0) {
         show_usage(av[0], STDOUT_FILENO);
-        return 0;
+        return EXIT_SUCCESS;
     }
+    if (get_options(ac, av, &server.info) == FAILURE)
+        return EXIT_FAILURE;
+    // if (error_handling(ac, av) == FAILURE)
+    //     return EXIT_FAILURE;
     printf("Server here !\n");
-    return 0;
+    return EXIT_SUCCESS;
 }
