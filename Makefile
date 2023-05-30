@@ -9,42 +9,42 @@ SERVER_PATH	=	src/server
 
 GUI_PATH	=	src/gui
 
-IA_PATH		=	src/ai
+AI_PATH		=	src/ai
 
-all: server gui ia
+all: zappy_server zappy_gui zappy_ai
 
-server:
+zappy_server:
 	$(MAKE) -C $(SERVER_PATH)
 
-gui:
+zappy_gui:
 	$(MAKE) -C $(GUI_PATH)
 
-ia:
-	$(MAKE) -C $(IA_PATH)
+zappy_ai:
+	$(MAKE) -C $(AI_PATH)
 
 tests_run:
 	$(MAKE) tests_run -C $(SERVER_PATH)
 	$(MAKE) tests_run -C $(GUI_PATH)
-	$(MAKE) tests_run -C $(IA_PATH)
+	$(MAKE) tests_run -C $(AI_PATH)
 
 clean:
 	$(MAKE) clean -C $(SERVER_PATH)
 	$(MAKE) clean -C $(GUI_PATH)
-	$(MAKE) clean -C $(IA_PATH)
+	$(MAKE) clean -C $(AI_PATH)
 
 fclean:
 	$(MAKE) fclean -C $(SERVER_PATH)
 	$(MAKE) fclean -C $(GUI_PATH)
-	$(MAKE) fclean -C $(IA_PATH)
+	$(MAKE) fclean -C $(AI_PATH)
 
 re:
 	$(MAKE) re -C $(SERVER_PATH)
 	$(MAKE) re -C $(GUI_PATH)
-	$(MAKE) re -C $(IA_PATH)
+	$(MAKE) re -C $(AI_PATH)
 
 debug:
 	$(MAKE) debug -C $(SERVER_PATH)
 	$(MAKE) debug -C $(GUI_PATH)
-	$(MAKE) debug -C $(IA_PATH)
+	$(MAKE) debug -C $(AI_PATH)
 
-.PHONY: all tests_run clean fclean re debug
+.PHONY: all zappy_server zappy_gui zappy_ai tests_run clean fclean re debug
