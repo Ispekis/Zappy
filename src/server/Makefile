@@ -11,7 +11,9 @@ MV	=	mv
 
 SRC	=	src/get_options.c	\
 		src/tools.c			\
-		src/init.c
+		src/init.c			\
+		src/server.c		\
+		src/shutdown.c
 
 MAIN_SRC	=	src/main.c
 

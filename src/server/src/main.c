@@ -31,6 +31,7 @@ int main(const int ac, char *const *av)
         return MY_EXIT_FAILURE;
     if (init_server(&server.addrs, server.info.port) == FAILURE)
         return MY_EXIT_FAILURE;
-    printf("Server here !\n");
+    if (run_server(server) == FAILURE)
+        return MY_EXIT_FAILURE;
     return MY_EXIT_SUCCESS;
 }

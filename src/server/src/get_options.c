@@ -79,53 +79,48 @@ static int set_float_arg(float *opt)
 int get_options(const int ac, char *const *av, info_t *info)
 {
     int opt = 0;
+    int status = SUCCESS;
 
     set_non_set_info(info);
-    while (opt != -1) {
+    while (opt != -1 && status == SUCCESS) {
         opt = getopt(ac, av, "p:x:y:n:c:f:");
         if (opt == '?') {
-            free_team(info->teams_name);
-            return FAILURE;
+            status = FAILURE;
+            break;
         }
         switch (opt) {
             case 'p':
-                if (set_number_arg(&info->port) == FAILURE) {
-                    free_team(info->teams_name);
-                    return FAILURE;
-                }
+                if (set_number_arg(&info->port) == FAILURE)
+                    status = FAILURE;
                 break;
             case 'x':
-                if (set_number_arg(&info->width) == FAILURE) {
-                    free_team(info->teams_name);
-                    return FAILURE;
-                }
+                if (set_number_arg(&info->width) == FAILURE)
+                    status = FAILURE;
                 break;
             case 'y':
-                if (set_number_arg(&info->height) == FAILURE) {
-                    free_team(info->teams_name);
-                    return FAILURE;
-                }
+                if (set_number_arg(&info->height) == FAILURE)
+                    status = FAILURE;
                 break;
             case 'n':
                 // Check if its already set
                 if (info->teams_name != NULL)
                     return write_error("Cannot set the same option", ARG_ERROR_LABEL, FAILURE);
                 if (set_teams_name(ac, av, info) == FAILURE)
-                    return FAILURE;
+                    status = FAILURE;
                 break;
             case 'c':
-                if (set_number_arg(&info->clients_nb) == FAILURE) {
-                    free_team(info->teams_name);
-                    return FAILURE;
-                }
+                if (set_number_arg(&info->clients_nb) == FAILURE)
+                    status = FAILURE;
                 break;
             case 'f':
-                if (set_float_arg(&info->freq) == FAILURE) {
-                    free_team(info->teams_name);
-                    return FAILURE;
-                }
+                if (set_float_arg(&info->freq) == FAILURE)
+                    status = FAILURE;
                 break;
         }
+    }
+    if (status == FAILURE) {
+        free_team(info->teams_name);
+        return FAILURE;
     }
     if (check_all_info_set(*info)) {
         free_team(info->teams_name);
