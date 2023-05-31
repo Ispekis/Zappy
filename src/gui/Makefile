@@ -9,7 +9,9 @@ PATH_TO_ROOT	=	../..
 
 MV	=	mv
 
-SRC	=	
+SRC	=	src/Parser.cpp	\
+		src/Error.cpp	\
+		src/Gui.cpp
 
 MAIN_SRC	=	src/main.cpp
 
