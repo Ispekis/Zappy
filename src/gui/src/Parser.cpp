@@ -14,24 +14,31 @@ Zappy::Parser::Parser(const int ac, char *const *av)
     if (ac > 5)
         throw Error("Error on argument length", "Parser");
 
-    if (std::strcmp(av[1], "-p") == 0) {
-        try {
-            _port = std::stoi(av[2]);
-        } catch (const std::exception &) {
-            throw Error("Use a number for the port", "Parser");
+    for (int i = 1; i < ac; i++) {
+        if (std::strcmp(av[i], "-p") == 0) {
+            try {
+                _port = std::stoi(av[i + 1]);
+            } catch (const std::exception &) {
+                throw Error("Invalid port", "Parser");
+            }
+            i++;
+            continue;
         }
-    } else {
-        throw Error("Provide a port", "Parser");
+        if (std::strcmp(av[i], "-h") == 0) {
+            if (av[i + 1] == NULL) {
+                throw Error("Provide a machine name", "Parser");
+            } else {
+                _machine = av[i + 1];
+            }
+            i++;
+            continue;
+        }
+        throw Error("Unknown option", "Parser");
     }
 
-    if (ac > 3) {
-        if (std::strcmp(av[3], "-h") == 0) {
-            if (ac != 5)
-                throw Error("Provide a name", "Parser");
-            _machine = av[4];
-        } else {
-            throw Error("Unknown option", "Parser");
-        }
+    // Last check if values are set
+    if (_port < 0) {
+        throw Error("Please provide a valid port", "Parser");
     }
 }
 
