@@ -19,7 +19,6 @@ void re_set_fds(server_t *server, int sfd)
     }
 }
 
-
 int block_signal(int *sfd)
 {
     sigset_t mask;
