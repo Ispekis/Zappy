@@ -33,14 +33,22 @@ static int check_all_info_set(info_t info)
 static int set_teams_name(const int ac, char *const *av, info_t *info)
 {
     int count = ac - optind + 1;
+    int sub = 0;
 
-    info->teams_name = malloc(sizeof(char*) * (count + 1));
+    for (int i = 0; i < count; i++) {
+        sub++;
+        if (av[optind + i] == NULL || av[optind + i][0] == '-')
+            break;
+    }
+    info->teams_name = malloc(sizeof(char*) * (sub + 1));
     if (info->teams_name == NULL)
         return FAILURE;
     for (int i = 0; i < count; i++) {
         info->teams_name[i] = strdup(av[optind + i - 1]);
+        if (av[optind + i] == NULL || av[optind + i][0] == '-')
+            break;
     }
-    info->teams_name[count] = NULL;
+    info->teams_name[sub] = NULL;
     return SUCCESS;
 }
 
@@ -122,7 +130,7 @@ int get_options(const int ac, char *const *av, info_t *info)
         free_team(info->teams_name);
         return FAILURE;
     }
-    if (check_all_info_set(*info)) {
+    if (check_all_info_set(*info) == FAILURE) {
         free_team(info->teams_name);
         return write_error("All the option needs to be set : -help to display help message", ARG_ERROR_LABEL, FAILURE);
     }

@@ -17,13 +17,17 @@ def run_ai(port:int, name:str, machine:str):
     # Connecting to server
     try:
         client_socket = tc.connection(machine, port)
-    except socket.gaierror as e:
+    except (socket.gaierror, ConnectionRefusedError) as e:
         raise myexeption.Exception(e)
 
     # print("port = %i" % (port))
     # print("name = %s" % (name))
     # print("machine = %s" % (machine))
+    # while True:
+    rcv_data = client_socket.recv(1024)
+    print(rcv_data.decode())
+    client_socket.send(name.encode())
     while True:
-        rcv_data = client_socket.recv(1024)
-        print(rcv_data.decode())
+        continue
+
     return SUCCESS
