@@ -25,9 +25,11 @@ def run_ai(port:int, name:str, machine:str):
     # print("machine = %s" % (machine))
     # while True:
     rcv_data = client_socket.recv(1024)
-    print(rcv_data.decode())
+    print(rcv_data.decode(), end="")
     client_socket.send(name.encode())
     while True:
+        rcv_data = client_socket.recv(1024)
+        print(rcv_data.decode(), end="")
         continue
 
     return SUCCESS
