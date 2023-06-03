@@ -19,7 +19,6 @@ void re_set_fds(server_t *server, int sfd)
     }
 }
 
-
 int block_signal(int *sfd)
 {
     sigset_t mask;
@@ -40,9 +39,9 @@ static int listen_events(server_t *server)
     if (FD_ISSET(server->addrs.socket_fd, &server->addrs.rfds)) {
         accept_client_to_server(server);
     }
-    // for (int i = 0; i < MAX_CONNECTIONS; i++) {
-    //     read_from_client(server, i);
-    // }
+    for (int i = 0; i < MAX_CONNECTIONS; i++) {
+        read_from_client(server, i);
+    }
     return 0;
 }
 
