@@ -19,6 +19,13 @@
     #include <sys/select.h>
     #include <signal.h>
     #include <sys/signalfd.h>
+    #include <uuid/uuid.h>
+    #define MAX_CONNECTIONS 100
+
+typedef struct client_s {
+    int fd;
+    uuid_t uuid;
+} client_t;
 
 typedef struct info_s {
     int port;
@@ -38,11 +45,16 @@ typedef struct sock_addrs_s {
     fd_set rfds;
 } sock_addrs_t;
 
+typedef struct data_s {
+    client_t clients[MAX_CONNECTIONS];
+} data_t;
+
 typedef struct server_s {
     sock_addrs_t addrs;
     info_t info;
     int sfd;
     struct signalfd_siginfo fdsi;
+    data_t data;
 } server_t;
 
 void show_usage(const char *binary, int fd);
@@ -58,10 +70,13 @@ bool is_int(int value);
 bool is_float(float value);
 
 // Init
-int init_server(sock_addrs_t *addrs, int port);
+int init_server(server_t *server, int port);
 
 int run_server(server_t server);
 
 int catch_shutdown(server_t server);
+
+// Client management
+void accept_client_to_server(server_t *server);
 
 #endif /* !SERVER_H_ */

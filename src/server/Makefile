@@ -9,11 +9,12 @@ PATH_TO_ROOT	=	../..
 
 MV	=	mv
 
-SRC	=	src/get_options.c	\
-		src/tools.c			\
-		src/init.c			\
-		src/server.c		\
-		src/shutdown.c
+SRC	=	src/get_options.c		\
+		src/tools.c				\
+		src/init.c				\
+		src/server.c			\
+		src/shutdown.c			\
+		src/client_management.c
 
 MAIN_SRC	=	src/main.c
 
@@ -31,7 +32,7 @@ CPPFLAGS	=	-I./include
 
 CFLAGS	=	-Wall -Wextra
 
-LDFLAGS	=	
+LDFLAGS	=	-luuid
 
 all: $(NAME)
 
