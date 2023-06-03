@@ -1,4 +1,5 @@
 import socket
+import myexeption
 
 def connection(ip:str, port:int):
     """Create and connect the client to a tcp_socket server
