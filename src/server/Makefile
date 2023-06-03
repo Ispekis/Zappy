@@ -32,7 +32,7 @@ CPPFLAGS	=	-I./include
 
 CFLAGS	=	-Wall -Wextra
 
-LDFLAGS	=	
+LDFLAGS	=	-luuid
 
 all: $(NAME)
 

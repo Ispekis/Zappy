@@ -13,8 +13,8 @@ void re_set_fds(server_t *server, int sfd)
     FD_ZERO(&server->addrs.rfds);
     FD_SET(sfd, &server->addrs.rfds);
     for (int i = 0; i < MAX_CONNECTIONS; i++) {
-        if (server->clients[i].fd >= 0) {
-            FD_SET(server->clients[i].fd, &server->addrs.rfds);
+        if (server->data.clients[i].fd >= 0) {
+            FD_SET(server->data.clients[i].fd, &server->addrs.rfds);
         }
     }
 }

@@ -27,10 +27,10 @@ static int create_server(sock_addrs_t *addrs, int port)
     return SUCCESS;
 }
 
-static int init_clients(server_t *server)
+static int init_clients(data_t *data)
 {
     for (int i = 0; i < MAX_CONNECTIONS; i++) {
-        server->clients[i].fd = -1;
+        data->clients[i].fd = -1;
     }
     return SUCCESS;
 }
@@ -39,8 +39,8 @@ int init_server(server_t *server, int port)
 {
     if (create_server(&server->addrs, port) == FAILURE)
         return FAILURE;
-    if (init_clients(server) == FAILURE)
+    if (init_clients(&server->data) == FAILURE)
         return FAILURE;
-    server->clients[0].fd = server->addrs.socket_fd;
+    server->data.clients[0].fd = server->addrs.socket_fd;
     return SUCCESS;
 }
