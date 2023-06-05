@@ -12,6 +12,7 @@
 #include "macro.hpp"
 #include "unistd.h"
 #include "Gui.hpp"
+#include "Raylib.hpp"
 
 void show_usage(char *binary, int fd)
 {
@@ -22,17 +23,19 @@ void show_usage(char *binary, int fd)
 
 int main(const int ac, char *const *av)
 {
-    if (ac == 2 && std::strcmp(av[1], "-help") == 0) {
-        show_usage(av[0], STDOUT_FILENO);
-        return MY_EXIT_SUCCESS;
-    }
+        if (ac == 2 && std::strcmp(av[1], "-help") == 0) {
+            show_usage(av[0], STDOUT_FILENO);
+            return MY_EXIT_SUCCESS;
+        }
 
-    try {
-        Zappy::Parser parser(ac, av);
-        Zappy::Gui Gui(parser.getPort(), parser.getMachine());
-    } catch (Error &e) {
-        std::cerr << e.what() << std::endl;
-        return MY_EXIT_FAILURE;
-    }
-    return MY_EXIT_SUCCESS;
+        try {
+            Zappy::Parser parser(ac, av);
+            Zappy::Gui Gui(parser.getPort(), parser.getMachine());
+            // Zappy::Raylib Raylib(SCREEN_WIDTH, SCREEN_HEIGHT, "Zappy");
+        } catch (Error &e) {
+            std::cerr << e.what() << std::endl;
+            return MY_EXIT_FAILURE;
+        }
+        return MY_EXIT_SUCCESS;
+    return 0;
 }
