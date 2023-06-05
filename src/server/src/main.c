@@ -29,7 +29,7 @@ int main(const int ac, char *const *av)
     }
     if (get_options(ac, av, &server.info) == FAILURE)
         return MY_EXIT_FAILURE;
-    if (init_server(&server.addrs, server.info.port) == FAILURE)
+    if (init_server(&server, server.info.port) == FAILURE)
         return MY_EXIT_FAILURE;
     if (run_server(server) == FAILURE)
         return MY_EXIT_FAILURE;
