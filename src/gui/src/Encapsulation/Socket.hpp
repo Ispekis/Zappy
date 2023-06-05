@@ -39,10 +39,10 @@ class Socket {
          */
         void connectToServer(std::string &machine);
 
-    protected:
-    private:
         int _socket;
         struct sockaddr_in _serverAddr;
+    protected:
+    private:
 };
 
 #endif /* !SOCKET_HPP_ */

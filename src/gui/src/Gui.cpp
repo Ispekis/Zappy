@@ -27,5 +27,5 @@ void Zappy::Gui::run()
 
 void Zappy::Gui::receiveServerData()
 {
-
+    _data.readFromServer();
 }
