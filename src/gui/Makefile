@@ -30,7 +30,7 @@ CPPFLAGS	=	-I./include
 
 CFLAGS	=	-Wall -Wextra
 
-LDFLAGS	=	-lraylib
+LDFLAGS	=	-lraylib -lpthread -ldl
 
 all: $(NAME)
 
