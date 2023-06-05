@@ -11,7 +11,8 @@ MV	=	mv
 
 SRC	=	src/Parser.cpp	\
 		src/Error.cpp	\
-		src/Gui.cpp
+		src/Gui.cpp		\
+		src/Raylib.cpp		\
 
 MAIN_SRC	=	src/main.cpp
 
@@ -29,7 +30,7 @@ CPPFLAGS	=	-I./include
 
 CFLAGS	=	-Wall -Wextra
 
-LDFLAGS	=	
+LDFLAGS	=	-lraylib
 
 all: $(NAME)
 
