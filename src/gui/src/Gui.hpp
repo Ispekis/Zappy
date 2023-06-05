@@ -9,6 +9,7 @@
     #define GUI_HPP_
     #include <string>
     #include <iostream>
+    #include "Raylib.hpp"
 
 namespace Zappy {
     class Gui {
@@ -16,8 +17,11 @@ namespace Zappy {
             Gui(int port, std::string machine);
             ~Gui();
 
+            void run();
+
         protected:
         private:
+            Zappy::Raylib _graphic;
     };
 }
 
