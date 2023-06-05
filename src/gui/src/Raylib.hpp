@@ -29,8 +29,7 @@ namespace Zappy {
 
         protected:
         private:
-};
-
+    };
 }
 
 #endif /* !RAYLIB_HPP_ */

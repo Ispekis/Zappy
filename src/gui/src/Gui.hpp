@@ -9,6 +9,8 @@
     #define GUI_HPP_
     #include <string>
     #include <iostream>
+    #include <thread>
+    #include "Socket.hpp"
     #include "Raylib.hpp"
 
 namespace Zappy {
@@ -17,11 +19,24 @@ namespace Zappy {
             Gui(int port, std::string machine);
             ~Gui();
 
+            /**
+             * @brief Run the Gui
+             * 
+             */
             void run();
+
+            /**
+             * @brief Thread function that receive data from the server
+             * 
+             */
+            void receiveServerData();
 
         protected:
         private:
             Zappy::Raylib _graphic;
+            std::thread _dataReceiver;
+
+            Socket _socket;
     };
 }
 
