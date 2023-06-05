@@ -24,4 +24,5 @@ void Zappy::Raylib::createWindow()
 
 Zappy::Raylib::~Raylib()
 {
+    CloseWindow();
 }
