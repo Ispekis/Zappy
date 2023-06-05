@@ -11,6 +11,7 @@
     #include <iostream>
     #include <thread>
     #include "Socket.hpp"
+    #include "Data.hpp"
     #include "Raylib.hpp"
 
 namespace Zappy {
@@ -36,7 +37,7 @@ namespace Zappy {
             Zappy::Raylib _graphic;
             std::thread _dataReceiver;
 
-            Socket _socket;
+            Data _data;
     };
 }
 

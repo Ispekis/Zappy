@@ -7,7 +7,7 @@
 
 #include "Gui.hpp"
 
-Zappy::Gui::Gui(int port, std::string machine) : _graphic(SCREEN_WIDTH, SCREEN_HEIGHT, "Zappy"), _socket(machine, port)
+Zappy::Gui::Gui(int port, std::string machine) : _graphic(SCREEN_WIDTH, SCREEN_HEIGHT, "Zappy"), _data(machine, port)
 {
     std::cout << "Port = " << port << std::endl;
     std::cout << "Machine = " << machine << std::endl;

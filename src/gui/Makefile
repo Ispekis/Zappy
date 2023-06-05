@@ -13,6 +13,7 @@ SRC	=	src/Parser.cpp	\
 		src/Error.cpp	\
 		src/Raylib.cpp		\
 		src/Encapsulation/Socket.cpp		\
+		src/Communication/Data.cpp		\
 		src/Gui.cpp		\
 
 MAIN_SRC	=	src/main.cpp
