@@ -9,11 +9,12 @@
 
 Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
 {
-    InitWindow(screenWidth, screenHeight, title.c_str());
-    createWindow();
+    InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str());
+    if (!IsWindowReady())
+        throw Error("RayLib", "Error Init Window");
 }
 
-void Zappy::Raylib::createWindow()
+void Zappy::Raylib::run()
 {
     while (!WindowShouldClose()) {
         BeginDrawing();

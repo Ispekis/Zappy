@@ -31,8 +31,10 @@ int main(const int ac, char *const *av)
         try {
             Zappy::Parser parser(ac, av);
             Zappy::Gui Gui(parser.getPort(), parser.getMachine());
-            // Zappy::Raylib Raylib(SCREEN_WIDTH, SCREEN_HEIGHT, "Zappy");
-        } catch (Error &e) {
+            Gui.run();
+        }
+        catch (Error &e)
+        {
             std::cerr << e.what() << std::endl;
             return MY_EXIT_FAILURE;
         }
