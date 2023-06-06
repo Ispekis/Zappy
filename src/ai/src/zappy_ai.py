@@ -1,6 +1,6 @@
 import tcp_client as tc
 from macro import *
-import myexeption
+import myexception
 import socket
 from player import Player
 
@@ -19,7 +19,7 @@ def run_ai(port:int, name:str, machine:str):
     try:
         client_socket = tc.connection(machine, port)
     except (socket.gaierror, ConnectionRefusedError) as e:
-        raise myexeption.Exception(e)
+        raise myexception.Exception(e)
 
     rcv_data = client_socket.recv(1024)
     client_socket.send((name + "\n").encode())
