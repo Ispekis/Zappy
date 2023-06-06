@@ -1,2 +1,7 @@
 FAILURE = 1
 SUCCESS = 0
+
+NORD = 0
+EAST = 1
+SOUTH = 3
+WEST = 4
