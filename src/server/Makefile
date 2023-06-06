@@ -10,7 +10,6 @@ PATH_TO_ROOT	=	../..
 MV	=	mv
 
 SRC	=	src/tools.c									\
-		src/init.c									\
 		src/server.c								\
 		src/shutdown.c								\
 		src/client_management.c						\
@@ -18,7 +17,10 @@ SRC	=	src/tools.c									\
 		src/sends/connection.c						\
 		src/read_client.c							\
 		src/option/get_options.c					\
-		src/option/set_options.c
+		src/option/set_options.c					\
+		src/init/init_server.c						\
+		src/init/init_game.c						\
+		src/init/init.c
 
 MAIN_SRC	=	src/main.c
 
