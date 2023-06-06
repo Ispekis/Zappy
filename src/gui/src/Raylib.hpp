@@ -28,6 +28,10 @@ namespace Zappy {
              */
             void run(bool &isRunning);
 
+            void draw();
+
+            void event();
+
         protected:
         private:
     };
