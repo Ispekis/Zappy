@@ -33,9 +33,7 @@ void Socket::initSocket(std::string &machine, int port)
     _serverAddr.sin_family = AF_INET;
     _serverAddr.sin_port = htons(port);
     if (inet_pton(AF_INET, machine.c_str(), &_serverAddr.sin_addr) <= 0)
-    {
         throw Error(machine, "\nInvalid address/ Address not supported");
-    }
 }
 
 void Socket::connectToServer(std::string &machine)

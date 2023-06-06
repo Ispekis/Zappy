@@ -27,5 +27,10 @@ void Zappy::Gui::run()
 
 void Zappy::Gui::receiveServerData()
 {
-    _data.readFromServer();
+    std::string tes = "msz\n";
+    while (1)
+    {
+        _data.readFromServer();
+        _data.writeToServer(tes);
+    }
 }
