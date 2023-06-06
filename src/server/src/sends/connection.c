@@ -13,7 +13,7 @@ void send_available_stock(char *name, int fd, data_t data, info_t info)
     // print_team_list(data.teams);
     while (current != NULL) {
         if (strcmp(name, current->team.name) == 0) {
-            dprintf(fd, "%i\n", current->team.clients_nbr);
+            dprintf(fd, "%i\n", current->team.clients_nbr - 1);
             dprintf(fd, "%i %i\n", info.width, info.height);
             return;
         }

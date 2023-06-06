@@ -33,9 +33,8 @@ void recv_from_client(server_t *server, int index)
     bytes = read(server->data.clients[index].fd, buffer, 1024);
     if (bytes > 0) {
         buffer[bytes] = '\0';
-        if (check_buffer_format(buffer)) {
+        if (check_buffer_format(buffer))
             send_available_stock(buffer, server->data.clients[index].fd, server->data, server->info);
-        }
         memset(buffer, 0, sizeof(buffer));
     } else {
         printf("client %i has disconnected\n", server->data.clients[index].fd);

@@ -44,7 +44,7 @@ typedef struct info_s {
     int height;
     char **teams_name;
     int clients_nb;
-    float freq;
+    int freq;
 } info_t;
 
 typedef struct sock_addrs_s {
@@ -101,4 +101,8 @@ void send_available_stock(char *name, int fd, data_t data, info_t info);
 
 void recv_from_client(server_t *server, int index);
 
+// Set options
+int set_number_arg(int *opt);
+int set_teams_name(const int ac, char *const *av, info_t *info);
+void set_non_set_info(info_t *info);
 #endif /* !SERVER_H_ */
