@@ -12,16 +12,28 @@ Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
     InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str());
     if (!IsWindowReady())
         throw Error("RayLib", "Error Init Window");
+    SetTargetFPS(60);
 }
 
 void Zappy::Raylib::run(bool &isRunning)
 {
     while (!WindowShouldClose()) {
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        EndDrawing();
+        event();
+        draw();
     }
     isRunning = false;
+}
+
+void Zappy::Raylib::event()
+{
+
+}
+
+void Zappy::Raylib::draw()
+{
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+    EndDrawing();
 }
 
 Zappy::Raylib::~Raylib()
