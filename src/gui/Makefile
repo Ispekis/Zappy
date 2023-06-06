@@ -15,6 +15,7 @@ SRC	=	src/Parser.cpp	\
 		src/Encapsulation/Socket.cpp		\
 		src/Communication/Data.cpp		\
 		src/Gui.cpp		\
+		src/Sprite.cpp
 
 MAIN_SRC	=	src/main.cpp
 
