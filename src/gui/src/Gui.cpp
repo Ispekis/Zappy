@@ -11,6 +11,7 @@ Zappy::Gui::Gui(int port, std::string machine) : _graphic(SCREEN_WIDTH, SCREEN_H
 {
     std::cout << "Port = " << port << std::endl;
     std::cout << "Machine = " << machine << std::endl;
+    _isRunning = true;
 }
 
 Zappy::Gui::~Gui()
@@ -22,15 +23,14 @@ Zappy::Gui::~Gui()
 void Zappy::Gui::run()
 {
     _dataReceiver = std::thread(&Zappy::Gui::receiveServerData, std::ref(*this));
-    _graphic.run();
+    _graphic.run(_isRunning);
 }
 
 void Zappy::Gui::receiveServerData()
 {
     std::string tes = "msz\n";
-    while (1)
+    while (_isRunning)
     {
         _data.readFromServer();
-        _data.writeToServer(tes);
     }
 }

@@ -11,6 +11,7 @@
     #include <string.h>
     #include <cstring>
     #include "Socket.hpp"
+    #include "Select.hpp"
 
 class Data {
     public:
@@ -33,6 +34,7 @@ class Data {
     private:
         Socket _socket;
         std::string _machine;
+        Select _select;
 };
 
 #endif /* !DATA_HPP_ */

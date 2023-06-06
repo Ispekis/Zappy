@@ -14,13 +14,14 @@ Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
         throw Error("RayLib", "Error Init Window");
 }
 
-void Zappy::Raylib::run()
+void Zappy::Raylib::run(bool &isRunning)
 {
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
         EndDrawing();
     }
+    isRunning = false;
 }
 
 Zappy::Raylib::~Raylib()
