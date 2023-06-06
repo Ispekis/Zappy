@@ -57,4 +57,10 @@ void recv_from_client(server_t *server, int index);
 int set_number_arg(int *opt);
 int set_teams_name(const int ac, char *const *av, info_t *info);
 void set_non_set_info(info_t *info);
+
+// Memory handling
+void global_free(server_t server);
+void free_server(server_t server);
+void free_game(data_t data, int height);
+
 #endif /* !SERVER_H_ */
