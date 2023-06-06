@@ -11,8 +11,10 @@ MV	=	mv
 
 SRC	=	src/Parser.cpp	\
 		src/Error.cpp	\
-		src/Gui.cpp		\
 		src/Raylib.cpp		\
+		src/Encapsulation/Socket.cpp		\
+		src/Communication/Data.cpp		\
+		src/Gui.cpp		\
 
 MAIN_SRC	=	src/main.cpp
 
@@ -26,7 +28,10 @@ TEST_NAME	=	unit_tests
 
 TEST_FILE	=	tests/test_gui.cpp
 
-CPPFLAGS	=	-I./include
+CPPFLAGS	+=	-I./include
+CPPFLAGS	+=	-I./src
+CPPFLAGS	+=	-I./src/Encapsulation
+CPPFLAGS	+=	-I./src/Communication
 
 CFLAGS	=	-Wall -Wextra
 

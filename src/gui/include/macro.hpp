@@ -12,5 +12,16 @@
     #define MY_EXIT_SUCCESS 0
     #define MY_EXIT_FAILURE 84
 
-
+const char *command[] = {
+    "msz",
+    "bct",
+    "mct",
+    "tna",
+    "ppo",
+    "plv",
+    "pin",
+    "sgt",
+    "sst",
+}
+;
 #endif /* !MACRO_HPP_ */
