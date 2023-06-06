@@ -35,8 +35,6 @@ void accept_client_to_server(server_t *server)
 
 void read_from_client(server_t *server, int index)
 {
-
-
     if (FD_ISSET(server->data.clients[index].fd, &server->addrs.rfds)) {
         if (server->data.clients[index].fd >= 0 &&
         server->data.clients[index].fd != server->addrs.socket_fd) {
