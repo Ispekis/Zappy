@@ -3,6 +3,8 @@
 *~
 tmp
 *.tmp
+*.tgz
+*.sh
 
 # C and CPP
 *.o
@@ -18,3 +20,4 @@ unit_tests
 zappy_server
 zappy_ai
 zappy_gui
+epitech_server

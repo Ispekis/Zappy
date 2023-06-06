@@ -19,5 +19,5 @@ void send_available_stock(char *name, int fd, data_t data, info_t info)
         }
         current = current->next;
     }
-    dprintf(fd, "Team not found");
+    dprintf(fd, "Team not found\n");
 }

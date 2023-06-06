@@ -33,29 +33,6 @@ void accept_client_to_server(server_t *server)
     }
 }
 
-static void do_remove_client(client_t *client)
-{
-    client->fd = -1;
-    client->is_conn = false;
-    uuid_clear(client->uuid);
-}
-
-static void recv_from_client(server_t *server, int index)
-{
-    char buffer[1024];
-    size_t bytes = 0;
-
-    bytes = read(server->data.clients[index].fd, buffer, 1024);
-    if (bytes > 0) {
-        buffer[bytes] = '\0';
-        send_available_stock(buffer, server->data.clients[index].fd, server->data, server->info);
-        memset(buffer, 0, sizeof(buffer));
-    } else {
-        printf("client %i has disconnected\n", server->data.clients[index].fd);
-        do_remove_client(&server->data.clients[index]);
-    }
-}
-
 void read_from_client(server_t *server, int index)
 {
 

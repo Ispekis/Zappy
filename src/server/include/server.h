@@ -99,4 +99,6 @@ void add_team_node(node_t **head, const char *name, int clients_nbr);
 // Sends fonctions
 void send_available_stock(char *name, int fd, data_t data, info_t info);
 
+void recv_from_client(server_t *server, int index);
+
 #endif /* !SERVER_H_ */

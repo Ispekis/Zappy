@@ -16,7 +16,8 @@ SRC	=	src/get_options.c		\
 		src/shutdown.c			\
 		src/client_management.c	\
 		src/linked_list_utils/team_linked_list.c	\
-		src/sends/connection.c			\
+		src/sends/connection.c						\
+		src/read_client.c
 
 MAIN_SRC	=	src/main.c
 
