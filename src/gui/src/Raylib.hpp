@@ -22,10 +22,11 @@ namespace Zappy {
             ~Raylib();
 
             /**
-             * @brief Start the game loop
+             * @brief Launch loop game and set isRunning to false if end
              * 
+             * @param isRunning 
              */
-            void run();
+            void run(bool &isRunning);
 
         protected:
         private:
