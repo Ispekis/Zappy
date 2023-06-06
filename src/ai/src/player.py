@@ -1,7 +1,12 @@
+from macro import *
+
 class Player:
-    def __init__(self):
+    def __init__(self, team):
+        self.team = team
+        self.orientation = NORD
         self.level = 0
-        self.pos = {0, 0}
+
+        # Invetaire
         self.food = 1260
         self.linemate = 0
         self.deraumere = 0
