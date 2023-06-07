@@ -10,19 +10,18 @@
 Select::Select(std::vector<int> Fds)
 {
     _maxFd = 0;
-    _timeout.tv_sec = 1;
+    _timeout.tv_sec = 5;
     _timeout.tv_usec = 0;
     setFd(Fds);
 }
 
 Select::Select(int fd)
 {
-    _maxFd = 0;
+    _maxFd = fd;
     _timeout.tv_sec = 1;
     _timeout.tv_usec = 0;
     FD_ZERO(&_readfds);
     FD_SET(fd, &_readfds);
-
 }
 
 Select::~Select()

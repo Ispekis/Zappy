@@ -7,7 +7,7 @@
 
 #include "Raylib.hpp"
 
-Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
+Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title, std::shared_ptr<Data> Data) : _data(Data)
 {
     InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str());
     if (!IsWindowReady())
@@ -31,12 +31,15 @@ void Zappy::Raylib::event()
 
 void Zappy::Raylib::draw()
 {
-    BeginDrawing();
-    ClearBackground(RAYWHITE);
-    EndDrawing();
+    // BeginDrawing();
+    // ClearBackground(RAYWHITE);
+    // EndDrawing();
 }
+
+// Draw tile
 
 Zappy::Raylib::~Raylib()
 {
     CloseWindow();
+    
 }

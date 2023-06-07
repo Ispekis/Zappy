@@ -10,6 +10,20 @@
     #include <unistd.h>
     #include <string.h>
     #include <cstring>
+    #include <iostream>
+    #include <fstream>
+    #include <string>
+    #include <cstdio>
+    #include <iostream>
+    #include <iostream>
+#include <sstream>
+#include <cstdio>
+#include <unistd.h>
+#include <sys/socket.h>
+
+#include <sstream>
+#include <cstdio>
+#include <unistd.h>
     #include "Socket.hpp"
     #include "Select.hpp"
 
@@ -28,7 +42,14 @@ class Data {
          * @brief writing data to the server
          * 
          */
-        void writeToServer(std::string &cmd);
+        void writeToServer(char *str);
+
+        /**
+         * @brief Updating the Data game
+         * 
+         */
+        void updateGame();
+        std::vector<std::vector<int>> map;
 
     protected:
     private:

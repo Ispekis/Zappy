@@ -7,8 +7,9 @@
 
 #include "Gui.hpp"
 
-Zappy::Gui::Gui(int port, std::string machine) : _graphic(SCREEN_WIDTH, SCREEN_HEIGHT, "Zappy"), _data(machine, port)
+Zappy::Gui::Gui(int port, std::string machine) : _graphic(SCREEN_WIDTH, SCREEN_HEIGHT, "Zappy", _data)
 {
+    _data = std::make_shared<Data>(machine, port);
     std::cout << "Port = " << port << std::endl;
     std::cout << "Machine = " << machine << std::endl;
     _isRunning = true;
@@ -28,9 +29,8 @@ void Zappy::Gui::run()
 
 void Zappy::Gui::receiveServerData()
 {
-    std::string tes = "msz\n";
     while (_isRunning)
     {
-        _data.readFromServer();
+        _data.updateGame();
     }
 }

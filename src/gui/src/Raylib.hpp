@@ -13,12 +13,14 @@
     #include <raylib.h>
     #include <string>
     #include <iostream>
+    #include <Data.hpp>
+    #include <memory>
     #include "Error.hpp"
 
 namespace Zappy {
     class Raylib {
         public:
-            Raylib(int screenWidth, int screenHeight, std::string title);
+            Raylib(int screenWidth, int screenHeight, std::string title, std::shared_ptr<Data> data);
             ~Raylib();
 
             /**
@@ -34,6 +36,7 @@ namespace Zappy {
 
         protected:
         private:
+            std::shared_ptr<Data> _data;
     };
 }
 

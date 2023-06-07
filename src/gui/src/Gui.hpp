@@ -38,7 +38,7 @@ namespace Zappy {
 
             std::thread _dataReceiver;
             bool _isRunning;
-            Data _data;
+            std::shared_ptr<Data> _data;
     };
 }
 
