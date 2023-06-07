@@ -27,9 +27,6 @@ int get_options(const int ac, char *const *av, info_t *info);
 size_t get_array_length(char** array);
 int write_error(char *message, char *label, int ret_value);
 bool can_convert_to_int(const char* str);
-bool can_convert_to_float(const char* str);
-bool is_int(int value);
-bool is_float(float value);
 
 // Init
 int init_server(server_t *server, int port);
@@ -57,6 +54,7 @@ void recv_from_client(server_t *server, int index);
 int set_number_arg(int *opt);
 int set_teams_name(const int ac, char *const *av, info_t *info);
 void set_non_set_info(info_t *info);
+int check_all_info_set(info_t info);
 
 // Memory handling
 void global_free(server_t server);
@@ -64,8 +62,10 @@ void free_server(server_t server);
 void free_game(data_t data, int height);
 
 // Graphic commands
-int do_graphic_first_connect(char *buffer, int index, data_t *data, info_t info);
-int do_graphic_communication(char *buffer, int index, data_t *data, info_t info);
+int do_graphic_first_connect(char *buffer, int index, data_t *data,
+info_t info);
+int do_graphic_communication(char *buffer, int index, data_t *data,
+info_t info);
 
 // Ai commands
 int do_ai_first_connect(char *buffer, int index, data_t *data, info_t info);

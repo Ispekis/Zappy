@@ -14,7 +14,7 @@
 
 /**
  * @brief Resources struct
- * 
+ *
  */
 typedef struct resource_s {
     float density;
@@ -32,7 +32,7 @@ typedef struct pos_s {
 
 /**
  * @brief Teams structure
- * 
+ *
  */
 typedef struct team_s {
     char *name;
@@ -41,7 +41,7 @@ typedef struct team_s {
 
 /**
  * @brief Any nodes
- * 
+ *
  */
 typedef struct node_s {
     // team_t team;

@@ -12,7 +12,6 @@ static void add_client(client_t *clients, int client_fd)
     for (int i = 0; i < MAX_CONNECTIONS; i++) {
         if (clients[i].fd < 0) {
             clients[i].fd = client_fd;
-            // uuid_generate(clients[i].uuid);
             break;
         }
     }
