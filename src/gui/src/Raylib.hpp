@@ -20,13 +20,19 @@
 namespace Zappy {
     class Raylib {
         public:
-            Raylib(int screenWidth, int screenHeight, std::string title, std::shared_ptr<Data> data);
+            Raylib(int screenWidth, int screenHeight, std::string title);
             ~Raylib();
 
             /**
-             * @brief Launch loop game and set isRunning to false if end
+             * @brief Set the Data object
              * 
-             * @param isRunning 
+             * @param data 
+             */
+            void setData(std::shared_ptr<Data> data);
+            /**
+             * @brief Launch loop game and set isRunning to false if end
+             *
+             * @param isRunning
              */
             void run(bool &isRunning);
 

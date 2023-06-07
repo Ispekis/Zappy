@@ -10,9 +10,9 @@
 Data::Data(std::string machine, int port) : _socket(machine, port), _select(_socket._socket)
 {
     _machine = machine;
-
+    char graphic[] = "GRAPHIC\n";
     std::cout << "Message Graphic send to server" << std::endl;
-    writeToServer("GRAPHIC\n");
+    writeToServer(graphic);
 }
 
 Data::~Data()
@@ -26,9 +26,7 @@ void Data::updateGame()
         _select.doSelect();
         if (FD_ISSET(_socket._socket, &(_select._readfds)))
         {
-            std::cout << "before" << std::endl;
             readFromServer();
-            std::cout << "AFTEE" << std::endl;
         }
     } catch (const Error &e) {
         std::cout << e.what() << std::endl;
@@ -37,19 +35,25 @@ void Data::updateGame()
 
 void Data::readFromServer()
 {
-    int byteRead = -1;
+    char tmp[10];
+    int x = read(_socket._socket, &tmp, sizeof(tmp));
+    buffer.append(tmp, x);
+    std::memset(tmp, 0, sizeof(tmp));
+    validResponse();
+}
 
-    char tmp[15];
-    while (byteRead != 0)
+void Data::validResponse()
+{
+    int pos = buffer.find('\n');
+    std::string response;
+    std::string tmp;
+    while (pos != std::string::npos)
     {
-        byteRead = read(_socket._socket, tmp, sizeof(tmp));
-        if (byteRead == -1)
-            break;
-        printf("[%s] ", tmp);
-        std::memset(tmp, 0, sizeof(tmp));
+        response = buffer.substr(0, pos);
+        printf("[%s]\n", response.c_str());
+        buffer = buffer.substr(pos + 1);
+        pos = buffer.find('\n');
     }
-    printf("\nend of Reading\n", tmp);
-
 }
 
 void Data::writeToServer(char *str)

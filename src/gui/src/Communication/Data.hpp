@@ -7,7 +7,6 @@
 
 #ifndef DATA_HPP_
 #define DATA_HPP_
-    #include <unistd.h>
     #include <string.h>
     #include <cstring>
     #include <iostream>
@@ -18,7 +17,6 @@
     #include <iostream>
 #include <sstream>
 #include <cstdio>
-#include <unistd.h>
 #include <sys/socket.h>
 
 #include <sstream>
@@ -49,6 +47,9 @@ class Data {
          * 
          */
         void updateGame();
+
+        void validResponse();
+        
         std::vector<std::vector<int>> map;
 
     protected:
@@ -56,6 +57,9 @@ class Data {
         Socket _socket;
         std::string _machine;
         Select _select;
+        std::string buffer;
+        // char buffer[1024];
+        // int length
 };
 
 #endif /* !DATA_HPP_ */

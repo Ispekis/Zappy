@@ -34,7 +34,7 @@ namespace Zappy {
 
         protected:
         private:
-            Zappy::Raylib _graphic;
+            // Zappy::Raylib _graphic;
 
             std::thread _dataReceiver;
             bool _isRunning;

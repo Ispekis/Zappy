@@ -7,12 +7,17 @@
 
 #include "Raylib.hpp"
 
-Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title, std::shared_ptr<Data> Data) : _data(Data)
+Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
 {
     InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str());
     if (!IsWindowReady())
         throw Error("RayLib", "Error Init Window");
     SetTargetFPS(60);
+}
+
+void Zappy::Raylib::setData(std::shared_ptr<Data> data)
+{
+    _data = data;
 }
 
 void Zappy::Raylib::run(bool &isRunning)
@@ -35,8 +40,6 @@ void Zappy::Raylib::draw()
     // ClearBackground(RAYWHITE);
     // EndDrawing();
 }
-
-// Draw tile
 
 Zappy::Raylib::~Raylib()
 {
