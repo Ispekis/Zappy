@@ -7,7 +7,7 @@ sys.path.append('src/ai/src')
 
 from myparser import parse_data
 import usage
-from zappy_ai import run_ai
+from zappy_ai import *
 import myexception
 from getopt import GetoptError
 
@@ -22,7 +22,8 @@ def main(argv):
         return 84
 
     try:
-        run_ai(port, name, machine)
+        ai = AI(port, machine, name)
+        ai.run_ai()
     except myexception.Exception as e:
         print("%s: %s" % (sys.argv[0], e), file=sys.stderr)
         return 84
