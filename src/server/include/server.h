@@ -7,67 +7,17 @@
 
 #ifndef SERVER_H_
     #define SERVER_H_
+    #define MAX_CONNECTIONS 100
     #include <stdio.h>
     #include <unistd.h>
     #include <string.h>
     #include <stdlib.h>
     #include <stdbool.h>
-    #include <sys/socket.h>
-    #include <netinet/in.h>
-    #include <netinet/ip.h>
-    #include <arpa/inet.h>
     #include <sys/select.h>
     #include <signal.h>
     #include <sys/signalfd.h>
     #include <uuid/uuid.h>
-    #define MAX_CONNECTIONS 100
-
-typedef struct team_s {
-    char *name;
-    int clients_nbr;
-} team_t;
-
-typedef struct node_s {
-    team_t team;
-    struct node_s *next;
-} node_t;
-
-typedef struct client_s {
-    int fd;
-    bool is_conn;
-    uuid_t uuid;
-} client_t;
-
-typedef struct info_s {
-    int port;
-    int width;
-    int height;
-    char **teams_name;
-    int clients_nb;
-    float freq;
-} info_t;
-
-typedef struct sock_addrs_s {
-    struct sockaddr_in server;
-    struct timeval timeout;
-    int socket_fd;
-    int name;
-    int status;
-    fd_set rfds;
-} sock_addrs_t;
-
-typedef struct data_s {
-    client_t clients[MAX_CONNECTIONS];
-    node_t *teams;
-} data_t;
-
-typedef struct server_s {
-    sock_addrs_t addrs;
-    info_t info;
-    int sfd;
-    struct signalfd_siginfo fdsi;
-    data_t data;
-} server_t;
+    #include "server_structs.h"
 
 void show_usage(const char *binary, int fd);
 
@@ -83,6 +33,8 @@ bool is_float(float value);
 
 // Init
 int init_server(server_t *server, int port);
+int global_init(server_t *server, int port);
+int init_game(data_t *data, info_t info);
 
 int run_server(server_t server);
 
@@ -97,6 +49,18 @@ void print_team_list(node_t *head);
 void add_team_node(node_t **head, const char *name, int clients_nbr);
 
 // Sends fonctions
-void send_available_stock(char *name, int fd, data_t data, info_t info);
+void send_available_stock(char *name, int index, data_t *data, info_t info);
+
+void recv_from_client(server_t *server, int index);
+
+// Set options
+int set_number_arg(int *opt);
+int set_teams_name(const int ac, char *const *av, info_t *info);
+void set_non_set_info(info_t *info);
+
+// Memory handling
+void global_free(server_t server);
+void free_server(server_t server);
+void free_game(data_t data, int height);
 
 #endif /* !SERVER_H_ */
