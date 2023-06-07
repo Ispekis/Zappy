@@ -47,7 +47,7 @@ static int listen_events(server_t *server)
 
 int run_server(server_t server)
 {
-    printf("Server here !\n");
+    printf("Server Started!\n");
     block_signal(&server.sfd);
 
     while (true) {

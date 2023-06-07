@@ -44,7 +44,7 @@ typedef struct team_s {
  * 
  */
 typedef struct node_s {
-    team_t team;
+    // team_t team;
     struct node_s *next;
 } node_t;
 
@@ -62,6 +62,7 @@ typedef struct tile_s {
 typedef struct client_s {
     int fd;
     bool is_conn;
+    bool is_graphic;
     uuid_t uuid;
 } client_t;
 
@@ -70,6 +71,7 @@ typedef struct info_s {
     int width;
     int height;
     char **teams_name;
+    int nb_teams;
     int clients_nb;
     int freq;
 } info_t;
@@ -85,7 +87,9 @@ typedef struct sock_addrs_s {
 
 typedef struct data_s {
     client_t clients[MAX_CONNECTIONS];
-    node_t *teams;
+    // node_t *teams;
+    team_t *teams;
+    int nb_teams;
     tile_t **map;
 } data_t;
 

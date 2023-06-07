@@ -63,4 +63,12 @@ void global_free(server_t server);
 void free_server(server_t server);
 void free_game(data_t data, int height);
 
+// Graphic commands
+int do_graphic_first_connect(char *buffer, int index, data_t *data, info_t info);
+int do_graphic_communication(char *buffer, int index, data_t *data, info_t info);
+
+// Ai commands
+int do_ai_first_connect(char *buffer, int index, data_t *data, info_t info);
+int do_ai_communication(char *buffer, int index, data_t *data, info_t info);
+
 #endif /* !SERVER_H_ */

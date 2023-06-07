@@ -6,6 +6,8 @@
 */
 
 #include "server.h"
+#include "game_macro.h"
+#include "macro.h"
 
 static void do_remove_client(client_t *client)
 {
@@ -25,6 +27,17 @@ static bool check_buffer_format(char *buffer)
     return false;
 }
 
+void match_behavior(char *buffer, int index, data_t *data, info_t info)
+{
+    if (check_buffer_format(buffer)) {
+        if (do_graphic_communication(buffer, index, data, info) == SUCCESS)
+            return;
+        if (do_ai_communication(buffer, index, data, info) == SUCCESS)
+            return;
+        dprintf(data->clients[index].fd, "ko\n");
+    }
+}
+
 void recv_from_client(server_t *server, int index)
 {
     char buffer[1024];
@@ -33,9 +46,7 @@ void recv_from_client(server_t *server, int index)
     bytes = read(server->data.clients[index].fd, buffer, 1024);
     if (bytes > 0) {
         buffer[bytes] = '\0';
-        if (check_buffer_format(buffer))
-            send_available_stock(buffer, index, &server->data, server->info);
-        print_team_list(server->data.teams);
+        match_behavior(buffer, index, &server->data, server->info);
         memset(buffer, 0, sizeof(buffer));
     } else {
         printf("client %i has disconnected\n", server->data.clients[index].fd);
