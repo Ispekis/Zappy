@@ -9,3 +9,6 @@ def parseInventory(inventory:str):
         v = tmp[i].split()
         res.append((v[0], v[1]))
     return res[1:]
+
+def updateNbPlayer(nbPlayer:str):
+    return nbPlayer
