@@ -14,7 +14,6 @@ SRC	=	src/tools.c									\
 		src/shutdown.c								\
 		src/client_management.c						\
 		src/linked_list_utils/team_linked_list.c	\
-		src/sends/connection.c						\
 		src/read_client.c							\
 		src/option/get_options.c					\
 		src/option/set_options.c					\
@@ -24,6 +23,10 @@ SRC	=	src/tools.c									\
 		src/memory_handling/global_free.c			\
 		src/memory_handling/free_server.c			\
 		src/memory_handling/free_game.c				\
+		src/commands/ai_first_connect.c				\
+		src/commands/ai_communication.c				\
+		src/commands/graphic_first_connect.c		\
+		src/commands/graphic_communication.c
 
 MAIN_SRC	=	src/main.c
 

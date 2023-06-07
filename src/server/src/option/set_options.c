@@ -48,5 +48,6 @@ int set_teams_name(const int ac, char *const *av, info_t *info)
             break;
     }
     info->teams_name[sub] = NULL;
+    info->nb_teams = sub;
     return SUCCESS;
 }

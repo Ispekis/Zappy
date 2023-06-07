@@ -15,6 +15,8 @@ static int check_all_info_set(info_t info)
     if (info.port == -1 || info.width == -1 || info.height == -1
         || info.clients_nb == -1 || info.freq == -1 || info.teams_name == NULL)
         return write_error("All the option needs to be set : -help to display help message", ARG_ERROR_LABEL, FAILURE);
+    if (info.port < 1 || info.port > 65535)
+        return write_error("-p option only accepts integer values between 0 and 65535", ARG_ERROR_LABEL, FAILURE);
     if (info.width < 10 || info.width > 30)
         return write_error("-x option only accepts integer values between 10 and 30", ARG_ERROR_LABEL, FAILURE);
     if (info.height < 10 || info.height > 30)

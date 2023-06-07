@@ -52,6 +52,5 @@ int init_game(data_t *data, info_t info)
 {
     if (init_map(info.width, info.height, data) == FAILURE)
         return FAILURE;
-    printf("%i\n", data->map[0][1].thystame.quantity);
     return SUCCESS;
 }
