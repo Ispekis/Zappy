@@ -6,3 +6,5 @@ class Player:
         self.nb_player = nb_player
         self.map_size = map_size
         self.obj_list = setobjectif(level)
+        self.inventory:str
+        self.sight:str
