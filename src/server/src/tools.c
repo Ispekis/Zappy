@@ -38,20 +38,3 @@ bool can_convert_to_int(const char* str)
     strtol(str, &end, 10);
     return *end == '\0';
 }
-
-bool can_convert_to_float(const char* str)
-{
-    char* end;
-    strtof(str, &end);
-    return *end == '\0';
-}
-
-bool is_int(int value)
-{
-    return sizeof(value) == sizeof(int);
-}
-
-bool is_float(float value)
-{
-    return sizeof(value) == sizeof(float);
-}
