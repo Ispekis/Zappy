@@ -26,10 +26,9 @@ def run_ai(port:int, name:str, machine:str):
     rcv_data = client_socket.recv(1024)
     value = rcv_data.decode().split("\n")
     map_size = value[1].split(" ")
-    tm = Player(value[0], (map_size[0], map_size[1]))
-    print(f'{tm.map_size} {tm.nb_player}')
-    while True:
+    tm = Player(value[0], (map_size[0], map_size[1]), 1)
+    print(f'{tm.food}')
+    while (True) and (rcv_data.decode() != "dead\n"):
         rcv_data = client_socket.recv(1024)
         print(rcv_data.decode(), end="")
-        continue
     return SUCCESS
