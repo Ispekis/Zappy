@@ -42,15 +42,15 @@ void send_content_tile(int fd, data_t data, char *params)
     if (set_params(&x, &y, params) == FAILURE) {
         dprintf(fd, "ko\n");
     } else {
-        if ((x >= 0 && x <= data.width - 1) && (y >=0 && y <= data.height -1)) {
-            dprintf(fd, "bct %i %i %i %i %i %i %i %i %i\n", x,
-            y, data.map[y][x].food.quantity, data.map[y][x].linemate.quantity,
+        if ((x >= 0 && x <= data.width - 1)
+        && (y >= 0 && y <= data.height -1))
+            dprintf(fd, "bct %i %i %i %i %i %i %i %i %i\n", x, y,
+            data.map[y][x].food.quantity, data.map[y][x].linemate.quantity,
             data.map[y][x].deraumere.quantity, data.map[y][x].sibur.quantity,
             data.map[y][x].mendiane.quantity, data.map[y][x].phiras.quantity,
             data.map[y][x].thystame.quantity);
-        } else {
+        else
             dprintf(fd, "ko\n");
-        }
     }
 }
 
