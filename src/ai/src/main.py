@@ -7,7 +7,7 @@ sys.path.append('src/ai/src')
 
 from myparser import parse_data
 import usage
-from zappy_ai import *
+from zappy_ai import AI
 import myexception
 from getopt import GetoptError
 
