@@ -61,3 +61,8 @@ void Data::writeToServer(char *str)
     printf("[%s]\n", str);
     write(_socket._socket, str, sizeof(str));
 }
+
+void Data::parseResponse()
+{
+
+}

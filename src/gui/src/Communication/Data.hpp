@@ -49,7 +49,12 @@ class Data {
         void updateGame();
 
         void validResponse();
-        
+
+        /**
+         * @brief Parsing the server response
+         * 
+         */
+        void parseResponse();
         std::vector<std::vector<int>> map;
 
     protected:
