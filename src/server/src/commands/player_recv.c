@@ -7,17 +7,17 @@
 
 #include "server.h"
 
-void send_player_position(int fd, data_t data, char **params)
+void send_player_position(int fd, data_t data, char *params)
 {
 
 }
 
-void send_player_level(int fd, data_t data, char **params)
+void send_player_level(int fd, data_t data, char *params)
 {
 
 }
 
-void send_player_inventory(int fd, data_t data, char **params)
+void send_player_inventory(int fd, data_t data, char *params)
 {
 
 }

@@ -31,6 +31,7 @@ SRC	=	src/tools.c									\
 		src/commands/map_recv.c						\
 		src/commands/player_recv.c					\
 		src/commands/time_recv.c					\
+		src/commands/command_tools.c				\
 
 MAIN_SRC	=	src/main.c
 

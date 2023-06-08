@@ -102,7 +102,7 @@ typedef struct server_s {
     int sfd;
     struct signalfd_siginfo fdsi;
     data_t data;
-    int (*gui_cmd[TOTAL_GUI_CMD])(int fd, data_t data, char **params);
+    void (*gui_cmd[TOTAL_GUI_CMD])(int fd, data_t data, char *params);
 } server_t;
 
 #endif /* !SERVER_STRUCTS_H_ */
