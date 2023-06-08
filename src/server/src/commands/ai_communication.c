@@ -9,10 +9,10 @@
 #include "macro.h"
 #include "game_macro.h"
 
-int do_ai_communication(char *buffer, int index, data_t *data, info_t info)
+int do_ai_communication(char *buffer, int index, data_t *data)
 {
     if (!data->clients[index].is_conn)
-        if (do_ai_first_connect(buffer, index, data, info) == SUCCESS)
+        if (do_ai_first_connect(buffer, index, data) == SUCCESS)
             return SUCCESS;
     printf("From team\n");
     return FAILURE;

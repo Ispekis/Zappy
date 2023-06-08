@@ -52,6 +52,7 @@ int init_server(server_t *server, int port)
 {
     if (create_server(&server->addrs, port) == FAILURE)
         return FAILURE;
+    init_commands(server);
     if (init_clients(&server->data) == FAILURE)
         return FAILURE;
     server->data.clients[0].fd = server->addrs.socket_fd;

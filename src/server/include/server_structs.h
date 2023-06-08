@@ -11,6 +11,7 @@
     #include <netinet/in.h>
     #include <netinet/ip.h>
     #include <arpa/inet.h>
+    #define TOTAL_GUI_CMD 9
 
 /**
  * @brief Resources struct
@@ -87,10 +88,12 @@ typedef struct sock_addrs_s {
 
 typedef struct data_s {
     client_t clients[MAX_CONNECTIONS];
-    // node_t *teams;
     team_t *teams;
     int nb_teams;
     tile_t **map;
+    int freq;
+    int width;
+    int height;
 } data_t;
 
 typedef struct server_s {
@@ -99,6 +102,7 @@ typedef struct server_s {
     int sfd;
     struct signalfd_siginfo fdsi;
     data_t data;
+    void (*gui_cmd[TOTAL_GUI_CMD])(int fd, data_t data, char *params);
 } server_t;
 
 #endif /* !SERVER_STRUCTS_H_ */
