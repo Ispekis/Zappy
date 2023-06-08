@@ -73,6 +73,7 @@ class AI:
                 self.rcvServerResponse()
                 self.playerAction()
                 rcv_data = self.client_socket.recv(1024)
+                print(self.player.sight)
                 if rcv_data.decode() == "dead\n":
                     print("You are dead!")
                     break
