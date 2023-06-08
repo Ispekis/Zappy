@@ -35,12 +35,9 @@ void send_content_tile(int fd, data_t data, char *params)
     char *str_token = NULL;
     int x = 0;
     int y = 0;
-    if (params == NULL) {
-        dprintf(fd, "ko\n");
-        return;
-    }
-    if (set_params(&x, &y, params) == FAILURE) {
-        dprintf(fd, "ko\n");
+
+    if (params == NULL || set_params(&x, &y, params) == FAILURE) {
+        dprintf(fd, "sbp\n");
     } else {
         if ((x >= 0 && x <= data.width - 1)
         && (y >= 0 && y <= data.height -1))
@@ -50,7 +47,7 @@ void send_content_tile(int fd, data_t data, char *params)
             data.map[y][x].mendiane.quantity, data.map[y][x].phiras.quantity,
             data.map[y][x].thystame.quantity);
         else
-            dprintf(fd, "ko\n");
+            dprintf(fd, "sbp\n");
     }
 }
 
