@@ -19,6 +19,18 @@
     #include <uuid/uuid.h>
     #include "server_structs.h"
 
+enum gui_cmd_e {
+    MSZ,
+    BCT,
+    MCT,
+    TNA,
+    PPO,
+    PLV,
+    PIN,
+    SGT,
+    SST
+};
+
 void show_usage(const char *binary, int fd);
 
 int get_options(const int ac, char *const *av, info_t *info);
@@ -32,6 +44,7 @@ bool can_convert_to_int(const char* str);
 int init_server(server_t *server, int port);
 int global_init(server_t *server, int port);
 int init_game(data_t *data, info_t info);
+void init_commands(server_t *server);
 
 int run_server(server_t server);
 
@@ -61,14 +74,25 @@ void global_free(server_t server);
 void free_server(server_t server);
 void free_game(data_t data, int height);
 
+//** COMMANDS **//
+
 // Graphic commands
-int do_graphic_first_connect(char *buffer, int index, data_t *data,
-info_t info);
-int do_graphic_communication(char *buffer, int index, data_t *data,
-info_t info);
+int do_graphic_first_connect(char *buffer, int index, data_t *data);
+int do_graphic_communication(char *buffer, int index, data_t *data);
 
 // Ai commands
-int do_ai_first_connect(char *buffer, int index, data_t *data, info_t info);
-int do_ai_communication(char *buffer, int index, data_t *data, info_t info);
+int do_ai_first_connect(char *buffer, int index, data_t *data);
+int do_ai_communication(char *buffer, int index, data_t *data);
+
+// Gui send commands
+void send_map_size(int fd, data_t data, char **params);
+void send_content_tile(int fd, data_t data, char **params);
+void send_content_map(int fd, data_t data, char **params);
+void send_teams_name(int fd, data_t data, char **params);
+void send_player_position(int fd, data_t data, char **params);
+void send_player_level(int fd, data_t data, char **params);
+void send_player_inventory(int fd, data_t data, char **params);
+void send_time_unit_request(int fd, data_t data, char **params);
+void send_time_unit_modif(int fd, data_t data, char **params);
 
 #endif /* !SERVER_H_ */

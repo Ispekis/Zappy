@@ -9,10 +9,10 @@
 #include "macro.h"
 #include "game_macro.h"
 
-int do_graphic_communication(char *buffer, int index, data_t *data, info_t info)
+int do_graphic_communication(char *buffer, int index, data_t *data)
 {
     if (!data->clients[index].is_conn)
-        if (do_graphic_first_connect(buffer, index, data, info) == SUCCESS)
+        if (do_graphic_first_connect(buffer, index, data) == SUCCESS)
             return SUCCESS;
     if (data->clients[index].is_graphic) {
         printf("from graphic\n");

@@ -27,12 +27,12 @@ static bool check_buffer_format(char *buffer)
     return false;
 }
 
-void match_behavior(char *buffer, int index, data_t *data, info_t info)
+void match_behavior(char *buffer, int index, data_t *data)
 {
     if (check_buffer_format(buffer)) {
-        if (do_graphic_communication(buffer, index, data, info) == SUCCESS)
+        if (do_graphic_communication(buffer, index, data) == SUCCESS)
             return;
-        if (do_ai_communication(buffer, index, data, info) == SUCCESS)
+        if (do_ai_communication(buffer, index, data) == SUCCESS)
             return;
         dprintf(data->clients[index].fd, "ko\n");
     }
@@ -46,7 +46,7 @@ void recv_from_client(server_t *server, int index)
     bytes = read(server->data.clients[index].fd, buffer, 1024);
     if (bytes > 0) {
         buffer[bytes] = '\0';
-        match_behavior(buffer, index, &server->data, server->info);
+        match_behavior(buffer, index, &server->data);
         memset(buffer, 0, sizeof(buffer));
     } else {
         printf("client %i has disconnected\n", server->data.clients[index].fd);

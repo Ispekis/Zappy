@@ -20,13 +20,17 @@ SRC	=	src/tools.c									\
 		src/init/init_server.c						\
 		src/init/init_game.c						\
 		src/init/init.c								\
+		src/init/init_commands.c					\
 		src/memory_handling/global_free.c			\
 		src/memory_handling/free_server.c			\
 		src/memory_handling/free_game.c				\
 		src/commands/ai_first_connect.c				\
 		src/commands/ai_communication.c				\
 		src/commands/graphic_first_connect.c		\
-		src/commands/graphic_communication.c
+		src/commands/graphic_communication.c		\
+		src/commands/map_recv.c						\
+		src/commands/player_recv.c					\
+		src/commands/time_recv.c					\
 
 MAIN_SRC	=	src/main.c
 
