@@ -17,6 +17,7 @@
     #include <signal.h>
     #include <sys/signalfd.h>
     #include <uuid/uuid.h>
+    #include <time.h>
     #include "server_structs.h"
 
 static const char *GUI_CMD_LIB[] __attribute__((unused)) = {
@@ -40,10 +41,10 @@ void show_usage(const char *binary, int fd);
 int get_options(const int ac, char *const *av, info_t *info);
 
 // Tools
-size_t get_array_length(char** array);
 int write_error(char *message, char *label, int ret_value);
 bool can_convert_to_int(const char* str);
 int get_cmd_pos(char *str);
+int rand_nbr(int min, int max);
 
 // Init
 int init_server(server_t *server, int port);
@@ -63,6 +64,7 @@ void read_from_client(server_t *server, node_t *client);
 node_t *add_client_node(node_t **head);
 void print_client_list(node_t *head);
 void remove_client_node(node_t **head, int fd);
+node_t *get_client_node(node_t **head, int fd);
 
 // Sends fonctions
 void send_available_stock(char *name, int index, data_t *data, info_t info);

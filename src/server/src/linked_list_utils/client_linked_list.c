@@ -44,23 +44,15 @@ void remove_client_node(node_t **head, int fd)
     }
 }
 
-node_t *add_client_node(node_t **head)
+node_t *get_client_node(node_t **head, int fd)
 {
-    node_t *new_node = malloc(sizeof(node_t));
-    node_t *current = NULL;
+    node_t *current = *head;
 
-    new_node->client.fd = -1;
-    new_node->client.is_conn = false;
-    new_node->client.is_graphic = false;
-    new_node->next = NULL;
-    if (*head == NULL) {
-        *head = new_node;
-    } else {
-        current = *head;
-        while (current->next != NULL) {
-            current = current->next;
+    while (current != NULL) {
+        if (current->client.fd == fd) {
+            return current;
         }
-        current->next = new_node;
+        current = current->next;
     }
-    return new_node;
+    return NULL;
 }

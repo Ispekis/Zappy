@@ -25,6 +25,7 @@ int main(const int ac, char *const *av)
 {
     server_t server;
 
+    srand(time(NULL));
     if (ac == 2 && strcmp(av[1], "-help") == 0) {
         show_usage(av[0], STDOUT_FILENO);
         return MY_EXIT_SUCCESS;
