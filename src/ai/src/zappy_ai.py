@@ -5,6 +5,7 @@ import sys
 from parsing import *
 from player import Player
 from movement import Movement
+from items import Items
 from macro import *
 from level import levelUp
 
@@ -26,6 +27,7 @@ class AI:
         except (socket.gaierror, ConnectionRefusedError) as e:
             raise myexception.Exception(e)
         self.move = Movement()
+        self.itemHandling = Items
         self.player:Player
         self.client_socket.send((name + "\n").encode())
         self.setPlayer()
