@@ -29,11 +29,6 @@ static int create_server(sock_addrs_t *addrs, int port)
 
 static int init_clients(data_t *data)
 {
-    // for (int i = 0; i < MAX_CONNECTIONS; i++) {
-    //     data->clients[i].fd = -1;
-    //     data->clients[i].is_conn = false;
-    //     data->clients[i].is_graphic = false;
-    // }
     data->clients = NULL;
     return SUCCESS;
 }

@@ -19,8 +19,9 @@
     #include <uuid/uuid.h>
     #include "server_structs.h"
 
-static const char *GUI_CMD_LIB[] = {"msz", "bct", "mct", "tna", "ppo", "plv"
-"pin", "sgt", "sst", NULL};
+static const char *GUI_CMD_LIB[] __attribute__((unused)) = {
+    "msz", "bct", "mct", "tna", "ppo", "plv", "pin", "sgt", "sst", NULL
+};
 
 enum gui_cmd_e {
     MSZ,
@@ -58,9 +59,7 @@ int catch_shutdown(server_t server);
 void accept_client_to_server(server_t *server);
 void read_from_client(server_t *server, node_t *client);
 
-// Team linked list utils
-// void print_team_list(node_t *head);
-// void add_team_node(node_t **head, const char *name, int clients_nbr);
+// Linked list utils
 node_t *add_client_node(node_t **head);
 void print_client_list(node_t *head);
 void remove_client_node(node_t **head, int fd);
@@ -90,10 +89,12 @@ int do_ai_first_connect(char *buffer, node_t *client, data_t *data);
 int do_ai_communication(char *buffer, node_t *client, server_t *server);
 
 // Gui send commands
-void send_map_size(int fd, data_t data, char *params);
+void send_map_size(int fd, data_t data, char *params __attribute__((unused)));
 void send_content_tile(int fd, data_t data, char *params);
-void send_content_map(int fd, data_t data, char *params);
-void send_teams_name(int fd, data_t data, char *params);
+void send_content_map(int fd, data_t data,
+char *params __attribute__((unused)));
+void send_teams_name(int fd, data_t data,
+char *params __attribute__((unused)));
 void send_player_position(int fd, data_t data, char *params);
 void send_player_level(int fd, data_t data, char *params);
 void send_player_inventory(int fd, data_t data, char *params);

@@ -9,12 +9,6 @@
 #include "game_macro.h"
 #include "macro.h"
 
-static void do_remove_client(client_t *client)
-{
-    client->fd = -1;
-    client->is_conn = false;
-}
-
 static bool check_buffer_format(char *buffer)
 {
     for (int i = 0; buffer[i] != '\0'; i++) {

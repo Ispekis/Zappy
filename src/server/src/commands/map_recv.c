@@ -8,7 +8,7 @@
 #include "server.h"
 #include "macro.h"
 
-void send_map_size(int fd, data_t data, char *params)
+void send_map_size(int fd, data_t data, char *params  __attribute__((unused)))
 {
     dprintf(fd, "msz %i %i\n", data.width, data.height);
 }
@@ -32,7 +32,6 @@ static int set_params(int *x, int *y, char *params)
 
 void send_content_tile(int fd, data_t data, char *params)
 {
-    char *str_token = NULL;
     int x = 0;
     int y = 0;
 
@@ -51,7 +50,8 @@ void send_content_tile(int fd, data_t data, char *params)
     }
 }
 
-void send_content_map(int fd, data_t data, char *params)
+void send_content_map(int fd, data_t data,
+char *params __attribute__((unused)))
 {
     for (int y = 0; y < data.height; y++) {
         for (int x = 0; x < data.width; x++) {
@@ -64,7 +64,7 @@ void send_content_map(int fd, data_t data, char *params)
     }
 }
 
-void send_teams_name(int fd, data_t data, char *params)
+void send_teams_name(int fd, data_t data, char *params __attribute__((unused)))
 {
     for (int i = 0; i < data.nb_teams; i++) {
         dprintf(fd, "tna %s\n", data.teams[i].name);

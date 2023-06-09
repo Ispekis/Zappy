@@ -11,12 +11,6 @@ static void add_client(node_t **clients, int client_fd)
 {
     node_t *new = add_client_node(clients);
     new->client.fd = client_fd;
-    // for (int i = 0; i < MAX_CONNECTIONS; i++) {
-    //     if (clients[i].fd < 0) {
-    //         clients[i].fd = client_fd;
-    //         break;
-    //     }
-    // }
 }
 
 void accept_client_to_server(server_t *server)
@@ -33,4 +27,3 @@ void accept_client_to_server(server_t *server)
         dprintf(client_fd, "Welcome\n");
     }
 }
-
