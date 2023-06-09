@@ -1,6 +1,11 @@
 def parseLook(look:str):
-    res:str = look.split(',')
-    return res
+    tmp:str = look.split(',')
+    res = [[]]
+
+    for i in range(len(tmp)):
+        v = tmp[i].split()
+        res.append(v)
+    return res[1:]
 
 def parseInventory(inventory:str):
     tmp = inventory.split(',')
