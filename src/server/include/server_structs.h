@@ -65,6 +65,7 @@ typedef struct client_s {
     int orientation;
     int level;
     inventory_t inventory;
+    team_t *team;
 } client_t;
 
 /**
@@ -115,6 +116,7 @@ typedef struct data_s {
     int freq;
     int width;
     int height;
+    int graphic_fd;
 } data_t;
 
 typedef struct server_s {

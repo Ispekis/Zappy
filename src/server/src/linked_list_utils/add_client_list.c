@@ -29,6 +29,7 @@ static void init_client_data(node_t **node)
     (*node)->client.orientation = UNDEFINED;
     (*node)->client.level = UNDEFINED;
     init_inventory(&(*node)->client.inventory);
+    (*node)->client.team = NULL;
     (*node)->next = NULL;
 }
 

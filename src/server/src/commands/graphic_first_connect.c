@@ -27,6 +27,7 @@ int do_graphic_first_connect(char *buffer, node_t *client, data_t *data)
 {
     if (strcmp(buffer, GRAPHIC_TEAM_NAME) == 0) {
         connect_player(client);
+        data->graphic_fd = client->client.fd;
         send_first_connection_message(client->client.fd, *data);
         return SUCCESS;
     }
