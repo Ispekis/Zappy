@@ -8,9 +8,9 @@
 #include "server.h"
 #include "macro.h"
 
-static void connect_player(client_t *client)
+static void connect_player(node_t *client)
 {
-    client->is_conn = true;
+    client->client.is_conn = true;
 }
 
 static int add_player_to_team(char *name, int fd, data_t *data)
@@ -27,11 +27,11 @@ static int add_player_to_team(char *name, int fd, data_t *data)
     return FAILURE;
 }
 
-int do_ai_first_connect(char *buffer, int index, data_t *data)
+int do_ai_first_connect(char *buffer, node_t *client, data_t *data)
 {
-    if (add_player_to_team(buffer, data->clients[index].fd,
+    if (add_player_to_team(buffer, client->client.fd,
     data) == SUCCESS) {
-        connect_player(&data->clients[index]);
+        connect_player(client);
         return SUCCESS;
     }
     return FAILURE;

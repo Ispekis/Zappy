@@ -9,7 +9,7 @@
 #include "macro.h"
 #include "game_macro.h"
 
-static void choose_cmd(char *buffer, int index, server_t *server)
+static void choose_cmd(char *buffer, node_t *client, server_t *server)
 {
     char *cmd = strtok(buffer, " ");
     char *params = NULL;
@@ -18,20 +18,20 @@ static void choose_cmd(char *buffer, int index, server_t *server)
     pos = get_cmd_pos(cmd);
     if (pos != -1) {
         params = strtok(NULL, "");
-        server->gui_cmd[pos](server->data.clients[index].fd, server->data,
+        server->gui_cmd[pos](client->client.fd, server->data,
         params);
     } else {
-        dprintf(server->data.clients[index].fd, "ko\n");
+        dprintf(client->client.fd, "ko\n");
     }
 }
 
-int do_graphic_communication(char *buffer, int index, server_t *server)
+int do_graphic_communication(char *buffer, node_t *client, server_t *server)
 {
-    if (!server->data.clients[index].is_conn)
-        if (do_graphic_first_connect(buffer, index, &server->data) == SUCCESS)
+    if (!client->client.is_conn)
+        if (do_graphic_first_connect(buffer, client, &server->data) == SUCCESS)
             return SUCCESS;
-    if (server->data.clients[index].is_graphic) {
-        choose_cmd(buffer, index, server);
+    if (client->client.is_graphic) {
+        choose_cmd(buffer, client, server);
         printf("from graphic\n");
         return SUCCESS;
     }
