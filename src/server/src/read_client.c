@@ -9,17 +9,6 @@
 #include "game_macro.h"
 #include "macro.h"
 
-static bool check_buffer_format(char *buffer)
-{
-    for (int i = 0; buffer[i] != '\0'; i++) {
-        if (buffer[i] == '\n') {
-            buffer[i] = '\0';
-            return true;
-        }
-    }
-    return false;
-}
-
 static void disconnect_player(data_t *data, node_t *client)
 {
     printf("client %i has disconnected\n", client->client.fd);
@@ -35,6 +24,10 @@ static void disconnect_player(data_t *data, node_t *client)
 void match_behavior(char *buffer, node_t *client, server_t *server)
 {
     if (check_buffer_format(buffer)) {
+        if (buffer == NULL) {
+            dprintf(client->client.fd, "ko\n");
+            return;
+        }
         if (do_graphic_communication(buffer, client, server) == SUCCESS)
             return;
         if (do_ai_communication(buffer, client, server) == SUCCESS)

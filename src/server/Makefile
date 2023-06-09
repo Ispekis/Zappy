@@ -33,6 +33,7 @@ SRC	=	src/tools.c									\
 		src/commands/player_recv.c					\
 		src/commands/time_recv.c					\
 		src/commands/command_tools.c				\
+		src/buffer_management.c						\
 
 MAIN_SRC	=	src/main.c
 

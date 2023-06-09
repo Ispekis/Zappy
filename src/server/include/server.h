@@ -40,6 +40,9 @@ void show_usage(const char *binary, int fd);
 
 int get_options(const int ac, char *const *av, info_t *info);
 
+// Buffer management
+bool check_buffer_format(char *buffer);
+
 // Tools
 int write_error(char *message, char *label, int ret_value);
 bool can_convert_to_int(const char* str);
