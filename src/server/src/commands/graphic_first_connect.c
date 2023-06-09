@@ -9,10 +9,10 @@
 #include "macro.h"
 #include "game_macro.h"
 
-static void connect_player(client_t *client)
+static void connect_player(node_t *client)
 {
-    client->is_conn = true;
-    client->is_graphic = true;
+    client->client.is_conn = true;
+    client->client.is_graphic = true;
 }
 
 static void send_first_connection_message(int fd, data_t data)
@@ -23,11 +23,11 @@ static void send_first_connection_message(int fd, data_t data)
     send_teams_name(fd, data, "");
 }
 
-int do_graphic_first_connect(char *buffer, int index, data_t *data)
+int do_graphic_first_connect(char *buffer, node_t *client, data_t *data)
 {
     if (strcmp(buffer, GRAPHIC_TEAM_NAME) == 0) {
-        connect_player(&data->clients[index]);
-        send_first_connection_message(data->clients[index].fd, *data);
+        connect_player(client);
+        send_first_connection_message(client->client.fd, *data);
         return SUCCESS;
     }
     return FAILURE;

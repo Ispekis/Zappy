@@ -9,20 +9,21 @@
 
 void send_player_position(int fd, data_t data, char *params)
 {
-    // int n = 0;
-
-    // if (can_convert_to_int(params))
-    //     n = atoi(params);
-    // else
-        // dprintf(fd, "sbp\n");
+    fd = fd;
+    data = data;
+    params = params;
 }
 
 void send_player_level(int fd, data_t data, char *params)
 {
-
+    fd = fd;
+    data = data;
+    params = params;
 }
 
 void send_player_inventory(int fd, data_t data, char *params)
 {
-
+    fd = fd;
+    data = data;
+    params = params;
 }

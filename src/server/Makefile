@@ -13,7 +13,7 @@ SRC	=	src/tools.c									\
 		src/server.c								\
 		src/shutdown.c								\
 		src/client_management.c						\
-		src/linked_list_utils/team_linked_list.c	\
+		src/linked_list_utils/client_linked_list.c	\
 		src/read_client.c							\
 		src/option/get_options.c					\
 		src/option/set_options.c					\
