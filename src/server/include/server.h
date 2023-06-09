@@ -66,9 +66,6 @@ void print_client_list(node_t *head);
 void remove_client_node(node_t **head, int fd);
 node_t *get_client_node(node_t **head, int fd);
 
-// Sends fonctions
-void send_available_stock(char *name, int index, data_t *data, info_t info);
-
 // Set options
 int set_number_arg(int *opt);
 int set_teams_name(const int ac, char *const *av, info_t *info);

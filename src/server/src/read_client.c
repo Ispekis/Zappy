@@ -20,6 +20,18 @@ static bool check_buffer_format(char *buffer)
     return false;
 }
 
+static void disconnect_player(data_t *data, node_t *client)
+{
+    printf("client %i has disconnected\n", client->client.fd);
+    if (client->client.team != NULL) {
+        client->client.team->clients_nbr++;
+        client->client.team = NULL;
+    }
+    if (client->client.is_conn)
+        dprintf(data->graphic_fd, "pdi %i\n", client->client.fd);
+    remove_client_node(&data->clients, client->client.fd);
+}
+
 void match_behavior(char *buffer, node_t *client, server_t *server)
 {
     if (check_buffer_format(buffer)) {
@@ -42,8 +54,6 @@ void read_from_client(server_t *server, node_t *client)
         match_behavior(buffer, client, server);
         memset(buffer, 0, sizeof(buffer));
     } else {
-        printf("client %i has disconnected\n", client->client.fd);
-        dprintf(server->data.graphic_fd, "pdi %i\n", client->client.fd);
-        remove_client_node(&server->data.clients, client->client.fd);
+        disconnect_player(&server->data, client);
     }
 }
