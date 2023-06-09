@@ -44,7 +44,11 @@ SRC	=	$(addprefix src/, \
 		map_recv.c								\
 		player_recv.c							\
 		time_recv.c								\
-		command_tools.c							))
+		command_tools.c							\
+		ai_action.c								\
+		ai_info.c								\
+		ai_interact.c							\
+		ai_movement.c							))
 
 MAIN_SRC	=	src/main.c
 
