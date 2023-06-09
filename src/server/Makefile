@@ -9,21 +9,42 @@ PATH_TO_ROOT	=	../..
 
 MV	=	mv
 
-SRC	=	src/tools.c									\
-		src/server.c								\
-		src/shutdown.c								\
-		src/client_management.c						\
-		src/linked_list_utils/team_linked_list.c	\
-		src/sends/connection.c						\
-		src/read_client.c							\
-		src/option/get_options.c					\
-		src/option/set_options.c					\
-		src/init/init_server.c						\
-		src/init/init_game.c						\
-		src/init/init.c								\
-		src/memory_handling/global_free.c			\
-		src/memory_handling/free_server.c			\
-		src/memory_handling/free_game.c				\
+SRC	=	$(addprefix src/, \
+		tools.c									\
+		server.c								\
+		shutdown.c								\
+		client_management.c						\
+		read_client.c							\
+		buffer_management.c						\
+\
+		$(addprefix option/,    				\
+		get_options.c							\
+		set_options.c							)\
+\
+		$(addprefix linked_list_utils/,    		\
+		client_linked_list.c					\
+		add_client_list.c						)\
+\
+		$(addprefix init/,    					\
+		init_server.c							\
+		init_game.c								\
+		init.c									\
+		init_commands.c							)\
+\
+		$(addprefix memory_handling/,    		\
+		global_free.c							\
+		free_server.c							\
+		free_game.c								)\
+\
+		$(addprefix commands/,    				\
+		ai_first_connect.c						\
+		ai_communication.c						\
+		graphic_first_connect.c					\
+		graphic_communication.c					\
+		map_recv.c								\
+		player_recv.c							\
+		time_recv.c								\
+		command_tools.c							))
 
 MAIN_SRC	=	src/main.c
 

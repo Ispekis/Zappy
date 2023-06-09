@@ -9,15 +9,9 @@
 
 static void free_teams(data_t data)
 {
-    node_t *current = data.teams;
-    node_t *next;
-
-    while (current != NULL) {
-        next = current->next;
-        free(current->team.name);
-        free(current);
-        current = next;
-    }
+    for (int i = 0; i < data.nb_teams; i++)
+        free(data.teams[i].name);
+    free(data.teams);
 }
 
 void free_map(data_t data, int height)

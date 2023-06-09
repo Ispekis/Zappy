@@ -5,6 +5,7 @@ tmp
 *.tmp
 *.tgz
 *.sh
+*.log
 
 # C and CPP
 *.o
@@ -21,3 +22,4 @@ zappy_server
 zappy_ai
 zappy_gui
 epitech_server
+ccs

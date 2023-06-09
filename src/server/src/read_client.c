@@ -6,39 +6,47 @@
 */
 
 #include "server.h"
+#include "game_macro.h"
+#include "macro.h"
 
-static void do_remove_client(client_t *client)
+static void disconnect_player(data_t *data, node_t *client)
 {
-    client->fd = -1;
-    client->is_conn = false;
-    uuid_clear(client->uuid);
-}
-
-static bool check_buffer_format(char *buffer)
-{
-    for (int i = 0; buffer[i] != '\0'; i++) {
-        if (buffer[i] == '\n') {
-            buffer[i] = '\0';
-            return true;
-        }
+    printf("client %i has disconnected\n", client->client.fd);
+    if (client->client.team != NULL) {
+        client->client.team->clients_nbr++;
+        client->client.team = NULL;
     }
-    return false;
+    if (client->client.is_conn)
+        dprintf(data->graphic_fd, "pdi %i\n", client->client.fd);
+    remove_client_node(&data->clients, client->client.fd);
 }
 
-void recv_from_client(server_t *server, int index)
+void match_behavior(char *buffer, node_t *client, server_t *server)
+{
+    if (check_buffer_format(buffer)) {
+        if (buffer == NULL) {
+            dprintf(client->client.fd, "ko\n");
+            return;
+        }
+        if (do_graphic_communication(buffer, client, server) == SUCCESS)
+            return;
+        if (do_ai_communication(buffer, client, server) == SUCCESS)
+            return;
+        dprintf(client->client.fd, "ko\n");
+    }
+}
+
+void read_from_client(server_t *server, node_t *client)
 {
     char buffer[1024];
     size_t bytes = 0;
 
-    bytes = read(server->data.clients[index].fd, buffer, 1024);
+    bytes = read(client->client.fd, buffer, 1024);
     if (bytes > 0) {
         buffer[bytes] = '\0';
-        if (check_buffer_format(buffer))
-            send_available_stock(buffer, index, &server->data, server->info);
-        print_team_list(server->data.teams);
+        match_behavior(buffer, client, server);
         memset(buffer, 0, sizeof(buffer));
     } else {
-        printf("client %i has disconnected\n", server->data.clients[index].fd);
-        do_remove_client(&server->data.clients[index]);
+        disconnect_player(&server->data, client);
     }
 }

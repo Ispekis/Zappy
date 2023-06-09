@@ -11,17 +11,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-size_t get_array_length(char** array)
-{
-    size_t length = 0;
-
-    while (array[length] != NULL) {
-        length++;
-    }
-
-    return length;
-}
-
 int write_error(char *message, char *label, int ret_value)
 {
     if (label == NULL) {
@@ -39,19 +28,7 @@ bool can_convert_to_int(const char* str)
     return *end == '\0';
 }
 
-bool can_convert_to_float(const char* str)
+int rand_nbr(int min, int max)
 {
-    char* end;
-    strtof(str, &end);
-    return *end == '\0';
-}
-
-bool is_int(int value)
-{
-    return sizeof(value) == sizeof(int);
-}
-
-bool is_float(float value)
-{
-    return sizeof(value) == sizeof(float);
+    return rand() % (max - min + 1) + min;
 }

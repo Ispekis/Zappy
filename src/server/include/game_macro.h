@@ -14,6 +14,7 @@
     #define MENDIANE_DENSITY 0.1
     #define PHIRAS_DENSITY 0.08
     #define THYSTAME_DENSITY 0.05
-
+    #define GRAPHIC_TEAM_NAME "GRAPHIC"
+    #define NUMBER_OF_ORIENTATION 4
 
 #endif /* !ZAPPY_MACRO_H_ */
