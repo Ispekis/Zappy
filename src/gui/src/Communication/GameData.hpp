@@ -12,10 +12,12 @@
     #include <string>
     #include <iostream>
 
+    #include "Error.hpp"
+    #include "Tile.hpp"
 namespace Zappy {
     class GameData {
         public:
-            GameData();
+            GameData() = default;
             ~GameData();
 
             void msz(std::vector<std::string> &content);
@@ -43,8 +45,11 @@ namespace Zappy {
             void suc(std::vector<std::string> &content);
             void sbp(std::vector<std::string> &content);
 
-            std::vector<std::vector<int>> _map;
+            // std::vector<std::vector<int>> _map;
             bool _dataSet;
+
+            std::vector<std::vector<Tile>> _map;
+            std::pair<std::size_t, std::size_t> _mapSize;
 
         protected:
         private:

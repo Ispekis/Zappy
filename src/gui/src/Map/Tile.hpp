@@ -19,7 +19,9 @@
 namespace Zappy {
     class Tile {
         public:
-            Tile(std::string content);
+            Tile();
+            Tile(int x, int y) { printf("X = %d, Y = %d\n", x, y); };
+            Tile(std::string &content);
             ~Tile();
 
         protected:

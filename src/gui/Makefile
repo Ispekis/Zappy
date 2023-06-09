@@ -28,7 +28,7 @@ SRC	=	src/Parser.cpp	\
 		src/Communication/Data.cpp		\
 		src/Communication/GameData.cpp		\
 		src/Gui.cpp		\
-		src/Sprite.cpp
+		src/Sprite.cpp	\
 
 SRC += $(MAP)
 
@@ -48,6 +48,7 @@ CPPFLAGS	+=	-I./include
 CPPFLAGS	+=	-I./src
 CPPFLAGS	+=	-I./src/Encapsulation
 CPPFLAGS	+=	-I./src/Communication
+CPPFLAGS	+=	-I./src/Map
 
 CFLAGS	=	-Wall -Wextra
 

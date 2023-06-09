@@ -7,10 +7,9 @@
 
 #include "GameData.hpp"
 
-Zappy::GameData::GameData()
-{
-    _dataSet = false;
-}
+// Zappy::GameData::GameData()
+// {
+// }
 
 Zappy::GameData::~GameData()
 {
@@ -18,7 +17,16 @@ Zappy::GameData::~GameData()
 
 void Zappy::GameData::msz(std::vector<std::string> &content)
 {
-    std::cout << "msz" << std::endl;
+    if (content.size() != 2)
+        throw Error("Error server response MSZ args", "Expected: 2, Got: " + std::to_string(content.size()));
+    _mapSize = std::make_pair(std::stoi(content[0]), std::stoi(content[1]));
+    for (std::size_t x = 0; x != _mapSize.first; x++) {
+        std::vector<Tile> tmp;
+        for (std::size_t y = 0; y != _mapSize.second; y++) {
+            tmp.push_back(Tile(x, y));
+        }
+        _map.push_back(tmp);
+    }
 }
 
 void Zappy::GameData::bct(std::vector<std::string> &content)
@@ -128,7 +136,7 @@ void Zappy::GameData::smg(std::vector<std::string> &content)
 
 void Zappy::GameData::suc(std::vector<std::string> &content)
 {
-    std::cout << "suc" << std::endl;
+    std::cout << "suc: unknow command" << std::endl;
 }
 
 void Zappy::GameData::sbp(std::vector<std::string> &content)

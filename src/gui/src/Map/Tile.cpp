@@ -18,7 +18,7 @@ static std::vector<std::string> splitStringIntoWords(std::string &content)
     return words;
 }
 
-Zappy::Tile::Tile(std::string content)
+Zappy::Tile::Tile(std::string &content)
 {
     auto tile = splitStringIntoWords(content);
     const char *ressource[] = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};

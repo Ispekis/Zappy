@@ -26,9 +26,7 @@ void Zappy::Data::updateGame()
     try {
         _select.doSelect();
         if (FD_ISSET(_socket._socket, &(_select._readfds)))
-        {
             readFromServer();
-        }
     } catch (const Error &e) {
         std::cout << e.what() << std::endl;
     }
@@ -51,6 +49,7 @@ void Zappy::Data::validResponse()
     while (pos != std::string::npos) {
         response = buffer.substr(0, pos);
         updateData(response);
+        printf("[%s]\n", response.c_str());
         buffer = buffer.substr(pos + 1);
         pos = buffer.find('\n');
     }
@@ -93,10 +92,12 @@ static std::vector<std::string> splitStringIntoWords(std::string &content)
 void Zappy::Data::parseResponse(std::string &response)
 {
     std::vector<std::string> words = splitStringIntoWords(response);
+    std::string guiProtocol = words[0];
 
-    if (_gameUpdater.count(words[0]) == 0)
-        throw Error("First argument of server response is not valid", words[0]);
-    _gameUpdater[words[0]](words);
+    words.erase(words.begin());
+    if (_gameUpdater.count(guiProtocol) == 0)
+        throw Error("First argument of server response is not valid", guiProtocol);
+    _gameUpdater[guiProtocol](words);
 }
 
 void Zappy::Data::setUpdateFunction()
