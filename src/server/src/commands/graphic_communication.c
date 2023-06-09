@@ -18,10 +18,10 @@ static void choose_cmd(char *buffer, node_t *client, server_t *server)
     pos = get_cmd_pos(cmd);
     if (pos != -1) {
         params = strtok(NULL, "");
-        server->gui_cmd[pos](client->client.fd, server->data,
+        server->gui_cmd[pos](client->client.fd, &server->data,
         params);
     } else {
-        dprintf(client->client.fd, "ko\n");
+        dprintf(client->client.fd, "suc\n");
     }
 }
 
@@ -32,7 +32,6 @@ int do_graphic_communication(char *buffer, node_t *client, server_t *server)
             return SUCCESS;
     if (client->client.is_graphic) {
         choose_cmd(buffer, client, server);
-        printf("from graphic\n");
         return SUCCESS;
     }
     return FAILURE;

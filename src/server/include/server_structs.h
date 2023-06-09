@@ -13,6 +13,13 @@
     #include <arpa/inet.h>
     #define TOTAL_GUI_CMD 9
 
+enum orientation_e {
+    NORD = 1,
+    EST = 2,
+    SUD = 3,
+    WEST = 4
+};
+
 /**
  * @brief Resources struct
  *
@@ -31,6 +38,16 @@ typedef struct pos_s {
     int y;
 } pos_t;
 
+typedef struct inventory_s {
+    resource_t food;
+    resource_t linemate;
+    resource_t deraumere;
+    resource_t sibur;
+    resource_t mendiane;
+    resource_t phiras;
+    resource_t thystame;
+} inventory_t;
+
 /**
  * @brief Teams structure
  *
@@ -44,6 +61,11 @@ typedef struct client_s {
     int fd;
     bool is_conn;
     bool is_graphic;
+    pos_t pos;
+    int orientation;
+    int level;
+    inventory_t inventory;
+    team_t *team;
 } client_t;
 
 /**
@@ -94,6 +116,7 @@ typedef struct data_s {
     int freq;
     int width;
     int height;
+    int graphic_fd;
 } data_t;
 
 typedef struct server_s {
@@ -102,7 +125,7 @@ typedef struct server_s {
     int sfd;
     struct signalfd_siginfo fdsi;
     data_t data;
-    void (*gui_cmd[TOTAL_GUI_CMD])(int fd, data_t data, char *params);
+    void (*gui_cmd[TOTAL_GUI_CMD])(int fd, data_t *data, char *params);
 } server_t;
 
 #endif /* !SERVER_STRUCTS_H_ */

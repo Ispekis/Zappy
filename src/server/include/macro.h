@@ -12,6 +12,6 @@
     #define MY_EXIT_SUCCESS 0
     #define MY_EXIT_FAILURE 84
     #define ARG_ERROR_LABEL "Options Error"
-
+    #define UNDEFINED -1
 
 #endif /* !MACRO_H_ */

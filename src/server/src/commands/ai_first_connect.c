@@ -7,13 +7,18 @@
 
 #include "server.h"
 #include "macro.h"
+#include "game_macro.h"
 
-static void connect_player(node_t *client)
+static void connect_player(node_t *client, data_t data)
 {
     client->client.is_conn = true;
+    client->client.pos.x = rand_nbr(0, data.width - 1);
+    client->client.pos.y = rand_nbr(0, data.height - 1);
+    client->client.orientation = rand_nbr(1, NUMBER_OF_ORIENTATION);
+    client->client.level = 1;
 }
 
-static int add_player_to_team(char *name, int fd, data_t *data)
+static team_t *add_player_to_team(char *name, int fd, data_t *data)
 {
     for (int i = 0; i < data->nb_teams; i++) {
         if (strcmp(name, data->teams[i].name) == 0
@@ -21,17 +26,21 @@ static int add_player_to_team(char *name, int fd, data_t *data)
             data->teams[i].clients_nbr--;
             dprintf(fd, "%i\n", data->teams[i].clients_nbr);
             dprintf(fd, "%i %i\n", data->width, data->height);
-            return SUCCESS;
+            return &data->teams[i];
         }
     }
-    return FAILURE;
+    return NULL;
 }
 
 int do_ai_first_connect(char *buffer, node_t *client, data_t *data)
 {
-    if (add_player_to_team(buffer, client->client.fd,
-    data) == SUCCESS) {
-        connect_player(client);
+    team_t *team = add_player_to_team(buffer, client->client.fd, data);
+    if (team != NULL) {
+        client->client.team = team;
+        connect_player(client, *data);
+        dprintf(data->graphic_fd, "pnw %i %i %i %i %i %s\n", client->client.fd,
+        client->client.pos.x, client->client.pos.y, client->client.orientation,
+        client->client.level, client->client.team->name);
         return SUCCESS;
     }
     return FAILURE;

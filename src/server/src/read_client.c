@@ -43,6 +43,7 @@ void read_from_client(server_t *server, node_t *client)
         memset(buffer, 0, sizeof(buffer));
     } else {
         printf("client %i has disconnected\n", client->client.fd);
+        dprintf(server->data.graphic_fd, "pdi %i\n", client->client.fd);
         remove_client_node(&server->data.clients, client->client.fd);
     }
 }
