@@ -9,6 +9,7 @@
 
 Zappy::Food::Food(int quantity)
 {
+    std::cout << "Enter dans food" << std::endl;
     this->_quantity = quantity;
 }
 

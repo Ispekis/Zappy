@@ -50,6 +50,7 @@ namespace Zappy {
 
             std::vector<std::vector<Tile>> _map;
             std::pair<std::size_t, std::size_t> _mapSize;
+            std::shared_ptr<RessourceFactory> _factory = std::make_shared<RessourceFactory>();
 
         protected:
         private:

@@ -15,23 +15,41 @@ Zappy::GameData::~GameData()
 {
 }
 
+static void checkInt(std::vector<std::string> &content)
+{
+    for (auto element : content)
+        for (int i = 0; i != element.size(); i++)
+            if (!std::isdigit(element[i]))
+                throw Error("Error server response, element is not an int", content[i]);
+}
+
 void Zappy::GameData::msz(std::vector<std::string> &content)
 {
+    checkInt(content);
     if (content.size() != 2)
         throw Error("Error server response MSZ args", "Expected: 2, Got: " + std::to_string(content.size()));
+
     _mapSize = std::make_pair(std::stoi(content[0]), std::stoi(content[1]));
     for (std::size_t x = 0; x != _mapSize.first; x++) {
         std::vector<Tile> tmp;
-        for (std::size_t y = 0; y != _mapSize.second; y++) {
-            tmp.push_back(Tile(x, y));
-        }
+        for (std::size_t y = 0; y != _mapSize.second; y++)
+            tmp.push_back(Tile(x, y, _factory));
         _map.push_back(tmp);
     }
 }
 
 void Zappy::GameData::bct(std::vector<std::string> &content)
 {
-    std::cout << "bct" << std::endl;
+    checkInt(content);
+    if (content.size() != 9)
+        throw Error("Error server response MSZ args", "Expected: 9, Got: " + std::to_string(content.size()));
+
+    int x = std::stoi(content[0]);
+    int y = std::stoi(content[1]);
+
+    content.erase(content.begin());
+    content.erase(content.begin());
+    _map[x][y].setRessources(content);
 }
 
 void Zappy::GameData::tna(std::vector<std::string> &content)

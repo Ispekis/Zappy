@@ -7,6 +7,8 @@
 
 #ifndef THYSTAME_HPP_
 #define THYSTAME_HPP_
+    #include <iostream>
+
     #include "ARessource.hpp"
 
 namespace Zappy {

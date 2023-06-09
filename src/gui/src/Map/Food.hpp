@@ -7,6 +7,8 @@
 
 #ifndef FOOD_HPP_
 #define FOOD_HPP_
+    #include <iostream>
+
     #include "ARessource.hpp"
 
 namespace Zappy {

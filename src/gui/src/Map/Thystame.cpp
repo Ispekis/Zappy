@@ -10,6 +10,7 @@
 Zappy::Thystame::Thystame(int quantity)
 {
     this->_quantity = quantity;
+    std::cout << "Thystame" << std::endl;
 }
 
 Zappy::Thystame::~Thystame()

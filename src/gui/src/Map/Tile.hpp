@@ -20,7 +20,7 @@ namespace Zappy {
     class Tile {
         public:
             Tile();
-            Tile(std::size_t x, std::size_t y);
+            Tile(std::size_t, std::size_t, std::shared_ptr<RessourceFactory>);
             Tile(std::string &content);
             ~Tile();
 
@@ -38,10 +38,18 @@ namespace Zappy {
              */
             std::vector<std::shared_ptr<IRessource>> getRessources() const;
 
+            /**
+             * @brief Set the Ressources vector
+             * 
+             * @param content 
+             */
+            void setRessources(std::vector<std::string> &content);
+
         protected:
         private:
             std::vector<std::shared_ptr<IRessource>> _ressources;
             std::pair<std::size_t, std::size_t> _position;
+            std::shared_ptr<RessourceFactory> _factory;
     };
 };
 
