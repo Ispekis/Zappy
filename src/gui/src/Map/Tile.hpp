@@ -20,13 +20,28 @@ namespace Zappy {
     class Tile {
         public:
             Tile();
-            Tile(int x, int y) { printf("X = %d, Y = %d\n", x, y); };
+            Tile(std::size_t x, std::size_t y);
             Tile(std::string &content);
             ~Tile();
+
+            /**
+             * @brief Get the position of the Tile
+             * 
+             * @return std::pair<std::size_t, std::size_t> 
+             */
+            std::pair<std::size_t, std::size_t> getPosition() const;
+
+            /**
+             * @brief Get the ressources list on the Tile
+             * 
+             * @return std::vector<std::shared_ptr<IRessource>> 
+             */
+            std::vector<std::shared_ptr<IRessource>> getRessources() const;
 
         protected:
         private:
             std::vector<std::shared_ptr<IRessource>> _ressources;
+            std::pair<std::size_t, std::size_t> _position;
     };
 };
 

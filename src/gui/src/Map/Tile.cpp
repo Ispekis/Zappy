@@ -18,6 +18,16 @@ static std::vector<std::string> splitStringIntoWords(std::string &content)
     return words;
 }
 
+Zappy::Tile::Tile()
+{
+
+}
+
+Zappy::Tile::Tile(std::size_t x, std::size_t y)
+{
+    _position = std::make_pair(x, y);
+}
+
 Zappy::Tile::Tile(std::string &content)
 {
     auto tile = splitStringIntoWords(content);
@@ -31,4 +41,13 @@ Zappy::Tile::Tile(std::string &content)
 
 Zappy::Tile::~Tile()
 {
+}
+
+std::pair<std::size_t, std::size_t> Zappy::Tile::getPosition() const
+{
+    return _position;
+}
+std::vector<std::shared_ptr<Zappy::IRessource>> Zappy::Tile::getRessources() const
+{
+    return _ressources;
 }
