@@ -7,10 +7,6 @@
 
 #include "Thystame.hpp"
 
-Thystame::Thystame()
-{
-}
-
-Thystame::~Thystame()
+Zappy::Thystame::~Thystame()
 {
 }

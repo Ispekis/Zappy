@@ -9,6 +9,17 @@ PATH_TO_ROOT	=	../..
 
 MV	=	mv
 
+MAP =	src/Map/ARessource.cpp	\
+		src/Map/RessourceFactory.cpp	\
+		src/Map/Deraumere.cpp	\
+		src/Map/Linemate.cpp	\
+		src/Map/Mendiane.cpp	\
+		src/Map/Phiras.cpp	\
+		src/Map/Sibur.cpp	\
+		src/Map/Thystame.cpp	\
+		src/Map/Tile.cpp	\
+		src/Map/Food.cpp	\
+		
 SRC	=	src/Parser.cpp	\
 		src/Error.cpp	\
 		src/Raylib.cpp		\
@@ -17,6 +28,8 @@ SRC	=	src/Parser.cpp	\
 		src/Communication/Data.cpp		\
 		src/Gui.cpp		\
 		src/Sprite.cpp
+
+SRC += $(MAP)
 
 MAIN_SRC	=	src/main.cpp
 

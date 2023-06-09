@@ -7,10 +7,10 @@
 
 #include "RessourceFactory.hpp"
 
-RessourceFactory::RessourceFactory()
+Zappy::RessourceFactory::RessourceFactory()
 {
 }
 
-RessourceFactory::~RessourceFactory()
+Zappy::RessourceFactory::~RessourceFactory()
 {
 }
