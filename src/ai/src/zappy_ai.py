@@ -43,7 +43,7 @@ class AI:
 
         self.client_socket.send(("Look\n").encode())
         self.player.sight = parseLook(self.client_socket.recv(1024).decode()[2:-2])
-        # print(f'sight = {self.player.sight}', file=sys.stderr)
+        print(f'sight = {self.player.sight[0]}', file=sys.stderr)
         self.client_socket.send(("Inventory\n").encode())
         self.player.inventory = parseInventory(self.client_socket.recv(1024).decode()[2:-2])
         # print(f'inventory = {self.player.inventory}')
@@ -53,6 +53,7 @@ class AI:
 
     def playerAction(self):
         self.client_socket.send((self.move.handleMovement() + "\n").encode())
+        self.player.push()
 
     def run_ai(self):
         try:
@@ -60,7 +61,6 @@ class AI:
                 self.rcvServerResponse()
                 self.playerAction()
                 rcv_data = self.client_socket.recv(1024)
-                print(self.player.sight)
                 if rcv_data.decode() == "dead\n":
                     break
         except KeyboardInterrupt:
