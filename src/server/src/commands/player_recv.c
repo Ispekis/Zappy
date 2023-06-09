@@ -8,7 +8,7 @@
 #include "server.h"
 #include "macro.h"
 
-static int get_right_params(int fd, data_t data, char *params, node_t **player)
+static int get_right_params(data_t data, char *params, node_t **player)
 {
     if (params == NULL || !can_convert_to_int(params)) {
         return FAILURE;
@@ -22,11 +22,11 @@ static int get_right_params(int fd, data_t data, char *params, node_t **player)
     return SUCCESS;
 }
 
-void send_player_position(int fd, data_t data, char *params)
+void send_player_position(int fd, data_t *data, char *params)
 {
     node_t *player = NULL;
 
-    if (get_right_params(fd, data, params, &player) == FAILURE) {
+    if (get_right_params(*data, params, &player) == FAILURE) {
         dprintf(fd, "sbp\n");
         return;
     }
@@ -34,22 +34,22 @@ void send_player_position(int fd, data_t data, char *params)
     player->client.pos.y, player->client.orientation);
 }
 
-void send_player_level(int fd, data_t data, char *params)
+void send_player_level(int fd, data_t *data, char *params)
 {
     node_t *player = NULL;
 
-    if (get_right_params(fd, data, params, &player) == FAILURE) {
+    if (get_right_params(*data, params, &player) == FAILURE) {
         dprintf(fd, "sbp\n");
         return;
     }
     dprintf(fd, "plv %i %i\n", player->client.fd, player->client.level);
 }
 
-void send_player_inventory(int fd, data_t data, char *params)
+void send_player_inventory(int fd, data_t *data, char *params)
 {
     node_t *player = NULL;
 
-    if (get_right_params(fd, data, params, &player) == FAILURE) {
+    if (get_right_params(*data, params, &player) == FAILURE) {
         dprintf(fd, "sbp\n");
         return;
     }

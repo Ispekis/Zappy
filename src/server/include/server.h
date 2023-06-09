@@ -91,16 +91,16 @@ int do_ai_first_connect(char *buffer, node_t *client, data_t *data);
 int do_ai_communication(char *buffer, node_t *client, server_t *server);
 
 // Gui send commands
-void send_map_size(int fd, data_t data, char *params __attribute__((unused)));
-void send_content_tile(int fd, data_t data, char *params);
-void send_content_map(int fd, data_t data,
+void send_map_size(int fd, data_t *data, char *params __attribute__((unused)));
+void send_content_tile(int fd, data_t *data, char *params);
+void send_content_map(int fd, data_t *data,
 char *params __attribute__((unused)));
-void send_teams_name(int fd, data_t data,
+void send_teams_name(int fd, data_t *data,
 char *params __attribute__((unused)));
-void send_player_position(int fd, data_t data, char *params);
-void send_player_level(int fd, data_t data, char *params);
-void send_player_inventory(int fd, data_t data, char *params);
-void send_time_unit_request(int fd, data_t data, char *params);
-void send_time_unit_modif(int fd, data_t data, char *params);
+void send_player_position(int fd, data_t *data, char *params);
+void send_player_level(int fd, data_t *data, char *params);
+void send_player_inventory(int fd, data_t *data, char *params);
+void send_time_unit_request(int fd, data_t *data, char *params __attribute__((unused)));
+void send_time_unit_modif(int fd, data_t *data, char *params);
 
 #endif /* !SERVER_H_ */

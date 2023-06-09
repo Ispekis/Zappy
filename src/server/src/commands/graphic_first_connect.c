@@ -17,10 +17,10 @@ static void connect_player(node_t *client)
 
 static void send_first_connection_message(int fd, data_t data)
 {
-    send_map_size(fd, data, "");
+    send_map_size(fd, &data, "");
     dprintf(fd, "sgt 100\n");
-    send_content_map(fd, data, "");
-    send_teams_name(fd, data, "");
+    send_content_map(fd, &data, "");
+    send_teams_name(fd, &data, "");
 }
 
 int do_graphic_first_connect(char *buffer, node_t *client, data_t *data)

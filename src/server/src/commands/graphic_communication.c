@@ -18,7 +18,7 @@ static void choose_cmd(char *buffer, node_t *client, server_t *server)
     pos = get_cmd_pos(cmd);
     if (pos != -1) {
         params = strtok(NULL, "");
-        server->gui_cmd[pos](client->client.fd, server->data,
+        server->gui_cmd[pos](client->client.fd, &server->data,
         params);
     } else {
         dprintf(client->client.fd, "suc\n");
