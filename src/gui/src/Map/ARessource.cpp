@@ -9,7 +9,7 @@
 
 Zappy::ARessource::ARessource(int quantity)
 {
-    _quantity = quantity;
+   this->_quantity = quantity;
 }
 
 Zappy::ARessource::~ARessource()

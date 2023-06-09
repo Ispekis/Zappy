@@ -13,9 +13,10 @@
     #include <raylib.h>
     #include <string>
     #include <iostream>
-    #include <Data.hpp>
     #include <memory>
+
     #include "Error.hpp"
+    #include "Data.hpp"
 
 namespace Zappy {
     class Raylib {

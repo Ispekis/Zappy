@@ -10,7 +10,11 @@
     #include <memory>
     #include <vector>
     #include <string>
+    #include <sstream>
+    #include <iostream>
+
     #include "IRessource.hpp"
+    #include "RessourceFactory.hpp"
 
 namespace Zappy {
     class Tile {
@@ -22,6 +26,6 @@ namespace Zappy {
         private:
             std::vector<std::shared_ptr<IRessource>> _ressources;
     };
-}
+};
 
 #endif /* !TILE_HPP_ */

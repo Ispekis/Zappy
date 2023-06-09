@@ -12,7 +12,7 @@
 namespace Zappy {
     class Linemate : public ARessource {
         public:
-            Linemate();
+            Linemate(int);
             ~Linemate();
 
         protected:

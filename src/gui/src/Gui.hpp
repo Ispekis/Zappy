@@ -10,8 +10,7 @@
     #include <string>
     #include <iostream>
     #include <thread>
-    #include "Socket.hpp"
-    #include "Data.hpp"
+
     #include "Raylib.hpp"
 
 namespace Zappy {

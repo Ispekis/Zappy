@@ -12,7 +12,7 @@
 namespace Zappy {
     class Mendiane : public ARessource {
         public:
-            Mendiane();
+            Mendiane(int);
             ~Mendiane();
 
         protected:

@@ -12,7 +12,7 @@
 namespace Zappy {
     class Phiras : public ARessource {
         public:
-            Phiras();
+            Phiras(int);
             ~Phiras();
 
         protected:

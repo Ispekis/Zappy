@@ -12,7 +12,7 @@
 namespace Zappy {
     class Deraumere : public ARessource {
         public:
-            // Deraumere();
+            Deraumere(int);
             ~Deraumere();
 
         protected:

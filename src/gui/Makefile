@@ -26,6 +26,7 @@ SRC	=	src/Parser.cpp	\
 		src/Encapsulation/Socket.cpp		\
 		src/Encapsulation/Select.cpp		\
 		src/Communication/Data.cpp		\
+		src/Communication/GameData.cpp		\
 		src/Gui.cpp		\
 		src/Sprite.cpp
 

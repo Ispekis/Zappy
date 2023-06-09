@@ -12,7 +12,7 @@
 namespace Zappy {
     class Sibur : public ARessource {
         public:
-            Sibur();
+            Sibur(int);
             ~Sibur();
 
         protected:

@@ -12,7 +12,7 @@
 namespace Zappy {
     class Thystame : public ARessource {
         public:
-            Thystame();
+            Thystame(int);
             ~Thystame();
 
         protected:

@@ -7,6 +7,11 @@
 
 #include "Linemate.hpp"
 
+Zappy::Linemate::Linemate(int quantity)
+{
+    this->_quantity = quantity;
+}
+
 Zappy::Linemate::~Linemate()
 {
 }

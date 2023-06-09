@@ -7,6 +7,11 @@
 
 #include "Thystame.hpp"
 
+Zappy::Thystame::Thystame(int quantity)
+{
+    this->_quantity = quantity;
+}
+
 Zappy::Thystame::~Thystame()
 {
 }

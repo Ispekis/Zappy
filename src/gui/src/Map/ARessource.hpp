@@ -13,6 +13,7 @@
 namespace Zappy {
     class ARessource : public IRessource {
         public:
+            ARessource() = default;
             ARessource(int quantity);
             ~ARessource();
 
