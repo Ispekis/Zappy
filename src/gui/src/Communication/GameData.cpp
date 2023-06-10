@@ -136,6 +136,15 @@ void Zappy::GameData::edi(std::vector<std::string> &content)
 void Zappy::GameData::sgt(std::vector<std::string> &content)
 {
     std::cout << "sgt" << std::endl;
+    checkInt(content);
+    if (content.size() != 1)
+        throw Error("Error server response SGT args", "Expected: 1, Got: " + std::to_string(content.size()));
+    int time = std::stoi(content[0]);
+    if (time < 2)
+        time = 2;
+    if (time > 1000)
+        time = 1000;
+    _timeUnit.setTimeUnit(time);
 }
 
 void Zappy::GameData::sst(std::vector<std::string> &content)

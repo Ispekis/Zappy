@@ -51,11 +51,11 @@ void Zappy::Tile::setRessources(std::vector<std::string> &content)
         _ressources.push_back(tmp);
     }
 
-    std::size_t tmp = 0;
-    for (auto &element : _ressources)
-    {
-        int qty = element->getQuantity();
-        printf("%d: %s\n", element->getQuantity(), ressource[tmp].c_str());
-        tmp++;
-    }
+    // std::size_t tmp = 0;
+    // for (auto &element : _ressources)
+    // {
+    //     int qty = element->getQuantity();
+    //     printf("%d: %s\n", element->getQuantity(), ressource[tmp].c_str());
+    //     tmp++;
+    // }
 }
