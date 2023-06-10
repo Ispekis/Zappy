@@ -35,7 +35,7 @@ void Zappy::Data::updateGame()
 
 void Zappy::Data::readFromServer()
 {
-    char tmp[10];
+    char tmp[6];
     int x = read(_socket._socket, &tmp, sizeof(tmp));
     buffer.append(tmp, x);
     std::memset(tmp, 0, sizeof(tmp));
@@ -49,7 +49,6 @@ void Zappy::Data::validResponse()
     std::string tmp;
     while (pos != std::string::npos) {
         response = buffer.substr(0, pos);
-        // printf("[%s]\n", response.c_str());
         updateData(response);
         buffer = buffer.substr(pos + 1);
         pos = buffer.find('\n');
