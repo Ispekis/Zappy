@@ -21,8 +21,17 @@ class Select {
         Select(int);
         ~Select();
 
+        /**
+         * @brief Set the Fd object
+         * 
+         * @param Fds 
+         */
         void setFd(std::vector<int> Fds);
 
+        /**
+         * @brief Encapsulate Select function
+         * 
+         */
         void doSelect();
 
         fd_set _readfds;

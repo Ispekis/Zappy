@@ -7,8 +7,10 @@
 
 #include "Team.hpp"
 
-Zappy::Team::Team()
+Zappy::Team::Team(std::string name)
 {
+    _name = name;
+    std::cout << "Team :" << name << "Added" << std::endl;
 }
 
 Zappy::Team::~Team()

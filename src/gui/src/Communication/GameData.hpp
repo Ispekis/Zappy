@@ -17,6 +17,7 @@
     #include "Team.hpp"
     #include "Tile.hpp"
     #include "TimeUnit.hpp"
+    #include "Player.hpp"
 
 namespace Zappy {
     class GameData {
@@ -56,7 +57,9 @@ namespace Zappy {
             std::pair<std::size_t, std::size_t> _mapSize;
             std::shared_ptr<RessourceFactory> _factory = std::make_shared<RessourceFactory>();
 
-            std::unordered_map<std::string, Team> _teams;
+            std::unordered_map<std::string, std::shared_ptr<Team>> _teams;
+            std::unordered_map<std::size_t, Player> _player;
+
             TimeUnit _timeUnit;
 
         protected:
