@@ -58,6 +58,7 @@ char **params __attribute__((unused)))
     } else {
         client->client.orientation++;
     }
+    dprintf(client->client.fd, "ok\n");
     update_graphic(data->graphic_fd, client->client);
 }
 
@@ -69,5 +70,6 @@ char **params __attribute__((unused)))
     } else {
         client->client.orientation--;
     }
+    dprintf(client->client.fd, "ok\n");
     update_graphic(data->graphic_fd, client->client);
 }
