@@ -25,6 +25,7 @@ void Zappy::Data::updateGame()
 {
     try {
         _select.doSelect();
+        std::cout << "signal" << std::endl;
         if (FD_ISSET(_socket._socket, &(_select._readfds)))
             readFromServer();
     } catch (const Error &e) {
