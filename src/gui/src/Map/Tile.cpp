@@ -18,17 +18,6 @@ Zappy::Tile::Tile(std::size_t x, std::size_t y, std::shared_ptr<RessourceFactory
     _factory = factory;
 }
 
-// Zappy::Tile::Tile(std::string &content)
-// {
-//     auto tile = splitStringIntoWords(content);
-//     const char *ressource[] = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
-//     int x = std::stoi(tile[0]);
-//     int y = std::stoi(tile[1]);
-
-//     tile.erase(tile.begin());
-//     tile.erase(tile.begin());
-// }
-
 Zappy::Tile::~Tile()
 {
 }
