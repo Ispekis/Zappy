@@ -9,12 +9,35 @@ PATH_TO_ROOT	=	../..
 
 MV	=	mv
 
-SRC	=	src/Parser.cpp	\
-		src/Error.cpp	\
-		src/Raylib.cpp		\
-		src/Encapsulation/Socket.cpp		\
-		src/Communication/Data.cpp		\
-		src/Gui.cpp		\
+MAP =	$(addprefix src/Map/,			\
+			ARessource.cpp				\
+			RessourceFactory.cpp		\
+			Deraumere.cpp				\
+			Linemate.cpp				\
+			Mendiane.cpp				\
+			Phiras.cpp					\
+			Sibur.cpp					\
+			Thystame.cpp				\
+			Tile.cpp					\
+			Food.cpp					)
+
+GRAPHIC =	$(addprefix src/,		\
+				Raylib.cpp			\
+				Sprite.cpp			)
+
+SRC	=	$(addprefix src/,				\
+			Parser.cpp					\
+			Error.cpp					\
+			Gui.cpp						\
+			$(addprefix Encapsulation/,	\
+				Socket.cpp				\
+				Select.cpp				)\
+			$(addprefix Communication/,	\
+				Data.cpp				\
+				GameData.cpp			))
+
+SRC += $(MAP)
+SRC += $(GRAPHIC)
 
 MAIN_SRC	=	src/main.cpp
 
@@ -32,6 +55,7 @@ CPPFLAGS	+=	-I./include
 CPPFLAGS	+=	-I./src
 CPPFLAGS	+=	-I./src/Encapsulation
 CPPFLAGS	+=	-I./src/Communication
+CPPFLAGS	+=	-I./src/Map
 
 CFLAGS	=	-Wall -Wextra
 

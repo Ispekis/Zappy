@@ -10,8 +10,7 @@
     #include <string>
     #include <iostream>
     #include <thread>
-    #include "Socket.hpp"
-    #include "Data.hpp"
+
     #include "Raylib.hpp"
 
 namespace Zappy {
@@ -34,10 +33,11 @@ namespace Zappy {
 
         protected:
         private:
-            Zappy::Raylib _graphic;
-            std::thread _dataReceiver;
+            // Zappy::Raylib _graphic;
 
-            Data _data;
+            std::thread _dataReceiver;
+            bool _isRunning;
+            std::shared_ptr<Data> _data;
     };
 }
 

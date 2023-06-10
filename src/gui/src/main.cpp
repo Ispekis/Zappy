@@ -5,14 +5,10 @@
 ** main
 */
 
-#include <iostream>
-#include <cstring>
 #include "Error.hpp"
 #include "Parser.hpp"
-#include "macro.hpp"
-#include "unistd.h"
 #include "Gui.hpp"
-#include "Raylib.hpp"
+#include "macro.hpp"
 
 void show_usage(char *binary, int fd)
 {

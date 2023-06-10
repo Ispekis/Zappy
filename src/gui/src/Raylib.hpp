@@ -13,7 +13,10 @@
     #include <raylib.h>
     #include <string>
     #include <iostream>
+    #include <memory>
+
     #include "Error.hpp"
+    #include "Data.hpp"
 
 namespace Zappy {
     class Raylib {
@@ -22,13 +25,25 @@ namespace Zappy {
             ~Raylib();
 
             /**
-             * @brief Start the game loop
+             * @brief Set the Data object
              * 
+             * @param data 
              */
-            void run();
+            void setData(std::shared_ptr<Data> data);
+            /**
+             * @brief Launch loop game and set isRunning to false if end
+             *
+             * @param isRunning
+             */
+            void run(bool &isRunning);
+
+            void draw();
+
+            void event();
 
         protected:
         private:
+            std::shared_ptr<Data> _data;
     };
 }
 
