@@ -15,9 +15,9 @@
     #define TOTAL_AI_CMD 12
 
 enum orientation_e {
-    NORD = 1,
-    EST = 2,
-    SUD = 3,
+    NORTH = 1,
+    EAST = 2,
+    SOUTH = 3,
     WEST = 4
 };
 
