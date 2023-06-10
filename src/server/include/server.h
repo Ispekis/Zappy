@@ -126,17 +126,26 @@ char *params __attribute__((unused)));
 void send_time_unit_modif(int fd, data_t *data, char *params);
 
 // Ai commands
-void ai_cmd_forward(node_t *client, data_t *data, char **params);
-void ai_cmd_right(node_t *client, data_t *data, char **params);
-void ai_cmd_left(node_t *client, data_t *data, char **params);
-void ai_cmd_look(node_t *client, data_t *data, char **params);
-void ai_cmd_inventory(node_t *client, data_t *data, char **params);
+void ai_cmd_forward(node_t *client, data_t *data,
+char **params __attribute__((unused)));
+void ai_cmd_right(node_t *client, data_t *data,
+char **params __attribute__((unused)));
+void ai_cmd_left(node_t *client, data_t *data,
+char **params __attribute__((unused)));
+void ai_cmd_look(node_t *client, data_t *data,
+char **params __attribute__((unused)));
+void ai_cmd_inventory(node_t *client, data_t *data,
+char **params __attribute__((unused)));
 void ai_cmd_broadcast(node_t *client, data_t *data, char **params);
-void ai_cmd_team_unused_slot(node_t *client, data_t *data, char **params);
-void ai_cmd_fork_player(node_t *client, data_t *data, char **params);
-void ai_cmd_eject(node_t *client, data_t *data, char **params);
+void ai_cmd_team_unused_slot(node_t *client, data_t *data,
+char **params __attribute__((unused)));
+void ai_cmd_fork_player(node_t *client, data_t *data,
+char **params __attribute__((unused)));
+void ai_cmd_eject(node_t *client, data_t *data,
+char **params __attribute__((unused)));
 void ai_cmd_take_object(node_t *client, data_t *data, char **params);
 void ai_cmd_set_object(node_t *client, data_t *data, char **params);
-void ai_cmd_incantation(node_t *client, data_t *data, char **params);
+void ai_cmd_incantation(node_t *client, data_t *data,
+char **params __attribute__((unused)));
 
 #endif /* !SERVER_H_ */

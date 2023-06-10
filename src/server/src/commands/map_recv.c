@@ -8,7 +8,7 @@
 #include "server.h"
 #include "macro.h"
 
-void send_map_size(int fd, data_t *data, char *params  __attribute__((unused)))
+void send_map_size(int fd, data_t *data, char *params __attribute__((unused)))
 {
     dprintf(fd, "msz %i %i\n", data->width, data->height);
 }
