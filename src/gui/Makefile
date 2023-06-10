@@ -20,6 +20,9 @@ MAP =	$(addprefix src/Map/,			\
 				Sibur.cpp					\
 				Thystame.cpp				\
 				Food.cpp					)\
+			Player.cpp					\
+			Team.cpp					\
+			TimeUnit.cpp 				\
 			Tile.cpp					\
 			)
 
