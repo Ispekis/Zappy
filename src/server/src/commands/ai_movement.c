@@ -51,5 +51,9 @@ void ai_cmd_right(node_t *client, data_t *data, char **params)
 
 void ai_cmd_left(node_t *client, data_t *data, char **params)
 {
-
+    if (client->client.orientation - 1 < 1) {
+        client->client.orientation = WEST;
+    } else {
+        client->client.orientation--;
+    }
 }
