@@ -69,6 +69,7 @@ bool can_convert_to_int(const char* str);
 int get_cmd_pos(char *str, const char **lib);
 int rand_nbr(int min, int max);
 char **str_to_word_array(char *buffer, char *sep);
+void my_strcat(char **dest, char *src);
 
 // Init
 int init_server(server_t *server, int port);
