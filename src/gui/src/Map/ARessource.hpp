@@ -7,8 +7,10 @@
 
 #ifndef ARESSOURCE_HPP_
 #define ARESSOURCE_HPP_
-    #include "IRessource.hpp"
     #include <string>
+    #include <iostream>
+
+    #include "IRessource.hpp"
 
 namespace Zappy {
     class ARessource : public IRessource {
@@ -22,7 +24,7 @@ namespace Zappy {
              * 
              * @return int 
              */
-            int getQuantity();
+            int getQuantity() const;
 
             /**
              * @brief Set the Quantity of ressource

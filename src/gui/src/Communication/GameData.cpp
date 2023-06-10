@@ -50,6 +50,7 @@ void Zappy::GameData::bct(std::vector<std::string> &content)
     content.erase(content.begin());
     content.erase(content.begin());
     _map[x][y].setRessources(content);
+    
 }
 
 void Zappy::GameData::tna(std::vector<std::string> &content)

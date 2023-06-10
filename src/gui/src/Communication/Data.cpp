@@ -48,8 +48,8 @@ void Zappy::Data::validResponse()
     std::string tmp;
     while (pos != std::string::npos) {
         response = buffer.substr(0, pos);
-        updateData(response);
         printf("[%s]\n", response.c_str());
+        updateData(response);
         buffer = buffer.substr(pos + 1);
         pos = buffer.find('\n');
     }

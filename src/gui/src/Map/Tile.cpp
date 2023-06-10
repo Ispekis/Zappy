@@ -46,11 +46,16 @@ void Zappy::Tile::setRessources(std::vector<std::string> &content)
 {
     std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
 
-    std::cout << "Going to set Ressources: ";
-    for (auto a : content)
-        std::cout << a << " ";
-    std::cout << std::endl;
     for (std::size_t i = 0; i != content.size(); i++) {
-        _factory->createRessource(ressource[i], std::stoi(content[i]));
+        auto tmp = _factory->createRessource(ressource[i], std::stoi(content[i]));
+        _ressources.push_back(tmp);
+    }
+
+    std::size_t tmp = 0;
+    for (auto &element : _ressources)
+    {
+        int qty = element->getQuantity();
+        printf("%d: %s\n", element->getQuantity(), ressource[tmp].c_str());
+        tmp++;
     }
 }

@@ -13,6 +13,10 @@ namespace Zappy {
         public:
             virtual ~IRessource() = default;
 
+            virtual int getQuantity() const = 0;
+
+            virtual void setQuantity(int) = 0;
+
         protected:
         private:
     };
