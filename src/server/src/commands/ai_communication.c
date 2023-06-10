@@ -23,6 +23,5 @@ int do_ai_communication(char *buffer, node_t *client, server_t *server)
             choose_cmd(buffer, client, *server);
         return SUCCESS;
     }
-    printf("From team\n");
     return FAILURE;
 }

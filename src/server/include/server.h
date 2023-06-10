@@ -24,16 +24,36 @@ static const char *GUI_CMD_LIB[] __attribute__((unused)) = {
     "msz", "bct", "mct", "tna", "ppo", "plv", "pin", "sgt", "sst", NULL
 };
 
+static const char *AI_CMD_LIB[] __attribute__((unused)) = {
+    "Forward", "Right", "Left", "Look", "Inventory", "Broadcast",
+    "Connect_nbr", "Fork", "Eject", "Take", "Set", "Incantation", NULL
+};
+
 enum gui_cmd_e {
-    MSZ,
-    BCT,
-    MCT,
-    TNA,
-    PPO,
-    PLV,
-    PIN,
-    SGT,
-    SST
+    CMD_MSZ,
+    CMD_BCT,
+    CMD_MCT,
+    CMD_TNA,
+    CMD_PPO,
+    CMD_PLV,
+    CMD_PIN,
+    CMD_SGT,
+    CMD_SST
+};
+
+enum ai_cmd_e {
+    CMD_FORWARD,
+    CMD_RIGHT,
+    CMD_LEFT,
+    CMD_LOOK,
+    CMD_INV,
+    CMD_BROAD,
+    CMD_CONN_NBR,
+    CMD_FORK,
+    CMD_EJECT,
+    CMD_TAKE,
+    CMD_SET,
+    CMD_INC
 };
 
 void show_usage(const char *binary, int fd);
@@ -46,7 +66,7 @@ bool check_buffer_format(char *buffer);
 // Tools
 int write_error(char *message, char *label, int ret_value);
 bool can_convert_to_int(const char* str);
-int get_cmd_pos(char *str);
+int get_cmd_pos(char *str, const char **lib);
 int rand_nbr(int min, int max);
 
 // Init
@@ -108,7 +128,6 @@ void send_time_unit_modif(int fd, data_t *data, char *params);
 void ai_cmd_forward(node_t *client, data_t *data, char **params);
 void ai_cmd_right(node_t *client, data_t *data, char **params);
 void ai_cmd_left(node_t *client, data_t *data, char **params);
-void ai_cmd_forward(node_t *client, data_t *data, char **params);
 void ai_cmd_look(node_t *client, data_t *data, char **params);
 void ai_cmd_inventory(node_t *client, data_t *data, char **params);
 void ai_cmd_broadcast(node_t *client, data_t *data, char **params);
