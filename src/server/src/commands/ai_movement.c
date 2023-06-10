@@ -6,6 +6,7 @@
 */
 
 #include "server.h"
+#include "game_macro.h"
 
 static void move_player(int *pos, bool cross, int cross_value, int ampl)
 {
@@ -41,7 +42,11 @@ void ai_cmd_forward(node_t *client, data_t *data, char **params)
 
 void ai_cmd_right(node_t *client, data_t *data, char **params)
 {
-
+    if (client->client.orientation + 1 > NUMBER_OF_ORIENTATION) {
+        client->client.orientation = NORTH;
+    } else {
+        client->client.orientation++;
+    }
 }
 
 void ai_cmd_left(node_t *client, data_t *data, char **params)
