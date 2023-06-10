@@ -8,12 +8,16 @@
 #ifndef GAMEDATA_HPP_
 #define GAMEDATA_HPP_
     #include <map>
+    #include <unordered_map>
     #include <vector>
     #include <string>
     #include <iostream>
 
     #include "Error.hpp"
+    #include "Team.hpp"
     #include "Tile.hpp"
+    #include "TimeUnit.hpp"
+
 namespace Zappy {
     class GameData {
         public:
@@ -51,6 +55,9 @@ namespace Zappy {
             std::vector<std::vector<Tile>> _map;
             std::pair<std::size_t, std::size_t> _mapSize;
             std::shared_ptr<RessourceFactory> _factory = std::make_shared<RessourceFactory>();
+
+            std::unordered_map<std::string, Team> _teams;
+            TimeUnit _timeUnit;
 
         protected:
         private:
