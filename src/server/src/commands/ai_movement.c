@@ -7,6 +7,7 @@
 
 #include "server.h"
 #include "game_macro.h"
+#include "macro.h"
 
 static void move_player(int *pos, bool cross, int cross_value, int ampl)
 {
@@ -15,6 +16,13 @@ static void move_player(int *pos, bool cross, int cross_value, int ampl)
     } else {
         (*pos) += ampl;
     }
+}
+
+static void update_graphic(int graph_fd, client_t player)
+{
+    if (graph_fd != UNDEFINED)
+        dprintf(graph_fd, "ppo %i %i %i %i\n", player.fd, player.pos.x,
+        player.pos.y, player.orientation);
 }
 
 void ai_cmd_forward(node_t *client, data_t *data, char **params)
@@ -38,6 +46,7 @@ void ai_cmd_forward(node_t *client, data_t *data, char **params)
             break;
     }
     dprintf(client->client.fd, "ok\n");
+    update_graphic(data->graphic_fd, client->client);
 }
 
 void ai_cmd_right(node_t *client, data_t *data, char **params)
@@ -47,6 +56,7 @@ void ai_cmd_right(node_t *client, data_t *data, char **params)
     } else {
         client->client.orientation++;
     }
+    update_graphic(data->graphic_fd, client->client);
 }
 
 void ai_cmd_left(node_t *client, data_t *data, char **params)
@@ -56,4 +66,5 @@ void ai_cmd_left(node_t *client, data_t *data, char **params)
     } else {
         client->client.orientation--;
     }
+    update_graphic(data->graphic_fd, client->client);
 }
