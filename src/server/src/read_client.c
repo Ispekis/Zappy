@@ -16,8 +16,12 @@ static void disconnect_player(data_t *data, node_t *client)
         client->client.team->clients_nbr++;
         client->client.team = NULL;
     }
-    if (client->client.is_conn && data->graphic_fd != UNDEFINED)
+    if (client->client.is_conn && !client->client.is_graphic
+    && data->graphic_fd != UNDEFINED)
         dprintf(data->graphic_fd, "pdi %i\n", client->client.fd);
+    if (client->client.is_graphic)
+        data->graphic_fd = UNDEFINED;
+    close(client->client.fd);
     remove_client_node(&data->clients, client->client.fd);
 }
 
