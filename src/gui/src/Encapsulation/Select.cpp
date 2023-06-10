@@ -41,8 +41,6 @@ void Select::setFd(std::vector<int> Fds)
 
 void Select::doSelect()
 {
-    FD_ZERO(&_readfds);
-    FD_SET(_maxFd, &_readfds);
     int ready = select(_maxFd + 1, &_readfds, nullptr, nullptr, &_timeout);
 
     if (ready == -1)

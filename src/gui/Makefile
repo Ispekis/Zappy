@@ -9,28 +9,35 @@ PATH_TO_ROOT	=	../..
 
 MV	=	mv
 
-MAP =	src/Map/ARessource.cpp	\
-		src/Map/RessourceFactory.cpp	\
-		src/Map/Deraumere.cpp	\
-		src/Map/Linemate.cpp	\
-		src/Map/Mendiane.cpp	\
-		src/Map/Phiras.cpp	\
-		src/Map/Sibur.cpp	\
-		src/Map/Thystame.cpp	\
-		src/Map/Tile.cpp	\
-		src/Map/Food.cpp	\
-		
-SRC	=	src/Parser.cpp	\
-		src/Error.cpp	\
-		src/Raylib.cpp		\
-		src/Encapsulation/Socket.cpp		\
-		src/Encapsulation/Select.cpp		\
-		src/Communication/Data.cpp		\
-		src/Communication/GameData.cpp		\
-		src/Gui.cpp		\
-		src/Sprite.cpp	\
+MAP =	$(addprefix src/Map/,			\
+			ARessource.cpp				\
+			RessourceFactory.cpp		\
+			Deraumere.cpp				\
+			Linemate.cpp				\
+			Mendiane.cpp				\
+			Phiras.cpp					\
+			Sibur.cpp					\
+			Thystame.cpp				\
+			Tile.cpp					\
+			Food.cpp					)
+
+GRAPHIC =	$(addprefix src/,		\
+				Raylib.cpp			\
+				Sprite.cpp			)
+
+SRC	=	$(addprefix src/,				\
+			Parser.cpp					\
+			Error.cpp					\
+			Gui.cpp						\
+			$(addprefix Encapsulation/,	\
+				Socket.cpp				\
+				Select.cpp				)\
+			$(addprefix Communication/,	\
+				Data.cpp				\
+				GameData.cpp			))
 
 SRC += $(MAP)
+SRC += $(GRAPHIC)
 
 MAIN_SRC	=	src/main.cpp
 
