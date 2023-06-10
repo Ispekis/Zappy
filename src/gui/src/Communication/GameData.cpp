@@ -9,7 +9,7 @@
 
 // Zappy::GameData::GameData()
 // {
-// }
+// }l
 
 Zappy::GameData::~GameData()
 {
@@ -56,6 +56,12 @@ void Zappy::GameData::bct(std::vector<std::string> &content)
 void Zappy::GameData::tna(std::vector<std::string> &content)
 {
     std::cout << "tna" << std::endl;
+    if (content.size() != 1)
+        throw Error("Error server response MSZ args", "Expected: 1, Got: " + std::to_string(content.size()));
+    std::shared_ptr<Team> team = std::make_shared<Team>(content[0]);
+    if (_teams.count(content[0]) > 0)
+        return;
+    _teams.insert({content[0], team});
 }
 
 void Zappy::GameData::pnw(std::vector<std::string> &content)
@@ -135,7 +141,7 @@ void Zappy::GameData::edi(std::vector<std::string> &content)
 
 void Zappy::GameData::sgt(std::vector<std::string> &content)
 {
-    std::cout << "sgt" << std::endl;
+    // std::cout << "sgt" << std::endl;
     checkInt(content);
     if (content.size() != 1)
         throw Error("Error server response SGT args", "Expected: 1, Got: " + std::to_string(content.size()));

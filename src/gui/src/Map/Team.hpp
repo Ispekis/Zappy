@@ -7,15 +7,18 @@
 
 #ifndef TEAM_HPP_
 #define TEAM_HPP_
+    #include <string>
+    #include <iostream>
 
 namespace Zappy {
     class Team {
         public:
-            Team();
+            Team(std::string);
             ~Team();
-    
+
         protected:
         private:
+            std::string _name;
     };
 }
 
