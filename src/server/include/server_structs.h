@@ -127,7 +127,7 @@ typedef struct server_s {
     struct signalfd_siginfo fdsi;
     data_t data;
     void (*gui_cmd[TOTAL_GUI_CMD])(int fd, data_t *data, char *params);
-    void (*ai_cmd[TOTAL_GUI_CMD])(node_t *client, data_t *data, char *params);
+    void (*ai_cmd[TOTAL_AI_CMD])(node_t *client, data_t *data, char **params);
 } server_t;
 
 #endif /* !SERVER_STRUCTS_H_ */
