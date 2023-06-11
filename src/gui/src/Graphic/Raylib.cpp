@@ -36,13 +36,12 @@ void Zappy::Raylib::event()
 
 void Zappy::Raylib::draw()
 {
-    // BeginDrawing();
-    // ClearBackground(RAYWHITE);
-    // EndDrawing();
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+    EndDrawing();
 }
 
 Zappy::Raylib::~Raylib()
 {
     CloseWindow();
-    
 }
