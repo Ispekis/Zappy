@@ -37,6 +37,10 @@ SRC	=	$(addprefix src/, \
 		free_server.c							\
 		free_game.c								)\
 \
+		$(addprefix utils/,    					\
+		map_utils.c								\
+		player_utils.c							)\
+\
 		$(addprefix commands/,    				\
 		ai_first_connect.c						\
 		ai_communication.c						\

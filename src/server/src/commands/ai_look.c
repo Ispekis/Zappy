@@ -25,9 +25,11 @@ tile_t get_correct_tile(tile_t **map, int x, int y, data_t data)
     return map[y][x];
 }
 
-void check_presence_on_tile(tile_t tile, char **msg)
+void check_presence_on_tile(tile_t tile, node_t *players, char **msg)
 {
-    // Check player too
+    int nb_players = get_nb_players_on_tile(tile.pos, players);
+    for (int i = 0; i < nb_players; i++)
+        my_strcat(msg, "player ");
     for (int i = 0; i < tile.food.quantity; i++)
         my_strcat(msg, "food ");
     for (int i = 0; i < tile.linemate.quantity; i++)
@@ -50,16 +52,16 @@ char **params __attribute__((unused)))
     char *msg = NULL;
     pos_t pos = client->client.pos;
 
-    msg = strdup("[ player ");
+    msg = strdup("[ ");
     for (int i = 0; i < client->client.level + 1; i++) {
         for (int y = 0; y < i; y++)
             check_presence_on_tile(get_correct_tile(data->map, pos.x - (y + 1),
-            pos.y + i, *data), &msg);
+            pos.y + i, *data), data->clients, &msg);
         check_presence_on_tile(get_correct_tile(data->map, pos.x, pos.y + i,
-        *data), &msg);
+        *data), data->clients, &msg);
         for (int y = 0; y < i; y++)
             check_presence_on_tile(get_correct_tile(data->map, pos.x + (y + 1),
-            pos.y + i, *data), &msg);
+            pos.y + i, *data), data->clients, &msg);
     }
     msg[strlen(msg) - 2] = '\0';
     my_strcat(&msg, " ]");
