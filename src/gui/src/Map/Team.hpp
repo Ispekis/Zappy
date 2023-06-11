@@ -9,6 +9,8 @@
 #define TEAM_HPP_
     #include <string>
     #include <iostream>
+    #include <memory>
+    #include <vector>
 
 namespace Zappy {
     class Team {
@@ -16,9 +18,14 @@ namespace Zappy {
             Team(std::string);
             ~Team();
 
+            void addPlayer(std::size_t);
+
+            void deletePlayer(std::size_t);
+
         protected:
         private:
             std::string _name;
+            std::vector<std::size_t> _playerList;
     };
 }
 
