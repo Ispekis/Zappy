@@ -13,3 +13,23 @@ bool is_ai_player(client_t player)
         return true;
     return false;
 }
+
+resource_t *get_resource_by_name_in_inventory(char *name,
+inventory_t *inventory)
+{
+    if (strcmp(name, FOOD_NAME) == 0)
+        return &inventory->food;
+    if (strcmp(name, LINEMATE_NAME) == 0)
+        return &inventory->linemate;
+    if (strcmp(name, DERAUMERE_NAME) == 0)
+        return &inventory->deraumere;
+    if (strcmp(name, SIBUR_NAME) == 0)
+        return &inventory->sibur;
+    if (strcmp(name, MENDIANE_NAME) == 0)
+        return &inventory->mendiane;
+    if (strcmp(name, PHIRAS_NAME) == 0)
+        return &inventory->phiras;
+    if (strcmp(name, THYSTAME_NAME) == 0)
+        return &inventory->thystame;
+    return NULL;
+}
