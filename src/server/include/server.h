@@ -155,7 +155,7 @@ void ai_cmd_set_object(node_t *client, data_t *data, char **params);
 void ai_cmd_incantation(node_t *client, data_t *data,
 char **params __attribute__((unused)));
 
-void cross_map_border(int *x, int *y, data_t data);
+void cross_map_border(int *x, int *y, int width, int height);
 tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
 
 //** Utils **//
@@ -168,15 +168,6 @@ tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
  * @return int
  */
 int get_nb_players_on_tile(pos_t pos, node_t *head);
-
-/**
- * @brief Get a linked list of player present on a tile
- *
- * @param pos
- * @param head
- * @return node_t*
- */
-node_t *get_players_on_tile(pos_t pos, node_t *head);
 
 /**
  * @brief Check if the concerned client is an ai client and its connected,
