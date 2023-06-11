@@ -149,4 +149,7 @@ void ai_cmd_set_object(node_t *client, data_t *data, char **params);
 void ai_cmd_incantation(node_t *client, data_t *data,
 char **params __attribute__((unused)));
 
+void cross_map_border(int *x, int *y, data_t data);
+tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
+
 #endif /* !SERVER_H_ */

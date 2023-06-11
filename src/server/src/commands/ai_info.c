@@ -7,24 +7,26 @@
 
 #include "server.h"
 
-void cross_map_border(pos_t *pos, data_t data)
+void cross_map_border(int *x, int *y, data_t data)
 {
-    if (pos->x > data.width)
-        pos->x = pos->x - data.width - 1;
-    if (pos->y > data.height)
-        pos->y = pos->y - data.height - 1;
-    if (pos->x < 0)
-        pos->x = data.width - (pos->x - 1);
-    if (pos->y < 0)
-        pos->y = data.height - (pos->y - 1);
+    if ((*x) > data.width - 1)
+        (*x) = (*x) - data.width;
+    if ((*y) > data.height - 1)
+        (*y) = (*y) - data.height;
+    if (*x < 0)
+        *x = data.width - abs(*x);
+    if ((*y) < 0)
+        (*y) = data.height - abs(*y);
 }
 
-void check_presence_on_tile(tile_t **map, pos_t pos, data_t data, char **msg)
+tile_t get_correct_tile(tile_t **map, int x, int y, data_t data)
 {
-    tile_t tile;
+    cross_map_border(&x, &y, data);
+    return map[y][x];
+}
 
-    cross_map_border(&pos, data);
-    tile = map[pos.y][pos.x];
+void check_presence_on_tile(tile_t tile, char **msg)
+{
     // Check player too
     for (int i = 0; i < tile.food.quantity; i++)
         my_strcat(msg, "food ");
@@ -50,15 +52,18 @@ char **params __attribute__((unused)))
 
     msg = strdup("[ player ");
     for (int i = 0; i < client->client.level + 1; i++) {
-        for (int y = 0; y < i; y++) {
-            check_presence_on_tile(data->map, (pos_t) {pos.x - y, pos.y + i}, *data, &msg);
-        }
-        for (int y = 0; y < i; y++) {
-            check_presence_on_tile(data->map, (pos_t) {pos.x + y, pos.y + i}, *data, &msg);
-        }
+        for (int y = 0; y < i; y++)
+            check_presence_on_tile(get_correct_tile(data->map, pos.x - (y + 1),
+            pos.y + i, *data), &msg);
+        check_presence_on_tile(get_correct_tile(data->map, pos.x, pos.y + i,
+        *data), &msg);
+        for (int y = 0; y < i; y++)
+            check_presence_on_tile(get_correct_tile(data->map, pos.x + (y + 1),
+            pos.y + i, *data), &msg);
     }
-    // msg = my_strcat(msg, "ok");
-    printf("%s\n", msg);
+    msg[strlen(msg) - 2] = '\0';
+    my_strcat(&msg, " ]");
+    dprintf(client->client.fd, "%s\n", msg);
     free(msg);
 }
 
