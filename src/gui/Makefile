@@ -26,7 +26,7 @@ MAP =	$(addprefix src/Map/,			\
 			Tile.cpp					\
 			)
 
-GRAPHIC =	$(addprefix src/,		\
+GRAPHIC =	$(addprefix src/Graphic/,		\
 				Raylib.cpp			\
 				Sprite.cpp			)
 
@@ -58,6 +58,7 @@ TEST_FILE	=	tests/test_gui.cpp
 
 CPPFLAGS	+=	-I./include
 CPPFLAGS	+=	-I./src
+CPPFLAGS	+=	-I./src/Graphic
 CPPFLAGS	+=	-I./src/Encapsulation
 CPPFLAGS	+=	-I./src/Communication
 CPPFLAGS	+=	-I./src/Map
