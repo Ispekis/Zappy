@@ -26,6 +26,7 @@ enum orientation_e {
  *
  */
 typedef struct resource_s {
+    int id;
     float density;
     int quantity;
 } resource_t;

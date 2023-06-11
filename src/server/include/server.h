@@ -155,7 +155,7 @@ void ai_cmd_set_object(node_t *client, data_t *data, char **params);
 void ai_cmd_incantation(node_t *client, data_t *data,
 char **params __attribute__((unused)));
 
-void cross_map_border(int *x, int *y, data_t data);
+void cross_map_border(int *x, int *y, int width, int height);
 tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
 
 //** Utils **//
@@ -168,15 +168,6 @@ tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
  * @return int
  */
 int get_nb_players_on_tile(pos_t pos, node_t *head);
-
-/**
- * @brief Get a linked list of player present on a tile
- *
- * @param pos
- * @param head
- * @return node_t*
- */
-node_t *get_players_on_tile(pos_t pos, node_t *head);
 
 /**
  * @brief Check if the concerned client is an ai client and its connected,
@@ -206,5 +197,57 @@ inventory_t *inventory);
  * @return resource_t*
  */
 resource_t *get_resource_by_name_on_tile(char *name, tile_t *tile);
+
+//** GUI PROTOCOL FORMATS **//
+
+void fmt_player_egg_laying(int fd, client_t player);
+
+void fmt_egg_laid(int fd, int egg_nb, client_t player, pos_t pos);
+
+void fmt_egg_conn(int fd, int egg_nb);
+
+void fmt_egg_death(int fd, int egg_nb);
+
+void fmt_player_start_incantation(int fd);
+
+void fmt_player_end_incantation(int fd);
+
+void fmt_map_size(int fd, int width, int height);
+
+void fmt_content_of_tile(int fd, tile_t tile);
+
+void fmt_content_of_map(int fd, tile_t **map, int width, int height);
+
+void fmt_end_of_game(int fd, char *team_name);
+
+void fmt_msg_from_server(int fd, char *msg);
+
+void fmt_unknown_cmd(int fd);
+
+void fmt_cmd_parameter(int fd);
+
+void fmt_player_expulsion(int fd, client_t player);
+
+void fmt_player_broadcast(int fd, client_t player, char *msg);
+
+void fmt_player_dropping(int fd, client_t player, resource_t resource);
+
+void fmt_player_collecting(int fd, client_t player, resource_t resource);
+
+void fmt_conn_new_player(int fd, client_t player);
+
+void fmt_player_pos(int fd, client_t player);
+
+void fmt_player_lvl(int fd, client_t player);
+
+void fmt_player_inv(int fd, client_t player);
+
+void fmt_player_death(int fd, client_t player);
+
+void fmt_name_of_teams(int fd, team_t *teams, int nb_teams);
+
+void fmt_tm_request(int fd, int time);
+
+void fmt_tm_modification(int fd, int time);
 
 #endif /* !SERVER_H_ */

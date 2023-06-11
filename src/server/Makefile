@@ -41,6 +41,16 @@ SRC	=	$(addprefix src/, \
 		map_utils.c								\
 		player_utils.c							)\
 \
+		$(addprefix gui_protocol/,    			\
+		map_format.c							\
+		egg_format.c							\
+		incantation_format.c					\
+		misc_format.c							\
+		team_format.c							\
+		player_ext_format.c						\
+		time_format.c							\
+		player_format.c							)\
+\
 		$(addprefix commands/,    				\
 		ai_first_connect.c						\
 		ai_communication.c						\

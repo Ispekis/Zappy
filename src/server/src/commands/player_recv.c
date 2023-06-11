@@ -27,11 +27,10 @@ void send_player_position(int fd, data_t *data, char *params)
     node_t *player = NULL;
 
     if (get_right_params(*data, params, &player) == FAILURE) {
-        dprintf(fd, "sbp\n");
+        fmt_cmd_parameter(fd);
         return;
     }
-    dprintf(fd, "ppo %i %i %i %i\n", player->client.fd, player->client.pos.x,
-    player->client.pos.y, player->client.orientation);
+    fmt_player_pos(fd, player->client);
 }
 
 void send_player_level(int fd, data_t *data, char *params)
@@ -39,10 +38,10 @@ void send_player_level(int fd, data_t *data, char *params)
     node_t *player = NULL;
 
     if (get_right_params(*data, params, &player) == FAILURE) {
-        dprintf(fd, "sbp\n");
+        fmt_cmd_parameter(fd);
         return;
     }
-    dprintf(fd, "plv %i %i\n", player->client.fd, player->client.level);
+    fmt_player_lvl(fd, player->client);
 }
 
 void send_player_inventory(int fd, data_t *data, char *params)
@@ -50,16 +49,8 @@ void send_player_inventory(int fd, data_t *data, char *params)
     node_t *player = NULL;
 
     if (get_right_params(*data, params, &player) == FAILURE) {
-        dprintf(fd, "sbp\n");
+        fmt_cmd_parameter(fd);
         return;
     }
-    dprintf(fd, "pin %i %i %i %i %i %i %i %i %i %i\n",
-    player->client.fd, player->client.pos.x, player->client.pos.y,
-    player->client.inventory.food.quantity,
-    player->client.inventory.linemate.quantity,
-    player->client.inventory.deraumere.quantity,
-    player->client.inventory.sibur.quantity,
-    player->client.inventory.mendiane.quantity,
-    player->client.inventory.phiras.quantity,
-    player->client.inventory.thystame.quantity);
+    fmt_player_inv(fd, player->client);
 }

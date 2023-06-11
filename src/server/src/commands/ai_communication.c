@@ -25,7 +25,7 @@ static int choose_cmd(char *buffer, node_t *client, server_t *server)
         params_cpy++;
         server->ai_cmd[pos](client, &server->data, params_cpy);
     } else {
-        dprintf(client->client.fd, "suc\n");
+        dprintf(client->client.fd, "ko\n");
     }
     for (int i = 0; params[i] != NULL; i++)
         free(params[i]);

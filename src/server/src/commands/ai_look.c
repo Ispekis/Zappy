@@ -7,21 +7,21 @@
 
 #include "server.h"
 
-void cross_map_border(int *x, int *y, data_t data)
+void cross_map_border(int *x, int *y, int width, int height)
 {
-    if ((*x) > data.width - 1)
-        (*x) = (*x) - data.width;
-    if ((*y) > data.height - 1)
-        (*y) = (*y) - data.height;
+    if ((*x) > width - 1)
+        (*x) = (*x) - width;
+    if ((*y) > height - 1)
+        (*y) = (*y) - height;
     if (*x < 0)
-        *x = data.width - abs(*x);
+        *x = width - abs(*x);
     if ((*y) < 0)
-        (*y) = data.height - abs(*y);
+        (*y) = height - abs(*y);
 }
 
 tile_t get_correct_tile(tile_t **map, int x, int y, data_t data)
 {
-    cross_map_border(&x, &y, data);
+    cross_map_border(&x, &y, data.width, data.height);
     return map[y][x];
 }
 
