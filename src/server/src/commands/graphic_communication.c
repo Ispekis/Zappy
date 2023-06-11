@@ -21,7 +21,7 @@ static void choose_cmd(char *buffer, node_t *client, server_t *server)
         server->gui_cmd[pos](client->client.fd, &server->data,
         params);
     } else {
-        dprintf(client->client.fd, "suc\n");
+        fmt_unknown_cmd(client->client.fd);
     }
 }
 

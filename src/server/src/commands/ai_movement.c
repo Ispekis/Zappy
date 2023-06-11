@@ -21,8 +21,7 @@ static void move_player(int *pos, bool cross, int cross_value, int ampl)
 static void update_graphic(int graph_fd, client_t player)
 {
     if (graph_fd != UNDEFINED)
-        dprintf(graph_fd, "ppo %i %i %i %i\n", player.fd, player.pos.x,
-        player.pos.y, player.orientation);
+        fmt_player_pos(graph_fd, player);
 }
 
 void ai_cmd_forward(node_t *client, data_t *data,

@@ -35,11 +35,10 @@ static void send_all_client(node_t *head, int current_fd, char *msg)
 void ai_cmd_broadcast(node_t *client, data_t *data, char **params)
 {
     if (params[0] == NULL) {
-        dprintf(client->client.fd, "sbp\n");
+        fmt_cmd_parameter(client->client.fd);
     } else {
         if (data->graphic_fd != UNDEFINED)
-            dprintf(data->graphic_fd, "pbc %i %s\n", client->client.fd,
-            params[0]);
+            fmt_player_broadcast(data->graphic_fd, client->client, params[0]);
         send_all_client(data->clients, client->client.fd, params[0]);
         dprintf(client->client.fd, "ok\n");
     }
