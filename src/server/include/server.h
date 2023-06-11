@@ -8,6 +8,7 @@
 #ifndef SERVER_H_
     #define SERVER_H_
     #define MAX_CONNECTIONS 100
+    #include "game_macro.h"
     #include <stdio.h>
     #include <unistd.h>
     #include <string.h>
@@ -27,6 +28,11 @@ static const char *GUI_CMD_LIB[] __attribute__((unused)) = {
 static const char *AI_CMD_LIB[] __attribute__((unused)) = {
     "Forward", "Right", "Left", "Look", "Inventory", "Broadcast",
     "Connect_nbr", "Fork", "Eject", "Take", "Set", "Incantation", NULL
+};
+
+static const char *RESOURCES_LIB[] __attribute__((unused)) = {
+    FOOD_NAME, LINEMATE_NAME, DERAUMERE_NAME, SIBUR_NAME, MENDIANE_NAME,
+    PHIRAS_NAME, THYSTAME_NAME, NULL
 };
 
 enum gui_cmd_e {
@@ -152,8 +158,24 @@ char **params __attribute__((unused)));
 void cross_map_border(int *x, int *y, data_t data);
 tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
 
-// Utils
+//** Utils **//
+
+/**
+ * @brief Get the number of players on tile
+ *
+ * @param pos
+ * @param head
+ * @return int
+ */
 int get_nb_players_on_tile(pos_t pos, node_t *head);
+
+/**
+ * @brief Get a linked list of player present on a tile
+ *
+ * @param pos
+ * @param head
+ * @return node_t*
+ */
 node_t *get_players_on_tile(pos_t pos, node_t *head);
 
 /**
@@ -165,5 +187,24 @@ node_t *get_players_on_tile(pos_t pos, node_t *head);
  * @return false
  */
 bool is_ai_player(client_t player);
+
+/**
+ * @brief Get a pointer of the resource by name in inventory, return NULL if
+ * the resource are not found
+ * @param name
+ * @param inventory
+ * @return resource_t*
+ */
+resource_t *get_resource_by_name_in_inventory(char *name,
+inventory_t *inventory);
+
+/**
+ * @brief Get a pointer of the resource by name on a tile, return NULL if
+ * the resource are not found
+ * @param name
+ * @param tile
+ * @return resource_t*
+ */
+resource_t *get_resource_by_name_on_tile(char *name, tile_t *tile);
 
 #endif /* !SERVER_H_ */
