@@ -152,4 +152,18 @@ char **params __attribute__((unused)));
 void cross_map_border(int *x, int *y, data_t data);
 tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
 
+// Utils
+int get_nb_players_on_tile(pos_t pos, node_t *head);
+node_t *get_players_on_tile(pos_t pos, node_t *head);
+
+/**
+ * @brief Check if the concerned client is an ai client and its connected,
+ * then its returning true else false
+ *
+ * @param player
+ * @return true
+ * @return false
+ */
+bool is_ai_player(client_t player);
+
 #endif /* !SERVER_H_ */
