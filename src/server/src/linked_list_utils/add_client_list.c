@@ -11,13 +11,13 @@
 
 static void init_inventory(inventory_t *inventory)
 {
-    inventory->food = (resource_t) {FOOD_DENSITY, 0};
-    inventory->linemate = (resource_t) {LINEMATE_DENSITY, 0};
-    inventory->deraumere = (resource_t) {DERAUMERE_DENSITY, 0};
-    inventory->sibur = (resource_t) {SIBUR_DENSITY, 0};
-    inventory->mendiane = (resource_t) {MENDIANE_DENSITY, 0};
-    inventory->phiras = (resource_t) {PHIRAS_DENSITY, 0};
-    inventory->thystame = (resource_t) {THYSTAME_DENSITY, 0};
+    inventory->food = (resource_t) {FOOD_ID, FOOD_DENSITY, 0};
+    inventory->linemate = (resource_t) {LINEMATE_ID, LINEMATE_DENSITY, 0};
+    inventory->deraumere = (resource_t) {DERAUMERE_ID, DERAUMERE_DENSITY, 0};
+    inventory->sibur = (resource_t) {SIBUR_ID, SIBUR_DENSITY, 0};
+    inventory->mendiane = (resource_t) {MENDIANE_ID, MENDIANE_DENSITY, 0};
+    inventory->phiras = (resource_t) {PHIRAS_ID, PHIRAS_DENSITY, 0};
+    inventory->thystame = (resource_t) {THYSTAME_ID, THYSTAME_DENSITY, 0};
 }
 
 static void init_client_data(node_t **node)
