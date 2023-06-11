@@ -22,17 +22,6 @@ int get_nb_players_on_tile(pos_t pos, node_t *head)
     return count;
 }
 
-node_t *get_players_on_tile(pos_t pos, node_t *head)
-{
-    node_t *current = head;
-
-    while (current != NULL) {
-        printf("%i\n", current->client.fd);
-        current = current->next;
-    }
-    return NULL;
-}
-
 resource_t *get_resource_by_name_on_tile(char *name, tile_t *tile)
 {
     if (strcmp(name, FOOD_NAME) == 0)
