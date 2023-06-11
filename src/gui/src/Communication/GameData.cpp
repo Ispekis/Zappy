@@ -55,7 +55,6 @@ void Zappy::GameData::bct(std::vector<std::string> &content)
 
 void Zappy::GameData::tna(std::vector<std::string> &content)
 {
-    std::cout << "tna" << std::endl;
     if (content.size() != 1)
         throw Error("Error server response MSZ args", "Expected: 1, Got: " + std::to_string(content.size()));
     std::shared_ptr<Team> team = std::make_shared<Team>(content[0]);
@@ -66,7 +65,22 @@ void Zappy::GameData::tna(std::vector<std::string> &content)
 
 void Zappy::GameData::pnw(std::vector<std::string> &content)
 {
+    std::vector<std::string> tmp = content;
+    tmp.erase(tmp.end());
+    checkInt(tmp);
+    if (content.size() != 6)
+        throw Error("Error server response MSZ args", "Expected: 6, Got: " + std::to_string(content.size()));
     std::cout << "pnw" << std::endl;
+    for (auto element : content)
+    {
+        printf("[%s] ", element.c_str());
+    };
+    std::cout << std::endl;
+
+    auto team = _teams[content[5]];
+    std::shared_ptr<Player> player = std::make_shared<Player>(content, team);
+    team->addPlayer(std::stoul(content[0]));
+    _player.insert({std::stoul(content[0]), player});
 }
 
 void Zappy::GameData::ppo(std::vector<std::string> &content)
