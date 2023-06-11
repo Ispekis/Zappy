@@ -58,7 +58,7 @@ namespace Zappy {
             std::shared_ptr<RessourceFactory> _factory = std::make_shared<RessourceFactory>();
 
             std::unordered_map<std::string, std::shared_ptr<Team>> _teams;
-            std::unordered_map<std::size_t, Player> _player;
+            std::unordered_map<std::size_t, std::shared_ptr<Player>> _player;
 
             TimeUnit _timeUnit;
 
