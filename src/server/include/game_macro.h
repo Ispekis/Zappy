@@ -16,5 +16,12 @@
     #define THYSTAME_DENSITY 0.05
     #define GRAPHIC_TEAM_NAME "GRAPHIC"
     #define NUMBER_OF_ORIENTATION 4
+    #define FOOD_NAME "food"
+    #define LINEMATE_NAME "linemate"
+    #define DERAUMERE_NAME "deraumere"
+    #define SIBUR_NAME "sibur"
+    #define MENDIANE_NAME "mendiane"
+    #define PHIRAS_NAME "phiras"
+    #define THYSTAME_NAME "thystame"
 
 #endif /* !ZAPPY_MACRO_H_ */
