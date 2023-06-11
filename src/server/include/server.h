@@ -69,6 +69,7 @@ bool can_convert_to_int(const char* str);
 int get_cmd_pos(char *str, const char **lib);
 int rand_nbr(int min, int max);
 char **str_to_word_array(char *buffer, char *sep);
+void my_strcat(char **dest, char *src);
 
 // Init
 int init_server(server_t *server, int port);
@@ -126,17 +127,43 @@ char *params __attribute__((unused)));
 void send_time_unit_modif(int fd, data_t *data, char *params);
 
 // Ai commands
-void ai_cmd_forward(node_t *client, data_t *data, char **params);
-void ai_cmd_right(node_t *client, data_t *data, char **params);
-void ai_cmd_left(node_t *client, data_t *data, char **params);
-void ai_cmd_look(node_t *client, data_t *data, char **params);
-void ai_cmd_inventory(node_t *client, data_t *data, char **params);
+void ai_cmd_forward(node_t *client, data_t *data,
+char **params __attribute__((unused)));
+void ai_cmd_right(node_t *client, data_t *data,
+char **params __attribute__((unused)));
+void ai_cmd_left(node_t *client, data_t *data,
+char **params __attribute__((unused)));
+void ai_cmd_look(node_t *client, data_t *data,
+char **params __attribute__((unused)));
+void ai_cmd_inventory(node_t *client, data_t *data,
+char **params __attribute__((unused)));
 void ai_cmd_broadcast(node_t *client, data_t *data, char **params);
-void ai_cmd_team_unused_slot(node_t *client, data_t *data, char **params);
-void ai_cmd_fork_player(node_t *client, data_t *data, char **params);
-void ai_cmd_eject(node_t *client, data_t *data, char **params);
+void ai_cmd_team_unused_slot(node_t *client, data_t *data,
+char **params __attribute__((unused)));
+void ai_cmd_fork_player(node_t *client, data_t *data,
+char **params __attribute__((unused)));
+void ai_cmd_eject(node_t *client, data_t *data,
+char **params __attribute__((unused)));
 void ai_cmd_take_object(node_t *client, data_t *data, char **params);
 void ai_cmd_set_object(node_t *client, data_t *data, char **params);
-void ai_cmd_incantation(node_t *client, data_t *data, char **params);
+void ai_cmd_incantation(node_t *client, data_t *data,
+char **params __attribute__((unused)));
+
+void cross_map_border(int *x, int *y, data_t data);
+tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
+
+// Utils
+int get_nb_players_on_tile(pos_t pos, node_t *head);
+node_t *get_players_on_tile(pos_t pos, node_t *head);
+
+/**
+ * @brief Check if the concerned client is an ai client and its connected,
+ * then its returning true else false
+ *
+ * @param player
+ * @return true
+ * @return false
+ */
+bool is_ai_player(client_t player);
 
 #endif /* !SERVER_H_ */

@@ -25,7 +25,8 @@ static void update_graphic(int graph_fd, client_t player)
         player.pos.y, player.orientation);
 }
 
-void ai_cmd_forward(node_t *client, data_t *data, char **params)
+void ai_cmd_forward(node_t *client, data_t *data,
+char **params __attribute__((unused)))
 {
     switch (client->client.orientation) {
         case NORTH:
@@ -49,22 +50,26 @@ void ai_cmd_forward(node_t *client, data_t *data, char **params)
     update_graphic(data->graphic_fd, client->client);
 }
 
-void ai_cmd_right(node_t *client, data_t *data, char **params)
+void ai_cmd_right(node_t *client, data_t *data,
+char **params __attribute__((unused)))
 {
     if (client->client.orientation + 1 > NUMBER_OF_ORIENTATION) {
         client->client.orientation = NORTH;
     } else {
         client->client.orientation++;
     }
+    dprintf(client->client.fd, "ok\n");
     update_graphic(data->graphic_fd, client->client);
 }
 
-void ai_cmd_left(node_t *client, data_t *data, char **params)
+void ai_cmd_left(node_t *client, data_t *data,
+char **params __attribute__((unused)))
 {
     if (client->client.orientation - 1 < 1) {
         client->client.orientation = WEST;
     } else {
         client->client.orientation--;
     }
+    dprintf(client->client.fd, "ok\n");
     update_graphic(data->graphic_fd, client->client);
 }
