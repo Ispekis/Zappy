@@ -43,7 +43,7 @@ class AI:
 
         self.client_socket.send(("Look\n").encode())
         self.player.sight = parseLook(self.client_socket.recv(1024).decode()[2:-2])
-        print(f'sight = {self.player.sight[0]}', file=sys.stderr)
+        # print(f'sight = {self.player.sight[0]}')
         self.client_socket.send(("Inventory\n").encode())
         self.player.inventory = parseInventory(self.client_socket.recv(1024).decode()[2:-2])
         # print(f'inventory = {self.player.inventory}')
@@ -51,9 +51,14 @@ class AI:
         self.player.nb_player = updateNbPlayer(self.client_socket.recv(1024).decode())
         # print(f'nbplayer = {self.player.nb_player}')
 
+    def push(self):
+        if self.player.multiplePlayerTile():
+            self.client_socket.send(("push\n").encode())
+
+
     def playerAction(self):
         self.client_socket.send((self.move.handleMovement() + "\n").encode())
-        self.player.push()
+        self.push()
 
     def run_ai(self):
         try:

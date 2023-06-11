@@ -9,11 +9,22 @@ class Player:
         self.inventory:str
         self.sight:str
 
-    def push(self):
+    def multiplePlayerTile(self):
         if find_value(self.sight, "player") > 1:
-            print("degage ta mere !")
+            return True
+        return False
 
 def find_value(sight_list, value):
+    """find a value in a list of list
+
+    Args:
+        sight_list (list): sight in list
+        value (str): the value
+
+    Returns:
+        int: number of time that we find the value
+    """
+
     res = 0
     for sublist in sight_list:
         for item in sublist:
