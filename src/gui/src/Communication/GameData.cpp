@@ -77,7 +77,7 @@ void Zappy::GameData::pnw(std::vector<std::string> &content)
     };
     std::cout << std::endl;
 
-    auto team = _teams[content[5]];
+    std::shared_ptr<Team> team = _teams[content[5]];
     std::shared_ptr<Player> player = std::make_shared<Player>(content, team);
     team->addPlayer(std::stoul(content[0]));
     _player.insert({std::stoul(content[0]), player});
@@ -136,6 +136,18 @@ void Zappy::GameData::pgt(std::vector<std::string> &content)
 void Zappy::GameData::pdi(std::vector<std::string> &content)
 {
     std::cout << "pdi" << std::endl;
+    checkInt(content);
+    if (content.size() != 1)
+        throw Error("Error server response PDI args", "Expected: 1, Got: " + std::to_string(content.size()));
+    // std::shared_ptr<Team> team = _teams[content[5]];
+    std::size_t playerId = std::stoul(content[0]);
+    if (_player.count(playerId) == 0)
+        throw Error("Error player don't exist", std::to_string(playerId));
+    std::shared_ptr<Team> team = _player[playerId]->getTeam();
+    team->deletePlayer(playerId);
+
+    _player.erase(_player.find(playerId));
+    std::cout << "Player : " << playerId << " died" << std::endl;
 }
 
 void Zappy::GameData::enw(std::vector<std::string> &content)
