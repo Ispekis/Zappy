@@ -55,6 +55,12 @@ namespace Zappy {
              */
             void drawMap();
 
+            /**
+             * @brief Draw the tile a position x and y
+             * 
+             */
+            void drawTile(std::size_t, std::size_t,  std::pair<std::size_t, std::size_t>);
+
         protected:
         private:
             std::shared_ptr<Data> _data;

@@ -36,6 +36,8 @@ void Zappy::GameData::msz(std::vector<std::string> &content)
             tmp.push_back(Tile(x, y, _factory));
         _map.push_back(tmp);
     }
+    std::cout << "Data set to true:" << &_dataSet << std::endl;
+    _dataSet = true;
 }
 
 void Zappy::GameData::bct(std::vector<std::string> &content)
