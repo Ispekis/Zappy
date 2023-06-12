@@ -18,9 +18,9 @@ Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
     _camera.up = (Vector3){ 0.0f, 10.0f, 0.0f };          // Camera up vector (rotation towards target)
     _camera.fovy = 45.0f;                                // Camera field-of-view Y
     _camera.projection = CAMERA_PERSPECTIVE; 
-    _cameraMode = CAMERA_THIRD_PERSON; // Camera mode type
-    _cameraSpeed = 0.2f;            // Camera speed
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+    _cameraMode = CAMERA_ORBITAL;                       // Camera mode type
+    _cameraSpeed = 0.2f;                                // Camera speed
+    SetTargetFPS(60);                                   // Set our game to run at 60 frames-per-second
 }
 
 void Zappy::Raylib::setData(std::shared_ptr<Data> data)
@@ -42,6 +42,8 @@ void Zappy::Raylib::run(bool &isRunning)
 
 void Zappy::Raylib::cameraEvent()
 {
+    if (IsKeyDown(KEY_SPACE))
+        _cameraMode = CAMERA_THIRD_PERSON;
     if (IsKeyDown(KEY_RIGHT))
         _camera.position.x += _cameraSpeed;
     else if (IsKeyDown(KEY_LEFT))
