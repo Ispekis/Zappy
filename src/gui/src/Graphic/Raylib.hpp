@@ -30,6 +30,19 @@ namespace Zappy {
              * @param data 
              */
             void setData(std::shared_ptr<Data> data);
+
+            /**
+             * @brief Set the Camera object
+             * 
+             */
+            void setCamera();
+
+            /**
+             * @brief load Texture from file
+             * 
+             */
+            void setTexture();
+
             /**
              * @brief Launch loop game and set isRunning to false if end
              *
@@ -44,8 +57,14 @@ namespace Zappy {
             void draw();
 
             /**
-             * @brief function Handle client event
+             * @brief function that draw the menu
              * 
+             */
+            void drawMenu();
+
+            /**
+             * @brief function Handle client event
+             *
              */
             void event();
             
@@ -73,6 +92,9 @@ namespace Zappy {
             Camera3D _camera = { 0 };
             int _cameraMode;
             float _cameraSpeed;
+            bool _menu;
+
+            std::map<std::string, Texture2D> _texture;
     };
 }
 
