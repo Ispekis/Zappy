@@ -17,7 +17,9 @@ Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
     _camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
     _camera.up = (Vector3){ 0.0f, 10.0f, 0.0f };          // Camera up vector (rotation towards target)
     _camera.fovy = 45.0f;                                // Camera field-of-view Y
-    _camera.projection = CAMERA_PERSPECTIVE;             // Camera mode type
+    _camera.projection = CAMERA_PERSPECTIVE; 
+    _cameraMode = CAMERA_THIRD_PERSON; // Camera mode type
+    _cameraSpeed = 0.2f;            // Camera speed
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 }
 
@@ -38,9 +40,27 @@ void Zappy::Raylib::run(bool &isRunning)
     isRunning = false;
 }
 
+void Zappy::Raylib::cameraEvent()
+{
+    if (IsKeyDown(KEY_RIGHT))
+        _camera.position.x += _cameraSpeed;
+    else if (IsKeyDown(KEY_LEFT))
+        _camera.position.x -= _cameraSpeed;
+
+    if (IsKeyDown(KEY_UP))
+        _camera.position.z -= _cameraSpeed;
+    else if (IsKeyDown(KEY_DOWN))
+        _camera.position.z += _cameraSpeed;
+
+    if (IsKeyPressed(KEY_KP_SUBTRACT))
+        _camera.fovy += 3.0f;
+    else if (IsKeyPressed(KEY_KP_ADD))
+        _camera.fovy -= 3.0f;
+}
+
 void Zappy::Raylib::event()
 {
-
+    cameraEvent();
 }
 
 void Zappy::Raylib::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
@@ -70,10 +90,10 @@ void Zappy::Raylib::drawMap()
 
 void Zappy::Raylib::draw()
 {
+    UpdateCamera(&_camera, _cameraMode);
     BeginDrawing();
     ClearBackground(RAYWHITE);
     BeginMode3D(_camera);
-    // std::cout << ":" << &_data << ": data value"<< std::endl;
     if (_data->_gameData._dataSet == true)
         drawMap();
     EndMode3D();
