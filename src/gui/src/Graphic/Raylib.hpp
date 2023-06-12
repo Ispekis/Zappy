@@ -48,6 +48,12 @@ namespace Zappy {
              * 
              */
             void event();
+            
+            /**
+             * @brief function Handle camera event
+             * 
+             */
+            void cameraEvent();
 
             /**
              * @brief Draw the map with the map size
@@ -65,6 +71,8 @@ namespace Zappy {
         private:
             std::shared_ptr<Data> _data;
             Camera3D _camera = { 0 };
+            int _cameraMode;
+            float _cameraSpeed;
     };
 }
 
