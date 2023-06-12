@@ -12,7 +12,13 @@ Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
     InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str());
     if (!IsWindowReady())
         throw Error("RayLib", "Error Init Window");
-    SetTargetFPS(60);
+    _menu = true;
+    setCamera();
+    setTexture();
+}
+
+void Zappy::Raylib::setCamera()
+{
     _camera.position = (Vector3){ 0.0f, 40.0f, 10.0f };  // Camera position
     _camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
     _camera.up = (Vector3){ 0.0f, 10.0f, 0.0f };          // Camera up vector (rotation towards target)
@@ -23,12 +29,16 @@ Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
     SetTargetFPS(60);                                   // Set our game to run at 60 frames-per-second
 }
 
+void Zappy::Raylib::setTexture()
+{
+    Texture2D texture = LoadTexture("src/gui/assets/background.png");
+    _texture.insert({"Background", texture});
+}
+
 void Zappy::Raylib::setData(std::shared_ptr<Data> data)
 {
     std::shared_ptr<Data> tmp(data, data.get());
     _data = tmp;
-    std::cout << "Data 1:" << &data << std::endl;
-    std::cout << "Data 2:" << &_data << std::endl;
 }
 
 void Zappy::Raylib::run(bool &isRunning)
@@ -62,7 +72,10 @@ void Zappy::Raylib::cameraEvent()
 
 void Zappy::Raylib::event()
 {
-    cameraEvent();
+    if (_menu == true)
+        ;
+    else
+        cameraEvent();
 }
 
 void Zappy::Raylib::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
@@ -83,23 +96,29 @@ void Zappy::Raylib::drawMap()
     for (std::size_t x = 0; x != mapSize.first; x++)
         for (std::size_t y = 0; y != mapSize.second; y++)
             drawTile(x, y, mapSize);
-    // std::cout << "X:" << mapSize.first << std::endl;
-    // std::cout << "Y:" << mapSize.second << std::endl;
-    // DrawCube((Vector3){ 1.0f, 1.0f, 1.0f}, 2.0f, 2.0f, 2.0f, RED);
-    // DrawCube((Vector3){ 1.0f, 3.0f, 1.0f}, 2.0f, 2.0f, 2.0f, RED);
     DrawGrid(10, 2.0f);
 }
 
 void Zappy::Raylib::draw()
 {
-    UpdateCamera(&_camera, _cameraMode);
     BeginDrawing();
     ClearBackground(RAYWHITE);
-    BeginMode3D(_camera);
-    if (_data->_gameData._dataSet == true)
-        drawMap();
-    EndMode3D();
+    if (_menu == true)
+        drawMenu();
+    else {
+        if (_data->_gameData._dataSet == true) {
+            UpdateCamera(&_camera, _cameraMode);
+            BeginMode3D(_camera);
+            drawMap();
+            EndMode3D();
+        }
+    }
     EndDrawing();
+}
+
+void Zappy::Raylib::drawMenu()
+{
+    DrawTextureEx(_texture["Background"], Vector2{0,0}, 0.0, 1.5, WHITE);  // Draw a Texture2D with extended parameters
 }
 
 Zappy::Raylib::~Raylib()
