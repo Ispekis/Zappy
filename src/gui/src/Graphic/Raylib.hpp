@@ -37,13 +37,34 @@ namespace Zappy {
              */
             void run(bool &isRunning);
 
+            /**
+             * @brief function that call all drawing element
+             * 
+             */
             void draw();
 
+            /**
+             * @brief function Handle client event
+             * 
+             */
             void event();
+
+            /**
+             * @brief Draw the map with the map size
+             * 
+             */
+            void drawMap();
+
+            /**
+             * @brief Draw the tile a position x and y
+             * 
+             */
+            void drawTile(std::size_t, std::size_t,  std::pair<std::size_t, std::size_t>);
 
         protected:
         private:
             std::shared_ptr<Data> _data;
+            Camera3D _camera = { 0 };
     };
 }
 
