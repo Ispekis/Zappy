@@ -74,7 +74,7 @@ class AI:
             self.client_socket.send("fork\n".encode())
 
     def playerAction(self):
-        self.client_socket.send((self.move.handleMovement(self.player.sight) + "\n").encode())
+        self.move.handleMovement(self.player.sight, self.client_socket)
         self.push()
         self.level_up()
         self.itemHandling.takeItem(self.player.sight, self.player.item_needed, "Todo")
