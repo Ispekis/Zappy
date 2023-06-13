@@ -30,7 +30,7 @@ void Zappy::Raylib::setCamera()
     _cameraSpeed = 0.2f;            
   
     _cameraMenu.position = (Vector3){1.0f, 1.0f, 1.0f };  // Camera position
-    _cameraMenu.target = (Vector3){-1.0f, 2.0f, 1.0f};      // Camera looking at point
+    _cameraMenu.target = (Vector3){1.0f, 1.0f, 1.0f + 2};      // Camera looking at point
     _cameraMenu.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     _cameraMenu.fovy = 70.0f;                                // Camera field-of-view Y
     _cameraMenu.projection = CAMERA_PERSPECTIVE;
@@ -153,15 +153,15 @@ void Zappy::Raylib::draw()
 void Zappy::Raylib::drawMenu()
 {
     UpdateCamera(&_cameraMenu, CAMERA_FIRST_PERSON);
-    // UpdateCameraPro(&_cameraMenu, Vector3 {0.0f,0.0f,0.0f}, Vector3{0.0f, 1.0f, 0.00f}, 0.0);
-    printf("{%2.f %2.f %2.f\n}", _cameraMenu.up.x, _cameraMenu.up.y, _cameraMenu.up.z);
+    UpdateCameraPro(&_cameraMenu, Vector3 {0.0f,0.0f,0.0f}, Vector3{0.005f, 0.0000f, 0.0f}, 0.0);
     BeginMode3D(_cameraMenu);
-    _sprite["menuBack"]->drawBlockTexture(Vector3{1.0f, 1.0f, -1.0f}, Vector3 {2.0f, 2.0f, 2.0f}, WHITE);
-    _sprite["menuLeft"]->drawBlockTexture(Vector3{-1.0f, 1.0f, 1.0f}, Vector3 {2.0f, 2.0f, 2.0f}, WHITE);
-    _sprite["menuFront"]->drawBlockTexture(Vector3{1.0f, 1.0f, 3.0f}, Vector3{2.0f, 2.0f, 2.0f}, WHITE);
-    _sprite["menuRight"]->drawBlockTexture(Vector3{3.0f, 1.0f, 1.0f}, Vector3 {2.0f, 2.0f, 2.0f}, WHITE);
-    _sprite["menuTop"]->drawBlockTexture(Vector3{1.0f, 3.0f, 1.0f}, Vector3 {2.0f, 2.0f, 2.0f}, WHITE);
-    _sprite["menuBot"]->drawBlockTexture(Vector3{1.0f, -1.0f, 1.0f}, Vector3 {2.0f, 2.0f, 2.0f}, WHITE);
+    float size = 2;
+    _sprite["menuBack"]->drawBlockTexture(Vector3{1.0f, 1.0f, 1.0f - size}, Vector3{size, size, size}, WHITE);
+    _sprite["menuLeft"]->drawBlockTexture(Vector3{1.0f - size, 1.0f, 1.0f}, Vector3 {size, size, size}, WHITE);
+    _sprite["menuFront"]->drawBlockTexture(Vector3{1.0f, 1.0f, 1.0f + size}, Vector3{size, size, size}, WHITE);
+    _sprite["menuRight"]->drawBlockTexture(Vector3{1.0f + size, 1.0f, 1.0f}, Vector3 {size, size, size}, WHITE);
+    _sprite["menuTop"]->drawBlockTexture(Vector3{1.0f, 1.0f + size, 1.0f}, Vector3 {size, size, size}, WHITE);
+    _sprite["menuBot"]->drawBlockTexture(Vector3{1.0f, 1.0f - size, 1.0f}, Vector3 {size, size, size}, WHITE);
     DrawGrid(10, 2.0f);
 
     EndMode3D();
