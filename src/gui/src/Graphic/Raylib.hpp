@@ -105,6 +105,8 @@ namespace Zappy {
              */
             void drawTile(std::size_t, std::size_t,  std::pair<std::size_t, std::size_t>);
 
+            void drawWater(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map);
+
         protected:
         private:
             std::shared_ptr<Data> _data;

@@ -57,7 +57,9 @@ void Zappy::Raylib::setTexture()
     _texture.insert({"water", LoadTextureFromFile("src/gui/assets/water_flow.png")});
     _texture.insert({"dirt", LoadTextureFromFile("src/gui/assets/dirt.png")});
     _texture.insert({"Logo", LoadTextureFromFile("src/gui/assets/ZAPPy.png")});
+    _texture.insert({"clearbackground", LoadTextureFromFile("src/gui/assets/clearbackground.png")});
 
+    _sprite.insert({"water", std::make_shared<Sprite>(_texture["water"], _texture["clearbackground"], _texture["water"])});
     _sprite.insert({"grass", std::make_shared<Sprite>(_texture["grassTop"], _texture["grassSide"], _texture["dirt"])});
     _sprite.insert({"menuTop", std::make_shared<Sprite>(_texture["Pano4"], _texture["Pano4"], _texture["Pano4"])});
     _sprite.insert({"menuBot", std::make_shared<Sprite>(_texture["Pano5"], _texture["Pano5"], _texture["Pano5"])});
@@ -106,7 +108,6 @@ void Zappy::Raylib::event()
 {
     if (_menu == true)
         menuEvent();
-    // drawMenu();;
     else
         cameraEvent();
     if(IsKeyPressed(KEY_T))
@@ -122,16 +123,36 @@ void Zappy::Raylib::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t
     float posX = size * x - (midX * size) + 1;
     float posY = size * y - (midY * size) + 1;
     float posZ = size / 2;
-    DrawCubeWires((Vector3){posX, posZ, posY}, size, size, size, GREEN);
+    DrawCubeWiresV((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, BLACK);
+    _sprite["grass"]->drawBlockTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
+}
+
+void Zappy::Raylib::drawWater(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
+{
+    float size = 2.0f;
+    int midX = map.first / 2;
+    int midY = map.second / 2;
+
+    float posX = size * x - (midX * size) + 1;
+    float posY = size * y - (midY * size) + 1;
+    float posZ = size / 2;
+    _sprite["water"]->drawBlockTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
+
 }
 
 void Zappy::Raylib::drawMap()
 {
     auto mapSize = _data->_gameData._mapSize;
-    for (std::size_t x = 0; x != mapSize.first; x++)
-        for (std::size_t y = 0; y != mapSize.second; y++)
-            drawTile(x, y, mapSize);
-    DrawGrid(10, 2.0f);
+    int water = 30;
+    auto size = std::make_pair(mapSize.first + water * 2, mapSize.second + water * 2);
+    for (int x = 0; x != mapSize.first + water * 2; x++)
+        for (int y = 0; y != mapSize.second + water * 2; y++) {
+            if (y >= water && y <= mapSize.second + water && x >= water && x <= mapSize.first + water)
+                drawTile(x, y, size);
+            else
+                drawWater(x, y, size);
+        }
+        DrawGrid(10, 2.0f);
 }
 
 void Zappy::Raylib::drawLogo()
