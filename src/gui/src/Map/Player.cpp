@@ -53,3 +53,28 @@ std::size_t Zappy::Player::getLevel() const
 {
     return _level;
 }
+
+void Zappy::Player::setPosition(std::pair<std::size_t, std::size_t> newPosition)
+{
+    _position = newPosition;
+}
+
+void Zappy::Player::setInventory()
+{
+
+}
+
+void Zappy::Player::setOrientation(Orientation newOrientation)
+{
+    _orientation = newOrientation;
+}
+
+void Zappy::Player::setLevel(std::size_t newLevel)
+{
+    _level = newLevel;
+}
+
+void Zappy::Player::setIncantation(bool state)
+{
+    _incantation = state;
+}
