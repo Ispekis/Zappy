@@ -22,7 +22,7 @@ namespace Zappy {
              * @brief Construct a new Sprite object
              * 
              */
-            Sprite(Texture2D top, Texture2D side);
+            Sprite(Texture2D top, Texture2D side, Texture2D bot);
 
             /**
              * @brief Set the Texture object
@@ -53,6 +53,7 @@ namespace Zappy {
         private:
             Texture2D _top;
             Texture2D _side;
+            Texture2D _bot;
     };
 }
 
