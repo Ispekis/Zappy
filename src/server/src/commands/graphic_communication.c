@@ -15,13 +15,13 @@ static void choose_cmd(char *buffer, node_t *client, server_t *server)
     char *params = NULL;
     int pos = 0;
 
-    pos = get_cmd_pos(cmd);
+    pos = get_cmd_pos(cmd, GUI_CMD_LIB);
     if (pos != -1) {
         params = strtok(NULL, "");
         server->gui_cmd[pos](client->client.fd, &server->data,
         params);
     } else {
-        dprintf(client->client.fd, "suc\n");
+        fmt_unknown_cmd(client->client.fd);
     }
 }
 

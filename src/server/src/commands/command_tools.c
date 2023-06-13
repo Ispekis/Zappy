@@ -7,10 +7,10 @@
 
 #include "server.h"
 
-int get_cmd_pos(char *str)
+int get_cmd_pos(char *str, const char **lib)
 {
-    for (int i = 0; GUI_CMD_LIB[i] != NULL; i++) {
-        if (strcmp(str, GUI_CMD_LIB[i]) == 0) {
+    for (int i = 0; lib[i] != NULL; i++) {
+        if (strcmp(str, lib[i]) == 0) {
             return i;
         }
     }

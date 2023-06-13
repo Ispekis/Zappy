@@ -12,6 +12,7 @@
 static void set_default_resource(int width, int height, resource_t *resource,
 float density)
 {
+    resource->id = 0;
     resource->density = density;
     resource->quantity = width * height * resource->density;
 }
