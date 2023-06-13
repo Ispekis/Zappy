@@ -97,6 +97,8 @@ void Zappy::Raylib::run(bool &isRunning)
         UpdateMusicStream(_music);
         event();
         draw();
+        if (_data->_gameData._end == true)
+            break;
     }
     UnloadMusicStream(_music);
     UnloadSound(_click);
