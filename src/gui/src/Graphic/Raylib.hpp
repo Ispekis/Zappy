@@ -94,6 +94,12 @@ namespace Zappy {
             void drawMap();
 
             /**
+             * @brief Draw the map with the map size
+             * 
+             */
+            void drawLogo();
+
+            /**
              * @brief Draw the tile a position x and y
              * 
              */
