@@ -1,11 +1,12 @@
 from macro import *
-from level import setobjectif
+from level import level
 
 class Player:
-    def __init__(self, nb_player, map_size, level):
+    def __init__(self, nb_player, map_size, player_level):
         self.nb_player = nb_player
         self.map_size = map_size
-        self.obj_list = setobjectif(level)
+        self.lvl_instance = level()
+        self.obj_list = self.lvl_instance.setObj(player_level)
         self.inventory:str
         self.sight:str
 
