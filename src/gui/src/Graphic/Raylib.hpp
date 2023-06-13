@@ -16,6 +16,7 @@
     #include <memory>
 
     #include "Sprite.hpp"
+    #include "Rectangle.hpp"
     #include "Error.hpp"
     #include "Data.hpp"
 
@@ -120,6 +121,7 @@ namespace Zappy {
             Vector3 pos;
             std::map<std::string, Texture2D> _texture;
             std::map<std::string, std::shared_ptr<Sprite>> _sprite;
+            std::map<std::string, std::shared_ptr<Rect>> _rectangle;
     };
 }
 
