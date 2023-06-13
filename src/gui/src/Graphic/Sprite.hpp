@@ -28,7 +28,7 @@ namespace Zappy {
              * @brief Set the Texture object
              * 
              */
-            void setTexture();
+            void setTexture(); 
 
             /**
              * @brief Set the Position object
