@@ -73,10 +73,16 @@ namespace Zappy {
              *
              */
             void event();
-            
+
+            /**
+             * @brief Menu Event
+             * 
+             */
+            void menuEvent();
+
             /**
              * @brief function Handle camera event
-             * 
+             *
              */
             void cameraEvent();
 
@@ -101,8 +107,8 @@ namespace Zappy {
             float _cameraSpeed;
             bool _menu;
 
-            Vector3 pos;
             bool _cameraMove;
+            Vector3 pos;
             std::map<std::string, Texture2D> _texture;
     };
 }

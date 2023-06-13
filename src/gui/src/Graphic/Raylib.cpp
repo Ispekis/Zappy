@@ -12,9 +12,8 @@ Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
     InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str());
     if (!IsWindowReady())
         throw Error("RayLib", "Error Init Window");
-    _menu = false;
+    _menu = true;
     _cameraMove = false;
-    pos = {0.0, 0.0, 0.0};
     setCamera();
     setTexture();
 }
@@ -33,10 +32,9 @@ void Zappy::Raylib::setCamera()
     _cameraMenu.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
     _cameraMenu.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     _cameraMenu.fovy = 70.0f;                                // Camera field-of-view Y
-    _cameraMenu.projection = CAMERA_PERSPECTIVE; 
-    // _cameraMenuMode = CAMERA_ORBITAL;                       // Camera mode type
-    // _cameraMenuSpeed = 0.2f;                                // Camera speed
-    SetTargetFPS(60);                                   // Set our game to run at 60 frames-per-second
+    _cameraMenu.projection = CAMERA_PERSPECTIVE;
+    pos = {0, 0, 0};
+    SetTargetFPS(60); // Set our game to run at 60 frames-per-second
 }
 
 Texture2D LoadTextureFromFile(std::string path)
@@ -85,12 +83,19 @@ void Zappy::Raylib::cameraEvent()
     printf("{%2.f,%2.f,%2.f}\n", _camera.position.x, _camera.position.y, _camera.position.z);
 }
 
+void Zappy::Raylib::menuEvent()
+{
+}
+
 void Zappy::Raylib::event()
 {
     if (_menu == true)
-        drawMenu();
+        menuEvent();
+    // drawMenu();;
     else
         cameraEvent();
+    if(IsKeyPressed(KEY_T))
+        _menu = !_menu;
 }
 
 void Zappy::Raylib::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
@@ -123,9 +128,6 @@ void Zappy::Raylib::draw()
     else {
         if (_data->_gameData._dataSet == true) {
             UpdateCamera(&_camera, _cameraMode);
-            // if (_cameraMove == true) {
-                // _camera.position
-            // }
             BeginMode3D(_camera);
             drawMap();
             EndMode3D();
@@ -136,8 +138,9 @@ void Zappy::Raylib::draw()
 
 void Zappy::Raylib::drawMenu()
 {
-    UpdateCamera(&_cameraMenu, CAMERA_FIRST_PERSON);
-
+    // UpdateCamera(&_cameraMenu, CAMERA_CUSTOM);
+    UpdateCameraPro(&_cameraMenu, Vector3 {0.0f,0.0f,0.0f}, Vector3{0.0f, 1.0f, 0.00f}, 0.0);
+    printf("{%2.f %2.f %2.f\n}", _cameraMenu.up.x, _cameraMenu.up.y, _cameraMenu.up.z);
     BeginMode3D(_cameraMenu);
     DrawCube(Vector3{1.0f, 1.0f, 3.0f}, 2.0f, 2.0f, 2.0f, RED);
     DrawCube(Vector3{3.0f, 1.0f, 1.0f}, 2.0f, 2.0f, 2.0f, GREEN);
