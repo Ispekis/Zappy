@@ -72,12 +72,14 @@ void Zappy::GameData::pnw(std::vector<std::string> &content)
     if (content.size() != 6)
         throw Error("Error server response MSZ args", "Expected: 6, Got: " + std::to_string(content.size()));
     std::cout << "pnw" << std::endl;
-    for (auto element : content)
-    {
-        printf("[%s] ", element.c_str());
-    };
-    std::cout << std::endl;
+    // for (auto element : content)
+    // {
+        // printf("[%s] ", element.c_str());
+    // };
+    // std::cout << std::endl;
 
+    if (_teams.count(content[5]) == 0)
+        throw Error("team don't exist", content[5]);
     std::shared_ptr<Team> team = _teams[content[5]];
     std::shared_ptr<Player> player = std::make_shared<Player>(content, team);
     team->addPlayer(std::stoul(content[0]));
@@ -86,7 +88,19 @@ void Zappy::GameData::pnw(std::vector<std::string> &content)
 
 void Zappy::GameData::ppo(std::vector<std::string> &content)
 {
-    std::cout << "ppo" << std::endl;
+    // std::cout << "ppo" << std::endl;
+    checkInt(content);
+    if (content.size() != 4)
+        throw Error("Error server response PPO args", "Expected: 4, Got: " + std::to_string(content.size()));
+    std::size_t id = std::stoul(content[0]);
+    std::pair<std::size_t, std::size_t> newPosition = std::make_pair(std::stoul(content[1]), std::stoul(content[2]));
+    Orientation newOrientation = static_cast<Orientation>(std::stoi(content[3]));
+
+    if (_player.count(id) == 0)
+        throw Error("player id don't exist", content[0]);
+    _player[id]->setPosition(newPosition);
+    _player[id]->setOrientation(newOrientation);
+    std::cout << "player id:" << id << "moved to" << newPosition.first << ":" << newPosition.second << std::endl;
 }
 
 void Zappy::GameData::plv(std::vector<std::string> &content)

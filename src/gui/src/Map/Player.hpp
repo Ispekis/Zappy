@@ -74,15 +74,35 @@ namespace Zappy {
         std::size_t getLevel() const;
 
 
-
+        /**
+         * @brief Set the Position of the player
+         * 
+         */
         void setPosition(std::pair<std::size_t, std::size_t>);
 
+        /**
+         * @brief Set the Inventory of the player
+         * 
+         */
         void setInventory();
 
+        /**
+         * @brief Set the Orientation of the player
+         * 
+         */
         void setOrientation(Orientation);
 
+        /**
+         * @brief Set the Level of the player
+         * 
+         * @param level 
+         */
         void setLevel(std::size_t level);
 
+        /**
+         * @brief Set the Incantation state of the player
+         * 
+         */
         void setIncantation(bool);
 
     protected:

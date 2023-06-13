@@ -41,7 +41,6 @@ void Zappy::Raylib::setCamera()
     _cameraMenu.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     _cameraMenu.fovy = 70.0f;                                // Camera field-of-view Y
     _cameraMenu.projection = CAMERA_PERSPECTIVE;
-    pos = {0, 0, 0};
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
 }
 
@@ -116,7 +115,6 @@ void Zappy::Raylib::cameraEvent()
         _cameraMode = CAMERA_ORBITAL;
     else 
         _cameraMode = CAMERA_THIRD_PERSON;
-    printf("{%2.f,%2.f,%2.f}\n", _camera.position.x, _camera.position.y, _camera.position.z);
 }
 
 void Zappy::Raylib::mouseClicking()
