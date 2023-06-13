@@ -141,11 +141,8 @@ void Zappy::GameData::pin(std::vector<std::string> &content)
         throw Error("player id don't exist", content[0]);
 
     auto newPosition = std::make_pair(std::stoul(content[1]), std::stoul(content[2]));
-    std::cout << "pin" << std::endl;
     _player[id]->setPosition(newPosition);
-    std::cout << "pin" << std::endl;
     auto split = separateVectorByIndex(content, 2);
-    std::cout << "pin" << std::endl;
     _player[id]->setInventory(split.second);
     std::cout << "player id:" << id << "inventory set:" << std::endl;
 }
@@ -177,12 +174,28 @@ void Zappy::GameData::pfk(std::vector<std::string> &content)
 
 void Zappy::GameData::pdr(std::vector<std::string> &content)
 {
-    std::cout << "pdr" << std::endl;
+    std::cout << "pdr:";
+    checkInt(content);
+    if (content.size() != 2)
+        throw Error("Error server response PIN args", "Expected: 2, Got: " + std::to_string(content.size()));
+    std::size_t id = std::stoul(content[0]);
+    if (_player.count(id) == 0)
+        throw Error("player id don't exist", content[0]);
+    _player[id]->setDropAnimation(true);
+    std::cout << "Drop Animation added" << std::endl;
 }
 
 void Zappy::GameData::pgt(std::vector<std::string> &content)
 {
-    std::cout << "pgt" << std::endl;
+    std::cout << "pgt:";
+    checkInt(content);
+    if (content.size() != 2)
+        throw Error("Error server response PIN args", "Expected: 2, Got: " + std::to_string(content.size()));
+    std::size_t id = std::stoul(content[0]);
+    if (_player.count(id) == 0)
+        throw Error("player id don't exist", content[0]);
+    _player[id]->setPickAnimation(true);
+    std::cout << "Pick Animation added" << std::endl;
 }
 
 void Zappy::GameData::pdi(std::vector<std::string> &content)

@@ -105,6 +105,9 @@ namespace Zappy {
          */
         void setIncantation(bool);
 
+        void setDropAnimation(bool);
+        void setPickAnimation(bool);
+
     protected:
     private:
         std::pair<std::size_t, std::size_t> _position;
@@ -116,6 +119,8 @@ namespace Zappy {
         std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
         bool _incantation;
 
+        bool _drop;
+        bool _pick;
     };
 }
 
