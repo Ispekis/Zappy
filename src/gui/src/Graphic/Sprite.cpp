@@ -7,10 +7,11 @@
 
 #include "Sprite.hpp"
 
-Zappy::Sprite::Sprite(Texture2D top, Texture2D side)
+Zappy::Sprite::Sprite(Texture2D top, Texture2D side, Texture2D bot)
 {
     _top = top;
     _side = side;
+    _bot = bot;
 }
 
 void Zappy::Sprite::setTexture()
@@ -78,6 +79,13 @@ void Zappy::Sprite::drawBlockTexture(Vector3 position, Vector3 size, Color color
         rlTexCoord2f(0.0f, 0.0f); rlVertex3f(x - width/2, y + height/2, z + length/2);
         rlTexCoord2f(1.0f, 0.0f); rlVertex3f(x + width/2, y + height/2, z + length/2);
         rlTexCoord2f(1.0f, 1.0f); rlVertex3f(x + width/2, y + height/2, z - length/2);
+    rlEnd();
+
+    rlSetTexture(_bot.id);
+        rlTexCoord2f(1.0f, 1.0f); rlVertex3f(x - width/2, y - height/2, z - length/2);
+        rlTexCoord2f(0.0f, 1.0f); rlVertex3f(x + width/2, y - height/2, z - length/2);
+        rlTexCoord2f(0.0f, 0.0f); rlVertex3f(x + width/2, y - height/2, z + length/2);
+        rlTexCoord2f(1.0f, 0.0f); rlVertex3f(x - width/2, y - height/2, z + length/2);
     rlEnd();
     rlSetTexture(0);
 }

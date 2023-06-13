@@ -55,14 +55,16 @@ void Zappy::Raylib::setTexture()
     _texture.insert({"grassSide", LoadTextureFromFile("src/gui/assets/grass_block_side.png")});
     _texture.insert({"grassTop", LoadTextureFromFile("src/gui/assets/grass_block_top.png")});
     _texture.insert({"water", LoadTextureFromFile("src/gui/assets/water_flow.png")});
-    _sprite.insert({"grass", std::make_shared<Sprite>(_texture["grassTop"], _texture["grassSide"])});
+    _texture.insert({"dirt", LoadTextureFromFile("src/gui/assets/dirt.png")});
 
-    _sprite.insert({"menuTop", std::make_shared<Sprite>(_texture["Pano4"], _texture["Pano4"])});
-    _sprite.insert({"menuBot", std::make_shared<Sprite>(_texture["Pano5"], _texture["Pano5"])});
-    _sprite.insert({"menuFront", std::make_shared<Sprite>(_texture["Pano0"], _texture["Pano0"])});
-    _sprite.insert({"menuRight", std::make_shared<Sprite>(_texture["Pano1"], _texture["Pano1"])});
-    _sprite.insert({"menuBack", std::make_shared<Sprite>(_texture["Pano2"], _texture["Pano2"])});
-    _sprite.insert({"menuLeft", std::make_shared<Sprite>(_texture["Pano3"], _texture["Pano3"])});
+    _sprite.insert({"grass", std::make_shared<Sprite>(_texture["grassTop"], _texture["grassSide"], _texture["dirt"])});
+    _sprite.insert({"menuTop", std::make_shared<Sprite>(_texture["Pano4"], _texture["Pano4"], _texture["Pano4"])});
+    _sprite.insert({"menuBot", std::make_shared<Sprite>(_texture["Pano5"], _texture["Pano5"], _texture["Pano5"])});
+    _sprite.insert({"menuFront", std::make_shared<Sprite>(_texture["Pano0"], _texture["Pano0"], _texture["Pano0"])});
+    _sprite.insert({"menuRight", std::make_shared<Sprite>(_texture["Pano1"], _texture["Pano1"], _texture["Pano1"])});
+    _sprite.insert({"menuBack", std::make_shared<Sprite>(_texture["Pano2"], _texture["Pano2"], _texture["Pano2"])});
+    _sprite.insert({"menuLeft", std::make_shared<Sprite>(_texture["Pano3"], _texture["Pano3"], _texture["Pano3"])});
+
 }
 
 void Zappy::Raylib::setData(std::shared_ptr<Data> data)
