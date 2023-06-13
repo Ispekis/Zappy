@@ -38,9 +38,9 @@ int do_ai_first_connect(char *buffer, node_t *client, data_t *data)
     if (team != NULL) {
         client->client.team = team;
         connect_player(client, *data);
-        dprintf(data->graphic_fd, "pnw %i %i %i %i %i %s\n", client->client.fd,
-        client->client.pos.x, client->client.pos.y, client->client.orientation,
-        client->client.level, client->client.team->name);
+        if (data->graphic_fd != UNDEFINED) {
+            fmt_conn_new_player(data->graphic_fd, client->client);
+        }
         return SUCCESS;
     }
     return FAILURE;

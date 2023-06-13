@@ -15,12 +15,25 @@ static void connect_player(node_t *client)
     client->client.is_graphic = true;
 }
 
+static void display_connected_player(int fd, data_t data)
+{
+    node_t *current = data.clients;
+
+    while (current != NULL) {
+        if (current->client.is_conn && !current->client.is_graphic) {
+            fmt_conn_new_player(fd, current->client);
+        }
+        current = current->next;
+    }
+}
+
 static void send_first_connection_message(int fd, data_t data)
 {
-    send_map_size(fd, &data, "");
-    dprintf(fd, "sgt 100\n");
-    send_content_map(fd, &data, "");
-    send_teams_name(fd, &data, "");
+    fmt_map_size(fd, data.width, data.height);
+    fmt_msg_from_server(fd, "100");
+    fmt_content_of_map(fd, data.map, data.width, data.height);
+    fmt_name_of_teams(fd, data.teams, data.nb_teams);
+    display_connected_player(fd, data);
 }
 
 int do_graphic_first_connect(char *buffer, node_t *client, data_t *data)

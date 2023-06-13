@@ -16,6 +16,7 @@ SRC	=	$(addprefix src/, \
 		client_management.c						\
 		read_client.c							\
 		buffer_management.c						\
+		my_strcat.c								\
 \
 		$(addprefix option/,    				\
 		get_options.c							\
@@ -36,6 +37,20 @@ SRC	=	$(addprefix src/, \
 		free_server.c							\
 		free_game.c								)\
 \
+		$(addprefix utils/,    					\
+		map_utils.c								\
+		player_utils.c							)\
+\
+		$(addprefix gui_protocol/,    			\
+		map_format.c							\
+		egg_format.c							\
+		incantation_format.c					\
+		misc_format.c							\
+		team_format.c							\
+		player_ext_format.c						\
+		time_format.c							\
+		player_format.c							)\
+\
 		$(addprefix commands/,    				\
 		ai_first_connect.c						\
 		ai_communication.c						\
@@ -44,7 +59,12 @@ SRC	=	$(addprefix src/, \
 		map_recv.c								\
 		player_recv.c							\
 		time_recv.c								\
-		command_tools.c							))
+		command_tools.c							\
+		ai_action.c								\
+		ai_info.c								\
+		ai_interact.c							\
+		ai_look.c								\
+		ai_movement.c							))
 
 MAIN_SRC	=	src/main.c
 
