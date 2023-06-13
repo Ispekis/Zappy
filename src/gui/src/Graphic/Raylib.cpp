@@ -68,6 +68,8 @@ void Zappy::Raylib::setTexture()
     _sprite.insert({"menuBack", std::make_shared<Sprite>(_texture["Pano2"], _texture["Pano2"], _texture["Pano2"])});
     _sprite.insert({"menuLeft", std::make_shared<Sprite>(_texture["Pano3"], _texture["Pano3"], _texture["Pano3"])});
 
+    _rectangle.insert({"menuLogo", std::make_shared<Rect>(_texture["Logo"])});
+
 }
 
 void Zappy::Raylib::setData(std::shared_ptr<Data> data)
@@ -157,15 +159,16 @@ void Zappy::Raylib::drawMap()
 
 void Zappy::Raylib::drawLogo()
 {
-    //revoir la structure
-    Rectangle src;
-    src.width = _texture["Logo"].width;
-    src.height = _texture["Logo"].height;
+    // revoir la structure
+    // Rectangle src;
+    // src.width = _texture["Logo"].width;
+    // src.height = _texture["Logo"].height;
 
-    Rectangle dest;
-    dest.width = 744;
-    dest.height = 212;
-    DrawTexturePro(_texture["Logo"], src, dest, Vector2{-600, -150}, 0, WHITE);
+    // Rectangle dest;
+    // dest.width = 744;
+    // dest.height = 212;
+    // DrawTexturePro(_texture["Logo"], src, dest, Vector2{-600, -150}, 0, WHITE);
+    _rectangle["menuLogo"]->drawRect(744, 212, -600, -150);
 }
 
 void Zappy::Raylib::draw()

@@ -28,7 +28,8 @@ MAP =	$(addprefix src/Map/,			\
 
 GRAPHIC =	$(addprefix src/Graphic/,		\
 				Raylib.cpp			\
-				Sprite.cpp			)
+				Sprite.cpp			\
+				Rectangle.cpp		)
 
 SRC	=	$(addprefix src/,				\
 			Parser.cpp					\
