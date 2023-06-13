@@ -80,3 +80,13 @@ void Zappy::Player::setIncantation(bool state)
 {
     _incantation = state;
 }
+
+
+void Zappy::Player::setDropAnimation(bool state)
+{
+    _drop = state;
+}
+void Zappy::Player::setPickAnimation(bool state)
+{
+    _pick = state;
+}
