@@ -12,7 +12,9 @@ Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
     InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str());
     if (!IsWindowReady())
         throw Error("RayLib", "Error Init Window");
-    _menu = true;
+    _menu = false;
+    _cameraMove = false;
+    pos = {0.0, 0.0, 0.0};
     setCamera();
     setTexture();
 }
@@ -70,22 +72,17 @@ void Zappy::Raylib::run(bool &isRunning)
 
 void Zappy::Raylib::cameraEvent()
 {
-    if (IsKeyDown(KEY_SPACE))
+    if (IsKeyPressed(KEY_SPACE))
+        _cameraMove = !_cameraMove;
+    if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) {
         _cameraMode = CAMERA_THIRD_PERSON;
-    if (IsKeyDown(KEY_RIGHT))
-        _camera.position.x += _cameraSpeed;
-    else if (IsKeyDown(KEY_LEFT))
-        _camera.position.x -= _cameraSpeed;
-
-    if (IsKeyDown(KEY_UP))
-        _camera.position.z -= _cameraSpeed;
-    else if (IsKeyDown(KEY_DOWN))
-        _camera.position.z += _cameraSpeed;
-
-    if (IsKeyPressed(KEY_KP_SUBTRACT))
-        _camera.fovy += 3.0f;
-    else if (IsKeyPressed(KEY_KP_ADD))
-        _camera.fovy -= 3.0f;
+        return;
+    }
+    if (_cameraMove == true)
+        _cameraMode = CAMERA_ORBITAL;
+    else 
+        _cameraMode = CAMERA_THIRD_PERSON;
+    printf("{%2.f,%2.f,%2.f}\n", _camera.position.x, _camera.position.y, _camera.position.z);
 }
 
 void Zappy::Raylib::event()
@@ -126,6 +123,9 @@ void Zappy::Raylib::draw()
     else {
         if (_data->_gameData._dataSet == true) {
             UpdateCamera(&_camera, _cameraMode);
+            // if (_cameraMove == true) {
+                // _camera.position
+            // }
             BeginMode3D(_camera);
             drawMap();
             EndMode3D();
@@ -137,6 +137,7 @@ void Zappy::Raylib::draw()
 void Zappy::Raylib::drawMenu()
 {
     UpdateCamera(&_cameraMenu, CAMERA_FIRST_PERSON);
+
     BeginMode3D(_cameraMenu);
     DrawCube(Vector3{1.0f, 1.0f, 3.0f}, 2.0f, 2.0f, 2.0f, RED);
     DrawCube(Vector3{3.0f, 1.0f, 1.0f}, 2.0f, 2.0f, 2.0f, GREEN);
