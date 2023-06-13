@@ -84,7 +84,7 @@ namespace Zappy {
          * @brief Set the Inventory of the player
          * 
          */
-        void setInventory();
+        void setInventory(std::vector<std::string>);
 
         /**
          * @brief Set the Orientation of the player

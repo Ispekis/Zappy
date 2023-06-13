@@ -15,6 +15,14 @@ Zappy::GameData::~GameData()
 {
 }
 
+template <typename T>
+static std::pair<std::vector<T>, std::vector<T>> separateVectorByIndex(std::vector<T> &content, std::size_t index)
+{
+    std::vector<T> begin(content.begin(), content.begin() + index);
+    std::vector<T> end(content.begin() + index, content.end());
+    return std::make_pair(begin, end);
+}
+
 static void checkInt(std::vector<std::string> &content)
 {
     for (auto element : content)
@@ -92,6 +100,7 @@ void Zappy::GameData::ppo(std::vector<std::string> &content)
     checkInt(content);
     if (content.size() != 4)
         throw Error("Error server response PPO args", "Expected: 4, Got: " + std::to_string(content.size()));
+
     std::size_t id = std::stoul(content[0]);
     std::pair<std::size_t, std::size_t> newPosition = std::make_pair(std::stoul(content[1]), std::stoul(content[2]));
     Orientation newOrientation = static_cast<Orientation>(std::stoi(content[3]));
@@ -105,12 +114,40 @@ void Zappy::GameData::ppo(std::vector<std::string> &content)
 
 void Zappy::GameData::plv(std::vector<std::string> &content)
 {
-    std::cout << "plv" << std::endl;
+    // std::cout << "plv" << std::endl;
+    checkInt(content);
+    if (content.size() != 2)
+        throw Error("Error server response PLV args", "Expected: 2, Got: " + std::to_string(content.size()));
+
+    std::size_t id = std::stoul(content[0]);
+    std::size_t newLevel = std::stoul(content[1]);
+    
+    if (_player.count(id) == 0)
+        throw Error("player id don't exist", content[0]);
+    _player[id]->setLevel(newLevel);
+    std::cout << "player id:" << id << "level is:" << newLevel << std::endl;
+
 }
 
 void Zappy::GameData::pin(std::vector<std::string> &content)
 {
     std::cout << "pin" << std::endl;
+    checkInt(content);
+    if (content.size() != 10)
+        throw Error("Error server response PIN args", "Expected: 10, Got: " + std::to_string(content.size()));
+
+    std::size_t id = std::stoul(content[0]);
+    if (_player.count(id) == 0)
+        throw Error("player id don't exist", content[0]);
+
+    auto newPosition = std::make_pair(std::stoul(content[1]), std::stoul(content[2]));
+    std::cout << "pin" << std::endl;
+    _player[id]->setPosition(newPosition);
+    std::cout << "pin" << std::endl;
+    auto split = separateVectorByIndex(content, 2);
+    std::cout << "pin" << std::endl;
+    _player[id]->setInventory(split.second);
+    std::cout << "player id:" << id << "inventory set:" << std::endl;
 }
 
 void Zappy::GameData::pex(std::vector<std::string> &content)
