@@ -25,14 +25,32 @@ void Zappy::Raylib::setCamera()
     _camera.fovy = 45.0f;                                // Camera field-of-view Y
     _camera.projection = CAMERA_PERSPECTIVE; 
     _cameraMode = CAMERA_ORBITAL;                       // Camera mode type
-    _cameraSpeed = 0.2f;                                // Camera speed
+    _cameraSpeed = 0.2f;            
+  
+    _cameraMenu.position = (Vector3){1.0f, 1.0f, 1.0f };  // Camera position
+    _cameraMenu.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+    _cameraMenu.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    _cameraMenu.fovy = 70.0f;                                // Camera field-of-view Y
+    _cameraMenu.projection = CAMERA_PERSPECTIVE; 
+    // _cameraMenuMode = CAMERA_ORBITAL;                       // Camera mode type
+    // _cameraMenuSpeed = 0.2f;                                // Camera speed
     SetTargetFPS(60);                                   // Set our game to run at 60 frames-per-second
+}
+
+Texture2D LoadTextureFromFile(std::string path)
+{
+    return LoadTexture(path.c_str());
 }
 
 void Zappy::Raylib::setTexture()
 {
-    Texture2D texture = LoadTexture("src/gui/assets/background.png");
-    _texture.insert({"Background", texture});
+    _texture.insert({"Background", LoadTextureFromFile("src/gui/assets/background.png")});
+    _texture.insert({"Pano0", LoadTextureFromFile("src/gui/assets/panorama_0.png")});
+    _texture.insert({"Pano1", LoadTextureFromFile("src/gui/assets/panorama_1.png")});
+    _texture.insert({"Pano2", LoadTextureFromFile("src/gui/assets/panorama_2.png")});
+    _texture.insert({"Pano3", LoadTextureFromFile("src/gui/assets/panorama_3.png")});
+    _texture.insert({"Pano4", LoadTextureFromFile("src/gui/assets/panorama_4.png")});
+    _texture.insert({"Pano5", LoadTextureFromFile("src/gui/assets/panorama_5.png")});
 }
 
 void Zappy::Raylib::setData(std::shared_ptr<Data> data)
@@ -73,7 +91,7 @@ void Zappy::Raylib::cameraEvent()
 void Zappy::Raylib::event()
 {
     if (_menu == true)
-        ;
+        drawMenu();
     else
         cameraEvent();
 }
@@ -118,7 +136,23 @@ void Zappy::Raylib::draw()
 
 void Zappy::Raylib::drawMenu()
 {
-    DrawTextureEx(_texture["Background"], Vector2{0,0}, 0.0, 1.5, WHITE);  // Draw a Texture2D with extended parameters
+    UpdateCamera(&_cameraMenu, CAMERA_ORBITAL);
+    BeginMode3D(_cameraMenu);
+    DrawCube(Vector3{1.0f, 1.0f, 3.0f}, 2.0f, 2.0f, 2.0f, RED);
+    DrawCube(Vector3{3.0f, 1.0f, 1.0f}, 2.0f, 2.0f, 2.0f, GREEN);
+    DrawCube(Vector3{-1.0f, 1.0f, 1.0f}, 2.0f, 2.0f, 2.0f, BLUE);
+    DrawCube(Vector3{1.0f, 1.0f, -1.0f}, 2.0f, 2.0f, 2.0f, BLACK);
+    DrawCube(Vector3{1.0f, 3.0f, 1.0f}, 2.0f, 2.0f, 2.0f, YELLOW);
+    DrawCube(Vector3{1.0f, -1.0f, 1.0f}, 2.0f, 2.0f, 2.0f, YELLOW);
+    DrawGrid(10, 2.0f);
+
+    EndMode3D();
+
+}
+
+void Zappy::Raylib::drawBackground()
+{
+
 }
 
 Zappy::Raylib::~Raylib()
