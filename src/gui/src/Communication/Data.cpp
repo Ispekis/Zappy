@@ -12,7 +12,6 @@ Zappy::Data::Data(std::string machine, int port) : _socket(machine, port), _sele
     _machine = machine;
     setUpdateFunction();
     char graphic[] = "GRAPHIC\n";
-    std::cout << "Message Graphic send to server" << std::endl;
     writeToServer(graphic);
 }
 
@@ -25,7 +24,6 @@ void Zappy::Data::updateGame()
 {
     try {
         _select.doSelect();
-        std::cout << "signal" << std::endl;
         if (FD_ISSET(_socket._socket, &(_select._readfds)))
             readFromServer();
     } catch (const Error &e) {
@@ -35,7 +33,7 @@ void Zappy::Data::updateGame()
 
 void Zappy::Data::readFromServer()
 {
-    char tmp[10];
+    char tmp[6];
     int x = read(_socket._socket, &tmp, sizeof(tmp));
     buffer.append(tmp, x);
     std::memset(tmp, 0, sizeof(tmp));
@@ -49,7 +47,6 @@ void Zappy::Data::validResponse()
     std::string tmp;
     while (pos != std::string::npos) {
         response = buffer.substr(0, pos);
-        printf("[%s]\n", response.c_str());
         updateData(response);
         buffer = buffer.substr(pos + 1);
         pos = buffer.find('\n');

@@ -72,13 +72,14 @@ namespace Zappy {
              */
             void updateData(std::string);
 
+            GameData _gameData;
+
         protected:
         private:
             Socket _socket;
             std::string _machine;
             Select _select;
             std::string buffer;
-            GameData _gameData;
 
             std::map<std::string, std::function<void(std::vector<std::string> &)>> _gameUpdater;
     };

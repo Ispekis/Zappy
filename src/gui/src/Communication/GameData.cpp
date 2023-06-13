@@ -9,7 +9,7 @@
 
 // Zappy::GameData::GameData()
 // {
-// }
+// }l
 
 Zappy::GameData::~GameData()
 {
@@ -36,6 +36,7 @@ void Zappy::GameData::msz(std::vector<std::string> &content)
             tmp.push_back(Tile(x, y, _factory));
         _map.push_back(tmp);
     }
+    _dataSet = true;
 }
 
 void Zappy::GameData::bct(std::vector<std::string> &content)
@@ -55,12 +56,32 @@ void Zappy::GameData::bct(std::vector<std::string> &content)
 
 void Zappy::GameData::tna(std::vector<std::string> &content)
 {
-    std::cout << "tna" << std::endl;
+    if (content.size() != 1)
+        throw Error("Error server response MSZ args", "Expected: 1, Got: " + std::to_string(content.size()));
+    std::shared_ptr<Team> team = std::make_shared<Team>(content[0]);
+    if (_teams.count(content[0]) > 0)
+        return;
+    _teams.insert({content[0], team});
 }
 
 void Zappy::GameData::pnw(std::vector<std::string> &content)
 {
+    std::vector<std::string> tmp = content;
+    tmp.erase(tmp.end());
+    checkInt(tmp);
+    if (content.size() != 6)
+        throw Error("Error server response MSZ args", "Expected: 6, Got: " + std::to_string(content.size()));
     std::cout << "pnw" << std::endl;
+    for (auto element : content)
+    {
+        printf("[%s] ", element.c_str());
+    };
+    std::cout << std::endl;
+
+    std::shared_ptr<Team> team = _teams[content[5]];
+    std::shared_ptr<Player> player = std::make_shared<Player>(content, team);
+    team->addPlayer(std::stoul(content[0]));
+    _player.insert({std::stoul(content[0]), player});
 }
 
 void Zappy::GameData::ppo(std::vector<std::string> &content)
@@ -116,6 +137,17 @@ void Zappy::GameData::pgt(std::vector<std::string> &content)
 void Zappy::GameData::pdi(std::vector<std::string> &content)
 {
     std::cout << "pdi" << std::endl;
+    checkInt(content);
+    if (content.size() != 1)
+        throw Error("Error server response PDI args", "Expected: 1, Got: " + std::to_string(content.size()));
+    std::size_t playerId = std::stoul(content[0]);
+    if (_player.count(playerId) == 0)
+        throw Error("Error player don't exist", std::to_string(playerId));
+    std::shared_ptr<Team> team = _player[playerId]->getTeam();
+    team->deletePlayer(playerId);
+
+    _player.erase(_player.find(playerId));
+    std::cout << "Player : " << playerId << " died" << std::endl;
 }
 
 void Zappy::GameData::enw(std::vector<std::string> &content)
@@ -135,7 +167,16 @@ void Zappy::GameData::edi(std::vector<std::string> &content)
 
 void Zappy::GameData::sgt(std::vector<std::string> &content)
 {
-    std::cout << "sgt" << std::endl;
+    // std::cout << "sgt" << std::endl;
+    checkInt(content);
+    if (content.size() != 1)
+        throw Error("Error server response SGT args", "Expected: 1, Got: " + std::to_string(content.size()));
+    int time = std::stoi(content[0]);
+    if (time < 2)
+        time = 2;
+    if (time > 1000)
+        time = 1000;
+    _timeUnit.setTimeUnit(time);
 }
 
 void Zappy::GameData::sst(std::vector<std::string> &content)

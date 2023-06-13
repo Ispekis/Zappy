@@ -18,17 +18,6 @@ Zappy::Tile::Tile(std::size_t x, std::size_t y, std::shared_ptr<RessourceFactory
     _factory = factory;
 }
 
-// Zappy::Tile::Tile(std::string &content)
-// {
-//     auto tile = splitStringIntoWords(content);
-//     const char *ressource[] = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
-//     int x = std::stoi(tile[0]);
-//     int y = std::stoi(tile[1]);
-
-//     tile.erase(tile.begin());
-//     tile.erase(tile.begin());
-// }
-
 Zappy::Tile::~Tile()
 {
 }
@@ -51,11 +40,11 @@ void Zappy::Tile::setRessources(std::vector<std::string> &content)
         _ressources.push_back(tmp);
     }
 
-    std::size_t tmp = 0;
-    for (auto &element : _ressources)
-    {
-        int qty = element->getQuantity();
-        printf("%d: %s\n", element->getQuantity(), ressource[tmp].c_str());
-        tmp++;
-    }
+    // std::size_t tmp = 0;
+    // for (auto &element : _ressources)
+    // {
+    //     int qty = element->getQuantity();
+    //     printf("%d: %s\n", element->getQuantity(), ressource[tmp].c_str());
+    //     tmp++;
+    // }
 }
