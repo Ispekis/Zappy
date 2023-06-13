@@ -136,7 +136,7 @@ void Zappy::Raylib::draw()
 
 void Zappy::Raylib::drawMenu()
 {
-    UpdateCamera(&_cameraMenu, CAMERA_ORBITAL);
+    UpdateCamera(&_cameraMenu, CAMERA_FIRST_PERSON);
     BeginMode3D(_cameraMenu);
     DrawCube(Vector3{1.0f, 1.0f, 3.0f}, 2.0f, 2.0f, 2.0f, RED);
     DrawCube(Vector3{3.0f, 1.0f, 1.0f}, 2.0f, 2.0f, 2.0f, GREEN);
@@ -157,5 +157,8 @@ void Zappy::Raylib::drawBackground()
 
 Zappy::Raylib::~Raylib()
 {
+    std::map<std::string, Texture2D>::iterator it;
+    for (it = _texture.begin(); it != _texture.end(); ++it)
+            UnloadTexture(it->second);
     CloseWindow();
 }
