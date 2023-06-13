@@ -111,7 +111,7 @@ namespace Zappy {
             bool _cameraMove;
             Vector3 pos;
             std::map<std::string, Texture2D> _texture;
-            std::map<std::string, Sprite> _sprite;
+            std::map<std::string, std::shared_ptr<Sprite>> _sprite;
     };
 }
 
