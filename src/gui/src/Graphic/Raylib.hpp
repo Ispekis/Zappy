@@ -23,7 +23,7 @@
 namespace Zappy {
     class Raylib {
         public:
-            Raylib(int screenWidth, int screenHeight, std::string title);
+            Raylib(std::string title);
             ~Raylib();
 
             /**
@@ -141,8 +141,8 @@ namespace Zappy {
         protected:
         private:
             std::shared_ptr<Data> _data;
-            Camera3D _camera = { 0 };
-            Camera3D _cameraMenu = { 0 };
+            Camera3D _camera;
+            Camera3D _cameraMenu;
             int _cameraMode;
             float _cameraSpeed;
             bool _menu;

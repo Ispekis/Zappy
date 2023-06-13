@@ -18,7 +18,7 @@ Zappy::GameData::~GameData()
 static void checkInt(std::vector<std::string> &content)
 {
     for (auto element : content)
-        for (int i = 0; i != element.size(); i++)
+        for (std::size_t i = 0; i != element.size(); i++)
             if (!std::isdigit(element[i]))
                 throw Error("Error server response, element is not an int", content[i]);
 }

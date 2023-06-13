@@ -9,7 +9,7 @@
 
 Zappy::Mendiane::Mendiane(int quantity)
 {
-    this->_quantity = _quantity;
+    this->_quantity = quantity;
 }
 
 Zappy::Mendiane::~Mendiane()

@@ -42,7 +42,7 @@ void Zappy::Data::readFromServer()
 
 void Zappy::Data::validResponse()
 {
-    int pos = buffer.find('\n');
+    std::size_t pos = buffer.find('\n');
     std::string response;
     std::string tmp;
     while (pos != std::string::npos) {
