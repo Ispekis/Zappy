@@ -36,7 +36,6 @@ void Zappy::GameData::msz(std::vector<std::string> &content)
             tmp.push_back(Tile(x, y, _factory));
         _map.push_back(tmp);
     }
-    std::cout << "Data set to true:" << &_dataSet << std::endl;
     _dataSet = true;
 }
 
@@ -141,7 +140,6 @@ void Zappy::GameData::pdi(std::vector<std::string> &content)
     checkInt(content);
     if (content.size() != 1)
         throw Error("Error server response PDI args", "Expected: 1, Got: " + std::to_string(content.size()));
-    // std::shared_ptr<Team> team = _teams[content[5]];
     std::size_t playerId = std::stoul(content[0]);
     if (_player.count(playerId) == 0)
         throw Error("Error player don't exist", std::to_string(playerId));

@@ -15,6 +15,7 @@
     #include <iostream>
     #include <memory>
 
+    #include "Sprite.hpp"
     #include "Error.hpp"
     #include "Data.hpp"
 
@@ -30,6 +31,19 @@ namespace Zappy {
              * @param data 
              */
             void setData(std::shared_ptr<Data> data);
+
+            /**
+             * @brief Set the Camera object
+             * 
+             */
+            void setCamera();
+
+            /**
+             * @brief load Texture from file
+             * 
+             */
+            void setTexture();
+
             /**
              * @brief Launch loop game and set isRunning to false if end
              *
@@ -44,14 +58,32 @@ namespace Zappy {
             void draw();
 
             /**
-             * @brief function Handle client event
+             * @brief function that draw the menu
              * 
              */
+            void drawMenu();
+
+            /**
+             * @brief Draw background of the menu
+             * 
+             */
+            void drawBackground();
+
+            /**
+             * @brief function Handle client event
+             *
+             */
             void event();
-            
+
+            /**
+             * @brief Menu Event
+             * 
+             */
+            void menuEvent();
+
             /**
              * @brief function Handle camera event
-             * 
+             *
              */
             void cameraEvent();
 
@@ -62,17 +94,32 @@ namespace Zappy {
             void drawMap();
 
             /**
+             * @brief Draw the map with the map size
+             * 
+             */
+            void drawLogo();
+
+            /**
              * @brief Draw the tile a position x and y
              * 
              */
             void drawTile(std::size_t, std::size_t,  std::pair<std::size_t, std::size_t>);
 
+            void drawWater(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map);
+
         protected:
         private:
             std::shared_ptr<Data> _data;
             Camera3D _camera = { 0 };
+            Camera3D _cameraMenu = { 0 };
             int _cameraMode;
             float _cameraSpeed;
+            bool _menu;
+
+            bool _cameraMove;
+            Vector3 pos;
+            std::map<std::string, Texture2D> _texture;
+            std::map<std::string, std::shared_ptr<Sprite>> _sprite;
     };
 }
 

@@ -12,7 +12,6 @@ Zappy::Data::Data(std::string machine, int port) : _socket(machine, port), _sele
     _machine = machine;
     setUpdateFunction();
     char graphic[] = "GRAPHIC\n";
-    std::cout << "Message Graphic send to server" << std::endl;
     writeToServer(graphic);
 }
 
