@@ -63,6 +63,12 @@ namespace Zappy {
             void drawMenu();
 
             /**
+             * @brief Draw background of the menu
+             * 
+             */
+            void drawBackground();
+
+            /**
              * @brief function Handle client event
              *
              */
@@ -90,6 +96,7 @@ namespace Zappy {
         private:
             std::shared_ptr<Data> _data;
             Camera3D _camera = { 0 };
+            Camera3D _cameraMenu = { 0 };
             int _cameraMode;
             float _cameraSpeed;
             bool _menu;

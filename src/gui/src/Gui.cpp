@@ -33,6 +33,5 @@ void Zappy::Gui::receiveServerData()
     while (_isRunning)
     {
         _data->updateGame();
-        // std::cout << &_data << std::endl;
     }
 }
