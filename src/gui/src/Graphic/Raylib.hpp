@@ -101,6 +101,8 @@ namespace Zappy {
             float _cameraSpeed;
             bool _menu;
 
+            Vector3 pos;
+            bool _cameraMove;
             std::map<std::string, Texture2D> _texture;
     };
 }
