@@ -9,6 +9,12 @@
     #define SPRITE_HPP_
 
     #include <raylib.h>
+    #include <rlgl.h>
+
+// typedef struct sprite_s {
+//     Texture2D button;
+// } sprite_t;
+
 namespace Zappy {
     class Sprite {
         public:
@@ -16,7 +22,7 @@ namespace Zappy {
              * @brief Construct a new Sprite object
              * 
              */
-            Sprite();
+            Sprite(Texture2D top, Texture2D side);
 
             /**
              * @brief Set the Texture object
@@ -41,9 +47,12 @@ namespace Zappy {
              * 
              */
             ~Sprite();
+            void drawBlockTexture(Vector3 position, Vector3 size, Color color);
 
         protected:
         private:
+            Texture2D _top;
+            Texture2D _side;
     };
 }
 

@@ -16,6 +16,7 @@ Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
     _cameraMove = false;
     setCamera();
     setTexture();
+
 }
 
 void Zappy::Raylib::setCamera()
@@ -51,6 +52,10 @@ void Zappy::Raylib::setTexture()
     _texture.insert({"Pano3", LoadTextureFromFile("src/gui/assets/panorama_3.png")});
     _texture.insert({"Pano4", LoadTextureFromFile("src/gui/assets/panorama_4.png")});
     _texture.insert({"Pano5", LoadTextureFromFile("src/gui/assets/panorama_5.png")});
+    _texture.insert({"grassSide", LoadTextureFromFile("src/gui/assets/grass_block_side.png")});
+    _texture.insert({"grassTop", LoadTextureFromFile("src/gui/assets/grass_block_top.png")});
+    _texture.insert({"water", LoadTextureFromFile("src/gui/assets/water_flow.png")});
+    _sprite.insert({"grass", Sprite(_texture["grassTop"], _texture["grassSide"])});
 }
 
 void Zappy::Raylib::setData(std::shared_ptr<Data> data)
@@ -142,7 +147,8 @@ void Zappy::Raylib::drawMenu()
     UpdateCameraPro(&_cameraMenu, Vector3 {0.0f,0.0f,0.0f}, Vector3{0.0f, 1.0f, 0.00f}, 0.0);
     printf("{%2.f %2.f %2.f\n}", _cameraMenu.up.x, _cameraMenu.up.y, _cameraMenu.up.z);
     BeginMode3D(_cameraMenu);
-    DrawCube(Vector3{1.0f, 1.0f, 3.0f}, 2.0f, 2.0f, 2.0f, RED);
+    // DrawCube(Vector3{1.0f, 1.0f, 3.0f}, 2.0f, 2.0f, 2.0f, RED);
+    _sprite["grass"].drawBlockTexture(Vector3{1.0f, 1.0f, 3.0f}, Vector3{2.0f, 2.0f, 2.0f}, WHITE);
     DrawCube(Vector3{3.0f, 1.0f, 1.0f}, 2.0f, 2.0f, 2.0f, GREEN);
     DrawCube(Vector3{-1.0f, 1.0f, 1.0f}, 2.0f, 2.0f, 2.0f, BLUE);
     DrawCube(Vector3{1.0f, 1.0f, -1.0f}, 2.0f, 2.0f, 2.0f, BLACK);
