@@ -245,17 +245,18 @@ void Zappy::GameData::sgt(std::vector<std::string> &content)
 
 void Zappy::GameData::sst(std::vector<std::string> &content)
 {
-    std::cout << "sst" << std::endl;
+    std::cout << "sst: Time Unit updated:" << content[0] << std::endl;
 }
 
 void Zappy::GameData::seg(std::vector<std::string> &content)
 {
-    std::cout << "seg" << std::endl;
+    std::cout << "seg: end game" << std::endl;
+    _end = true;
 }
 
 void Zappy::GameData::smg(std::vector<std::string> &content)
 {
-    std::cout << "smg" << std::endl;
+    std::cout << "smg:"<< content[0] << std::endl;
 }
 
 void Zappy::GameData::suc(std::vector<std::string> &content)
