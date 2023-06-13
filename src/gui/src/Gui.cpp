@@ -7,7 +7,7 @@
 
 #include "Gui.hpp"
 
-Zappy::Gui::Gui(int port, std::string machine) : _graphic(SCREEN_WIDTH, SCREEN_HEIGHT, "Zappy")
+Zappy::Gui::Gui(int port, std::string machine) : _graphic("Zappy")
 {
     _data = std::make_shared<Data>(machine, port);
     _graphic.setData(_data);
