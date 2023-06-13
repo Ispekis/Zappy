@@ -56,6 +56,7 @@ void Zappy::Raylib::setTexture()
     _texture.insert({"grassTop", LoadTextureFromFile("src/gui/assets/grass_block_top.png")});
     _texture.insert({"water", LoadTextureFromFile("src/gui/assets/water_flow.png")});
     _texture.insert({"dirt", LoadTextureFromFile("src/gui/assets/dirt.png")});
+    _texture.insert({"Logo", LoadTextureFromFile("src/gui/assets/ZAPPy.png")});
 
     _sprite.insert({"grass", std::make_shared<Sprite>(_texture["grassTop"], _texture["grassSide"], _texture["dirt"])});
     _sprite.insert({"menuTop", std::make_shared<Sprite>(_texture["Pano4"], _texture["Pano4"], _texture["Pano4"])});
@@ -133,12 +134,27 @@ void Zappy::Raylib::drawMap()
     DrawGrid(10, 2.0f);
 }
 
+void Zappy::Raylib::drawLogo()
+{
+    //revoir la structure
+    Rectangle src;
+    src.width = _texture["Logo"].width;
+    src.height = _texture["Logo"].height;
+
+    Rectangle dest;
+    dest.width = 744;
+    dest.height = 212;
+    DrawTexturePro(_texture["Logo"], src, dest, Vector2{-600, -150}, 0, WHITE);
+}
+
 void Zappy::Raylib::draw()
 {
     BeginDrawing();
     ClearBackground(RAYWHITE);
-    if (_menu == true)
+    if (_menu == true) {
         drawMenu();
+        drawLogo();
+    }
     else {
         if (_data->_gameData._dataSet == true) {
             UpdateCamera(&_camera, _cameraMode);
