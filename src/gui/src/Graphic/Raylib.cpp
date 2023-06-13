@@ -30,7 +30,7 @@ void Zappy::Raylib::setCamera()
     _cameraSpeed = 0.2f;            
   
     _cameraMenu.position = (Vector3){1.0f, 1.0f, 1.0f };  // Camera position
-    _cameraMenu.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+    _cameraMenu.target = (Vector3){-1.0f, 2.0f, 1.0f};      // Camera looking at point
     _cameraMenu.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     _cameraMenu.fovy = 70.0f;                                // Camera field-of-view Y
     _cameraMenu.projection = CAMERA_PERSPECTIVE;
@@ -55,7 +55,14 @@ void Zappy::Raylib::setTexture()
     _texture.insert({"grassSide", LoadTextureFromFile("src/gui/assets/grass_block_side.png")});
     _texture.insert({"grassTop", LoadTextureFromFile("src/gui/assets/grass_block_top.png")});
     _texture.insert({"water", LoadTextureFromFile("src/gui/assets/water_flow.png")});
-    _sprite.insert({"grass", Sprite(_texture["grassTop"], _texture["grassSide"])});
+    _sprite.insert({"grass", std::make_shared<Sprite>(_texture["grassTop"], _texture["grassSide"])});
+
+    _sprite.insert({"menuTop", std::make_shared<Sprite>(_texture["Pano4"], _texture["Pano4"])});
+    _sprite.insert({"menuBot", std::make_shared<Sprite>(_texture["Pano5"], _texture["Pano5"])});
+    _sprite.insert({"menuFront", std::make_shared<Sprite>(_texture["Pano0"], _texture["Pano0"])});
+    _sprite.insert({"menuRight", std::make_shared<Sprite>(_texture["Pano1"], _texture["Pano1"])});
+    _sprite.insert({"menuBack", std::make_shared<Sprite>(_texture["Pano2"], _texture["Pano2"])});
+    _sprite.insert({"menuLeft", std::make_shared<Sprite>(_texture["Pano3"], _texture["Pano3"])});
 }
 
 void Zappy::Raylib::setData(std::shared_ptr<Data> data)
@@ -143,17 +150,16 @@ void Zappy::Raylib::draw()
 
 void Zappy::Raylib::drawMenu()
 {
-    // UpdateCamera(&_cameraMenu, CAMERA_CUSTOM);
-    UpdateCameraPro(&_cameraMenu, Vector3 {0.0f,0.0f,0.0f}, Vector3{0.0f, 1.0f, 0.00f}, 0.0);
+    UpdateCamera(&_cameraMenu, CAMERA_FIRST_PERSON);
+    // UpdateCameraPro(&_cameraMenu, Vector3 {0.0f,0.0f,0.0f}, Vector3{0.0f, 1.0f, 0.00f}, 0.0);
     printf("{%2.f %2.f %2.f\n}", _cameraMenu.up.x, _cameraMenu.up.y, _cameraMenu.up.z);
     BeginMode3D(_cameraMenu);
-    // DrawCube(Vector3{1.0f, 1.0f, 3.0f}, 2.0f, 2.0f, 2.0f, RED);
-    _sprite["grass"].drawBlockTexture(Vector3{1.0f, 1.0f, 3.0f}, Vector3{2.0f, 2.0f, 2.0f}, WHITE);
-    DrawCube(Vector3{3.0f, 1.0f, 1.0f}, 2.0f, 2.0f, 2.0f, GREEN);
-    DrawCube(Vector3{-1.0f, 1.0f, 1.0f}, 2.0f, 2.0f, 2.0f, BLUE);
-    DrawCube(Vector3{1.0f, 1.0f, -1.0f}, 2.0f, 2.0f, 2.0f, BLACK);
-    DrawCube(Vector3{1.0f, 3.0f, 1.0f}, 2.0f, 2.0f, 2.0f, YELLOW);
-    DrawCube(Vector3{1.0f, -1.0f, 1.0f}, 2.0f, 2.0f, 2.0f, YELLOW);
+    _sprite["menuBack"]->drawBlockTexture(Vector3{1.0f, 1.0f, -1.0f}, Vector3 {2.0f, 2.0f, 2.0f}, WHITE);
+    _sprite["menuLeft"]->drawBlockTexture(Vector3{-1.0f, 1.0f, 1.0f}, Vector3 {2.0f, 2.0f, 2.0f}, WHITE);
+    _sprite["menuFront"]->drawBlockTexture(Vector3{1.0f, 1.0f, 3.0f}, Vector3{2.0f, 2.0f, 2.0f}, WHITE);
+    _sprite["menuRight"]->drawBlockTexture(Vector3{3.0f, 1.0f, 1.0f}, Vector3 {2.0f, 2.0f, 2.0f}, WHITE);
+    _sprite["menuTop"]->drawBlockTexture(Vector3{1.0f, 3.0f, 1.0f}, Vector3 {2.0f, 2.0f, 2.0f}, WHITE);
+    _sprite["menuBot"]->drawBlockTexture(Vector3{1.0f, -1.0f, 1.0f}, Vector3 {2.0f, 2.0f, 2.0f}, WHITE);
     DrawGrid(10, 2.0f);
 
     EndMode3D();
