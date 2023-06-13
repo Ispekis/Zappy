@@ -6,7 +6,7 @@ from parsing import *
 from player import Player
 from movement import Movement
 from macro import *
-
+from level import levelUp
 class AI:
     def __init__(self, port:str, machine:str, name:str):
         """Run the AI script
@@ -54,6 +54,8 @@ class AI:
     def push(self):
         if self.player.multiplePlayerTile():
             self.client_socket.send(("push\n").encode())
+        if levelUp(self.player.obj_list, self.player.sight[0]):
+            self.client_socket.send(("Incantation\n").encode())
 
 
     def playerAction(self):
