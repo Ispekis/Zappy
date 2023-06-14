@@ -55,6 +55,50 @@ namespace Zappy {
              */
             void event();
 
+            /**
+             * @brief Menu Event
+             * 
+             */
+            void menuEvent();
+
+            /**
+             * @brief function Handle camera event
+             *
+             */
+            void cameraEvent();
+
+            /**
+             * @brief Draw the map with the map size
+             * 
+             */
+            void drawMap();
+
+            /**
+             * @brief Draw the map with the map size
+             * 
+             */
+            void drawLogo();
+
+            /**
+             * @brief Draw the menu buttons
+             * 
+             */
+            void drawButton();
+
+            /**
+             * @brief Draw the menu buttons text
+             * 
+             */
+            void drawText();
+
+            /**
+             * @brief Draw the tile a position x and y
+             * 
+             */
+            void drawTile(std::size_t, std::size_t,  std::pair<std::size_t, std::size_t>);
+
+            void drawWater(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map);
+
         protected:
         private:
             raylib::Window _window;

@@ -29,6 +29,12 @@ void Zappy::Raylib::run()
     _data->_gameData._end = true;
 }
 
+void Zappy::Raylib::menuEvent()
+{
+    mouseHovering();
+    mouseClicking();
+}
+
 void Zappy::Raylib::event()
 {
     if(IsKeyPressed(KEY_T))
