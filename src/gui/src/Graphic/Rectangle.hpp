@@ -29,7 +29,7 @@ namespace Zappy {
              * @param height 
              * @param position 
              */
-            void drawRect(float width, float height, float x, float y);
+            void drawRect(float width, float height, Vector2 position);
 
             /**
              * @brief Destroy the Rect object
