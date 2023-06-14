@@ -77,6 +77,18 @@ namespace Zappy {
             void event();
 
             /**
+             * @brief function Handle mouse hovering
+             *
+             */
+            void mouseHovering();
+
+            /**
+             * @brief function Handle mouse clicking
+             *
+             */
+            void mouseClicking();
+
+            /**
              * @brief Menu Event
              * 
              */
@@ -128,6 +140,7 @@ namespace Zappy {
             int _cameraMode;
             float _cameraSpeed;
             bool _menu;
+            bool _exitWindow = false;
 
             bool _cameraMove;
             Vector3 pos;
