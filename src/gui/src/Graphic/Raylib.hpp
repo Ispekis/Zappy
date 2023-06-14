@@ -46,6 +46,12 @@ namespace Zappy {
             void setTexture();
 
             /**
+             * @brief load Music from file
+             * 
+             */
+            void setMusic();
+
+            /**
              * @brief Launch loop game and set isRunning to false if end
              *
              * @param isRunning
@@ -141,6 +147,8 @@ namespace Zappy {
             float _cameraSpeed;
             bool _menu;
             bool _exitWindow = false;
+            Music _music;
+            Sound _click;
 
             bool _cameraMove;
             Vector3 pos;

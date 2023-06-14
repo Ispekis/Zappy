@@ -10,13 +10,20 @@
 Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
 {
     InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str());
+    InitAudioDevice();
     if (!IsWindowReady())
         throw Error("RayLib", "Error Init Window");
     _menu = true;
     _cameraMove = false;
     setCamera();
     setTexture();
+    setMusic();
+}
 
+void Zappy::Raylib::setMusic()
+{
+    _music = LoadMusicStream("src/gui/assets/Minecraft-Theme Song {Extended for 30 Minutes}.mp3");
+    _click = LoadSound("src/gui/assets/ButtonPlate Click (Minecraft Sound) - Sound Effect for editing.wav");
 }
 
 void Zappy::Raylib::setCamera()
@@ -86,10 +93,14 @@ void Zappy::Raylib::setData(std::shared_ptr<Data> data)
 
 void Zappy::Raylib::run(bool &isRunning)
 {
+    PlayMusicStream(_music);
     while (_exitWindow != true) {
+        UpdateMusicStream(_music);
         event();
         draw();
     }
+    UnloadMusicStream(_music);
+    UnloadSound(_click);
     isRunning = false;
 }
 
@@ -117,6 +128,7 @@ void Zappy::Raylib::mouseClicking()
         std::advance(it, 2);
         for (; it != _rectangle.end(); ++it) {
             if (CheckCollisionPointRec(mousePos, it->second->getRect())) {
+                PlaySound(_click);
                 if (it->first == "menuPlayButton")
                     _menu = false;
                 // else if (it->first == "menuSettingsButton")
@@ -269,5 +281,6 @@ Zappy::Raylib::~Raylib()
     std::map<std::string, Texture2D>::iterator it;
     for (it = _texture.begin(); it != _texture.end(); ++it)
             UnloadTexture(it->second);
+    CloseAudioDevice();
     CloseWindow();
 }
