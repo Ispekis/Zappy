@@ -32,6 +32,20 @@ namespace Zappy {
             void drawRect(float width, float height, Vector2 position);
 
             /**
+             * @brief Set the Texture object
+             * 
+             * @param text 
+             */
+            void setTexture(Texture2D text);
+
+            /**
+             * @brief Get the Rect object
+             * 
+             * @param position 
+             * @return Vector2 
+             */
+            Rectangle getRect();
+            /**
              * @brief Destroy the Rect object
              * 
              */
@@ -40,6 +54,7 @@ namespace Zappy {
         protected:
         private:
             Texture2D _text;
+            Rectangle _dest;
     };
 }
 
