@@ -30,6 +30,7 @@ SRC	=	$(addprefix src/, \
 		init_server.c							\
 		init_game.c								\
 		init.c									\
+		init_map.c								\
 		init_commands.c							)\
 \
 		$(addprefix memory_handling/,    		\
