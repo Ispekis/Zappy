@@ -1,3 +1,5 @@
+INV_LEN = 7
+
 def parseLook(look:str):
     tmp:str = look.split(',')
     res = [[]]
@@ -10,6 +12,8 @@ def parseLook(look:str):
 def parseInventory(inventory:str):
     tmp = inventory.split(',')
     res = {}
+    if len(tmp) != INV_LEN:
+        return res
     for i in range(len(tmp)):
         v = tmp[i].split()
         res[v[0]] = int(v[1])
