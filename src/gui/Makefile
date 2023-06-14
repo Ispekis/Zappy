@@ -21,6 +21,7 @@ MAP =	$(addprefix src/Map/,			\
 				Thystame.cpp				\
 				Food.cpp					)\
 			Player.cpp					\
+			BroadCast.cpp					\
 			Team.cpp					\
 			TimeUnit.cpp 				\
 			Tile.cpp					\
@@ -33,7 +34,6 @@ GRAPHIC =	$(addprefix src/Graphic/,		\
 
 SRC	=	$(addprefix src/,				\
 			Parser.cpp					\
-			BroadCast.cpp					\
 			Error.cpp					\
 			Gui.cpp						\
 			$(addprefix Encapsulation/,	\
