@@ -86,7 +86,7 @@ void Zappy::Raylib::setData(std::shared_ptr<Data> data)
 
 void Zappy::Raylib::run(bool &isRunning)
 {
-    while (!WindowShouldClose()) {
+    while (_exitWindow != true) {
         event();
         draw();
     }
@@ -108,7 +108,27 @@ void Zappy::Raylib::cameraEvent()
     printf("{%2.f,%2.f,%2.f}\n", _camera.position.x, _camera.position.y, _camera.position.z);
 }
 
-void Zappy::Raylib::menuEvent()
+void Zappy::Raylib::mouseClicking()
+{
+    Vector2 mousePos = GetMousePosition();
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        auto it = _rectangle.begin();
+        std::advance(it, 2);
+        for (; it != _rectangle.end(); ++it) {
+            if (CheckCollisionPointRec(mousePos, it->second->getRect())) {
+                if (it->first == "menuPlayButton")
+                    _menu = false;
+                // else if (it->first == "menuSettingsButton")
+                //     _menu = false;
+                else if (it->first == "menuQuitButton")
+                    _exitWindow = true;
+            }
+        }
+    }
+}
+
+void Zappy::Raylib::mouseHovering()
 {
     Vector2 mousePos = GetMousePosition();
 
@@ -123,6 +143,12 @@ void Zappy::Raylib::menuEvent()
     }
 }
 
+void Zappy::Raylib::menuEvent()
+{
+    mouseHovering();
+    mouseClicking();
+}
+
 void Zappy::Raylib::event()
 {
     if (_menu == true)
@@ -131,6 +157,8 @@ void Zappy::Raylib::event()
         cameraEvent();
     if(IsKeyPressed(KEY_T))
         _menu = !_menu;
+    if (IsKeyPressed(KEY_ESCAPE))
+        _exitWindow = true;
 }
 
 void Zappy::Raylib::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
