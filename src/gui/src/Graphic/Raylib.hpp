@@ -107,6 +107,12 @@ namespace Zappy {
             void drawButton();
 
             /**
+             * @brief Draw the menu buttons text
+             * 
+             */
+            void drawText();
+
+            /**
              * @brief Draw the tile a position x and y
              * 
              */
