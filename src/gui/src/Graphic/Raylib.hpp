@@ -46,6 +46,12 @@ namespace Zappy {
             void setTexture();
 
             /**
+             * @brief load Music from file
+             * 
+             */
+            void setMusic();
+
+            /**
              * @brief Launch loop game and set isRunning to false if end
              *
              * @param isRunning
@@ -77,6 +83,18 @@ namespace Zappy {
             void event();
 
             /**
+             * @brief function Handle mouse hovering
+             *
+             */
+            void mouseHovering();
+
+            /**
+             * @brief function Handle mouse clicking
+             *
+             */
+            void mouseClicking();
+
+            /**
              * @brief Menu Event
              * 
              */
@@ -101,6 +119,18 @@ namespace Zappy {
             void drawLogo();
 
             /**
+             * @brief Draw the menu buttons
+             * 
+             */
+            void drawButton();
+
+            /**
+             * @brief Draw the menu buttons text
+             * 
+             */
+            void drawText();
+
+            /**
              * @brief Draw the tile a position x and y
              * 
              */
@@ -116,6 +146,9 @@ namespace Zappy {
             int _cameraMode;
             float _cameraSpeed;
             bool _menu;
+            bool _exitWindow = false;
+            Music _music;
+            Sound _click;
 
             bool _cameraMove;
             Vector3 pos;

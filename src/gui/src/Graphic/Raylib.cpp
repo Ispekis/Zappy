@@ -10,13 +10,20 @@
 Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
 {
     InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str());
+    InitAudioDevice();
     if (!IsWindowReady())
         throw Error("RayLib", "Error Init Window");
     _menu = true;
     _cameraMove = false;
     setCamera();
     setTexture();
+    setMusic();
+}
 
+void Zappy::Raylib::setMusic()
+{
+    _music = LoadMusicStream("src/gui/assets/Minecraft-Theme Song {Extended for 30 Minutes}.mp3");
+    _click = LoadSound("src/gui/assets/ButtonPlate Click (Minecraft Sound) - Sound Effect for editing.wav");
 }
 
 void Zappy::Raylib::setCamera()
@@ -58,6 +65,8 @@ void Zappy::Raylib::setTexture()
     _texture.insert({"dirt", LoadTextureFromFile("src/gui/assets/dirt.png")});
     _texture.insert({"Logo", LoadTextureFromFile("src/gui/assets/ZAPPy.png")});
     _texture.insert({"clearbackground", LoadTextureFromFile("src/gui/assets/clearbackground.png")});
+    _texture.insert({"basicButton", LoadTextureFromFile("src/gui/assets/basic_button.png")});
+    _texture.insert({"hoverButton", LoadTextureFromFile("src/gui/assets/hover_button.png")});
 
     _sprite.insert({"water", std::make_shared<Sprite>(_texture["water"], _texture["clearbackground"], _texture["water"])});
     _sprite.insert({"grass", std::make_shared<Sprite>(_texture["grassTop"], _texture["grassSide"], _texture["dirt"])});
@@ -69,6 +78,10 @@ void Zappy::Raylib::setTexture()
     _sprite.insert({"menuLeft", std::make_shared<Sprite>(_texture["Pano3"], _texture["Pano3"], _texture["Pano3"])});
 
     _rectangle.insert({"menuLogo", std::make_shared<Rect>(_texture["Logo"])});
+    _rectangle.insert({"menuPlayButton", std::make_shared<Rect>(_texture["basicButton"])});
+    _rectangle.insert({"menuSettingsButton", std::make_shared<Rect>(_texture["basicButton"])});
+    _rectangle.insert({"menuQuitButton", std::make_shared<Rect>(_texture["basicButton"])});
+    _rectangle.insert({"menuHoverButton", std::make_shared<Rect>(_texture["hoverButton"])});
 
 }
 
@@ -80,10 +93,14 @@ void Zappy::Raylib::setData(std::shared_ptr<Data> data)
 
 void Zappy::Raylib::run(bool &isRunning)
 {
-    while (!WindowShouldClose()) {
+    PlayMusicStream(_music);
+    while (_exitWindow != true) {
+        UpdateMusicStream(_music);
         event();
         draw();
     }
+    UnloadMusicStream(_music);
+    UnloadSound(_click);
     isRunning = false;
 }
 
@@ -102,8 +119,46 @@ void Zappy::Raylib::cameraEvent()
     printf("{%2.f,%2.f,%2.f}\n", _camera.position.x, _camera.position.y, _camera.position.z);
 }
 
+void Zappy::Raylib::mouseClicking()
+{
+    Vector2 mousePos = GetMousePosition();
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        auto it = _rectangle.begin();
+        std::advance(it, 2);
+        for (; it != _rectangle.end(); ++it) {
+            if (CheckCollisionPointRec(mousePos, it->second->getRect())) {
+                PlaySound(_click);
+                if (it->first == "menuPlayButton")
+                    _menu = false;
+                // else if (it->first == "menuSettingsButton")
+                //     _menu = false;
+                else if (it->first == "menuQuitButton")
+                    _exitWindow = true;
+            }
+        }
+    }
+}
+
+void Zappy::Raylib::mouseHovering()
+{
+    Vector2 mousePos = GetMousePosition();
+
+    auto it = _rectangle.begin();
+    std::advance(it, 2);
+
+    for (; it != _rectangle.end(); ++it) {
+        if (CheckCollisionPointRec(mousePos, it->second->getRect()))
+            it->second->setTexture(_texture["hoverButton"]);
+        else
+            it->second->setTexture(_texture["basicButton"]);
+    }
+}
+
 void Zappy::Raylib::menuEvent()
 {
+    mouseHovering();
+    mouseClicking();
 }
 
 void Zappy::Raylib::event()
@@ -114,6 +169,8 @@ void Zappy::Raylib::event()
         cameraEvent();
     if(IsKeyPressed(KEY_T))
         _menu = !_menu;
+    if (IsKeyPressed(KEY_ESCAPE))
+        _exitWindow = true;
 }
 
 void Zappy::Raylib::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
@@ -157,6 +214,20 @@ void Zappy::Raylib::drawMap()
         DrawGrid(10, 2.0f);
 }
 
+void Zappy::Raylib::drawText()
+{
+    DrawText("Play", 900, 470, 50, WHITE);
+    DrawText("Settings", 850, 670, 50, WHITE);
+    DrawText("Quit", 900, 870, 50, WHITE);
+}
+
+void Zappy::Raylib::drawButton()
+{
+    _rectangle["menuPlayButton"]->drawRect(1000, 100, {470, 450});
+    _rectangle["menuSettingsButton"]->drawRect(1000, 100, {470, 650});
+    _rectangle["menuQuitButton"]->drawRect(1000, 100, {470, 850});
+}
+
 void Zappy::Raylib::drawLogo()
 {
     _rectangle["menuLogo"]->drawRect(744, 212, {600, 150});
@@ -166,10 +237,8 @@ void Zappy::Raylib::draw()
 {
     BeginDrawing();
     ClearBackground(RAYWHITE);
-    if (_menu == true) {
+    if (_menu == true)
         drawMenu();
-        drawLogo();
-    }
     else {
         if (_data->_gameData._dataSet == true) {
             UpdateCamera(&_camera, _cameraMode);
@@ -197,6 +266,9 @@ void Zappy::Raylib::drawMenu()
 
     EndMode3D();
 
+    drawLogo();
+    drawButton();
+    drawText();
 }
 
 void Zappy::Raylib::drawBackground()
@@ -209,5 +281,6 @@ Zappy::Raylib::~Raylib()
     std::map<std::string, Texture2D>::iterator it;
     for (it = _texture.begin(); it != _texture.end(); ++it)
             UnloadTexture(it->second);
+    CloseAudioDevice();
     CloseWindow();
 }
