@@ -16,7 +16,6 @@ SRC	=	$(addprefix src/, \
 		client_management.c						\
 		read_client.c							\
 		buffer_management.c						\
-		my_strcat.c								\
 \
 		$(addprefix option/,    				\
 		get_options.c							\
@@ -40,6 +39,7 @@ SRC	=	$(addprefix src/, \
 \
 		$(addprefix utils/,    					\
 		map_utils.c								\
+		my_strcat.c								\
 		player_utils.c							)\
 \
 		$(addprefix gui_protocol/,    			\
