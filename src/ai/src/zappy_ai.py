@@ -51,16 +51,20 @@ class AI:
         self.player.nb_player = updateNbPlayer(self.client_socket.recv(1024).decode())
         # print(f'nbplayer = {self.player.nb_player}')
 
+    def level_up(self):
+        if levelUp(self.player.obj_list, self.player.sight[0]):
+            self.client_socket.send(("Incantation\n").encode())
+            # if self.client_socket.recv(1024).decode() != "ko":
+            print(self.client_socket.recv(1024).decode())
+
     def push(self):
         if self.player.multiplePlayerTile():
             self.client_socket.send(("push\n").encode())
-        if levelUp(self.player.obj_list, self.player.sight[0]):
-            self.client_socket.send(("Incantation\n").encode())
-
 
     def playerAction(self):
         self.client_socket.send((self.move.handleMovement() + "\n").encode())
         self.push()
+        self.level_up()
 
     def run_ai(self):
         try:
