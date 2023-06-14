@@ -9,9 +9,40 @@ PATH_TO_ROOT	=	../..
 
 MV	=	mv
 
-SRC	=	src/Parser.cpp	\
-		src/Error.cpp	\
-		src/Gui.cpp
+MAP =	$(addprefix src/Map/,			\
+			$(addprefix Ressource/,		\
+				ARessource.cpp				\
+				RessourceFactory.cpp		\
+				Deraumere.cpp				\
+				Linemate.cpp				\
+				Mendiane.cpp				\
+				Phiras.cpp					\
+				Sibur.cpp					\
+				Thystame.cpp				\
+				Food.cpp					)\
+			Player.cpp					\
+			Team.cpp					\
+			TimeUnit.cpp 				\
+			Tile.cpp					\
+			)
+
+GRAPHIC =	$(addprefix src/Graphic/,		\
+				Raylib.cpp			\
+				Sprite.cpp			)
+
+SRC	=	$(addprefix src/,				\
+			Parser.cpp					\
+			Error.cpp					\
+			Gui.cpp						\
+			$(addprefix Encapsulation/,	\
+				Socket.cpp					\
+				Select.cpp					)\
+			$(addprefix Communication/,	\
+				Data.cpp					\
+				GameData.cpp			))
+
+SRC += $(MAP)
+SRC += $(GRAPHIC)
 
 MAIN_SRC	=	src/main.cpp
 
@@ -25,11 +56,17 @@ TEST_NAME	=	unit_tests
 
 TEST_FILE	=	tests/test_gui.cpp
 
-CPPFLAGS	=	-I./include
+CPPFLAGS	+=	-I./include
+CPPFLAGS	+=	-I./src
+CPPFLAGS	+=	-I./src/Graphic
+CPPFLAGS	+=	-I./src/Encapsulation
+CPPFLAGS	+=	-I./src/Communication
+CPPFLAGS	+=	-I./src/Map
+CPPFLAGS	+=	-I./src/Map/Ressource
 
 CFLAGS	=	-Wall -Wextra
 
-LDFLAGS	=	
+LDFLAGS	=	-lraylib -lpthread -ldl
 
 all: $(NAME)
 

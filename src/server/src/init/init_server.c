@@ -29,29 +29,32 @@ static int create_server(sock_addrs_t *addrs, int port)
 
 static int init_clients(data_t *data)
 {
-    for (int i = 0; i < MAX_CONNECTIONS; i++) {
-        data->clients[i].fd = -1;
-        data->clients[i].is_conn = false;
-    }
+    data->clients = NULL;
     return SUCCESS;
 }
 
 static int init_teams(info_t info, data_t *data)
 {
-    data->teams = NULL;
-    for (int i = 0; info.teams_name[i] != NULL; i++) {
-        add_team_node(&data->teams, info.teams_name[i], info.clients_nb);
+    data->nb_teams = info.nb_teams;
+    data->teams = malloc(sizeof(team_t) * info.nb_teams);
+    for (int i = 0; i < info.nb_teams; i++) {
+        data->teams[i].name = strdup(info.teams_name[i]);
+        data->teams[i].clients_nbr = info.clients_nb;
     }
     return SUCCESS;
 }
 
 int init_server(server_t *server, int port)
 {
+    node_t *new = NULL;
+
     if (create_server(&server->addrs, port) == FAILURE)
         return FAILURE;
+    init_commands(server);
     if (init_clients(&server->data) == FAILURE)
         return FAILURE;
-    server->data.clients[0].fd = server->addrs.socket_fd;
+    new = add_client_node(&server->data.clients);
+    new->client.fd = server->addrs.socket_fd;
     if (init_teams(server->info, &server->data) == FAILURE)
         return FAILURE;
     return SUCCESS;

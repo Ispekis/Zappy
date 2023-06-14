@@ -38,7 +38,26 @@ jobs:
           then
             exit 1
           fi
+
+  install_raylib:
+    runs-on: ubuntu-latest
+    container:
+      image: epitechcontent/epitest-docker
+    steps:
+      - name: Install Raylib
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
+          git clone https://github.com/raysan5/raylib.git
+          cd raylib
+          mkdir build
+          cd build
+          cmake ..
+          make
+          sudo make install
+
   check_program_compilation:
+    needs: install_raylib
     runs-on: ubuntu-latest
     container:
       image: epitechcontent/epitest-docker

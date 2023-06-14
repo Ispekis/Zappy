@@ -10,17 +10,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdlib.h>
-
-size_t get_array_length(char** array)
-{
-    size_t length = 0;
-
-    while (array[length] != NULL) {
-        length++;
-    }
-
-    return length;
-}
+#include <string.h>
 
 int write_error(char *message, char *label, int ret_value)
 {
@@ -39,19 +29,38 @@ bool can_convert_to_int(const char* str)
     return *end == '\0';
 }
 
-bool can_convert_to_float(const char* str)
+int rand_nbr(int min, int max)
 {
-    char* end;
-    strtof(str, &end);
-    return *end == '\0';
+    return rand() % (max - min + 1) + min;
 }
 
-bool is_int(int value)
+static int get_nb_elem(char *buffer, char *sep)
 {
-    return sizeof(value) == sizeof(int);
+    int count = 0;
+    char *tmp = strdup(buffer);
+    char *str_token = strtok(tmp, sep);
+    while (str_token != NULL) {
+        count++;
+        str_token = strtok(NULL, sep);
+    }
+    free(tmp);
+    return count;
 }
 
-bool is_float(float value)
+char **str_to_word_array(char *buffer, char *sep)
 {
-    return sizeof(value) == sizeof(float);
+    int nb_elem = get_nb_elem(buffer, sep);
+    char **new = malloc(sizeof(char*) * (nb_elem + 1));
+    char *str_token = NULL;
+
+    if (new == NULL)
+        return NULL;
+    str_token = strtok(buffer, sep);
+    for (int i = 0; str_token != NULL; i++) {
+        new[i] = strdup(str_token);
+        str_token = strtok(NULL, sep);
+    }
+    new[nb_elem] = NULL;
+
+    return new;
 }

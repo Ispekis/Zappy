@@ -10,12 +10,15 @@
 
 void re_set_fds(server_t *server, int sfd)
 {
+    node_t *current = server->data.clients;
+
     FD_ZERO(&server->addrs.rfds);
     FD_SET(sfd, &server->addrs.rfds);
-    for (int i = 0; i < MAX_CONNECTIONS; i++) {
-        if (server->data.clients[i].fd >= 0) {
-            FD_SET(server->data.clients[i].fd, &server->addrs.rfds);
+    while (current != NULL) {
+        if (current->client.fd >= 0) {
+            FD_SET(current->client.fd, &server->addrs.rfds);
         }
+        current = current->next;
     }
 }
 
@@ -36,19 +39,28 @@ int block_signal(int *sfd)
 
 static int listen_events(server_t *server)
 {
+    node_t *current = NULL;
+
     if (FD_ISSET(server->addrs.socket_fd, &server->addrs.rfds)) {
         accept_client_to_server(server);
     }
-    for (int i = 0; i < MAX_CONNECTIONS; i++) {
-        read_from_client(server, i);
+    current = server->data.clients;
+    while (current != NULL) {
+        if (FD_ISSET(current->client.fd, &server->addrs.rfds)
+        && current->client.fd != server->addrs.socket_fd) {
+            read_from_client(server, current);
+            break;
+        }
+        current = current->next;
     }
     return 0;
 }
 
 int run_server(server_t server)
 {
-    printf("Server here !\n");
+    printf("Server Started!\n");
     block_signal(&server.sfd);
+
 
     while (true) {
         re_set_fds(&server, server.sfd);
