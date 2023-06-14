@@ -157,7 +157,9 @@ void Zappy::GameData::pbc(std::vector<std::string> &content)
     if (_player.count(id) == 0)
         throw Error("player id don't exist", content[0]);
     auto position = _player[id]->getPosition();
-    _broadCastNew.push_back(BroadCast(id, position, content[1]));
+
+    broadcast_t e = {id, position, content[1]};
+    _broadCast.addBroadCast(e);
     std::cout << ": New broadcast by player" << content[0] << ":" << content[1] << std::endl;
 }
 

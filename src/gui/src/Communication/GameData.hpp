@@ -61,8 +61,7 @@ namespace Zappy {
             std::unordered_map<std::string, std::shared_ptr<Team>> _teams;
             std::unordered_map<std::size_t, std::shared_ptr<Player>> _player;
 
-            std::vector<BroadCast> _broadCastNew;
-            std::vector<BroadCast> _broadCastArchive;
+            BroadCast _broadCast;
 
             TimeUnit _timeUnit;
 
