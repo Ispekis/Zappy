@@ -12,6 +12,16 @@ Zappy::Rect::Rect(Texture2D text)
     _text = text;
 }
 
+void Zappy::Rect::setTexture(Texture2D text)
+{
+    _text = text;
+}
+
+Rectangle Zappy::Rect::getRect()
+{
+    return _dest;
+}
+
 void Zappy::Rect::drawRect(float width, float height, Vector2 position)
 {
     Rectangle src;
@@ -20,13 +30,13 @@ void Zappy::Rect::drawRect(float width, float height, Vector2 position)
     src.width = _text.width;
     src.height = _text.height;
 
-    Rectangle dest;
-    dest.x = position.x;
-    dest.y = position.y;
-    dest.width = width;
-    dest.height = height;
+    _dest;
+    _dest.x = position.x;
+    _dest.y = position.y;
+    _dest.width = width;
+    _dest.height = height;
 
-    DrawTexturePro(_text, src, dest,  Vector2{0, 0}, 0, WHITE);
+    DrawTexturePro(_text, src, _dest,  Vector2{0, 0}, 0, WHITE);
 }
 
 Zappy::Rect::~Rect()
