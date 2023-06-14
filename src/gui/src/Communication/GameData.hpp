@@ -18,6 +18,7 @@
     #include "Tile.hpp"
     #include "TimeUnit.hpp"
     #include "Player.hpp"
+    #include "BroadCast.hpp"
 
 namespace Zappy {
     class GameData {
@@ -59,6 +60,9 @@ namespace Zappy {
 
             std::unordered_map<std::string, std::shared_ptr<Team>> _teams;
             std::unordered_map<std::size_t, std::shared_ptr<Player>> _player;
+
+            std::vector<BroadCast> _broadCastNew;
+            std::vector<BroadCast> _broadCastArchive;
 
             TimeUnit _timeUnit;
 

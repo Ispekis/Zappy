@@ -33,6 +33,7 @@ GRAPHIC =	$(addprefix src/Graphic/,		\
 
 SRC	=	$(addprefix src/,				\
 			Parser.cpp					\
+			BroadCast.cpp					\
 			Error.cpp					\
 			Gui.cpp						\
 			$(addprefix Encapsulation/,	\
