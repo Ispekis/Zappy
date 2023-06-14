@@ -9,11 +9,11 @@ def parseLook(look:str):
 
 def parseInventory(inventory:str):
     tmp = inventory.split(',')
-    res = [()]
+    res = {}
     for i in range(len(tmp)):
         v = tmp[i].split()
-        res.append((v[0], v[1]))
-    return res[1:]
+        res[v[0]] = int(v[1])
+    return res
 
 def updateNbPlayer(nbPlayer:str):
     return nbPlayer
