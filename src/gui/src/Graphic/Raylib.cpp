@@ -174,6 +174,13 @@ void Zappy::Raylib::drawMap()
         DrawGrid(10, 2.0f);
 }
 
+void Zappy::Raylib::drawText()
+{
+    DrawText("Play", 900, 470, 50, WHITE);
+    DrawText("Settings", 850, 670, 50, WHITE);
+    DrawText("Quit", 900, 870, 50, WHITE);
+}
+
 void Zappy::Raylib::drawButton()
 {
     _rectangle["menuPlayButton"]->drawRect(1000, 100, {470, 450});
@@ -221,6 +228,7 @@ void Zappy::Raylib::drawMenu()
 
     drawLogo();
     drawButton();
+    drawText();
 }
 
 void Zappy::Raylib::drawBackground()
