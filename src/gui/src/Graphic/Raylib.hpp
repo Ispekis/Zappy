@@ -159,12 +159,12 @@ namespace Zappy {
             Music _music;
             Sound _click;
 
-            bool _cameraMove;
             Vector3 pos;
     
             std::map<std::string, Texture2D> _texture;
             std::map<std::string, std::shared_ptr<Sprite>> _sprite;
             std::map<std::string, std::shared_ptr<Rect>> _rectangle;
+            std::map<std::string, Shader> _shader;
             std::shared_ptr<Data> _data;
 
     };

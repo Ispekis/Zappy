@@ -31,6 +31,7 @@ MAP =	$(addprefix src/Map/,			\
 GRAPHIC =	$(addprefix src/Graphic/,		\
 				Raylib.cpp			\
 				Sprite.cpp			\
+				Shaders.cpp			\
 				Rectangle.cpp		)
 
 SRC	=	$(addprefix src/,				\

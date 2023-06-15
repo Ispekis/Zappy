@@ -51,6 +51,8 @@ Texture2D LoadTextureFromFile(std::string path)
 
 void Zappy::Raylib::setTexture()
 {
+    _shader.insert({"waterWave", LoadShader(0, TextFormat("src/gui/assets/shaders/wave.fs"))});
+
     _texture.insert({"Background", LoadTextureFromFile("src/gui/assets/background.png")});
     _texture.insert({"Pano0", LoadTextureFromFile("src/gui/assets/panorama_0.png")});
     _texture.insert({"Pano1", LoadTextureFromFile("src/gui/assets/panorama_1.png")});
@@ -67,7 +69,17 @@ void Zappy::Raylib::setTexture()
     _texture.insert({"basicButton", LoadTextureFromFile("src/gui/assets/basic_button.png")});
     _texture.insert({"hoverButton", LoadTextureFromFile("src/gui/assets/hover_button.png")});
 
-    _sprite.insert({"water", std::make_shared<Sprite>(_texture["water"], _texture["clearbackground"], _texture["water"])});
+    _texture.insert({"beef", LoadTextureFromFile("src/gui/assets/beef_cooked.png")});
+    _texture.insert({"carrot", LoadTextureFromFile("src/gui/assets/carrot_golden.png")});
+    _texture.insert({"coal", LoadTextureFromFile("src/gui/assets/coal.png")});
+    _texture.insert({"diamond", LoadTextureFromFile("src/gui/assets/diamond.png")});
+    _texture.insert({"emerald", LoadTextureFromFile("src/gui/assets/emerald.png")});
+    _texture.insert({"gold", LoadTextureFromFile("src/gui/assets/gold_ingot.png")});
+    _texture.insert({"iron", LoadTextureFromFile("src/gui/assets/iron_ingot.png")});
+    _texture.insert({"netherStar", LoadTextureFromFile("src/gui/assets/nether_star.png")});
+    _texture.insert({"quartz", LoadTextureFromFile("src/gui/assets/quartz.png")});
+
+    _sprite.insert({"water", std::make_shared<Sprite>(_texture["water"], _texture["clearbackground"], _texture["water"], _shader["waterWave"])});
     _sprite.insert({"grass", std::make_shared<Sprite>(_texture["grassTop"], _texture["grassSide"], _texture["dirt"])});
     _sprite.insert({"menuTop", std::make_shared<Sprite>(_texture["Pano4"], _texture["Pano4"], _texture["Pano4"])});
     _sprite.insert({"menuBot", std::make_shared<Sprite>(_texture["Pano5"], _texture["Pano5"], _texture["Pano5"])});
@@ -81,7 +93,6 @@ void Zappy::Raylib::setTexture()
     _rectangle.insert({"menuSettingsButton", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"menuQuitButton", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"menuHoverButton", std::make_shared<Rect>(_texture["hoverButton"])});
-
 }
 
 void Zappy::Raylib::setData(std::shared_ptr<Data> data)
