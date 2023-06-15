@@ -9,6 +9,7 @@
 #define INCANTATION_HPP_
     #include <iostream>
     #include <vector>
+    #include <sstream>
 
 namespace Zappy {
     struct Incantation_t {
@@ -28,10 +29,13 @@ namespace Zappy {
 
         void startIncantation();
 
+        void endIncantation(std::vector<std::string> &);
+
     protected:
     private:
         std::vector<Incantation_t> _incantationCurrent;
         std::vector<Incantation_t> _incantationDone;
+        std::vector<std::pair<std::pair<std::size_t, std::size_t>, bool>> _done;
     };
 }
 #endif /* !INCANTATION_HPP_ */

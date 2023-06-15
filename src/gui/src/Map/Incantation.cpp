@@ -34,3 +34,17 @@ void Zappy::Incantation::addIncantation(std::vector<std::string> &content)
         printf("[%d]", element);
     std::cout << std::endl;
 }
+
+void Zappy::Incantation::endIncantation(std::vector<std::string> &content)
+{
+    std::pair<std::pair<std::size_t, std::size_t>, bool> state;
+    bool b;
+    // istringstream("1") >> b;
+    if (content[2] == "0")
+        state = std::make_pair(std::make_pair(std::stoul(content[0]),std::stoul(content[1])), false); // failed
+    else
+        state = std::make_pair(std::make_pair(std::stoul(content[0]),std::stoul(content[1])), true); // succes
+    _done.push_back(state);
+
+    // Incantation  end
+}
