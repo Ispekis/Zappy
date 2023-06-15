@@ -19,6 +19,7 @@
     #include "TimeUnit.hpp"
     #include "Player.hpp"
     #include "BroadCast.hpp"
+    #include "Incantation.hpp"
 
 namespace Zappy {
     class GameData {
@@ -63,6 +64,8 @@ namespace Zappy {
 
             BroadCast _broadCast;
 
+            Incantation _incantationList;
+            
             TimeUnit _timeUnit;
 
         protected:
