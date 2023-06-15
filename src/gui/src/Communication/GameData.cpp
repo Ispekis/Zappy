@@ -76,11 +76,6 @@ void Zappy::GameData::pnw(std::vector<std::string> &content)
     if (content.size() != 6)
         throw Error("Error server response MSZ args", "Expected: 6, Got: " + std::to_string(content.size()));
     std::cout << "pnw" << std::endl;
-    // for (auto element : content)
-    // {
-        // printf("[%s] ", element.c_str());
-    // };
-    // std::cout << std::endl;
 
     if (_teams.count(content[5]) == 0)
         throw Error("team don't exist", content[5]);
@@ -146,6 +141,7 @@ void Zappy::GameData::pin(std::vector<std::string> &content)
 void Zappy::GameData::pex(std::vector<std::string> &content)
 {
     std::cout << "pex" << std::endl;
+    // expulsion
 }
 
 void Zappy::GameData::pbc(std::vector<std::string> &content)
@@ -165,17 +161,29 @@ void Zappy::GameData::pbc(std::vector<std::string> &content)
 
 void Zappy::GameData::pic(std::vector<std::string> &content)
 {
-    std::cout << "pic" << std::endl;
+    std::cout << "pic:";
+    //     for (auto element : content)
+    // {
+    //     printf("[%s] ", element.c_str());
+    // };
+    std::cout << std::endl;
+    checkInt(content);
+    if (content.size() < 4)
+        throw Error("Error server response PIC args", "Expected: >= 4, Got: " + std::to_string(content.size()));
+    _incantationList.addIncantation(content);
+    // Incantation start
 }
 
 void Zappy::GameData::pie(std::vector<std::string> &content)
 {
     std::cout << "pie" << std::endl;
+    // Incantation  end
 }
 
 void Zappy::GameData::pfk(std::vector<std::string> &content)
 {
     std::cout << "pfk" << std::endl;
+    // egg laying
 }
 
 void Zappy::GameData::pdr(std::vector<std::string> &content)
