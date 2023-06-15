@@ -53,3 +53,40 @@ std::size_t Zappy::Player::getLevel() const
 {
     return _level;
 }
+
+void Zappy::Player::setPosition(std::pair<std::size_t, std::size_t> newPosition)
+{
+    _position = newPosition;
+}
+
+void Zappy::Player::setInventory(std::vector<std::string> newInventory)
+{
+    // std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
+    for (std::size_t i = 0; i != newInventory.size() - 1; i++)
+        _inventory[ressource[i]] = std::stoul(newInventory[i]);
+}
+
+void Zappy::Player::setOrientation(Orientation newOrientation)
+{
+    _orientation = newOrientation;
+}
+
+void Zappy::Player::setLevel(std::size_t newLevel)
+{
+    _level = newLevel;
+}
+
+void Zappy::Player::setIncantation(bool state)
+{
+    _incantation = state;
+}
+
+
+void Zappy::Player::setDropAnimation(bool state)
+{
+    _drop = state;
+}
+void Zappy::Player::setPickAnimation(bool state)
+{
+    _pick = state;
+}

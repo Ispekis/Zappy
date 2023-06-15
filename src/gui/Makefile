@@ -21,6 +21,8 @@ MAP =	$(addprefix src/Map/,			\
 				Thystame.cpp				\
 				Food.cpp					)\
 			Player.cpp					\
+			BroadCast.cpp					\
+			Incantation.cpp					\
 			Team.cpp					\
 			TimeUnit.cpp 				\
 			Tile.cpp					\
@@ -65,7 +67,7 @@ CPPFLAGS	+=	-I./src/Communication
 CPPFLAGS	+=	-I./src/Map
 CPPFLAGS	+=	-I./src/Map/Ressource
 
-CFLAGS	=	-Wall -Wextra
+CPPFLAGS	+=	-Wall -Wextra
 
 LDFLAGS	=	-lraylib -lpthread -ldl
 

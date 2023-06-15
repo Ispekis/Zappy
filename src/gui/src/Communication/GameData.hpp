@@ -18,6 +18,8 @@
     #include "Tile.hpp"
     #include "TimeUnit.hpp"
     #include "Player.hpp"
+    #include "BroadCast.hpp"
+    #include "Incantation.hpp"
 
 namespace Zappy {
     class GameData {
@@ -52,7 +54,7 @@ namespace Zappy {
 
             // std::vector<std::vector<int>> _map;
             bool _dataSet;
-
+            bool _end;
             std::vector<std::vector<Tile>> _map;
             std::pair<std::size_t, std::size_t> _mapSize;
             std::shared_ptr<RessourceFactory> _factory = std::make_shared<RessourceFactory>();
@@ -60,6 +62,10 @@ namespace Zappy {
             std::unordered_map<std::string, std::shared_ptr<Team>> _teams;
             std::unordered_map<std::size_t, std::shared_ptr<Player>> _player;
 
+            BroadCast _broadCast;
+
+            Incantation _incantationList;
+            
             TimeUnit _timeUnit;
 
         protected:

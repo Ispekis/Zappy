@@ -7,7 +7,7 @@
 
 #include "Raylib.hpp"
 
-Zappy::Raylib::Raylib(int screenWidth, int screenHeight, std::string title)
+Zappy::Raylib::Raylib(std::string title)
 {
     InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str());
     InitAudioDevice();
@@ -41,7 +41,6 @@ void Zappy::Raylib::setCamera()
     _cameraMenu.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     _cameraMenu.fovy = 70.0f;                                // Camera field-of-view Y
     _cameraMenu.projection = CAMERA_PERSPECTIVE;
-    pos = {0, 0, 0};
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
 }
 
@@ -98,6 +97,8 @@ void Zappy::Raylib::run(bool &isRunning)
         UpdateMusicStream(_music);
         event();
         draw();
+        if (_data->_gameData._end == true)
+            break;
     }
     UnloadMusicStream(_music);
     UnloadSound(_click);
@@ -116,7 +117,6 @@ void Zappy::Raylib::cameraEvent()
         _cameraMode = CAMERA_ORBITAL;
     else 
         _cameraMode = CAMERA_THIRD_PERSON;
-    printf("{%2.f,%2.f,%2.f}\n", _camera.position.x, _camera.position.y, _camera.position.z);
 }
 
 void Zappy::Raylib::mouseClicking()
@@ -202,16 +202,16 @@ void Zappy::Raylib::drawWater(std::size_t x, std::size_t y, std::pair<std::size_
 void Zappy::Raylib::drawMap()
 {
     auto mapSize = _data->_gameData._mapSize;
-    int water = 30;
+    std::size_t water = 30;
     auto size = std::make_pair(mapSize.first + water * 2, mapSize.second + water * 2);
-    for (int x = 0; x != mapSize.first + water * 2; x++)
-        for (int y = 0; y != mapSize.second + water * 2; y++) {
+    for (std::size_t x = 0; x != mapSize.first + water * 2; x++)
+        for (std::size_t y = 0; y != mapSize.second + water * 2; y++) {
             if (y >= water && y <= mapSize.second + water && x >= water && x <= mapSize.first + water)
                 drawTile(x, y, size);
             else
                 drawWater(x, y, size);
         }
-        DrawGrid(10, 2.0f);
+    DrawGrid(10, 2.0f);
 }
 
 void Zappy::Raylib::drawText()

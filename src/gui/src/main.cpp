@@ -10,7 +10,7 @@
 #include "Gui.hpp"
 #include "macro.hpp"
 
-void show_usage(char *binary, int fd)
+void show_usage(char *binary)
 {
     std::cout << "USAGE: " << binary << " -p port -h machine" << std::endl;
     std::cout << "\tport\tis the port number" << std::endl;
@@ -20,7 +20,7 @@ void show_usage(char *binary, int fd)
 int main(const int ac, char *const *av)
 {
         if (ac == 2 && std::strcmp(av[1], "-help") == 0) {
-            show_usage(av[0], STDOUT_FILENO);
+            show_usage(av[0]);
             return MY_EXIT_SUCCESS;
         }
 

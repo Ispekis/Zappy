@@ -23,7 +23,7 @@
 namespace Zappy {
     class Raylib {
         public:
-            Raylib(int screenWidth, int screenHeight, std::string title);
+            Raylib(std::string title);
             ~Raylib();
 
             /**
@@ -136,15 +136,24 @@ namespace Zappy {
              */
             void drawTile(std::size_t, std::size_t,  std::pair<std::size_t, std::size_t>);
 
+            /**
+             * @brief Draw water at position x and y with the map size
+             * 
+             * @param x 
+             * @param y 
+             * @param map 
+             */
             void drawWater(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map);
 
         protected:
         private:
-            std::shared_ptr<Data> _data;
-            Camera3D _camera = { 0 };
-            Camera3D _cameraMenu = { 0 };
+
+            Camera3D _camera;
+            Camera3D _cameraMenu;
+
             int _cameraMode;
             float _cameraSpeed;
+            bool _cameraMove;
             bool _menu;
             bool _exitWindow = false;
             Music _music;
@@ -152,9 +161,12 @@ namespace Zappy {
 
             bool _cameraMove;
             Vector3 pos;
+    
             std::map<std::string, Texture2D> _texture;
             std::map<std::string, std::shared_ptr<Sprite>> _sprite;
             std::map<std::string, std::shared_ptr<Rect>> _rectangle;
+            std::shared_ptr<Data> _data;
+
     };
 }
 

@@ -15,10 +15,18 @@ Zappy::GameData::~GameData()
 {
 }
 
+template <typename T>
+static std::pair<std::vector<T>, std::vector<T>> separateVectorByIndex(std::vector<T> &content, std::size_t index)
+{
+    std::vector<T> begin(content.begin(), content.begin() + index);
+    std::vector<T> end(content.begin() + index, content.end());
+    return std::make_pair(begin, end);
+}
+
 static void checkInt(std::vector<std::string> &content)
 {
     for (auto element : content)
-        for (int i = 0; i != element.size(); i++)
+        for (std::size_t i = 0; i != element.size(); i++)
             if (!std::isdigit(element[i]))
                 throw Error("Error server response, element is not an int", content[i]);
 }
@@ -28,7 +36,6 @@ void Zappy::GameData::msz(std::vector<std::string> &content)
     checkInt(content);
     if (content.size() != 2)
         throw Error("Error server response MSZ args", "Expected: 2, Got: " + std::to_string(content.size()));
-
     _mapSize = std::make_pair(std::stoi(content[0]), std::stoi(content[1]));
     for (std::size_t x = 0; x != _mapSize.first; x++) {
         std::vector<Tile> tmp;
@@ -44,14 +51,11 @@ void Zappy::GameData::bct(std::vector<std::string> &content)
     checkInt(content);
     if (content.size() != 9)
         throw Error("Error server response MSZ args", "Expected: 9, Got: " + std::to_string(content.size()));
-
     int x = std::stoi(content[0]);
     int y = std::stoi(content[1]);
-
     content.erase(content.begin());
     content.erase(content.begin());
     _map[x][y].setRessources(content);
-    
 }
 
 void Zappy::GameData::tna(std::vector<std::string> &content)
@@ -72,12 +76,9 @@ void Zappy::GameData::pnw(std::vector<std::string> &content)
     if (content.size() != 6)
         throw Error("Error server response MSZ args", "Expected: 6, Got: " + std::to_string(content.size()));
     std::cout << "pnw" << std::endl;
-    for (auto element : content)
-    {
-        printf("[%s] ", element.c_str());
-    };
-    std::cout << std::endl;
 
+    if (_teams.count(content[5]) == 0)
+        throw Error("team don't exist", content[5]);
     std::shared_ptr<Team> team = _teams[content[5]];
     std::shared_ptr<Player> player = std::make_shared<Player>(content, team);
     team->addPlayer(std::stoul(content[0]));
@@ -86,52 +87,141 @@ void Zappy::GameData::pnw(std::vector<std::string> &content)
 
 void Zappy::GameData::ppo(std::vector<std::string> &content)
 {
-    std::cout << "ppo" << std::endl;
+    // std::cout << "ppo" << std::endl;
+    checkInt(content);
+    if (content.size() != 4)
+        throw Error("Error server response PPO args", "Expected: 4, Got: " + std::to_string(content.size()));
+
+    std::size_t id = std::stoul(content[0]);
+    std::pair<std::size_t, std::size_t> newPosition = std::make_pair(std::stoul(content[1]), std::stoul(content[2]));
+    Orientation newOrientation = static_cast<Orientation>(std::stoi(content[3]));
+
+    if (_player.count(id) == 0)
+        throw Error("player id don't exist", content[0]);
+    _player[id]->setPosition(newPosition);
+    _player[id]->setOrientation(newOrientation);
+    std::cout << "player id:" << id << "moved to" << newPosition.first << ":" << newPosition.second << std::endl;
 }
 
 void Zappy::GameData::plv(std::vector<std::string> &content)
 {
-    std::cout << "plv" << std::endl;
+    // std::cout << "plv" << std::endl;
+    checkInt(content);
+    if (content.size() != 2)
+        throw Error("Error server response PLV args", "Expected: 2, Got: " + std::to_string(content.size()));
+
+    std::size_t id = std::stoul(content[0]);
+    std::size_t newLevel = std::stoul(content[1]);
+    
+    if (_player.count(id) == 0)
+        throw Error("player id don't exist", content[0]);
+    _player[id]->setLevel(newLevel);
+    std::cout << "player id:" << id << "level is:" << newLevel << std::endl;
+
 }
 
 void Zappy::GameData::pin(std::vector<std::string> &content)
 {
     std::cout << "pin" << std::endl;
+    checkInt(content);
+    if (content.size() != 10)
+        throw Error("Error server response PIN args", "Expected: 10, Got: " + std::to_string(content.size()));
+
+    std::size_t id = std::stoul(content[0]);
+    if (_player.count(id) == 0)
+        throw Error("player id don't exist", content[0]);
+
+    auto newPosition = std::make_pair(std::stoul(content[1]), std::stoul(content[2]));
+    _player[id]->setPosition(newPosition);
+    auto split = separateVectorByIndex(content, 2);
+    _player[id]->setInventory(split.second);
+    std::cout << "player id:" << id << "inventory set:" << std::endl;
 }
 
 void Zappy::GameData::pex(std::vector<std::string> &content)
 {
     std::cout << "pex" << std::endl;
+    // expulsion
 }
 
 void Zappy::GameData::pbc(std::vector<std::string> &content)
 {
-    std::cout << "pbc" << std::endl;
+    std::cout << "pbc";
+    std::size_t id = std::stoul(content[0]);
+    if (content.size() != 2)
+        throw Error("Error server response PIN args", "Expected: 2, Got: " + std::to_string(content.size()));
+    checkInt(content);
+    if (_player.count(id) == 0)
+        throw Error("player id don't exist", content[0]);
+    auto position = _player[id]->getPosition();
+
+    broadcast_t e = {id, position, content[1]};
+    _broadCast.addBroadCast(e);
+    std::cout << ": New broadcast by player" << content[0] << ":" << content[1] << std::endl;
 }
 
 void Zappy::GameData::pic(std::vector<std::string> &content)
 {
-    std::cout << "pic" << std::endl;
+    std::cout << "pic:";
+ 
+    std::cout << std::endl;
+    checkInt(content);
+    if (content.size() < 4)
+        throw Error("Error server response PIC args", "Expected: >= 4, Got: " + std::to_string(content.size()));
+    _incantationList.addIncantation(content);
+    // Incantation start
 }
 
 void Zappy::GameData::pie(std::vector<std::string> &content)
 {
     std::cout << "pie" << std::endl;
+    std::pair<std::size_t, std::size_t> position = std::make_pair(std::stoul(content[0]), std::stoul(content[1]));
+    if (content.size() != 3)
+        throw Error("Error server response PIN args", "Expected: 3, Got: " + std::to_string(content.size()));
+    checkInt(content);
+
+    _incantationList.endIncantation(content);
+    if (content[2] == "0")
+        ;// failed
+    else
+        ; // sucess
+    // Incantation  end
+    for (auto element : content)
+    {
+        printf("[%s] ", element.c_str());
+    };
 }
 
 void Zappy::GameData::pfk(std::vector<std::string> &content)
 {
     std::cout << "pfk" << std::endl;
+    // egg laying
 }
 
 void Zappy::GameData::pdr(std::vector<std::string> &content)
 {
-    std::cout << "pdr" << std::endl;
+    std::cout << "pdr:";
+    checkInt(content);
+    if (content.size() != 2)
+        throw Error("Error server response PIN args", "Expected: 2, Got: " + std::to_string(content.size()));
+    std::size_t id = std::stoul(content[0]);
+    if (_player.count(id) == 0)
+        throw Error("player id don't exist", content[0]);
+    _player[id]->setDropAnimation(true);
+    std::cout << "Drop Animation added" << std::endl;
 }
 
 void Zappy::GameData::pgt(std::vector<std::string> &content)
 {
-    std::cout << "pgt" << std::endl;
+    std::cout << "pgt:";
+    checkInt(content);
+    if (content.size() != 2)
+        throw Error("Error server response PIN args", "Expected: 2, Got: " + std::to_string(content.size()));
+    std::size_t id = std::stoul(content[0]);
+    if (_player.count(id) == 0)
+        throw Error("player id don't exist", content[0]);
+    _player[id]->setPickAnimation(true);
+    std::cout << "Pick Animation added" << std::endl;
 }
 
 void Zappy::GameData::pdi(std::vector<std::string> &content)
@@ -181,17 +271,19 @@ void Zappy::GameData::sgt(std::vector<std::string> &content)
 
 void Zappy::GameData::sst(std::vector<std::string> &content)
 {
-    std::cout << "sst" << std::endl;
+    std::cout << "sst: Time Unit updated:" << content[0] << std::endl;
+    
 }
 
 void Zappy::GameData::seg(std::vector<std::string> &content)
 {
-    std::cout << "seg" << std::endl;
+    std::cout << "seg: end game" << std::endl;
+    _end = true;
 }
 
 void Zappy::GameData::smg(std::vector<std::string> &content)
 {
-    std::cout << "smg" << std::endl;
+    std::cout << "smg:"<< content[0] << std::endl;
 }
 
 void Zappy::GameData::suc(std::vector<std::string> &content)
