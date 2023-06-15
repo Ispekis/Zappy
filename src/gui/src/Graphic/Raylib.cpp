@@ -197,31 +197,18 @@ void Zappy::Raylib::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t
     _sprite["grass"]->drawBlockTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
 }
 
-void Zappy::Raylib::drawWater(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
+void Zappy::Raylib::drawWater()
 {
-    float size = 2.0f;
-    int midX = map.first / 2;
-    int midY = map.second / 2;
-
-    float posX = size * x - (midX * size) + 1;
-    float posY = size * y - (midY * size) + 1;
-    float posZ = size / 2;
-    _sprite["water"]->drawWaterTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
-
+    _sprite["water"]->drawWaterTexture((Vector3){0, 0.9, 0}, (Vector3){200, 0.9, 200}, GRAY);
 }
 
 void Zappy::Raylib::drawMap()
 {
     auto mapSize = _data->_gameData._mapSize;
-    std::size_t water = 30;
-    auto size = std::make_pair(mapSize.first + water * 2, mapSize.second + water * 2);
-    for (std::size_t x = 0; x != mapSize.first + water * 2; x++)
-        for (std::size_t y = 0; y != mapSize.second + water * 2; y++) {
-            if (y >= water && y <= mapSize.second + water && x >= water && x <= mapSize.first + water)
-                drawTile(x, y, size);
-            else
-                drawWater(x, y, size);
-        }
+    for (std::size_t x = 0; x != mapSize.first; x++)
+        for (std::size_t y = 0; y != mapSize.second; y++)
+                drawTile(x, y, mapSize);
+    drawWater();
     DrawGrid(10, 2.0f);
 }
 
