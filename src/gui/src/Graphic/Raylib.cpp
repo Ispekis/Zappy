@@ -206,7 +206,7 @@ void Zappy::Raylib::drawWater(std::size_t x, std::size_t y, std::pair<std::size_
     float posX = size * x - (midX * size) + 1;
     float posY = size * y - (midY * size) + 1;
     float posZ = size / 2;
-    _sprite["water"]->drawBlockTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
+    _sprite["water"]->drawWaterTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
 
 }
 
