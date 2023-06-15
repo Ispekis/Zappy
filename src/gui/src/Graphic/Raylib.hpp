@@ -143,7 +143,7 @@ namespace Zappy {
              * @param y 
              * @param map 
              */
-            void drawWater(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map);
+            void drawWater();
 
         protected:
         private:
