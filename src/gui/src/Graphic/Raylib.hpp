@@ -137,13 +137,12 @@ namespace Zappy {
             void drawTile(std::size_t, std::size_t,  std::pair<std::size_t, std::size_t>);
 
             /**
-             * @brief Draw water at position x and y with the map size
+             * @brief Draw water
              * 
-             * @param x 
-             * @param y 
-             * @param map 
              */
             void drawWater();
+
+            void drawItem(std::size_t, std::size_t,  std::pair<std::size_t, std::size_t>);
 
         protected:
         private:

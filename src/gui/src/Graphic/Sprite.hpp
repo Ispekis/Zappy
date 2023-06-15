@@ -26,6 +26,7 @@ namespace Zappy {
              */
             Sprite(Texture2D top, Texture2D side, Texture2D bot, Shader _shader);
             Sprite(Texture2D top, Texture2D side, Texture2D bot);
+            Sprite(Texture2D item);
 
             /**
              * @brief Set the Texture object
@@ -52,16 +53,19 @@ namespace Zappy {
             ~Sprite();
             void drawBlockTexture(Vector3 position, Vector3 size, Color color);
             void drawWaterTexture(Vector3 position, Vector3 size, Color color);
+            void drawItemTexture(Vector3 position, Vector3 size, Color color);
+    
         protected:
         private:
             Texture2D _top;
             Texture2D _side;
             Texture2D _bot;
+            Texture2D _item;
             std::shared_ptr<Shaders> _shader;
             bool ret = false;
             float itemBounce = 0;
             float seconds = 0;
-            float Rotation = 0;
+            float itemRotation = 0;
     };
 }
 

@@ -88,6 +88,16 @@ void Zappy::Raylib::setTexture()
     _sprite.insert({"menuBack", std::make_shared<Sprite>(_texture["Pano2"], _texture["Pano2"], _texture["Pano2"])});
     _sprite.insert({"menuLeft", std::make_shared<Sprite>(_texture["Pano3"], _texture["Pano3"], _texture["Pano3"])});
 
+    _sprite.insert({"beef", std::make_shared<Sprite>(_texture["beef"])});
+    _sprite.insert({"carrot", std::make_shared<Sprite>(_texture["carrot"])});
+    _sprite.insert({"coal", std::make_shared<Sprite>(_texture["coal"])});
+    _sprite.insert({"diamond", std::make_shared<Sprite>(_texture["diamond"])});
+    _sprite.insert({"emerald", std::make_shared<Sprite>(_texture["emerald"])});
+    _sprite.insert({"gold", std::make_shared<Sprite>(_texture["gold"])});
+    _sprite.insert({"iron", std::make_shared<Sprite>(_texture["iron"])});
+    _sprite.insert({"netherStar", std::make_shared<Sprite>(_texture["netherStar"])});
+    _sprite.insert({"quartz", std::make_shared<Sprite>(_texture["quartz"])});
+
     _rectangle.insert({"menuLogo", std::make_shared<Rect>(_texture["Logo"])});
     _rectangle.insert({"menuPlayButton", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"menuSettingsButton", std::make_shared<Rect>(_texture["basicButton"])});
@@ -202,14 +212,31 @@ void Zappy::Raylib::drawWater()
     _sprite["water"]->drawWaterTexture((Vector3){0, 0.9, 0}, (Vector3){200, 0.9, 200}, GRAY);
 }
 
+
+void Zappy::Raylib::drawItem(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
+{
+    float size = 2.0f;
+    int midX = map.first / 2;
+    int midY = map.second / 2;
+
+    float posX = size * x - (midX * size) + 1;
+    float posY = size * y - (midY * size) + 1;
+    float posZ = size / 2;
+    _sprite["netherStar"]->drawItemTexture((Vector3){0, posZ + size, 0}, (Vector3){size, size, size}, WHITE);
+}
+
 void Zappy::Raylib::drawMap()
 {
     auto mapSize = _data->_gameData._mapSize;
     for (std::size_t x = 0; x != mapSize.first; x++)
-        for (std::size_t y = 0; y != mapSize.second; y++)
-                drawTile(x, y, mapSize);
+        for (std::size_t y = 0; y != mapSize.second; y++) {
+            drawItem(x, y, mapSize);
+            drawTile(x, y, mapSize);
+        }
+
     drawWater();
     DrawGrid(10, 2.0f);
+    DrawFPS(10, 10);
 }
 
 void Zappy::Raylib::drawText()
