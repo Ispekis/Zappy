@@ -20,12 +20,17 @@ static void connect_player(node_t *client, data_t data)
 
 static team_t *add_player_to_team(char *name, int fd, data_t *data)
 {
+    char buffer[1024];
+    int bytes = 0;
+
     for (int i = 0; i < data->nb_teams; i++) {
         if (strcmp(name, data->teams[i].name) == 0
         && data->teams[i].clients_nbr > 0) {
             data->teams[i].clients_nbr--;
-            dprintf(fd, "%i\n", data->teams[i].clients_nbr);
-            dprintf(fd, "%i %i\n", data->width, data->height);
+            bytes = sprintf(buffer, "%i\n%i %i", data->teams[i].clients_nbr,
+            data->width, data->height);
+            buffer[bytes] = '\0';
+            dprintf(fd, "%s\n", buffer);
             return &data->teams[i];
         }
     }

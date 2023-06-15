@@ -7,6 +7,7 @@ from player import Player
 from movement import Movement
 from macro import *
 from level import levelUp
+
 class AI:
     def __init__(self, port:str, machine:str, name:str):
         """Run the AI script
