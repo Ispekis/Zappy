@@ -150,6 +150,7 @@ void Zappy::GameData::pbc(std::vector<std::string> &content)
     std::size_t id = std::stoul(content[0]);
     if (content.size() != 2)
         throw Error("Error server response PIN args", "Expected: 2, Got: " + std::to_string(content.size()));
+    checkInt(content);
     if (_player.count(id) == 0)
         throw Error("player id don't exist", content[0]);
     auto position = _player[id]->getPosition();
@@ -162,10 +163,7 @@ void Zappy::GameData::pbc(std::vector<std::string> &content)
 void Zappy::GameData::pic(std::vector<std::string> &content)
 {
     std::cout << "pic:";
-    //     for (auto element : content)
-    // {
-    //     printf("[%s] ", element.c_str());
-    // };
+ 
     std::cout << std::endl;
     checkInt(content);
     if (content.size() < 4)
@@ -177,7 +175,21 @@ void Zappy::GameData::pic(std::vector<std::string> &content)
 void Zappy::GameData::pie(std::vector<std::string> &content)
 {
     std::cout << "pie" << std::endl;
+    std::pair<std::size_t, std::size_t> position = std::make_pair(std::stoul(content[0]), std::stoul(content[1]));
+    if (content.size() != 3)
+        throw Error("Error server response PIN args", "Expected: 3, Got: " + std::to_string(content.size()));
+    checkInt(content);
+
+    _incantationList.endIncantation(content);
+    if (content[2] == "0")
+        ;// failed
+    else
+        ; // sucess
     // Incantation  end
+    for (auto element : content)
+    {
+        printf("[%s] ", element.c_str());
+    };
 }
 
 void Zappy::GameData::pfk(std::vector<std::string> &content)
