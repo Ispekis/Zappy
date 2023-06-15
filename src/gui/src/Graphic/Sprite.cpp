@@ -150,9 +150,9 @@ void Zappy::Sprite::drawItemTexture(Vector3 position, Vector3 size, Color color)
     float height = size.y;
 
     itemRotation -= 0.01f;;
-    if (itemBounce < height - (height / 8)  && ret == false) {
+    if (itemBounce < height / 2 && ret == false) {
         itemBounce += 0.0001f;
-        if (itemBounce > height - (height / 8) )
+        if (itemBounce > height / 2)
             ret = true;
     }
     if (itemBounce > -height / 8 && ret == true) {

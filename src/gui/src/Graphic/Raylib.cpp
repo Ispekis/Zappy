@@ -230,11 +230,14 @@ void Zappy::Raylib::drawMap()
     auto mapSize = _data->_gameData._mapSize;
     for (std::size_t x = 0; x != mapSize.first; x++)
         for (std::size_t y = 0; y != mapSize.second; y++) {
-            drawItem(x, y, mapSize);
             drawTile(x, y, mapSize);
         }
 
     drawWater();
+    for (std::size_t x = 0; x != mapSize.first; x++)
+        for (std::size_t y = 0; y != mapSize.second; y++) {
+            drawItem(x, y, mapSize);
+        }
     DrawGrid(10, 2.0f);
     DrawFPS(10, 10);
 }
