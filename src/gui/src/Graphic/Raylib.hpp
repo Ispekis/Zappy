@@ -11,6 +11,7 @@
     #define SCREEN_HEIGHT 1080
 
     #include <raylib.h>
+    #include <raylib-cpp.hpp>
     #include <string>
     #include <iostream>
     #include <memory>
@@ -146,7 +147,7 @@ namespace Zappy {
 
         protected:
         private:
-
+            raylib::Window _window;
             Camera3D _camera;
             Camera3D _cameraMenu;
 
