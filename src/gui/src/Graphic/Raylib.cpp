@@ -7,9 +7,8 @@
 
 #include "Raylib.hpp"
 
-Zappy::Raylib::Raylib(std::string title)
+Zappy::Raylib::Raylib(std::string title) : _window(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str())
 {
-    InitWindow(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str());
     InitAudioDevice();
     if (!IsWindowReady())
         throw Error("RayLib", "Error Init Window");
@@ -51,6 +50,7 @@ Texture2D LoadTextureFromFile(std::string path)
 
 void Zappy::Raylib::setTexture()
 {
+    
     _shader.insert({"waterWave", LoadShader(0, TextFormat("src/gui/assets/shaders/wave.fs"))});
 
     _texture.insert({"Background", LoadTextureFromFile("src/gui/assets/background.png")});
