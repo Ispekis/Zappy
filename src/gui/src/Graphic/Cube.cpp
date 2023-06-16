@@ -2,12 +2,12 @@
 ** EPITECH PROJECT, 2023
 ** B-YEP-400-PAR-4-1-zappy-vincent.shao
 ** File description:
-** Sprite
+** Cube
 */
 
-#include "Sprite.hpp"
+#include "Cube.hpp"
 
-Zappy::Sprite::Sprite(Texture2D top, Texture2D side, Texture2D bot)
+Zappy::Cube::Cube(unsigned int top, unsigned int side, unsigned int bot)
 {
     _top = top;
     _side = side;
@@ -15,7 +15,7 @@ Zappy::Sprite::Sprite(Texture2D top, Texture2D side, Texture2D bot)
     _shader = nullptr;
 }
 
-Zappy::Sprite::Sprite(Texture2D top, Texture2D side, Texture2D bot, Shader shader)
+Zappy::Cube::Cube(unsigned int top, unsigned int side, unsigned int bot, Shader shader)
 {
     _top = top;
     _side = side;
@@ -23,33 +23,28 @@ Zappy::Sprite::Sprite(Texture2D top, Texture2D side, Texture2D bot, Shader shade
     _shader = std::make_shared<Shaders>(shader);
 }
 
-Zappy::Sprite::Sprite(Texture2D item)
+Zappy::Cube::Cube(unsigned int item)
 {
     _item = item;
 }
 
-void Zappy::Sprite::setTexture()
+void Zappy::Cube::setTexture()
 {
 }
 
-void Zappy::Sprite::setPosition()
+void Zappy::Cube::setPosition()
 {
 }
 
-void Zappy::Sprite::setScale()
+void Zappy::Cube::setScale()
 {
 }
 
-Zappy::Sprite::~Sprite()
+Zappy::Cube::~Cube()
 {
-    // UnloadTexture(sideTexture.grass);
-    // UnloadTexture(topTexture.grass);
-    // UnloadTexture(sideTexture.water);
-    // UnloadTexture(topTexture.water);
-    // // UnloadTexture(sprite.button);
 }
 
-void Zappy::Sprite::drawBlockTexture(Vector3 position, Vector3 size, Color color)
+void Zappy::Cube::drawBlockTexture(Vector3 position, Vector3 size, Color color)
 {
     float x = position.x;
     float y = position.y;
@@ -59,7 +54,7 @@ void Zappy::Sprite::drawBlockTexture(Vector3 position, Vector3 size, Color color
     float height = size.y;
     float length = size.z;
 
-    rlSetTexture(_side.id);
+    rlSetTexture(_side);
         rlBegin(RL_QUADS);
             rlColor4ub(color.r, color.g, color.b, color.a);
 
@@ -88,7 +83,7 @@ void Zappy::Sprite::drawBlockTexture(Vector3 position, Vector3 size, Color color
             rlTexCoord2f(0.0f, 1.0f); rlVertex3f(x + width/2, y - height/2, z - length/2);
         rlEnd();
 
-    rlSetTexture(_top.id);
+    rlSetTexture(_top);
         rlBegin(RL_QUADS);
             rlColor4ub(color.r, color.g, color.b, color.a);
                 rlTexCoord2f(0.0f, 1.0f); rlVertex3f(x - width/2, y + height/2, z - length/2);
@@ -97,7 +92,7 @@ void Zappy::Sprite::drawBlockTexture(Vector3 position, Vector3 size, Color color
                 rlTexCoord2f(1.0f, 1.0f); rlVertex3f(x + width/2, y + height/2, z - length/2);
 
 
-    rlSetTexture(_bot.id);
+    rlSetTexture(_bot);
         rlTexCoord2f(1.0f, 1.0f); rlVertex3f(x - width/2, y - height/2, z - length/2);
         rlTexCoord2f(0.0f, 1.0f); rlVertex3f(x + width/2, y - height/2, z - length/2);
         rlTexCoord2f(0.0f, 0.0f); rlVertex3f(x + width/2, y - height/2, z + length/2);
@@ -107,7 +102,7 @@ void Zappy::Sprite::drawBlockTexture(Vector3 position, Vector3 size, Color color
     rlSetTexture(0);
 }
 
-void Zappy::Sprite::drawWaterTexture(Vector3 position, Vector3 size, Color color)
+void Zappy::Cube::drawWaterTexture(Vector3 position, Vector3 size, Color color)
 {
     float x = position.x;
     float y = position.y;
@@ -121,7 +116,7 @@ void Zappy::Sprite::drawWaterTexture(Vector3 position, Vector3 size, Color color
         SetShaderValue(_shader->_shader, _shader->getSecondLock(), &seconds, RL_SHADER_UNIFORM_FLOAT);
         BeginShaderMode(_shader->_shader);
     }
-    rlSetTexture(_top.id);
+    rlSetTexture(_top);
         rlBegin(RL_QUADS);
             rlColor4ub(color.r, color.g, color.b, color.a);
                 rlTexCoord2f(0.0f, 1.0f); rlVertex3f(x - width/2, y + height/2, z - length/2);
@@ -131,7 +126,7 @@ void Zappy::Sprite::drawWaterTexture(Vector3 position, Vector3 size, Color color
         rlEnd();
     if (_shader != nullptr)
         EndShaderMode();
-    rlSetTexture(_bot.id);
+    rlSetTexture(_bot);
         (1.0f, 1.0f); rlVertex3f(x - width/2, y - height/2, z - length/2);
         (0.0f, 1.0f); rlVertex3f(x + width/2, y - height/2, z - length/2);
         (0.0f, 0.0f); rlVertex3f(x + width/2, y - height/2, z + length/2);
@@ -140,7 +135,7 @@ void Zappy::Sprite::drawWaterTexture(Vector3 position, Vector3 size, Color color
     rlSetTexture(0);
 }
 
-void Zappy::Sprite::drawItemTexture(Vector3 position, Vector3 size, Color color)
+void Zappy::Cube::drawItemTexture(Vector3 position, Vector3 size, Color color)
 {
     float x = position.x / 100;
     float y = position.y / 100;
@@ -164,7 +159,7 @@ void Zappy::Sprite::drawItemTexture(Vector3 position, Vector3 size, Color color)
     rlPushMatrix();
     rlTranslatef(x * 100, y * 100, z * 100);
     rlRotatef(itemRotation, 0.0f, 1.0f, 0.0f);
-    rlSetTexture(_item.id);
+    rlSetTexture(_item);
         rlBegin(RL_QUADS);
             rlColor4ub(color.r, color.g, color.b, color.a);
                 rlTexCoord2f(0.0f, 0.0f); rlVertex3f((x - 0.075) + width/3, y + height/3 + itemBounce, 0);

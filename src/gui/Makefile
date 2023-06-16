@@ -29,9 +29,9 @@ MAP =	$(addprefix src/Map/,			\
 			)
 
 GRAPHIC =	$(addprefix src/Graphic/,		\
-				Raylib.cpp			\
-				Sprite.cpp			\
+				Cube.cpp			\
 				Shaders.cpp			\
+				Raylib.cpp			\
 				Rectangle.cpp		)
 
 SRC	=	$(addprefix src/,				\
