@@ -1,0 +1,7 @@
+[submodule "src/gui/include/libs/raylib-cpp"]
+	path = src/gui/include/libs/raylib-cpp
+	url = https://github.com/sominator/raylib-cpp.git
+	branch = GenImageGradientLinear
+[submodule "src/gui/include/libs/raylib-4.5"]
+	path = src/gui/include/libs/raylib-4.5
+	url = https://github.com/raysan5/raylib.git
