@@ -16,7 +16,7 @@
     #include <iostream>
     #include <memory>
 
-    #include "Sprite.hpp"
+    #include "Cube.hpp"
     #include "Rectangle.hpp"
     #include "Error.hpp"
     #include "Data.hpp"
@@ -161,8 +161,8 @@ namespace Zappy {
 
             Vector3 pos;
     
-            std::map<std::string, Texture2D> _texture;
-            std::map<std::string, std::shared_ptr<Sprite>> _sprite;
+            std::map<std::string, raylib::Texture2D> _texture;
+            std::map<std::string, Cube> _cube;
             std::map<std::string, std::shared_ptr<Rect>> _rectangle;
             std::map<std::string, Shader> _shader;
             std::shared_ptr<Data> _data;
