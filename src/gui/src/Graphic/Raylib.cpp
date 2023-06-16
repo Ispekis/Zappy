@@ -43,60 +43,60 @@ void Zappy::Raylib::setCamera()
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
 }
 
-Texture2D LoadTextureFromFile(std::string path)
-{
-    return LoadTexture(path.c_str());
-}
+// Texture2D raylib::Texture(std::string path)
+// {
+//     return LoadTexture(path.c_str());
+// }
 
 void Zappy::Raylib::setTexture()
 {
-    
+
     _shader.insert({"waterWave", LoadShader(0, TextFormat("src/gui/assets/shaders/wave.fs"))});
 
-    _texture.insert({"Background", LoadTextureFromFile("src/gui/assets/background.png")});
-    _texture.insert({"Pano0", LoadTextureFromFile("src/gui/assets/panorama_0.png")});
-    _texture.insert({"Pano1", LoadTextureFromFile("src/gui/assets/panorama_1.png")});
-    _texture.insert({"Pano2", LoadTextureFromFile("src/gui/assets/panorama_2.png")});
-    _texture.insert({"Pano3", LoadTextureFromFile("src/gui/assets/panorama_3.png")});
-    _texture.insert({"Pano4", LoadTextureFromFile("src/gui/assets/panorama_4.png")});
-    _texture.insert({"Pano5", LoadTextureFromFile("src/gui/assets/panorama_5.png")});
-    _texture.insert({"grassSide", LoadTextureFromFile("src/gui/assets/grass_block_side.png")});
-    _texture.insert({"grassTop", LoadTextureFromFile("src/gui/assets/grass_block_top.png")});
-    _texture.insert({"water", LoadTextureFromFile("src/gui/assets/water_flow.png")});
-    _texture.insert({"dirt", LoadTextureFromFile("src/gui/assets/dirt.png")});
-    _texture.insert({"Logo", LoadTextureFromFile("src/gui/assets/ZAPPy.png")});
-    _texture.insert({"clearbackground", LoadTextureFromFile("src/gui/assets/clearbackground.png")});
-    _texture.insert({"basicButton", LoadTextureFromFile("src/gui/assets/basic_button.png")});
-    _texture.insert({"hoverButton", LoadTextureFromFile("src/gui/assets/hover_button.png")});
+    _texture.insert({"Pano0", raylib::Texture("src/gui/assets/panorama_0.png")});
+    _texture.insert({"Pano1", raylib::Texture("src/gui/assets/panorama_1.png")});
+    _texture.insert({"Pano2", raylib::Texture("src/gui/assets/panorama_2.png")});
+    _texture.insert({"Pano3", raylib::Texture("src/gui/assets/panorama_3.png")});
+    _texture.insert({"Pano4", raylib::Texture("src/gui/assets/panorama_4.png")});
+    _texture.insert({"Pano5", raylib::Texture("src/gui/assets/panorama_5.png")});
 
-    _texture.insert({"beef", LoadTextureFromFile("src/gui/assets/beef_cooked.png")});
-    _texture.insert({"carrot", LoadTextureFromFile("src/gui/assets/carrot_golden.png")});
-    _texture.insert({"coal", LoadTextureFromFile("src/gui/assets/coal.png")});
-    _texture.insert({"diamond", LoadTextureFromFile("src/gui/assets/diamond.png")});
-    _texture.insert({"emerald", LoadTextureFromFile("src/gui/assets/emerald.png")});
-    _texture.insert({"gold", LoadTextureFromFile("src/gui/assets/gold_ingot.png")});
-    _texture.insert({"iron", LoadTextureFromFile("src/gui/assets/iron_ingot.png")});
-    _texture.insert({"netherStar", LoadTextureFromFile("src/gui/assets/nether_star.png")});
-    _texture.insert({"quartz", LoadTextureFromFile("src/gui/assets/quartz.png")});
+    _texture.insert({"grassSide", raylib::Texture("src/gui/assets/grass_block_side.png")});
+    _texture.insert({"grassTop", raylib::Texture("src/gui/assets/grass_block_top.png")});
+    _texture.insert({"water", raylib::Texture("src/gui/assets/water_flow.png")});
+    _texture.insert({"dirt", raylib::Texture("src/gui/assets/dirt.png")});
+    _texture.insert({"Logo", raylib::Texture("src/gui/assets/ZAPPy.png")});
+    _texture.insert({"clearbackground", raylib::Texture("src/gui/assets/clearbackground.png")});
+    _texture.insert({"basicButton", raylib::Texture("src/gui/assets/basic_button.png")});
+    _texture.insert({"hoverButton", raylib::Texture("src/gui/assets/hover_button.png")});
 
-    _sprite.insert({"water", std::make_shared<Sprite>(_texture["water"], _texture["clearbackground"], _texture["water"], _shader["waterWave"])});
-    _sprite.insert({"grass", std::make_shared<Sprite>(_texture["grassTop"], _texture["grassSide"], _texture["dirt"])});
-    _sprite.insert({"menuTop", std::make_shared<Sprite>(_texture["Pano4"], _texture["Pano4"], _texture["Pano4"])});
-    _sprite.insert({"menuBot", std::make_shared<Sprite>(_texture["Pano5"], _texture["Pano5"], _texture["Pano5"])});
-    _sprite.insert({"menuFront", std::make_shared<Sprite>(_texture["Pano0"], _texture["Pano0"], _texture["Pano0"])});
-    _sprite.insert({"menuRight", std::make_shared<Sprite>(_texture["Pano1"], _texture["Pano1"], _texture["Pano1"])});
-    _sprite.insert({"menuBack", std::make_shared<Sprite>(_texture["Pano2"], _texture["Pano2"], _texture["Pano2"])});
-    _sprite.insert({"menuLeft", std::make_shared<Sprite>(_texture["Pano3"], _texture["Pano3"], _texture["Pano3"])});
+    _texture.insert({"beef", raylib::Texture("src/gui/assets/beef_cooked.png")});
+    _texture.insert({"carrot", raylib::Texture("src/gui/assets/carrot_golden.png")});
+    _texture.insert({"coal", raylib::Texture("src/gui/assets/coal.png")});
+    _texture.insert({"diamond", raylib::Texture("src/gui/assets/diamond.png")});
+    _texture.insert({"emerald", raylib::Texture("src/gui/assets/emerald.png")});
+    _texture.insert({"gold", raylib::Texture("src/gui/assets/gold_ingot.png")});
+    _texture.insert({"iron", raylib::Texture("src/gui/assets/iron_ingot.png")});
+    _texture.insert({"netherStar", raylib::Texture("src/gui/assets/nether_star.png")});
+    _texture.insert({"quartz", raylib::Texture("src/gui/assets/quartz.png")});
 
-    _sprite.insert({"beef", std::make_shared<Sprite>(_texture["beef"])});
-    _sprite.insert({"carrot", std::make_shared<Sprite>(_texture["carrot"])});
-    _sprite.insert({"coal", std::make_shared<Sprite>(_texture["coal"])});
-    _sprite.insert({"diamond", std::make_shared<Sprite>(_texture["diamond"])});
-    _sprite.insert({"emerald", std::make_shared<Sprite>(_texture["emerald"])});
-    _sprite.insert({"gold", std::make_shared<Sprite>(_texture["gold"])});
-    _sprite.insert({"iron", std::make_shared<Sprite>(_texture["iron"])});
-    _sprite.insert({"netherStar", std::make_shared<Sprite>(_texture["netherStar"])});
-    _sprite.insert({"quartz", std::make_shared<Sprite>(_texture["quartz"])});
+    _cube.insert({"water", Cube(_texture["water"].GetId(), _texture["clearbackground"].GetId(), _texture["water"].GetId(), _shader["waterWave"])});
+    _cube.insert({"grass", Cube(_texture["grassTop"].GetId(), _texture["grassSide"].GetId(), _texture["dirt"].GetId())});
+    _cube.insert({"menuTop", Cube(_texture["Pano4"].GetId(), _texture["Pano4"].GetId(), _texture["Pano4"].GetId())});
+    _cube.insert({"menuBot", Cube(_texture["Pano5"].GetId(), _texture["Pano5"].GetId(), _texture["Pano5"].GetId())});
+    _cube.insert({"menuFront", Cube(_texture["Pano0"].GetId(), _texture["Pano0"].GetId(), _texture["Pano0"].GetId())});
+    _cube.insert({"menuRight", Cube(_texture["Pano1"].GetId(), _texture["Pano1"].GetId(), _texture["Pano1"].GetId())});
+    _cube.insert({"menuBack", Cube(_texture["Pano2"].GetId(), _texture["Pano2"].GetId(), _texture["Pano2"].GetId())});
+    _cube.insert({"menuLeft", Cube(_texture["Pano3"].GetId(), _texture["Pano3"].GetId(), _texture["Pano3"].GetId())});
+
+    _cube.insert({"beef", Cube(_texture["beef"].GetId())});
+    _cube.insert({"carrot", Cube(_texture["carrot"].GetId())});
+    _cube.insert({"coal", Cube(_texture["coal"].GetId())});
+    _cube.insert({"diamond", Cube(_texture["diamond"].GetId())});
+    _cube.insert({"emerald", Cube(_texture["emerald"].GetId())});
+    _cube.insert({"gold", Cube(_texture["gold"].GetId())});
+    _cube.insert({"iron", Cube(_texture["iron"].GetId())});
+    _cube.insert({"netherStar", Cube(_texture["netherStar"].GetId())});
+    _cube.insert({"quartz", Cube(_texture["quartz"].GetId())});
 
     _rectangle.insert({"menuLogo", std::make_shared<Rect>(_texture["Logo"])});
     _rectangle.insert({"menuPlayButton", std::make_shared<Rect>(_texture["basicButton"])});
@@ -204,12 +204,12 @@ void Zappy::Raylib::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t
     float posY = size * y - (midY * size) + 1;
     float posZ = size / 2;
     DrawCubeWiresV((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, BLACK);
-    _sprite["grass"]->drawBlockTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
+    _cube["grass"].drawBlockTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
 }
 
 void Zappy::Raylib::drawWater()
 {
-    _sprite["water"]->drawWaterTexture((Vector3){0, 0.9, 0}, (Vector3){200, 0.9, 200}, GRAY);
+    _cube["water"].drawWaterTexture((Vector3){0, 0.9, 0}, (Vector3){200, 0.9, 200}, GRAY);
 }
 
 
@@ -222,7 +222,7 @@ void Zappy::Raylib::drawItem(std::size_t x, std::size_t y, std::pair<std::size_t
     float posX = size * x - (midX * size) + 1;
     float posY = size * y - (midY * size) + 1;
     float posZ = size / 2;
-    _sprite["netherStar"]->drawItemTexture((Vector3){0, posZ + size, 0}, (Vector3){size, size, size}, WHITE);
+    _cube["netherStar"].drawItemTexture((Vector3){0, posZ + size, 0}, (Vector3){size, size, size}, WHITE);
 }
 
 void Zappy::Raylib::drawMap()
@@ -280,16 +280,15 @@ void Zappy::Raylib::draw()
 
 void Zappy::Raylib::drawMenu()
 {
-    // UpdateCamera(&_cameraMenu, CAMERA_FIRST_PERSON);
     UpdateCameraPro(&_cameraMenu, Vector3 {0.0f,0.0f,0.0f}, Vector3{0.005f, 0.0000f, 0.0f}, 0.0);
     BeginMode3D(_cameraMenu);
     float size = 2;
-    _sprite["menuBack"]->drawBlockTexture(Vector3{1.0f, 1.0f, 1.0f - size}, Vector3{size, size, size}, WHITE);
-    _sprite["menuLeft"]->drawBlockTexture(Vector3{1.0f - size, 1.0f, 1.0f}, Vector3 {size, size, size}, WHITE);
-    _sprite["menuFront"]->drawBlockTexture(Vector3{1.0f, 1.0f, 1.0f + size}, Vector3{size, size, size}, WHITE);
-    _sprite["menuRight"]->drawBlockTexture(Vector3{1.0f + size, 1.0f, 1.0f}, Vector3 {size, size, size}, WHITE);
-    _sprite["menuTop"]->drawBlockTexture(Vector3{1.0f, 1.0f + size, 1.0f}, Vector3 {size, size, size}, WHITE);
-    _sprite["menuBot"]->drawBlockTexture(Vector3{1.0f, 1.0f - size, 1.0f}, Vector3 {size, size, size}, WHITE);
+    _cube["menuBack"].drawBlockTexture(Vector3{1.0f, 1.0f, 1.0f - size}, Vector3{size, size, size}, WHITE);
+    _cube["menuLeft"].drawBlockTexture(Vector3{1.0f - size, 1.0f, 1.0f}, Vector3 {size, size, size}, WHITE);
+    _cube["menuFront"].drawBlockTexture(Vector3{1.0f, 1.0f, 1.0f + size}, Vector3{size, size, size}, WHITE);
+    _cube["menuRight"].drawBlockTexture(Vector3{1.0f + size, 1.0f, 1.0f}, Vector3 {size, size, size}, WHITE);
+    _cube["menuTop"].drawBlockTexture(Vector3{1.0f, 1.0f + size, 1.0f}, Vector3 {size, size, size}, WHITE);
+    _cube["menuBot"].drawBlockTexture(Vector3{1.0f, 1.0f - size, 1.0f}, Vector3 {size, size, size}, WHITE);
     DrawGrid(10, 2.0f);
 
     EndMode3D();
@@ -306,9 +305,7 @@ void Zappy::Raylib::drawBackground()
 
 Zappy::Raylib::~Raylib()
 {
-    std::map<std::string, Texture2D>::iterator it;
-    for (it = _texture.begin(); it != _texture.end(); ++it)
-            UnloadTexture(it->second);
+    _texture.clear();
     CloseAudioDevice();
     CloseWindow();
 }
