@@ -32,6 +32,8 @@ GRAPHIC =	$(addprefix src/Graphic/,		\
 				Cube.cpp			\
 				Shaders.cpp			\
 				Raylib.cpp			\
+				Gameplay.cpp		\
+				Menu.cpp		\
 				Rectangle.cpp		)
 
 SRC	=	$(addprefix src/,				\
