@@ -27,14 +27,15 @@ void Zappy::Raylib::setMusic()
 
 void Zappy::Raylib::setCamera()
 {
-    _camera.position = (Vector3){ 0.0f, 40.0f, 10.0f };  // Camera position
+    // Camera3D camera;
+    _camera.position = (Vector3){0.0f, 40.0f, 10.0f};    // Camera position
     _camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
     _camera.up = (Vector3){ 0.0f, 10.0f, 0.0f };          // Camera up vector (rotation towards target)
     _camera.fovy = 45.0f;                                // Camera field-of-view Y
     _camera.projection = CAMERA_PERSPECTIVE; 
     _cameraMode = CAMERA_ORBITAL;                       // Camera mode type
     _cameraSpeed = 0.2f;            
-  
+    
     _cameraMenu.position = (Vector3){1.0f, 1.0f, 1.0f };  // Camera position
     _cameraMenu.target = (Vector3){1.0f, 1.0f, 1.0f + 2};      // Camera looking at point
     _cameraMenu.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
@@ -269,10 +270,10 @@ void Zappy::Raylib::draw()
         drawMenu();
     else {
         if (_data->_gameData._dataSet == true) {
-            UpdateCamera(&_camera, _cameraMode);
-            BeginMode3D(_camera);
+            _camera.Update(_cameraMode);
+            _camera.BeginMode();
             drawMap();
-            EndMode3D();
+            _camera.EndMode();
         }
     }
     EndDrawing();
@@ -280,8 +281,8 @@ void Zappy::Raylib::draw()
 
 void Zappy::Raylib::drawMenu()
 {
-    UpdateCameraPro(&_cameraMenu, Vector3 {0.0f,0.0f,0.0f}, Vector3{0.005f, 0.0000f, 0.0f}, 0.0);
-    BeginMode3D(_cameraMenu);
+    _cameraMenu.Update(Vector3 {0.0f,0.0f,0.0f}, Vector3{0.005f, 0.0000f, 0.0f}, 0.0);
+    _cameraMenu.BeginMode();
     float size = 2;
     _cube["menuBack"].drawBlockTexture(Vector3{1.0f, 1.0f, 1.0f - size}, Vector3{size, size, size}, WHITE);
     _cube["menuLeft"].drawBlockTexture(Vector3{1.0f - size, 1.0f, 1.0f}, Vector3 {size, size, size}, WHITE);
@@ -290,9 +291,7 @@ void Zappy::Raylib::drawMenu()
     _cube["menuTop"].drawBlockTexture(Vector3{1.0f, 1.0f + size, 1.0f}, Vector3 {size, size, size}, WHITE);
     _cube["menuBot"].drawBlockTexture(Vector3{1.0f, 1.0f - size, 1.0f}, Vector3 {size, size, size}, WHITE);
     DrawGrid(10, 2.0f);
-
-    EndMode3D();
-
+    _cameraMenu.EndMode();
     drawLogo();
     drawButton();
     drawText();
