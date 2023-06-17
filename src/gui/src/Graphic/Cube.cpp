@@ -144,17 +144,17 @@ void Zappy::Cube::drawItemTexture(Vector3 position, Vector3 size, Color color)
     float width = size.x;
     float height = size.y;
 
-    itemRotation -= 0.01f;;
-    if (itemBounce < height / 2 && ret == false) {
-        itemBounce += 0.0001f;
-        if (itemBounce > height / 2)
-            ret = true;
-    }
-    if (itemBounce > -height / 8 && ret == true) {
-        itemBounce -= 0.0001f;
-       if (itemBounce < -height / 8)
-            ret = false;
-    }
+    // itemRotation -= 0.01f;
+    // if (itemBounce < height / 2 && ret == false) {
+    //     itemBounce += 0.0001f;
+    //     if (itemBounce > height / 2)
+    //         ret = true;
+    // }
+    // if (itemBounce > -height / 8 && ret == true) {
+    //     itemBounce -= 0.0001f;
+    //    if (itemBounce < -height / 8)
+    //         ret = false;
+    // }
 
     rlPushMatrix();
     rlTranslatef(x * 100, y * 100, z * 100);
@@ -184,4 +184,22 @@ void Zappy::Cube::drawItemTexture(Vector3 position, Vector3 size, Color color)
     rlEnd();
     rlSetTexture(0);
     rlPopMatrix();
+}
+
+void Zappy::Cube::AnimateItem(Vector3 size)
+{
+    float width = size.x;
+    float height = size.y;
+
+    itemRotation -= 0.01f;;
+    if (itemBounce < height / 2 && ret == false) {
+        itemBounce += 0.0001f;
+        if (itemBounce > height / 2)
+            ret = true;
+    }
+    if (itemBounce > -height / 8 && ret == true) {
+        itemBounce -= 0.0001f;
+       if (itemBounce < -height / 8)
+            ret = false;
+    }
 }
