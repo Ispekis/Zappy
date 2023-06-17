@@ -13,6 +13,7 @@
     #include "Shaders.hpp"
     #include <memory>
     #include "raylib-cpp.hpp"
+    #include "Data.hpp"
 
 namespace Zappy {
     class Cube {
