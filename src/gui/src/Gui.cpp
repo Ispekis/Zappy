@@ -25,12 +25,12 @@ Zappy::Gui::~Gui()
 void Zappy::Gui::run()
 {
     _dataReceiver = std::thread(&Zappy::Gui::receiveServerData, std::ref(*this));
-    _graphic.run(_isRunning);
+    _graphic.run();
 }
 
 void Zappy::Gui::receiveServerData()
 {
-    while (_isRunning)
+    while (_data->_gameData._end == false)
     {
         _data->updateGame();
     }
