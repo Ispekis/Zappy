@@ -20,6 +20,7 @@
     #include "Rectangle.hpp"
     #include "Error.hpp"
     #include "Data.hpp"
+    #include "Gameplay.hpp"
 
 namespace Zappy {
     class Raylib {
@@ -148,8 +149,8 @@ namespace Zappy {
         protected:
         private:
             raylib::Window _window;
-            Camera3D _camera;
-            Camera3D _cameraMenu;
+            raylib::Camera3D _camera;
+            raylib::Camera3D _cameraMenu;
 
             int _cameraMode;
             float _cameraSpeed;
@@ -167,6 +168,7 @@ namespace Zappy {
             std::map<std::string, Shader> _shader;
             std::shared_ptr<Data> _data;
 
+            // Gameplay _gameplay;
     };
 }
 
