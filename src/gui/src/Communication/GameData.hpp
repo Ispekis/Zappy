@@ -52,9 +52,10 @@ namespace Zappy {
             void suc(std::vector<std::string> &content);
             void sbp(std::vector<std::string> &content);
 
-            // std::vector<std::vector<int>> _map;
             bool _dataSet;
             bool _end;
+            bool _menu = true;
+
             std::vector<std::vector<Tile>> _map;
             std::pair<std::size_t, std::size_t> _mapSize;
             std::shared_ptr<RessourceFactory> _factory = std::make_shared<RessourceFactory>();
@@ -63,10 +64,9 @@ namespace Zappy {
             std::unordered_map<std::size_t, std::shared_ptr<Player>> _player;
 
             BroadCast _broadCast;
-
             Incantation _incantationList;
-            
             TimeUnit _timeUnit;
+
 
         protected:
         private:
