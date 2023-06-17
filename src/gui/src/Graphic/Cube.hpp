@@ -53,7 +53,9 @@ namespace Zappy {
             void drawBlockTexture(Vector3 position, Vector3 size, Color color);
             void drawWaterTexture(Vector3 position, Vector3 size, Color color);
             void drawItemTexture(Vector3 position, Vector3 size, Color color);
-    
+
+            void AnimateItem(Vector3 size);
+
         protected:
         private:
             unsigned int _top;
