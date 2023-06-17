@@ -51,8 +51,8 @@ namespace Zappy {
             std::map<std::string, Cube> _cube;
             std::shared_ptr<Data> _data;
 
-            Music _music;
-            Sound _click;
+            raylib::Music _music;
+            raylib::Sound _click;
     };
 }
 

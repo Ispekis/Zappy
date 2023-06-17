@@ -19,8 +19,6 @@ Zappy::Menu::Menu()
 Zappy::Menu::~Menu()
 {
     std::cout << "Menu Destroyed" << std::endl;
-    UnloadMusicStream(_music);
-    UnloadSound(_click);
 }
 
 void Zappy::Menu::setCamera()
@@ -40,8 +38,8 @@ void Zappy::Menu::setData(std::shared_ptr<Data> data)
 
 void Zappy::Menu::setMusic()
 {
-    _music = LoadMusicStream("src/gui/assets/Minecraft-Theme Song {Extended for 30 Minutes}.mp3");
-    _click = LoadSound("src/gui/assets/ButtonPlate Click (Minecraft Sound) - Sound Effect for editing.wav");
+    _music.Load("src/gui/assets/Minecraft-Theme Song {Extended for 30 Minutes}.mp3");
+    _click.Load("src/gui/assets/ButtonPlate Click (Minecraft Sound) - Sound Effect for editing.wav");
     PlayMusicStream(_music);
 }
 
