@@ -62,14 +62,14 @@ void Zappy::Gameplay::setCube()
     _cube.insert({"water", Cube(_texture["water"].GetId(), _texture["clearbackground"].GetId(), _texture["water"].GetId(), _shader["waterWave"])});
     _cube.insert({"grass", Cube(_texture["grassTop"].GetId(), _texture["grassSide"].GetId(), _texture["dirt"].GetId())});
     _cube.insert({"beef", Cube(_texture["beef"].GetId())});
-    _cube.insert({"carrot", Cube(_texture["carrot"].GetId())});
-    _cube.insert({"coal", Cube(_texture["coal"].GetId())});
-    _cube.insert({"diamond", Cube(_texture["diamond"].GetId())});
-    _cube.insert({"emerald", Cube(_texture["emerald"].GetId())});
-    _cube.insert({"gold", Cube(_texture["gold"].GetId())});
-    _cube.insert({"iron", Cube(_texture["iron"].GetId())});
-    _cube.insert({"netherStar", Cube(_texture["netherStar"].GetId())});
-    _cube.insert({"quartz", Cube(_texture["quartz"].GetId())});
+    _cube.insert({"Thystame", Cube(_texture["netherStar"].GetId())});
+    _cube.insert({"Phiras", Cube(_texture["emerald"].GetId())});
+    _cube.insert({"Mendiane", Cube(_texture["diamond"].GetId())});
+    _cube.insert({"Sibur", Cube(_texture["gold"].GetId())});
+    _cube.insert({"Deraumere", Cube(_texture["iron"].GetId())});
+    _cube.insert({"Linemate", Cube(_texture["coal"].GetId())});
+    _cube.insert({"Food", Cube(_texture["carrot"].GetId())});
+
 }
 
 void Zappy::Gameplay::run()
@@ -114,35 +114,29 @@ void Zappy::Gameplay::drawMap()
         }
 
     _cube["water"].drawWaterTexture((Vector3){0, 0.9, 0}, (Vector3){200, 0.9, 200}, GRAY);
-    for (std::size_t x = 0; x != mapSize.first; x++)
-        for (std::size_t y = 0; y != mapSize.second; y++) {
-            drawItem(x, y, mapSize);
-        }
-    DrawGrid(10, 2.0f);
-    // DrawFPS(10, 10);
 }
 
 void Zappy::Gameplay::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
 {
-    float size = 2.0f;
+    float size = 3.0f;
     int midX = map.first / 2;
     int midY = map.second / 2;
-
-    float posX = size * x - (midX * size) + 1;
-    float posY = size * y - (midY * size) + 1;
+    float posX = size * x - (midX * size);
+    float posY = size * y - (midY * size);
     float posZ = size / 2;
-    DrawCubeWiresV((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, BLACK);
+    DrawCubeWiresV((Vector3){posX + 1, posZ +5.0, posY + 1}, (Vector3){size, size, size}, BLACK);
     _cube["grass"].drawBlockTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
+    drawItem((Vector3){posX, posY, posZ}, size, _data->_gameData._map[x][y].getRessources());
 }
 
-void Zappy::Gameplay::drawItem(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
+void Zappy::Gameplay::drawItem(Vector3 pos, std::size_t size, std::vector<std::shared_ptr<IRessource>> rss)
 {
-    float size = 2.0f;
-    int midX = map.first / 2;
-    int midY = map.second / 2;
-
-    float posX = size * x - (midX * size) + 1;
-    float posY = size * y - (midY * size) + 1;
-    float posZ = size / 2;
-    _cube["netherStar"].drawItemTexture((Vector3){0, posZ + size, 0}, (Vector3){size, size, size}, WHITE);
+    std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
+    for (std::size_t i = 0; i != rss.size(); i++) {
+        auto qty = rss[i]->getQuantity();
+        if (qty > 0)
+            for (std::size_t a = 0; a != qty; a++)
+                _cube[ressource[i]].drawItemTexture((Vector3){pos.x - i * 0.5 - a * 0.01, pos.z + size - 0.5, pos.y - a * 0.05}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
+        _cube[ressource[i]].AnimateItem((Vector3){1.2, 1.2, 1.2});
+    }
 }

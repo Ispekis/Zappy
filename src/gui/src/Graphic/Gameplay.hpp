@@ -7,9 +7,10 @@
 
 #ifndef GAMEPLAY_HPP_
 #define GAMEPLAY_HPP_
-    #include "raylib-cpp.hpp"
     #include <map>
     #include <memory>
+
+    #include "raylib-cpp.hpp"
     #include "Data.hpp"
     #include "Cube.hpp"
 namespace Zappy {
@@ -33,7 +34,7 @@ namespace Zappy {
             void draw();
             void drawMap();
             void drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map);
-            void drawItem(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map);
+            void drawItem(Vector3, std::size_t, std::vector<std::shared_ptr<IRessource>>);
             void drawWater();
 
         protected:
