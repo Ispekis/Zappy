@@ -42,5 +42,4 @@ int Zappy::Shaders::getSecondLock()
 
 Zappy::Shaders::~Shaders()
 {
-    // UnloadShader(_shader);
 }

@@ -29,9 +29,11 @@ MAP =	$(addprefix src/Map/,			\
 			)
 
 GRAPHIC =	$(addprefix src/Graphic/,		\
-				Raylib.cpp			\
-				Sprite.cpp			\
+				Cube.cpp			\
 				Shaders.cpp			\
+				Raylib.cpp			\
+				Gameplay.cpp		\
+				Menu.cpp		\
 				Rectangle.cpp		)
 
 SRC	=	$(addprefix src/,				\
@@ -61,6 +63,7 @@ TEST_NAME	=	unit_tests
 TEST_FILE	=	tests/test_gui.cpp
 
 CPPFLAGS	+=	-I./include
+CPPFLAGS	+=	-I./include/libs
 CPPFLAGS	+=	-I./src
 CPPFLAGS	+=	-I./src/Graphic
 CPPFLAGS	+=	-I./src/Encapsulation
@@ -72,7 +75,7 @@ CPPFLAGS	+=	-Wall -Wextra
 
 LDFLAGS	=	-lraylib -lpthread -ldl
 
-all: $(NAME)
+all: raylib $(NAME)
 
 $(NAME): $(OBJ) $(MAIN_OBJ)
 	$(CXX) $(OBJ) $(MAIN_OBJ) $(CFLAGS) $(LDFLAGS) -o $(PATH_TO_ROOT)/$(NAME)
@@ -84,6 +87,17 @@ tests_run:
 	gcovr --exclude tests/
 	gcovr --exclude tests/ --branches
 
+submodules:
+	git submodule update --remote --init
+
+raylib: submodules
+	cp include/libs/raylib-4.5/src/raylib.h include/libs/
+	cp include/libs/raylib-4.5/src/raymath.h include/libs/
+	cp include/libs/raylib-4.5/src/rlgl.h include/libs/
+	cp include/libs/raylib-cpp/include/*.hpp include/libs/
+	cd include/libs/raylib-4.5/src && $(MAKE) PLATFORM=PLATFORM_DESKTOP
+	cp include/libs/raylib-4.5/src/libraylib.a include/libs/
+
 clean:
 	$(RM) -f $(MAIN_OBJ)
 	$(RM) -f $(OBJ)
@@ -93,6 +107,9 @@ clean:
 fclean: clean
 	$(RM) $(PATH_TO_ROOT)/$(NAME)
 	$(RM) $(TEST_NAME)
+	$(RM) include/libs/*.hpp
+	$(RM) include/libs/*.h
+	$(RM) include/libs/*.a
 
 re: fclean all
 

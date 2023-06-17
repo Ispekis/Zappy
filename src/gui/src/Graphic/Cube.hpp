@@ -2,31 +2,30 @@
 ** EPITECH PROJECT, 2023
 ** B-YEP-400-PAR-4-1-zappy-vincent.shao
 ** File description:
-** Sprite
+** Cube
 */
 
-#ifndef SPRITE_HPP_
-    #define SPRITE_HPP_
+#ifndef CUBE_HPP_
+    #define CUBE_HPP_
 
     #include <raylib.h>
     #include <rlgl.h>
     #include "Shaders.hpp"
     #include <memory>
-
-// typedef struct sprite_s {
-//     Texture2D button;
-// } sprite_t;
+    #include "raylib-cpp.hpp"
+    #include "Data.hpp"
 
 namespace Zappy {
-    class Sprite {
+    class Cube {
         public:
             /**
-             * @brief Construct a new Sprite object
+             * @brief Construct a new Cube object
              * 
              */
-            Sprite(Texture2D top, Texture2D side, Texture2D bot, Shader _shader);
-            Sprite(Texture2D top, Texture2D side, Texture2D bot);
-            Sprite(Texture2D item);
+            Cube(unsigned int top, unsigned int side, unsigned int bot, Shader _shader);
+            Cube(unsigned int top, unsigned int side, unsigned int bot);
+            Cube(unsigned int item);
+            Cube(){};
 
             /**
              * @brief Set the Texture object
@@ -47,21 +46,23 @@ namespace Zappy {
             void setScale();
 
             /**
-             * @brief Destroy the Sprite object
+             * @brief Destroy the Cube object
              * 
              */
-            ~Sprite();
+            ~Cube();
             void drawBlockTexture(Vector3 position, Vector3 size, Color color);
             void drawWaterTexture(Vector3 position, Vector3 size, Color color);
             void drawItemTexture(Vector3 position, Vector3 size, Color color);
     
         protected:
         private:
-            Texture2D _top;
-            Texture2D _side;
-            Texture2D _bot;
-            Texture2D _item;
+            unsigned int _top;
+            unsigned int _side;
+            unsigned int _bot;
+            unsigned int _item;
+
             std::shared_ptr<Shaders> _shader;
+
             bool ret = false;
             float itemBounce = 0;
             float seconds = 0;
@@ -69,4 +70,4 @@ namespace Zappy {
     };
 }
 
-#endif /* !SPRITE_HPP_ */
+#endif /* !CUBE_HPP_ */
