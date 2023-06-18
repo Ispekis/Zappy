@@ -60,7 +60,22 @@ typedef struct team_s {
 } team_t;
 
 typedef struct client_s {
+    /**
+     * @brief File descriptor of a player
+     *
+     */
     int fd;
+
+    /**
+     * @brief The timerfd of a player
+     *
+     */
+    int tfd;
+    /**
+     * @brief Timer spec of the player
+     *
+     */
+    struct itimerspec timer_spec;
     bool is_conn;
     bool is_graphic;
     pos_t pos;
@@ -68,6 +83,7 @@ typedef struct client_s {
     int level;
     inventory_t inventory;
     team_t *team;
+    bool is_ready;
 } client_t;
 
 /**
@@ -119,6 +135,11 @@ typedef struct data_s {
     int width;
     int height;
     int graphic_fd;
+    /**
+     * @brief Pointer to the rfds of the sock_addrs_t's struct
+     *
+     */
+    fd_set *rfds;
 } data_t;
 
 typedef struct server_s {

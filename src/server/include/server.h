@@ -19,6 +19,8 @@
     #include <sys/signalfd.h>
     #include <uuid/uuid.h>
     #include <time.h>
+    #include <stdint.h>
+    #include <sys/timerfd.h>
     #include "server_structs.h"
 
 /**
@@ -141,6 +143,31 @@ bool can_convert_to_int(const char* str);
  * @return int
  */
 int get_cmd_pos(char *str, const char **lib);
+
+/**
+ * @brief Set the cooldown in nanosec
+ *
+ * @param player
+ * @param nseconds
+ */
+void set_cooldown_in_nanosec(node_t *player, uint64_t nseconds);
+
+/**
+ * @brief Convert seconds to nano seconds
+ *
+ * @param seconds
+ * @return uint64_t
+ */
+uint64_t sec_to_nanosec(double seconds);
+
+/**
+ * @brief Send response and update the cooldown
+ *
+ * @param client
+ * @param cooldown
+ * @param freq
+ */
+void send_res_cd(node_t *client, int cooldown, int freq);
 
 /**
  * @brief Generate random number with a minimum and a maximum

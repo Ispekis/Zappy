@@ -45,7 +45,7 @@ char **params __attribute__((unused)))
             client->client.pos.x - 1 < 0, data->width - 1, -1);
             break;
     }
-    dprintf(client->client.fd, "ok\n");
+    send_res_cd(client, COOLDOWN_FORWARD, data->freq);
     update_graphic(data->graphic_fd, client->client);
 }
 
@@ -57,7 +57,7 @@ char **params __attribute__((unused)))
     } else {
         client->client.orientation++;
     }
-    dprintf(client->client.fd, "ok\n");
+    send_res_cd(client, COOLDOWN_RIGHT, data->freq);
     update_graphic(data->graphic_fd, client->client);
 }
 
@@ -69,6 +69,6 @@ char **params __attribute__((unused)))
     } else {
         client->client.orientation--;
     }
-    dprintf(client->client.fd, "ok\n");
+    send_res_cd(client, COOLDOWN_LEFT, data->freq);
     update_graphic(data->graphic_fd, client->client);
 }

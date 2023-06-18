@@ -24,7 +24,7 @@ void ai_cmd_take_object(node_t *client, data_t *data, char **params)
         if ((tile_res != NULL && inv_res != NULL) && tile_res->quantity > 0) {
             tile_res->quantity--;
             inv_res->quantity++;
-            dprintf(client->client.fd, "ok\n");
+            send_res_cd(client, COOLDOWN_TAKE, data->freq);
         } else {
             dprintf(client->client.fd, "ko\n");
         }
@@ -48,7 +48,7 @@ void ai_cmd_set_object(node_t *client, data_t *data, char **params)
         if (tile_res != NULL && inv_res != NULL && inv_res->quantity > 0) {
             inv_res->quantity--;
             tile_res->quantity++;
-            dprintf(client->client.fd, "ok\n");
+            send_res_cd(client, COOLDOWN_SET, data->freq);
         } else {
             dprintf(client->client.fd, "ko\n");
         }
