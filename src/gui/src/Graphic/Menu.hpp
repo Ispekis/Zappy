@@ -30,6 +30,7 @@ namespace Zappy {
             void run();
 
             void event();
+            void settingsEvent();
 
             void draw();
             void drawText();
@@ -53,6 +54,8 @@ namespace Zappy {
 
             Music _music;
             Sound _click;
+
+            bool _settings = false;
     };
 }
 
