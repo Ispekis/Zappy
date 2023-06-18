@@ -27,13 +27,15 @@ void Zappy::Gameplay::setData(std::shared_ptr<Data> data)
 
 void Zappy::Gameplay::setCamera()
 {
-    _camera.position = (Vector3){0.0f, 40.0f, 10.0f};    // Camera position
+    _camera.position = (Vector3){0.0f, 40.0f, 20.0f};    // Camera position
     _camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
     _camera.up = (Vector3){ 0.0f, 10.0f, 0.0f };          // Camera up vector (rotation towards target)
     _camera.fovy = 45.0f;                                // Camera field-of-view Y
     _camera.projection = CAMERA_PERSPECTIVE;
     _cameraMove = false;
     _cameraMode = CAMERA_ORBITAL;
+    // _camera.Update();
+    // DisableCursor();
 }
 
 void Zappy::Gameplay::setTexture()
@@ -85,21 +87,49 @@ void Zappy::Gameplay::event()
 
 void Zappy::Gameplay::cameraEvent()
 {
-    if (IsKeyPressed(KEY_SPACE))
+    if (IsKeyPressed(KEY_SPACE)) {
         _cameraMove = !_cameraMove;
-    if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) {
-        _cameraMode = CAMERA_THIRD_PERSON;
+    }
+    if (IsKeyPressed(KEY_R)) {
+        _camera.position = (Vector3){0.0f, 60.0f, 20.0f};    // Camera position
+        _camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+    }
+
+
+    if (_cameraMove == true) {
+        _camera.Update(CAMERA_ORBITAL);
         return;
     }
-    if (_cameraMove == true)
-        _cameraMode = CAMERA_ORBITAL;
-    else 
-        _cameraMode = CAMERA_THIRD_PERSON;
+    Vector3 position = {0.0, 0.0, 0.0};
+    if (IsKeyDown(KEY_LEFT)) {
+        position.y = -0.5f;
+        _camera.target = (Vector3){0.0f, 0.0f, 0.0f}; // Camera looking at point
+    }
+    if (IsKeyDown(KEY_RIGHT)) {
+        position.y = 0.5f;
+        _camera.target = (Vector3){0.0f, 0.0f, 0.0f}; // Camera looking at point
+    }
+    if (IsKeyDown(KEY_UP)) {
+        position.z = 0.5f;
+        _camera.target = (Vector3){0.0f, 0.0f, 0.0f}; // Camera looking at point
+    }
+    if (IsKeyDown(KEY_DOWN)) {
+        position.z = -0.5f;
+        _camera.target = (Vector3){0.0f, 0.0f, 0.0f}; // Camera looking at point
+    }
+    if (IsKeyDown(KEY_W))
+        position.x = 0.5f;
+    if (IsKeyDown(KEY_S))
+        position.x = -0.5f;
+    if (IsKeyDown(KEY_A))
+        position.y = -0.5f;
+    if (IsKeyDown(KEY_D))
+        position.y = 0.5f;
+    _camera.Update(position, Vector3{0.0f, 0.0000f, 0.0f}, 0.0);
 }
 
 void Zappy::Gameplay::draw()
 {
-    _camera.Update(_cameraMode);
     _camera.BeginMode();
     drawMap();
      _camera.EndMode();
@@ -124,7 +154,6 @@ void Zappy::Gameplay::drawTile(std::size_t x, std::size_t y, std::pair<std::size
     float posX = size * x - (midX * size);
     float posY = size * y - (midY * size);
     float posZ = size / 2;
-    DrawCubeWiresV((Vector3){posX, posZ +5.0, posY}, (Vector3){size, size, size}, BLACK);
     _cube["grass"].drawBlockTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
     drawItem((Vector3){posX, posY, posZ}, size, _data->_gameData._map[x][y].getRessources());
 }
@@ -136,20 +165,32 @@ void Zappy::Gameplay::drawItem(Vector3 pos, std::size_t size, std::vector<std::s
     for (std::size_t i = 0; i != rss.size(); i++) {
         auto qty = rss[i]->getQuantity();
         if (qty > 0)
-            drawSpacedItem(qty, pos, ressource[i]);
+            drawSpacedItem(qty, pos, ressource[i], size, i);
     }
 }
 
-void Zappy::Gameplay::drawSpacedItem(std::size_t qty, Vector3 pos, std::string ressource)
+void Zappy::Gameplay::drawSpacedItem(std::size_t qty, Vector3 pos, std::string ressource, std::size_t size, std::size_t i)
 {
-    // bool floor = true;
-    // for (std::size_t a = 0; a != qty; a++)
-    // {
-    //     if (floor)
-    //         _cube[ressource[i]].drawItemTextureFloor((Vector3){pos.x - (size / 2) + i * 0.5, pos.z + size - 0.2, pos.y - (size / 2)}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
-    //     else 
-    //         _cube[ressource[i]].drawItemTextureAnimated((Vector3){pos.x, pos.z + size - 0.2, pos.y}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
-    // }
-    // _cube[ressource[i]].AnimateItem((Vector3){1.2, 1.2, 1.2});
+    int x = i;
+    int y = 0;
 
+    if (i > 2) {
+        x = i - 2;
+        y++;
+    }
+    if (i > 4) {
+        x = i - 4;
+        y++;
+    }
+    if (i > 6) {
+        x = i - 6;
+        y++;
+    }
+
+    for (std::size_t a = 0; a != qty; a++)
+    {
+        _cube[ressource].drawItemTextureFloor((Vector3){pos.x - (size / 2) + x * 0.8, pos.z + size / 2 + 0.2 + a * 0.01, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
+            // _cube[ressource].drawItemTextureAnimated((Vector3){pos.x - (size / 2) + i * 0.5, pos.z + size - 0.2 + a * 0.01, pos.y - (size / 2) + a * 0.2}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
+    }
+    // _cube[ressource].AnimateItem((Vector3){1.2, 1.2, 1.2});
 }
