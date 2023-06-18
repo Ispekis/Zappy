@@ -9,6 +9,17 @@ class Player:
         self.obj_list = self.lvl_instance.setObj(player_level)
         self.inventory:str
         self.sight:str
+        self.item_needed:list = []
+        for i in self.obj_list:
+            if (i == "player"):
+                continue
+            else:
+                for j in range(self.obj_list[i]):
+                    self.item_needed.append(i)
+        print(self.item_needed)
+
+    def setNewObjList(self):
+        return
 
     def multiplePlayerTile(self):
         if find_value(self.sight, "player") > 1:

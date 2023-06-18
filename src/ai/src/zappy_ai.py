@@ -5,6 +5,7 @@ import sys
 from parsing import *
 from player import Player
 from movement import Movement
+from items import Items
 from macro import *
 from level import levelUp
 
@@ -26,6 +27,7 @@ class AI:
         except (socket.gaierror, ConnectionRefusedError) as e:
             raise myexception.Exception(e)
         self.move = Movement()
+        self.itemHandling = Items(self.client_socket)
         self.player:Player
         self.client_socket.send((name + "\n").encode())
         self.setPlayer()
@@ -36,7 +38,10 @@ class AI:
         rcv_data = self.client_socket.recv(1024)
         tmp = rcv_data.decode().split("\n")
         map_size = tmp[1].split(" ")
-        self.player = Player(tmp[0], (map_size[0], map_size[1]), 1)
+        try:
+            self.player = Player(tmp[0], (map_size[0], map_size[1]), 1)
+        except IndexError:
+            print(f"Error while creating the player, check if team name is correct", file=sys.stderr)
 
     def rcvServerResponse(self):
         """Set the sight, invetory and update the team slot free
@@ -66,6 +71,7 @@ class AI:
         self.client_socket.send((self.move.handleMovement() + "\n").encode())
         self.push()
         self.level_up()
+        self.itemHandling.takeItem(self.player.sight, self.player.item_needed, "Todo")
 
     def run_ai(self):
         try:
