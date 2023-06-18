@@ -43,6 +43,8 @@ void Zappy::Menu::setMusic()
     _music = LoadMusicStream("src/gui/assets/Minecraft-Theme Song {Extended for 30 Minutes}.mp3");
     _click = LoadSound("src/gui/assets/click.ogg");
     PlayMusicStream(_music);
+    SetMusicVolume(_music, _volume);
+    SetSoundVolume(_click, 0.2);
 }
 
 void Zappy::Menu::setTexture()
@@ -65,6 +67,11 @@ void Zappy::Menu::setRectangle()
     _rectangle.insert({"menuSettingsButton", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"menuQuitButton", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"menuHoverButton", std::make_shared<Rect>(_texture["hoverButton"])});
+    _rectangle.insert({"volumeUp", std::make_shared<Rect>(_texture["basicButton"])});
+    _rectangle.insert({"volumeDown", std::make_shared<Rect>(_texture["basicButton"])});
+    _rectangle.insert({"30_fps", std::make_shared<Rect>(_texture["basicButton"])});
+    _rectangle.insert({"60_fps", std::make_shared<Rect>(_texture["basicButton"])});
+    _rectangle.insert({"90_fps", std::make_shared<Rect>(_texture["basicButton"])});
 }
 
 void Zappy::Menu::setCube()
@@ -98,6 +105,55 @@ void Zappy::Menu::settingsEvent()
     if (IsKeyPressed(KEY_ENTER)) {
         _settings = false;
     }
+    settingsButtonEvent();
+}
+
+void Zappy::Menu::volumeEvent(std::string volume)
+{
+    if (volume == "volumeUp") {
+        if (_volume < 1.0f)
+            _volume -= 0.1f;
+    } else if (volume == "volumeDown") {
+        if (_volume > 0.0f)
+            _volume += 0.1f;
+    }
+    SetMusicVolume(_music, _volume);
+}
+
+void Zappy::Menu::framerateEvent(std::string framerate)
+{
+    if (framerate == "30_fps") {
+        SetTargetFPS(30);
+    } else if (framerate == "60_fps") {
+        SetTargetFPS(60);
+    } else if (framerate == "90_fps") {
+        SetTargetFPS(90);
+    }
+}
+
+void Zappy::Menu::settingsButtonEvent()
+{
+    Vector2 mouse = GetMousePosition();
+
+    auto it = _rectangle.begin();
+    std::advance(it, 5);
+
+    for (; it != _rectangle.end(); ++it) {
+        if (CheckCollisionPointRec(mouse, it->second->getRect())) {
+            it->second->setTexture(_texture["hoverButton"]);
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                if (it->first == "volumeUp" || it->first == "volumeDown") {
+                    PlaySound(_click);
+                    volumeEvent(it->first);
+                } 
+                if (it->first == "30_fps" || it->first == "60_fps" || it->first == "90_fps") {
+                    PlaySound(_click);
+                    framerateEvent(it->first);
+                }
+            }
+        } else if (it->first == "volumeUp" || it->first == "volumeDown" || it->first == "30_fps" || it->first == "60_fps" || it->first == "90_fps")
+            it->second->setTexture(_texture["basicButton"]);
+    }
 }
 
 void Zappy::Menu::drawBackground()
@@ -118,11 +174,12 @@ void Zappy::Menu::drawBackground()
 void Zappy::Menu::draw()
 {
     drawBackground();
-    if (!_settings) {
+    if (!_settings && _data->_gameData._menu == true) {
         drawLogo();
         drawButton();
         drawText();
-    }
+    } else
+        drawSettings();
 }
 
 void Zappy::Menu::drawLogo()
@@ -142,6 +199,35 @@ void Zappy::Menu::drawText()
     DrawText("Play", 900, 470, 50, WHITE);
     DrawText("Settings", 850, 670, 50, WHITE);
     DrawText("Quit", 900, 870, 50, WHITE);
+}
+
+void Zappy::Menu::drawVolume()
+{
+    _rectangle["volumeUp"]->drawRect(200, 100, {670, 350});
+    _rectangle["volumeDown"]->drawRect(200, 100, {1070, 350});
+    DrawText("Volume", 860, 200, 70, WHITE);
+    DrawText("-", 765, 370, 50, WHITE);
+    DrawText("+", 1165, 370, 50, WHITE);
+    DrawText("Press [Enter] to go back", 1200, 970, 50, WHITE);
+}
+
+void Zappy::Menu::drawFramerate()
+{
+    DrawText("FPS", 900, 500, 70, WHITE);
+    _rectangle["30_fps"]->drawRect(200, 100, {470, 640});
+    _rectangle["60_fps"]->drawRect(200, 100, {870, 640});
+    _rectangle["90_fps"]->drawRect(200, 100, {1270, 640});
+    DrawText("30", 550, 660, 50, WHITE);
+    DrawText("60", 950, 660, 50, WHITE);
+    DrawText("90", 1350, 660, 50, WHITE);
+}
+
+void Zappy::Menu::drawSettings()
+{
+    if (_settings == true) {
+        drawVolume();
+        drawFramerate();
+    }
 }
 
 void Zappy::Menu::mouseClicking()
@@ -172,10 +258,12 @@ void Zappy::Menu::mouseHovering()
     auto it = _rectangle.begin();
     std::advance(it, 2);
 
-    for (; it != _rectangle.end(); ++it) {
-        if (CheckCollisionPointRec(mousePos, it->second->getRect()))
-            it->second->setTexture(_texture["hoverButton"]);
-        else
-            it->second->setTexture(_texture["basicButton"]);
+    if (_settings != true) {
+        for (; it != _rectangle.end(); ++it) {
+            if (CheckCollisionPointRec(mousePos, it->second->getRect()) && it->first != "menuLogo")
+                it->second->setTexture(_texture["hoverButton"]);
+            else if (it->first == "menuPlayButton" || it->first == "menuSettingsButton" || it->first == "menuQuitButton")
+                it->second->setTexture(_texture["basicButton"]);
+        }
     }
 }
