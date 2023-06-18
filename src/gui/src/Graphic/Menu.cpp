@@ -41,7 +41,7 @@ void Zappy::Menu::setData(std::shared_ptr<Data> data)
 void Zappy::Menu::setMusic()
 {
     _music = LoadMusicStream("src/gui/assets/Minecraft-Theme Song {Extended for 30 Minutes}.mp3");
-    _click = LoadSound("src/gui/assets/ButtonPlate Click (Minecraft Sound) - Sound Effect for editing.wav");
+    _click = LoadSound("src/gui/assets/click.ogg");
     PlayMusicStream(_music);
 }
 
