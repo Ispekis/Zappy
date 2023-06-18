@@ -31,12 +31,18 @@ namespace Zappy {
 
             void event();
             void settingsEvent();
+            void settingsButtonEvent();
+            void volumeEvent(std::string);
+            void framerateEvent(std::string);
 
             void draw();
             void drawText();
             void drawLogo();
             void drawButton();
             void drawBackground();
+            void drawSettings();
+            void drawVolume();
+            void drawFramerate();
 
             void playSound();
             void playMusic();
@@ -56,6 +62,7 @@ namespace Zappy {
             Sound _click;
 
             bool _settings = false;
+            float _volume = 0.5;
     };
 }
 
