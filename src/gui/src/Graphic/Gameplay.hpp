@@ -35,6 +35,7 @@ namespace Zappy {
             void drawMap();
             void drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map);
             void drawItem(Vector3, std::size_t, std::vector<std::shared_ptr<IRessource>>);
+            void drawSpacedItem(std::size_t qty, Vector3 pos, std::string ressource);
             void drawWater();
 
         protected:
