@@ -38,7 +38,10 @@ class AI:
         rcv_data = self.client_socket.recv(1024)
         tmp = rcv_data.decode().split("\n")
         map_size = tmp[1].split(" ")
-        self.player = Player(tmp[0], (map_size[0], map_size[1]), 1)
+        try:
+            self.player = Player(tmp[0], (map_size[0], map_size[1]), 1)
+        except IndexError:
+            print(f"Error while creating the player, check if team name is correct", file=sys.stderr)
 
     def rcvServerResponse(self):
         """Set the sight, invetory and update the team slot free
@@ -66,9 +69,9 @@ class AI:
 
     def playerAction(self):
         self.client_socket.send((self.move.handleMovement() + "\n").encode())
-        # self.push()
-        # self.level_up()
-        # self.itemHandling.takeItem(self.player.sight, self.player.obj_list)
+        self.push()
+        self.level_up()
+        self.itemHandling.takeItem(self.player.sight, self.player.item_needed, "Todo")
 
     def run_ai(self):
         try:
