@@ -80,7 +80,10 @@ void Zappy::Menu::setCube()
 void Zappy::Menu::run()
 {
     UpdateMusicStream(_music);
-    event();
+    if (_settings == true)
+        settingsEvent();
+    else
+        event();
     draw();
 }
 
@@ -88,6 +91,13 @@ void Zappy::Menu::event()
 {
     mouseHovering();
     mouseClicking();
+}
+
+void Zappy::Menu::settingsEvent()
+{
+    if (IsKeyPressed(KEY_ENTER)) {
+        _settings = false;
+    }
 }
 
 void Zappy::Menu::drawBackground()
@@ -108,9 +118,11 @@ void Zappy::Menu::drawBackground()
 void Zappy::Menu::draw()
 {
     drawBackground();
-    drawLogo();
-    drawButton();
-    drawText();
+    if (!_settings) {
+        drawLogo();
+        drawButton();
+        drawText();
+    }
 }
 
 void Zappy::Menu::drawLogo()
@@ -144,8 +156,8 @@ void Zappy::Menu::mouseClicking()
                 PlaySound(_click);
                 if (it->first == "menuPlayButton")
                     _data->_gameData._menu = false;
-                // else if (it->first == "menuSettingsButton")
-                //     _menu = false;
+                else if (it->first == "menuSettingsButton")
+                    _settings = true;
                 else if (it->first == "menuQuitButton")
                     _data->_gameData._end = true;
             }
