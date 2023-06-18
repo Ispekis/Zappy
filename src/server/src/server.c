@@ -13,10 +13,14 @@ void re_set_fds(server_t *server, int sfd)
     node_t *current = server->data.clients;
 
     FD_ZERO(&server->addrs.rfds);
+    server->data.rfds = &server->addrs.rfds;
     FD_SET(sfd, &server->addrs.rfds);
     while (current != NULL) {
         if (current->client.fd >= 0) {
             FD_SET(current->client.fd, &server->addrs.rfds);
+        }
+        if (current->client.tfd >= 0) {
+            FD_SET(current->client.tfd, &server->addrs.rfds);
         }
         current = current->next;
     }
@@ -46,8 +50,11 @@ static int listen_events(server_t *server)
     }
     current = server->data.clients;
     while (current != NULL) {
+        if (FD_ISSET(current->client.tfd, &server->addrs.rfds))
+            current->client.is_ready = true;
         if (FD_ISSET(current->client.fd, &server->addrs.rfds)
-        && current->client.fd != server->addrs.socket_fd) {
+        && current->client.fd != server->addrs.socket_fd
+        && current->client.is_ready) {
             read_from_client(server, current);
             break;
         }

@@ -40,6 +40,7 @@ SRC	=	$(addprefix src/, \
 		$(addprefix utils/,    					\
 		map_utils.c								\
 		my_strcat.c								\
+		convertion.c							\
 		player_utils.c							)\
 \
 		$(addprefix gui_protocol/,    			\
