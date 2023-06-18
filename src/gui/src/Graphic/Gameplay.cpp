@@ -34,8 +34,6 @@ void Zappy::Gameplay::setCamera()
     _camera.projection = CAMERA_PERSPECTIVE;
     _cameraMove = false;
     _cameraMode = CAMERA_ORBITAL;
-    // _camera.Update();
-    // DisableCursor();
 }
 
 void Zappy::Gameplay::setTexture()
