@@ -27,7 +27,7 @@ class AI:
         except (socket.gaierror, ConnectionRefusedError) as e:
             raise myexception.Exception(e)
         self.move = Movement()
-        self.itemHandling = Items
+        self.itemHandling = Items(self.client_socket)
         self.player:Player
         self.client_socket.send((name + "\n").encode())
         self.setPlayer()
@@ -66,8 +66,9 @@ class AI:
 
     def playerAction(self):
         self.client_socket.send((self.move.handleMovement() + "\n").encode())
-        self.push()
-        self.level_up()
+        # self.push()
+        # self.level_up()
+        # self.itemHandling.takeItem(self.player.sight, self.player.obj_list)
 
     def run_ai(self):
         try:

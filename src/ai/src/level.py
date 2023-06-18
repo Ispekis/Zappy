@@ -2,7 +2,7 @@ import json
 
 class level:
     def __init__(self):
-        self.levels = parseLevel("/home/bsteven/delivery/TEK2/YEP/B-YEP-400-PAR-4-1-zappy-vincent.shao/src/ai/level.json")
+        self.levels = parseLevel("./src/ai/level.json")
 
     def setObj(self, level):
         return self.levels[str(level)]
