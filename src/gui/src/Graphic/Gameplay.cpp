@@ -124,19 +124,32 @@ void Zappy::Gameplay::drawTile(std::size_t x, std::size_t y, std::pair<std::size
     float posX = size * x - (midX * size);
     float posY = size * y - (midY * size);
     float posZ = size / 2;
-    DrawCubeWiresV((Vector3){posX + 1, posZ +5.0, posY + 1}, (Vector3){size, size, size}, BLACK);
+    DrawCubeWiresV((Vector3){posX, posZ +5.0, posY}, (Vector3){size, size, size}, BLACK);
     _cube["grass"].drawBlockTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
     drawItem((Vector3){posX, posY, posZ}, size, _data->_gameData._map[x][y].getRessources());
 }
 
 void Zappy::Gameplay::drawItem(Vector3 pos, std::size_t size, std::vector<std::shared_ptr<IRessource>> rss)
 {
+    bool floor = true;
     std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
     for (std::size_t i = 0; i != rss.size(); i++) {
         auto qty = rss[i]->getQuantity();
         if (qty > 0)
-            for (std::size_t a = 0; a != qty; a++)
-                _cube[ressource[i]].drawItemTexture((Vector3){pos.x - i * 0.5 - a * 0.01, pos.z + size - 0.5, pos.y - a * 0.05}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
-        _cube[ressource[i]].AnimateItem((Vector3){1.2, 1.2, 1.2});
+            drawSpacedItem(qty, pos, ressource[i]);
     }
+}
+
+void Zappy::Gameplay::drawSpacedItem(std::size_t qty, Vector3 pos, std::string ressource)
+{
+    // bool floor = true;
+    // for (std::size_t a = 0; a != qty; a++)
+    // {
+    //     if (floor)
+    //         _cube[ressource[i]].drawItemTextureFloor((Vector3){pos.x - (size / 2) + i * 0.5, pos.z + size - 0.2, pos.y - (size / 2)}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
+    //     else 
+    //         _cube[ressource[i]].drawItemTextureAnimated((Vector3){pos.x, pos.z + size - 0.2, pos.y}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
+    // }
+    // _cube[ressource[i]].AnimateItem((Vector3){1.2, 1.2, 1.2});
+
 }
