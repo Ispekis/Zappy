@@ -12,6 +12,7 @@ Zappy::Gameplay::Gameplay()
     setCamera();
     setTexture();
     setCube();
+    _animated = false;
 }
 
 Zappy::Gameplay::~Gameplay()
@@ -92,8 +93,9 @@ void Zappy::Gameplay::cameraEvent()
         _camera.position = (Vector3){0.0f, 60.0f, 20.0f};    // Camera position
         _camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
     }
-
-
+    if (IsKeyPressed(KEY_F)) {
+        _animated = !_animated;
+    }
     if (_cameraMove == true) {
         _camera.Update(CAMERA_ORBITAL);
         return;
@@ -144,26 +146,53 @@ void Zappy::Gameplay::drawMap()
     _cube["water"].drawWaterTexture((Vector3){0, 0.9, 0}, (Vector3){200, 0.9, 200}, GRAY);
 }
 
+
+bool Zappy::Gameplay::tilehover(float posX, float posY, float posZ, float size)
+{
+    RayCollision collision;
+    Ray ray;
+    ray = GetMouseRay(GetMousePosition(), _camera);
+    collision = GetRayCollisionBox(ray, (BoundingBox){(Vector3){ posX - size/2, posZ + size/2, posY - size/2 },
+                                                      (Vector3){ posX + size/2, posZ + size/2, posY + size/2 }});
+    if (collision.hit)
+    {
+        // printf("[%d][%d]\n", x, y);
+        DrawCubeWiresV((Vector3){posX, posZ + size / 2, posY}, (Vector3){size,  0.5, size}, RED);
+    }
+}
 void Zappy::Gameplay::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
 {
+    RayCollision collision;
+    Ray ray;
+
     float size = 3.0f;
     int midX = map.first / 2;
     int midY = map.second / 2;
     float posX = size * x - (midX * size);
     float posY = size * y - (midY * size);
     float posZ = size / 2;
+
+    // ray = GetMouseRay(GetMousePosition(), _camera);
+    // collision = GetRayCollisionBox(ray, (BoundingBox){(Vector3){ posX - size/2, posZ + size/2, posY - size/2 },
+    //                                                   (Vector3){ posX + size/2, posZ + size/2, posY + size/2 }});
+    // if (collision.hit)
+    // {
+    //     printf("[%d][%d]\n", x, y);
+    //     DrawCubeWiresV((Vector3){posX, posZ + size, posY}, (Vector3){size,  0.5, size}, RED);
+    // }
+    tilehover(posX, posY, posZ, size);
     _cube["grass"].drawBlockTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
     drawItem((Vector3){posX, posY, posZ}, size, _data->_gameData._map[x][y].getRessources());
 }
 
 void Zappy::Gameplay::drawItem(Vector3 pos, std::size_t size, std::vector<std::shared_ptr<IRessource>> rss)
 {
-    bool floor = true;
     std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
     for (std::size_t i = 0; i != rss.size(); i++) {
         auto qty = rss[i]->getQuantity();
         if (qty > 0)
             drawSpacedItem(qty, pos, ressource[i], size, i);
+        _cube[ressource[i]].AnimateItem((Vector3){1.2, 1.2, 1.2});
     }
 }
 
@@ -184,11 +213,12 @@ void Zappy::Gameplay::drawSpacedItem(std::size_t qty, Vector3 pos, std::string r
         x = i - 6;
         y++;
     }
-
     for (std::size_t a = 0; a != qty; a++)
     {
-        _cube[ressource].drawItemTextureFloor((Vector3){pos.x - (size / 2) + x * 0.8, pos.z + size / 2 + 0.2 + a * 0.01, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
-            // _cube[ressource].drawItemTextureAnimated((Vector3){pos.x - (size / 2) + i * 0.5, pos.z + size - 0.2 + a * 0.01, pos.y - (size / 2) + a * 0.2}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
+        if (_animated) {
+            _cube[ressource].drawItemTextureAnimated((Vector3){pos.x - (size / 2) + x * 0.8, pos.z + size - 0.2 + a * 0.01, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
+        }
+        else
+            _cube[ressource].drawItemTextureFloor((Vector3){pos.x - (size / 2) + x * 0.8, pos.z + size / 2 + 0.2 + a * 0.01, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
     }
-    // _cube[ressource].AnimateItem((Vector3){1.2, 1.2, 1.2});
 }
