@@ -13,6 +13,7 @@ Zappy::Gameplay::Gameplay()
     setTexture();
     setCube();
     setModel();
+    setModelAnimation();
     _animated = false;
 }
 
@@ -55,6 +56,17 @@ void Zappy::Gameplay::setTexture()
     _texture.insert({"Deraumere", raylib::Texture("src/gui/assets/items/texture/iron.png")});
     _texture.insert({"Linemate", raylib::Texture("src/gui/assets/items/texture/coal.png")});
     _texture.insert({"Food", raylib::Texture("src/gui/assets/items/texture/carrot.png")});
+
+    _texture.insert({"babyking", raylib::Texture("src/gui/assets/skin/babyking.png")});
+    _texture.insert({"Brennsou", raylib::Texture("src/gui/assets/skin/brennsou.png")});
+    _texture.insert({"girl", raylib::Texture("src/gui/assets/skin/girl.png")});
+    _texture.insert({"girl1", raylib::Texture("src/gui/assets/skin/girl1.png")});
+    _texture.insert({"kdd", raylib::Texture("src/gui/assets/skin/kdd.png")});
+    _texture.insert({"nezuko", raylib::Texture("src/gui/assets/skin/nezuko.png")});
+    _texture.insert({"nweak", raylib::Texture("src/gui/assets/skin/nweak.png")});
+    _texture.insert({"spiderman", raylib::Texture("src/gui/assets/skin/spiderman.png")});
+    _texture.insert({"steve", raylib::Texture("src/gui/assets/skin/steve.png")});
+    _texture.insert({"zirnox", raylib::Texture("src/gui/assets/skin/zirnox.png")});
 }
 
 void Zappy::Gameplay::setCube()
@@ -66,6 +78,7 @@ void Zappy::Gameplay::setCube()
 void Zappy::Gameplay::setModel()
 {
     std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
+    std::vector<std::string> skin = {"babyking", "Brennsou", "girl", "girl1", "kdd", "nezuko", "nweak", "spiderman", "steve", "zirnox"};
 
     _model.insert({"Thystame", raylib::Model("src/gui/assets/items/obj/nether_star.obj")});
     _model.insert({"Phiras", raylib::Model("src/gui/assets/items/obj/emerald.obj")});
@@ -75,8 +88,27 @@ void Zappy::Gameplay::setModel()
     _model.insert({"Linemate", raylib::Model("src/gui/assets/items/obj/coal.obj")});
     _model.insert({"Food", raylib::Model("src/gui/assets/items/obj/carrot.obj")});
 
+    _model.insert({"babyking", raylib::Model("src/gui/assets/skin/player_model.glb")});
+    _model.insert({"Brennsou", raylib::Model("src/gui/assets/skin/player_model.glb")});
+    _model.insert({"girl", raylib::Model("src/gui/assets/skin/player_model.glb")});
+    _model.insert({"girl1", raylib::Model("src/gui/assets/skin/player_model.glb")});
+    _model.insert({"kdd", raylib::Model("src/gui/assets/skin/player_model.glb")});
+    _model.insert({"nezuko", raylib::Model("src/gui/assets/skin/player_model.glb")});
+    _model.insert({"nweak", raylib::Model("src/gui/assets/skin/player_model.glb")});
+    _model.insert({"spiderman", raylib::Model("src/gui/assets/skin/player_model.glb")});
+    _model.insert({"steve", raylib::Model("src/gui/assets/skin/player_model.glb")});
+    _model.insert({"zirnox", raylib::Model("src/gui/assets/skin/player_model.glb")});
+
     for (int i = 0; ressource.size() != i; ++i)
         SetMaterialTexture(&_model[ressource[i]].materials[0], MATERIAL_MAP_DIFFUSE, _texture[ressource[i]]);
+    for (int j = 0; skin.size() != j; ++j)
+        SetMaterialTexture(&_model[skin[j]].materials[0], MATERIAL_MAP_DIFFUSE, _texture[skin[j]]);
+
+}
+
+void Zappy::Gameplay::setModelAnimation()
+{
+    // _animation = raylib::ModelAnimation.LoadModelAnimation("src/gui/assets/skin/player_model.glb", 3);
 }
 
 void Zappy::Gameplay::run()
@@ -163,6 +195,7 @@ bool Zappy::Gameplay::tilehover(float posX, float posY, float posZ, float size)
     if (collision.hit)
         DrawCubeWiresV((Vector3){posX, posZ + size / 2, posY}, (Vector3){size,  0.5, size}, RED);
 }
+
 void Zappy::Gameplay::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
 {
     RayCollision collision;

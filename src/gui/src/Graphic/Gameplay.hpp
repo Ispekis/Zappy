@@ -29,6 +29,8 @@ namespace Zappy {
 
             void setModel();
 
+            void setModelAnimation();
+
             void run();
 
             void event();
@@ -50,6 +52,7 @@ namespace Zappy {
             std::map<std::string, Cube> _cube;
             std::map<std::string, Shader> _shader;
             std::map<std::string, raylib::Model> _model;
+            std::map<std::string, raylib::ModelAnimation> _animation;
 
             std::shared_ptr<Data> _data;
             bool _cameraMove;
