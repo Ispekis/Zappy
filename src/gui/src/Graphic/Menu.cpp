@@ -139,7 +139,8 @@ void Zappy::Menu::settingsButtonEvent()
 
     for (; it != _rectangle.end(); ++it) {
         if (CheckCollisionPointRec(mouse, it->second->getRect())) {
-            it->second->setTexture(_texture["hoverButton"]);
+            if (it->first == "volumeUp" || it->first == "volumeDown" || it->first == "30_fps" || it->first == "60_fps" || it->first == "90_fps")
+                it->second->setTexture(_texture["hoverButton"]);
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 if (it->first == "volumeUp" || it->first == "volumeDown") {
                     PlaySound(_click);
@@ -150,8 +151,10 @@ void Zappy::Menu::settingsButtonEvent()
                     framerateEvent(it->first);
                 }
             }
-        } else if (it->first == "volumeUp" || it->first == "volumeDown" || it->first == "30_fps" || it->first == "60_fps" || it->first == "90_fps")
-            it->second->setTexture(_texture["basicButton"]);
+        } else if (it->first == "volumeUp" || it->first == "volumeDown" || it->first == "30_fps" || it->first == "60_fps" || it->first == "90_fps") {
+            if (it->first != "menuLogo")
+                it->second->setTexture(_texture["basicButton"]);
+        }
     }
 }
 
