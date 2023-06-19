@@ -7,9 +7,12 @@
 
 #include "Gui.hpp"
 
-Zappy::Gui::Gui(int port, std::string machine) : _graphic("Zappy"), _data(std::make_shared<Data>(machine, port))
+Zappy::Gui::Gui(int port, std::string machine) : _graphic("Zappy")
 {
+    _data = std::make_shared<Data>(machine, port);
     _graphic.setData(_data);
+    std::cout << "Port = " << port << std::endl;
+    std::cout << "Machine = " << machine << std::endl;
     _isRunning = true;
 }
 

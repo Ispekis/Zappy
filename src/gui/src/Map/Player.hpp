@@ -116,7 +116,7 @@ namespace Zappy {
         std::shared_ptr<Team> _team;
         std::size_t _level;
         std::size_t _id;
-        // std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
+        std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
         bool _incantation;
 
         bool _drop;

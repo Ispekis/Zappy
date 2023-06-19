@@ -32,6 +32,7 @@ Zappy::RessourceFactory::~RessourceFactory()
 std::shared_ptr<Zappy::IRessource> Zappy::RessourceFactory::createRessource(std::string &ressourceType, int quantity)
 {
     if (_builder.count(ressourceType) > 0) {
+        // std::cout << quantity << " : " << ressourceType << std::endl;
         return _builder[ressourceType](quantity);
     }
     throw Error("Undefined Ressource", ressourceType);

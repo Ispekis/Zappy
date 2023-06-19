@@ -15,6 +15,9 @@ Zappy::Player::Player(std::vector<std::string> &content, std::shared_ptr<Team> t
     _orientation = static_cast<Orientation>(std::stoi(content[3]));
     _position = {std::stoi(content[1]), std::stoi(content[2])};
     _team = team;
+    std::cout << "Set" << std::endl;
+    for (auto &element : ressource)
+        _inventory.insert({element, 0});
 }
 
 Zappy::Player::~Player()
@@ -58,7 +61,7 @@ void Zappy::Player::setPosition(std::pair<std::size_t, std::size_t> newPosition)
 
 void Zappy::Player::setInventory(std::vector<std::string> newInventory)
 {
-    std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
+    // std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
     for (std::size_t i = 0; i != newInventory.size() - 1; i++)
         _inventory[ressource[i]] = std::stoul(newInventory[i]);
 }

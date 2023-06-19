@@ -53,7 +53,7 @@ namespace Zappy {
             void sbp(std::vector<std::string> &content);
 
             bool _dataSet;
-            bool _end = false;
+            bool _end;
             bool _menu = true;
 
             std::vector<std::vector<Tile>> _map;

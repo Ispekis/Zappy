@@ -135,7 +135,7 @@ void Zappy::Cube::drawWaterTexture(Vector3 position, Vector3 size, Color color)
     rlSetTexture(0);
 }
 
-void Zappy::Cube::drawItemTextureFloor(Vector3 position, Vector3 size, Color color)
+void Zappy::Cube::drawItemTexture(Vector3 position, Vector3 size, Color color)
 {
     float x = position.x / 100;
     float y = position.y / 100;
@@ -143,32 +143,18 @@ void Zappy::Cube::drawItemTextureFloor(Vector3 position, Vector3 size, Color col
 
     float width = size.x;
     float height = size.y;
-    float length = size.z;
 
-    rlPushMatrix();
-    rlTranslatef(x * 100, y * 100, z * 100);
-    rlRotatef(itemRotation, 0.0f, 1.0f, 0.0f);
-    rlSetTexture(_item);
-        rlBegin(RL_QUADS);
-            rlColor4ub(color.r, color.g, color.b, color.a);
-                rlTexCoord2f(0.0f, 1.0f); rlVertex3f(x - width/2, y + height/2, z - length/2);
-                rlTexCoord2f(0.0f, 0.0f); rlVertex3f(x - width/2, y + height/2, z + length/2);
-                rlTexCoord2f(1.0f, 0.0f); rlVertex3f(x + width/2, y + height/2, z + length/2);
-                rlTexCoord2f(1.0f, 1.0f); rlVertex3f(x + width/2, y + height/2, z - length/2);
-    rlEnd();
-    rlSetTexture(0);
-    rlPopMatrix();
-}
-
-void Zappy::Cube::drawItemTextureAnimated(Vector3 position, Vector3 size, Color color)
-{
-    float x = position.x / 100;
-    float y = position.y / 100;
-    float z = position.z / 100;
-
-    float width = size.x;
-    float height = size.y;
-    float length = size.z;
+    itemRotation -= 0.01f;;
+    if (itemBounce < height / 2 && ret == false) {
+        itemBounce += 0.0001f;
+        if (itemBounce > height / 2)
+            ret = true;
+    }
+    if (itemBounce > -height / 8 && ret == true) {
+        itemBounce -= 0.0001f;
+       if (itemBounce < -height / 8)
+            ret = false;
+    }
 
     rlPushMatrix();
     rlTranslatef(x * 100, y * 100, z * 100);
@@ -186,34 +172,16 @@ void Zappy::Cube::drawItemTextureAnimated(Vector3 position, Vector3 size, Color 
                 rlTexCoord2f(1.0f, 1.0f); rlVertex3f((x + 0.075)  - width/3, y - height/3 + itemBounce, 0);
                 rlTexCoord2f(1.0f, 0.0f); rlVertex3f((x + 0.075)  - width/3, y + height/3 + itemBounce, 0);
 
-                // rlTexCoord2f(0.0f, 0.0f); rlVertex3f((x - -0.075) + width/3, y + height/3, 0.0);
-                // rlTexCoord2f(1.0f, 0.0f); rlVertex3f((x - -0.075) - width/3, y + height/3, 0.0);
-                // rlTexCoord2f(1.0f, 1.0f); rlVertex3f((x - -0.075) - width/3, y - height/3, 0.0);
-                // rlTexCoord2f(0.0f, 1.0f); rlVertex3f((x - -0.075) + width/3, y - height/3, 0.0);
+                // rlTexCoord2f(0.0f, 0.0f); rlVertex3f((x - -0.075) + width/3, y + height/3 + bounce, 0.07);
+                // rlTexCoord2f(1.0f, 0.0f); rlVertex3f((x - -0.075) - width/3, y + height/3 + bounce, 0.07);
+                // rlTexCoord2f(1.0f, 1.0f); rlVertex3f((x - -0.075) - width/3, y - height/3 + bounce, 0.07);
+                // rlTexCoord2f(0.0f, 1.0f); rlVertex3f((x - -0.075) + width/3, y - height/3 + bounce, 0.07);
 
-                // rlTexCoord2f(0.0f, 0.0f); rlVertex3f((x + -0.075) + width/3, y + height/3, -0.07);
-                // rlTexCoord2f(0.0f, 1.0f); rlVertex3f((x + -0.075) + width/3, y - height/3, -0.07);
-                // rlTexCoord2f(1.0f, 1.0f); rlVertex3f((x + -0.075) - width/3, y - height/3, -0.07);
-                // rlTexCoord2f(1.0f, 0.0f); rlVertex3f((x + -0.075) - width/3, y + height/3, -0.07);
+                // rlTexCoord2f(0.0f, 0.0f); rlVertex3f((x + -0.075) + width/3, y + height/3 + bounce, -0.07);
+                // rlTexCoord2f(0.0f, 1.0f); rlVertex3f((x + -0.075) + width/3, y - height/3 + bounce, -0.07);
+                // rlTexCoord2f(1.0f, 1.0f); rlVertex3f((x + -0.075) - width/3, y - height/3 + bounce, -0.07);
+                // rlTexCoord2f(1.0f, 0.0f); rlVertex3f((x + -0.075) - width/3, y + height/3 + bounce, -0.07);
     rlEnd();
     rlSetTexture(0);
     rlPopMatrix();
-}
-
-void Zappy::Cube::AnimateItem(Vector3 size)
-{
-    float width = size.x;
-    float height = size.y;
-
-    itemRotation -= 0.01f;;
-    if (itemBounce < height / 2 && ret == false) {
-        itemBounce += 0.0001f;
-        if (itemBounce > height / 2)
-            ret = true;
-    }
-    if (itemBounce > -height / 8 && ret == true) {
-        itemBounce -= 0.0001f;
-       if (itemBounce < -height / 8)
-            ret = false;
-    }
 }
