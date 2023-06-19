@@ -13,7 +13,6 @@ void re_set_fds(server_t *server, int sfd)
     node_t *current = server->data.clients;
 
     FD_ZERO(&server->addrs.rfds);
-    server->data.rfds = &server->addrs.rfds;
     FD_SET(sfd, &server->addrs.rfds);
     while (current != NULL) {
         if (current->client.fd >= 0) {
@@ -52,6 +51,8 @@ static int listen_events(server_t *server)
     while (current != NULL) {
         if (FD_ISSET(current->client.tfd, &server->addrs.rfds))
             current->client.is_ready = true;
+        if (current->client.is_ready && current->client.is_elevating)
+            elevate_player(current, &server->data);
         if (FD_ISSET(current->client.fd, &server->addrs.rfds)
         && current->client.fd != server->addrs.socket_fd
         && current->client.is_ready) {

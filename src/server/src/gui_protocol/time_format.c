@@ -5,6 +5,8 @@
 ** time_format
 */
 
+#include <stdio.h>
+
 void fmt_tm_request(int fd, int time)
 {
     dprintf(fd, "sgt %i\n", time);
