@@ -10,5 +10,6 @@ class Items:
             try:
                 sight[0].index(objectives[i])
                 self.client_socket.send(("Take " + objectives[i] + "\n").encode())
+                self.client_socket.recv(1024)
             except ValueError:
                 continue

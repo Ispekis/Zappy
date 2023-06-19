@@ -27,11 +27,11 @@ class AI:
             self.client_socket = tc.connection(machine, port)
         except (socket.gaierror, ConnectionRefusedError) as e:
             raise myexception.Exception(e)
-        self.move = Movement()
+        self.client_socket.send((name + "\n").encode())
         self.itemHandling = Items(self.client_socket)
         self.player:Player
-        self.client_socket.send((name + "\n").encode())
         self.setPlayer(name)
+        self.move = Movement(self.client_socket, self.player.item_needed)
 
     def setPlayer(self, name):
         recv_data = self.client_socket.recv(1024)
@@ -74,7 +74,7 @@ class AI:
             self.client_socket.send("fork\n".encode())
 
     def playerAction(self):
-        self.move.handleMovement(self.player.sight, self.client_socket)
+        self.move.handleMovement(self.player.sight)
         self.push()
         self.level_up()
         self.itemHandling.takeItem(self.player.sight, self.player.item_needed, "Todo")
@@ -86,6 +86,7 @@ class AI:
                 self.rcvServerResponse()
                 self.playerAction()
                 rcv_data = self.client_socket.recv(1024)
+                print(rcv_data.decode(), end="")
                 if rcv_data.decode() == "dead\n":
                     print("You are dead!")
                     break
