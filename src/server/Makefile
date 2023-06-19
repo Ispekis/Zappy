@@ -65,6 +65,7 @@ SRC	=	$(addprefix src/, \
 		ai_action.c								\
 		ai_info.c								\
 		ai_interact.c							\
+		ai_incantation.c						\
 		ai_look.c								\
 		ai_movement.c							))
 

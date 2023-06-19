@@ -7,7 +7,8 @@
 
 #include "server.h"
 
-void ai_cmd_team_unused_slot(node_t *client, data_t *data,
+void ai_cmd_team_unused_slot(node_t *client,
+data_t *data __attribute__((unused)),
 char **params __attribute__((unused)))
 {
     dprintf(client->client.fd, "%i\n", client->client.team->clients_nbr);

@@ -37,6 +37,7 @@ static void init_client_data(node_t **node)
     init_inventory(&(*node)->client.inventory);
     (*node)->client.team = NULL;
     (*node)->client.is_ready = true;
+    (*node)->client.is_elevating = false;
     (*node)->next = NULL;
 }
 

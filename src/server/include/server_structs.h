@@ -84,6 +84,7 @@ typedef struct client_s {
     inventory_t inventory;
     team_t *team;
     bool is_ready;
+    bool is_elevating;
 } client_t;
 
 /**
@@ -135,11 +136,6 @@ typedef struct data_s {
     int width;
     int height;
     int graphic_fd;
-    /**
-     * @brief Pointer to the rfds of the sock_addrs_t's struct
-     *
-     */
-    fd_set *rfds;
 } data_t;
 
 typedef struct server_s {
