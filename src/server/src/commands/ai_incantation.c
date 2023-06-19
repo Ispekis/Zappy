@@ -51,5 +51,6 @@ void elevate_player(node_t *client, data_t *data)
         client->client.is_elevating = false;
     } else {
         dprintf(client->client.fd, "ko\n");
+        client->client.is_elevating = false;
     }
 }

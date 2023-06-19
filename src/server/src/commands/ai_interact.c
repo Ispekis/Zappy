@@ -62,7 +62,7 @@ char **params __attribute__((unused)))
     && client->client.level < MAX_LEVEL) {
         dprintf(client->client.fd, "Elevation underway\n");
         set_cooldown_in_nanosec(client,
-        sec_to_nanosec(((double) COOLDOWN_INCANTATION / (double) data->freq)));
+        sec_to_nanosec(((double) 7 / (double) data->freq)));
         client->client.is_elevating = true;
     } else {
         dprintf(client->client.fd, "ko\n");
