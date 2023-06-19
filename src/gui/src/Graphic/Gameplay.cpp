@@ -12,6 +12,7 @@ Zappy::Gameplay::Gameplay()
     setCamera();
     setTexture();
     setCube();
+    setModel();
     _animated = false;
 }
 
@@ -47,30 +48,43 @@ void Zappy::Gameplay::setTexture()
     _texture.insert({"dirt", raylib::Texture("src/gui/assets/dirt.png")});
     _texture.insert({"clearbackground", raylib::Texture("src/gui/assets/clearbackground.png")});
 
-    _texture.insert({"beef", raylib::Texture("src/gui/assets/beef_cooked.png")});
-    _texture.insert({"carrot", raylib::Texture("src/gui/assets/carrot_golden.png")});
-    _texture.insert({"coal", raylib::Texture("src/gui/assets/coal.png")});
-    _texture.insert({"diamond", raylib::Texture("src/gui/assets/diamond.png")});
-    _texture.insert({"emerald", raylib::Texture("src/gui/assets/emerald.png")});
-    _texture.insert({"gold", raylib::Texture("src/gui/assets/gold_ingot.png")});
-    _texture.insert({"iron", raylib::Texture("src/gui/assets/iron_ingot.png")});
-    _texture.insert({"netherStar", raylib::Texture("src/gui/assets/nether_star.png")});
-    _texture.insert({"quartz", raylib::Texture("src/gui/assets/quartz.png")});
+    _texture.insert({"Thystame", raylib::Texture("src/gui/assets/items/texture/nether_star.png")});
+    _texture.insert({"Phiras", raylib::Texture("src/gui/assets/items/texture/emerald.png")});
+    _texture.insert({"Mendiane", raylib::Texture("src/gui/assets/items/texture/diamond.png")});
+    _texture.insert({"Sibur", raylib::Texture("src/gui/assets/items/texture/gold.png")});
+    _texture.insert({"Deraumere", raylib::Texture("src/gui/assets/items/texture/iron.png")});
+    _texture.insert({"Linemate", raylib::Texture("src/gui/assets/items/texture/coal.png")});
+    _texture.insert({"Food", raylib::Texture("src/gui/assets/items/texture/carrot.png")});
 }
 
 void Zappy::Gameplay::setCube()
 {
     _cube.insert({"water", Cube(_texture["water"].GetId(), _texture["clearbackground"].GetId(), _texture["water"].GetId(), _shader["waterWave"])});
     _cube.insert({"grass", Cube(_texture["grassTop"].GetId(), _texture["grassSide"].GetId(), _texture["dirt"].GetId())});
-    _cube.insert({"beef", Cube(_texture["beef"].GetId())});
-    _cube.insert({"Thystame", Cube(_texture["netherStar"].GetId())});
-    _cube.insert({"Phiras", Cube(_texture["emerald"].GetId())});
-    _cube.insert({"Mendiane", Cube(_texture["diamond"].GetId())});
-    _cube.insert({"Sibur", Cube(_texture["gold"].GetId())});
-    _cube.insert({"Deraumere", Cube(_texture["iron"].GetId())});
-    _cube.insert({"Linemate", Cube(_texture["coal"].GetId())});
-    _cube.insert({"Food", Cube(_texture["carrot"].GetId())});
+    _cube.insert({"Thystame", Cube(_texture["Thystame"].GetId())});
+    _cube.insert({"Phiras", Cube(_texture["Phiras"].GetId())});
+    _cube.insert({"Mendiane", Cube(_texture["Mendiane"].GetId())});
+    _cube.insert({"Sibur", Cube(_texture["Sibur"].GetId())});
+    _cube.insert({"Deraumere", Cube(_texture["Deraumere"].GetId())});
+    _cube.insert({"Linemate", Cube(_texture["Linemate"].GetId())});
+    _cube.insert({"Food", Cube(_texture["Food"].GetId())});
 
+}
+
+void Zappy::Gameplay::setModel()
+{
+    std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
+
+    _model.insert({"Thystame", raylib::Model("src/gui/assets/items/obj/nether_star.obj")});
+    _model.insert({"Phiras", raylib::Model("src/gui/assets/items/obj/emerald.obj")});
+    _model.insert({"Mendiane", raylib::Model("src/gui/assets/items/obj/diamond.obj")});
+    _model.insert({"Sibur", raylib::Model("src/gui/assets/items/obj/gold.obj")});
+    _model.insert({"Deraumere", raylib::Model("src/gui/assets/items/obj/iron.obj")});
+    _model.insert({"Linemate", raylib::Model("src/gui/assets/items/obj/coal.obj")});
+    _model.insert({"Food", raylib::Model("src/gui/assets/items/obj/carrot.obj")});
+
+    for (int i = 0; ressource.size() != i; ++i)
+        SetMaterialTexture(&_model[ressource[i]].materials[0], MATERIAL_MAP_DIFFUSE, _texture[ressource[i]]);
 }
 
 void Zappy::Gameplay::run()
@@ -213,12 +227,25 @@ void Zappy::Gameplay::drawSpacedItem(std::size_t qty, Vector3 pos, std::string r
         x = i - 6;
         y++;
     }
-    for (std::size_t a = 0; a != qty; a++)
-    {
-        if (_animated) {
-            _cube[ressource].drawItemTextureAnimated((Vector3){pos.x - (size / 2) + x * 0.8, pos.z + size - 0.2 + a * 0.01, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
-        }
-        else
-            _cube[ressource].drawItemTextureFloor((Vector3){pos.x - (size / 2) + x * 0.8, pos.z + size / 2 + 0.2 + a * 0.01, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
+    
+    _rotation -= 0.01f;;
+    if (_itemBounce < size && _ret == false) {
+        _itemBounce += 0.01f;
+        if (_itemBounce > size / 2)
+            _ret = true;
+    }
+    if (_itemBounce > size / 2 && _ret == true) {
+        _itemBounce -= 0.01f;
+       if (_itemBounce < -size / 2)
+            _ret = false;
+    }
+
+    for (std::size_t a = 0; a != qty; a++) {
+        DrawModelEx(_model[ressource], (Vector3){pos.x - (size / 2) + x * 0.8, (pos.z + size - 0.2 + a * 0.01) + _itemBounce, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3) {0, 1, 0}, _rotation, (Vector3) {1.5, 1.5, 1.5}, WHITE);
+        // if (_animated) {
+        //     _cube[ressource].drawItemTextureAnimated((Vector3){pos.x - (size / 2) + x * 0.8, pos.z + size - 0.2 + a * 0.01, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
+        // }
+        // else
+        //     _cube[ressource].drawItemTextureFloor((Vector3){pos.x - (size / 2) + x * 0.8, pos.z + size / 2 + 0.2 + a * 0.01, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
     }
 }
