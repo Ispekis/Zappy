@@ -26,6 +26,7 @@ namespace Zappy {
             Cube(unsigned int top, unsigned int side, unsigned int bot);
             Cube(unsigned int item);
             Cube(){};
+            ~Cube();
 
             /**
              * @brief Set the Texture object
@@ -49,13 +50,8 @@ namespace Zappy {
              * @brief Destroy the Cube object
              * 
              */
-            ~Cube();
             void drawBlockTexture(Vector3 position, Vector3 size, Color color);
             void drawWaterTexture(Vector3 position, Vector3 size, Color color);
-            void drawItemTextureAnimated(Vector3 position, Vector3 size, Color color);
-            void drawItemTextureFloor(Vector3 position, Vector3 size, Color color);
-
-            void AnimateItem(Vector3 size);
 
         protected:
         private:

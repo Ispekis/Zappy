@@ -61,14 +61,6 @@ void Zappy::Gameplay::setCube()
 {
     _cube.insert({"water", Cube(_texture["water"].GetId(), _texture["clearbackground"].GetId(), _texture["water"].GetId(), _shader["waterWave"])});
     _cube.insert({"grass", Cube(_texture["grassTop"].GetId(), _texture["grassSide"].GetId(), _texture["dirt"].GetId())});
-    _cube.insert({"Thystame", Cube(_texture["Thystame"].GetId())});
-    _cube.insert({"Phiras", Cube(_texture["Phiras"].GetId())});
-    _cube.insert({"Mendiane", Cube(_texture["Mendiane"].GetId())});
-    _cube.insert({"Sibur", Cube(_texture["Sibur"].GetId())});
-    _cube.insert({"Deraumere", Cube(_texture["Deraumere"].GetId())});
-    _cube.insert({"Linemate", Cube(_texture["Linemate"].GetId())});
-    _cube.insert({"Food", Cube(_texture["Food"].GetId())});
-
 }
 
 void Zappy::Gameplay::setModel()
@@ -195,7 +187,6 @@ void Zappy::Gameplay::drawItem(Vector3 pos, std::size_t size, std::vector<std::s
         auto qty = rss[i]->getQuantity();
         if (qty > 0)
             drawSpacedItem(qty, pos, ressource[i], size, i);
-        _cube[ressource[i]].AnimateItem((Vector3){1.2, 1.2, 1.2});
     }
 }
 
@@ -219,10 +210,10 @@ void Zappy::Gameplay::drawSpacedItem(std::size_t qty, Vector3 pos, std::string r
 
     _rotation -= 0.01f;
     if (_ret == false)
-        _itemBounce += 0.0001f;
+        _itemBounce += 0.00008f;
     if (_ret == true)
-        _itemBounce -= 0.0001f;
-    if (_itemBounce > 1)
+        _itemBounce -= 0.00008f;
+    if (_itemBounce > 0.8)
         _ret = true;
     if (_itemBounce < 0)
         _ret = false;
