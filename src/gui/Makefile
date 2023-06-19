@@ -32,6 +32,8 @@ GRAPHIC =	$(addprefix src/Graphic/,		\
 				Cube.cpp			\
 				Shaders.cpp			\
 				Raylib.cpp			\
+				DrawMap.cpp			\
+				DrawItems.cpp			\
 				Gameplay.cpp		\
 				Menu.cpp		\
 				Rectangle.cpp		)
