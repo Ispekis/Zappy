@@ -34,6 +34,7 @@ namespace Zappy {
             void draw();
             void drawMap();
             void drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map);
+            bool tilehover(float posX, float posY, float posZ, float size);
             void drawItem(Vector3, std::size_t, std::vector<std::shared_ptr<IRessource>>);
             void drawSpacedItem(std::size_t qty, Vector3 pos, std::string ressource, std::size_t size, std::size_t i);
             void drawWater();
@@ -49,6 +50,7 @@ namespace Zappy {
             std::shared_ptr<Data> _data;
             bool _cameraMove;
             int _cameraMode;
+            bool _animated;
     };
 }
 

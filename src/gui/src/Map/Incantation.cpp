@@ -38,7 +38,7 @@ void Zappy::Incantation::addIncantation(std::vector<std::string> &content)
 void Zappy::Incantation::endIncantation(std::vector<std::string> &content)
 {
     std::pair<std::pair<std::size_t, std::size_t>, bool> state;
-    bool b;
+
     if (content[2] == "0")
         state = std::make_pair(std::make_pair(std::stoul(content[0]),std::stoul(content[1])), false); // failed
     else
