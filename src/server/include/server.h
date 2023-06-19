@@ -48,6 +48,26 @@ static const char *RESOURCES_LIB[] __attribute__((unused)) = {
     PHIRAS_NAME, THYSTAME_NAME, NULL
 };
 
+typedef struct elevation_ritual_s {
+    int req_player;
+    int req_linemate;
+    int req_deraumere;
+    int req_sibur;
+    int req_mendiane;
+    int req_phiras;
+    int req_thystame;
+} elevation_ritual_t;
+
+static const elevation_ritual_t elev_requir[] __attribute__((unused)) = {
+    {1, 1, 0, 0, 0, 0, 0}, /* Level 1*/
+    {2, 1, 1, 1, 0, 0, 0}, /* Level 2*/
+    {2, 2, 0, 1, 0, 2, 0}, /* Level 3*/
+    {4, 1, 1, 2, 0, 1, 0}, /* Level 4*/
+    {4, 1, 2, 1, 3, 0, 0}, /* Level 5*/
+    {6, 1, 2, 3, 0, 1, 0}, /* Level 6*/
+    {6, 2, 2, 2, 2, 2, 1}  /* Level 7*/
+};
+
 /**
  * @brief Enumeration for the gui commands
  *
@@ -329,6 +349,24 @@ char **params __attribute__((unused)));
 void cross_map_border(int *x, int *y, int width, int height);
 tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
 
+/**
+ * @brief Check if the player on the tile can elevate
+ *
+ * @param client
+ * @param map
+ * @return true
+ * @return false
+ */
+bool can_elevate(node_t *client, tile_t **map);
+
+/**
+ * @brief Elevate the player
+ *
+ * @param client
+ * @param data
+ */
+void elevate_player(node_t *client, data_t *data);
+
 //** Utils **//
 
 /**
@@ -339,6 +377,16 @@ tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
  * @return int
  */
 int get_nb_players_on_tile(pos_t pos, node_t *head);
+
+/**
+ * @brief Get the nb of players on a tile that have the same team's name
+ *
+ * @param pos
+ * @param head
+ * @param team
+ * @return int
+ */
+int get_nb_team_players_on_tile(pos_t pos, node_t *head, char *team);
 
 /**
  * @brief Check if the concerned client is an ai client and its connected,
