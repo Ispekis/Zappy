@@ -169,10 +169,7 @@ bool Zappy::Gameplay::tilehover(float posX, float posY, float posZ, float size)
     collision = GetRayCollisionBox(ray, (BoundingBox){(Vector3){ posX - size/2, posZ + size/2, posY - size/2 },
                                                       (Vector3){ posX + size/2, posZ + size/2, posY + size/2 }});
     if (collision.hit)
-    {
-        // printf("[%d][%d]\n", x, y);
         DrawCubeWiresV((Vector3){posX, posZ + size / 2, posY}, (Vector3){size,  0.5, size}, RED);
-    }
 }
 void Zappy::Gameplay::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
 {
@@ -186,14 +183,6 @@ void Zappy::Gameplay::drawTile(std::size_t x, std::size_t y, std::pair<std::size
     float posY = size * y - (midY * size);
     float posZ = size / 2;
 
-    // ray = GetMouseRay(GetMousePosition(), _camera);
-    // collision = GetRayCollisionBox(ray, (BoundingBox){(Vector3){ posX - size/2, posZ + size/2, posY - size/2 },
-    //                                                   (Vector3){ posX + size/2, posZ + size/2, posY + size/2 }});
-    // if (collision.hit)
-    // {
-    //     printf("[%d][%d]\n", x, y);
-    //     DrawCubeWiresV((Vector3){posX, posZ + size, posY}, (Vector3){size,  0.5, size}, RED);
-    // }
     tilehover(posX, posY, posZ, size);
     _cube["grass"].drawBlockTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
     drawItem((Vector3){posX, posY, posZ}, size, _data->_gameData._map[x][y].getRessources());
@@ -227,25 +216,18 @@ void Zappy::Gameplay::drawSpacedItem(std::size_t qty, Vector3 pos, std::string r
         x = i - 6;
         y++;
     }
-    
-    _rotation -= 0.01f;;
-    if (_itemBounce < size && _ret == false) {
-        _itemBounce += 0.01f;
-        if (_itemBounce > size / 2)
-            _ret = true;
-    }
-    if (_itemBounce > size / 2 && _ret == true) {
-        _itemBounce -= 0.01f;
-       if (_itemBounce < -size / 2)
-            _ret = false;
-    }
 
-    for (std::size_t a = 0; a != qty; a++) {
-        DrawModelEx(_model[ressource], (Vector3){pos.x - (size / 2) + x * 0.8, (pos.z + size - 0.2 + a * 0.01) + _itemBounce, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3) {0, 1, 0}, _rotation, (Vector3) {1.5, 1.5, 1.5}, WHITE);
-        // if (_animated) {
-        //     _cube[ressource].drawItemTextureAnimated((Vector3){pos.x - (size / 2) + x * 0.8, pos.z + size - 0.2 + a * 0.01, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
-        // }
-        // else
-        //     _cube[ressource].drawItemTextureFloor((Vector3){pos.x - (size / 2) + x * 0.8, pos.z + size / 2 + 0.2 + a * 0.01, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){1.2, 1.2, 1.2}, LIGHTGRAY);
+    _rotation -= 0.01f;
+    if (_ret == false)
+        _itemBounce += 0.0001f;
+    if (_ret == true)
+        _itemBounce -= 0.0001f;
+    if (_itemBounce > size / 2)
+        _ret = true;
+    if (_itemBounce < 0)
+        _ret = false;
+    for (std::size_t a = 0; a != qty; a++)
+    {
+       DrawModelEx(_model[ressource], (Vector3){pos.x - (size / 2) + x * 0.8, (pos.z + size - 0.2 + a * 0.01) + _itemBounce, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){0, 1, 0}, _rotation, (Vector3){1.5, 1.5, 1.5}, WHITE);
     }
 }
