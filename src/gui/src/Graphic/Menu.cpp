@@ -136,7 +136,6 @@ void Zappy::Menu::settingsButtonEvent()
     Vector2 mouse = GetMousePosition();
 
     auto it = _rectangle.begin();
-    std::advance(it, 5);
 
     for (; it != _rectangle.end(); ++it) {
         if (CheckCollisionPointRec(mouse, it->second->getRect())) {
