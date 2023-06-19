@@ -4,10 +4,12 @@ from level import level
 class Player:
     def __init__(self, nb_player, map_size, player_level):
         self.nb_player = nb_player
+        self.team_mate = 1
         self.map_size = map_size
+        self.count_players = 1
         self.lvl_instance = level()
         self.obj_list = self.lvl_instance.setObj(player_level)
-        self.inventory:str
+        self.inventory:dict
         self.sight:str
         self.item_needed:list = []
         for i in self.obj_list:
