@@ -222,12 +222,12 @@ void Zappy::Gameplay::drawSpacedItem(std::size_t qty, Vector3 pos, std::string r
         _itemBounce += 0.0001f;
     if (_ret == true)
         _itemBounce -= 0.0001f;
-    if (_itemBounce > size / 2)
+    if (_itemBounce > 1)
         _ret = true;
     if (_itemBounce < 0)
         _ret = false;
     for (std::size_t a = 0; a != qty; a++)
     {
-       DrawModelEx(_model[ressource], (Vector3){pos.x - (size / 2) + x * 0.8, (pos.z + size - 0.2 + a * 0.01) + _itemBounce, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){0, 1, 0}, _rotation, (Vector3){1.5, 1.5, 1.5}, WHITE);
+       DrawModelEx(_model[ressource], (Vector3){pos.x - (size / 2) + x * 0.8, ((pos.z + size / 2 + 1.7)- 0.2 + a * 0.01) + _itemBounce, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){0, 1, 0}, _rotation, (Vector3){1.5, 1.5, 1.5}, WHITE);
     }
 }
