@@ -8,6 +8,7 @@ from movement import Movement
 from items import Items
 from macro import *
 from level import levelUp
+from fork import *
 
 class AI:
     def __init__(self, port:str, machine:str, name:str):
@@ -30,15 +31,16 @@ class AI:
         self.itemHandling = Items(self.client_socket)
         self.player:Player
         self.client_socket.send((name + "\n").encode())
-        self.setPlayer()
+        self.setPlayer(name)
 
-    def setPlayer(self):
+    def setPlayer(self, name):
         recv_data = self.client_socket.recv(1024)
         print(recv_data.decode(), end="")
         rcv_data = self.client_socket.recv(1024)
         tmp = rcv_data.decode().split("\n")
         map_size = tmp[1].split(" ")
         try:
+            self.client_socket.send((f'Broadcast {name}').encode())
             self.player = Player(tmp[0], (map_size[0], map_size[1]), 1)
         except IndexError:
             print(f"Error while creating the player, check if team name is correct", file=sys.stderr)
@@ -49,7 +51,7 @@ class AI:
 
         self.client_socket.send(("Look\n").encode())
         self.player.sight = parseLook(self.client_socket.recv(1024).decode()[2:-2])
-        # print(f'sight = {self.player.sight[0]}')
+        # print(f'sight = {self.player.sight}')
         self.client_socket.send(("Inventory\n").encode())
         self.player.inventory = parseInventory(self.client_socket.recv(1024).decode()[2:-2])
         # print(f'inventory = {self.player.inventory}')
@@ -67,11 +69,16 @@ class AI:
         if self.player.multiplePlayerTile():
             self.client_socket.send(("push\n").encode())
 
+    def reproduction(self):
+        if check_if_need_fork(self.player, self.player.sight):
+            self.client_socket.send("fork\n".encode())
+
     def playerAction(self):
         self.client_socket.send((self.move.handleMovement() + "\n").encode())
         self.push()
         self.level_up()
         self.itemHandling.takeItem(self.player.sight, self.player.item_needed, "Todo")
+        self.reproduction()
 
     def run_ai(self):
         try:
@@ -85,6 +92,6 @@ class AI:
         except KeyboardInterrupt:
             return SUCCESS
         except BrokenPipeError:
-            print("The connection was closed unexpectedly.")
+            print("Your are dead !")
             return FAILURE
         return SUCCESS
