@@ -28,19 +28,30 @@ namespace Zappy {
 
             void setCube();
 
-            void draw();
+            void draw(raylib::Camera3D &);
 
             void drawMap();
             void drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map);
 
+            int tilehover(float posX, float posY, float posZ, float size);
+
+            void drawSelectedTile();
+            void drawBlockInformation();
+
+            void tileSelection(std::size_t, std::size_t, int ret);
+
         protected:
         private:
+            raylib::Camera3D _camera;
             std::shared_ptr<Data> _data;
             std::map<std::string, raylib::Texture2D> _texture;
             std::map<std::string, Shader> _shader;
             std::map<std::string, Cube> _cube;
 
             DrawItems _items;
+
+            std::pair<int, int> _windowSize;
+            std::pair<std::size_t, std::size_t> _lastTile = {2000, 2000};
     };
 }
 #endif /* !DRAWMAP_HPP_ */

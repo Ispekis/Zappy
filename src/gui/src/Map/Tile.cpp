@@ -9,13 +9,14 @@
 
 Zappy::Tile::Tile()
 {
-
+    _selected = false;
 }
 
 Zappy::Tile::Tile(std::size_t x, std::size_t y, std::shared_ptr<RessourceFactory> factory)
 {
     _position = std::make_pair(x, y);
     _factory = factory;
+    _selected = false;
 }
 
 Zappy::Tile::~Tile()
