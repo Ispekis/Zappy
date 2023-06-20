@@ -11,6 +11,7 @@ class Movement:
         self.costList:list = []
         self.objectiveList:list = []
         self.sightIdx:list = []
+        self.itemObj:str = None
         for i in range(9):
             for n in range(i):
                 self.costList.append((i * 2) + 1 - n)
@@ -44,7 +45,7 @@ class Movement:
             tmp = tmp + 2
             sum = sum + tmp
 
-    def getClosest(self, closeList:list) -> int:
+    def getClosest(self, closeList:list, sight:list) -> int:
         tmp:int = min(closeList)
         tmpList:list = []
         tmpObjList:list = []
@@ -57,6 +58,13 @@ class Movement:
         if len(self.preMove) > tmp or len(self.preMove) == 0:
             self.preMove = []
             self.handleObjectives(tmp)
+            for i in range(len(self.objectiveList)):
+                try:
+                    sight[tmp].index(self.objectiveList[i])
+                    self.itemObj = self.objectiveList[i]
+                    break
+                except ValueError:
+                    continue
 
     def getActionCost(self, frequency:list) -> list:
         tmpList:list = []
@@ -65,9 +73,24 @@ class Movement:
             self.sightIdx.append(frequency[i])
         return tmpList
     
+    def itemNotThereAnymore(self, sight:list) -> str:
+        inc:int = 0
+        if self.preMove.count(LEFT) == 0 and self.preMove.count(RIGHT) == 0 and len(self.preMove) != 0:
+            print(self.preMove)
+            count:int = self.preMove.count(FORWARD)
+            for i in range(1, count + 1):
+                inc = inc + (2 * i)
+            try:
+                sight[inc].index(self.itemObj)
+                print("item is still here")
+            except ValueError:
+                print("item isn't there anymore", inc, self.itemObj, sight, count)
+                self.itemObj = None
+    
     def handleMovement(self, sight:list) -> str:
         self.sightIdx = []
         liste:list = []
+        self.itemNotThereAnymore(sight)
         for i in range(len(sight)):
             for j in range(len(self.objectiveList)):
                 try:
@@ -76,13 +99,16 @@ class Movement:
                 except ValueError:
                     continue
         if len(liste) != 0:
-            self.getClosest(self.getActionCost(liste))
+            self.getClosest(self.getActionCost(liste), sight)
             try:
                 print(self.preMove)
                 tmp:str = self.preMove.pop(0)
             except IndexError:
+                self.itemObj = None
                 tmp:str = random.choice(self.movementList)
         else:
+            self.itemObj = None
             tmp:str = random.choice(self.movementList)
+        self.lastMove = tmp
         self.cli_socket.send((tmp + "\n").encode())
-        print(tmp)
+        print("The movement is " + tmp)
