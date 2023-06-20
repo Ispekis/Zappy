@@ -18,10 +18,11 @@ Zappy::MyModel::~MyModel()
 
 void Zappy::MyModel::draw(Vector3 pose, float size)
 {
-    DrawModel(_model, pose, size, WHITE);
+    moveAnimation(1);
+    DrawModel(_model, pose, 1 + 0.2 * size, WHITE);
 }
 
-void Zappy::MyModel::moveAnimation(int animation)
+void Zappy::MyModel::moveAnimation(int i)
 {
     UpdateModelAnimation(_model, _animation[i], _animFrameCounter);
     _animFrameCounter += 3;
