@@ -35,15 +35,6 @@ void Zappy::DrawMap::setTexture()
     _texture.insert({"water", raylib::Texture("src/gui/assets/water_flow.png")});
     _texture.insert({"dirt", raylib::Texture("src/gui/assets/dirt.png")});
     _texture.insert({"clearbackground", raylib::Texture("src/gui/assets/clearbackground.png")});
-
-    _texture.insert({"Thystame", raylib::Texture("src/gui/assets/items/texture/nether_star.png")});
-    _texture.insert({"Phiras", raylib::Texture("src/gui/assets/items/texture/emerald.png")});
-    _texture.insert({"Mendiane", raylib::Texture("src/gui/assets/items/texture/diamond.png")});
-    _texture.insert({"Sibur", raylib::Texture("src/gui/assets/items/texture/gold.png")});
-    _texture.insert({"Deraumere", raylib::Texture("src/gui/assets/items/texture/iron.png")});
-    _texture.insert({"Linemate", raylib::Texture("src/gui/assets/items/texture/coal.png")});
-    _texture.insert({"Food", raylib::Texture("src/gui/assets/items/texture/carrot.png")});
-
     _shader.insert({"waterWave", LoadShader(0, TextFormat("src/gui/assets/shaders/wave.fs"))});
 }
 
@@ -55,8 +46,6 @@ void Zappy::DrawMap::setCube()
 
 void Zappy::DrawMap::draw(raylib::Camera3D &camera)
 {
-    _camera = camera;
-    _camera.BeginMode();
     drawMap();
     drawSelectedTile();
     _player.draw();
