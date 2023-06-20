@@ -34,6 +34,8 @@ GRAPHIC =	$(addprefix src/Graphic/,		\
 				Raylib.cpp			\
 				DrawMap.cpp			\
 				DrawItems.cpp			\
+				DrawPlayer.cpp 		\
+				MyModel.cpp 		\
 				Gameplay.cpp		\
 				Menu.cpp		\
 				Rectangle.cpp		)
