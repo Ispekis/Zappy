@@ -45,12 +45,12 @@ namespace Zappy {
              */
             void setRessources(std::vector<std::string> &content);
 
+            bool _selected;
         protected:
         private:
             std::vector<std::shared_ptr<IRessource>> _ressources;
             std::pair<std::size_t, std::size_t> _position;
             std::shared_ptr<RessourceFactory> _factory;
-
     };
 };
 
