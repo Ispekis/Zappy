@@ -3,9 +3,6 @@ import socket
 from math import floor
 from macro import *
 
-LEVEL1 = [("linemate", 1)]
-LEVEL2 = [("linemate", 1), ("deraumere", 1), ("sibur", 1)]
-
 class Movement:
     def __init__(self, client_socket:socket, objectives:list):
         self.cli_socket:socket = client_socket
@@ -57,7 +54,9 @@ class Movement:
                 tmpObjList.append(closeList[i])
         self.sightIdx = tmpList
         tmp = random.choice(self.sightIdx)
-        return tmp
+        if len(self.preMove) > tmp or len(self.preMove) == 0:
+            self.preMove = []
+            self.handleObjectives(tmp)
 
     def getActionCost(self, frequency:list) -> list:
         tmpList:list = []
@@ -68,10 +67,6 @@ class Movement:
     
     def handleMovement(self, sight:list) -> str:
         self.sightIdx = []
-        print(self.preMove)
-        if len(self.preMove) > 0:
-            self.cli_socket.send((self.preMove.pop(0) + "\n").encode())
-            return
         liste:list = []
         for i in range(len(sight)):
             for j in range(len(self.objectiveList)):
@@ -81,8 +76,9 @@ class Movement:
                 except ValueError:
                     continue
         if len(liste) != 0:
-            self.handleObjectives(self.getClosest(self.getActionCost(liste)))
+            self.getClosest(self.getActionCost(liste))
             try:
+                print(self.preMove)
                 tmp:str = self.preMove.pop(0)
             except IndexError:
                 tmp:str = random.choice(self.movementList)
