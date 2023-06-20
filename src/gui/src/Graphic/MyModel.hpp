@@ -23,7 +23,7 @@ namespace Zappy
 
             void draw(Vector3 pose, float size);
 
-            void moveAnimation(int animation);
+            void moveAnimation(int i);
 
         protected:
         private:
@@ -32,8 +32,8 @@ namespace Zappy
             ModelAnimation *_animation;
             raylib::Model _model;
             raylib::Texture2D _texture;
-            int i = 0;
-            int _animFrameCounter = 0;
+            int i = 1;
+            int _animFrameCounter = 3;
     };
 } // namespace Zappy
 
