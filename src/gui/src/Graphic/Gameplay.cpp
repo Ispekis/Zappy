@@ -89,18 +89,5 @@ void Zappy::Gameplay::cameraEvent()
 
 void Zappy::Gameplay::draw()
 {
-    _camera.BeginMode();
-    _worldMap.draw();
-    _camera.EndMode();
-}
-
-bool Zappy::Gameplay::tilehover(float posX, float posY, float posZ, float size)
-{
-    RayCollision collision;
-    Ray ray;
-    ray = GetMouseRay(GetMousePosition(), _camera);
-    collision = GetRayCollisionBox(ray, (BoundingBox){(Vector3){ posX - size/2, posZ + size/2, posY - size/2 },
-                                                      (Vector3){ posX + size/2, posZ + size/2, posY + size/2 }});
-    if (collision.hit)
-        DrawCubeWiresV((Vector3){posX, posZ + size / 2, posY}, (Vector3){size,  0.5, size}, RED);
+    _worldMap.draw(_camera);
 }
