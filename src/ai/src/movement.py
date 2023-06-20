@@ -1,5 +1,6 @@
 import random
 import socket
+from math import floor
 from macro import *
 
 LEVEL1 = [("linemate", 1)]
@@ -9,9 +10,10 @@ class Movement:
     def __init__(self, client_socket:socket, objectives:list):
         self.cli_socket:socket = client_socket
         self.movementList:list = [FORWARD, FORWARD, RIGHT, LEFT]
-        self.preMove:str = ""
+        self.preMove:list = []
         self.costList:list = []
         self.objectiveList:list = []
+        self.sightIdx:list = []
         for i in range(9):
             for n in range(i):
                 self.costList.append((i * 2) + 1 - n)
@@ -24,32 +26,52 @@ class Movement:
         self.objectiveList = objectives
 
     def handleObjectives(self, objective:int) -> int:
-        return "Forward"
+        tmp:int = 1
+        sum:int = tmp
+        for i in range(8):
+            if objective == 0:
+                break
+            if sum < objective + 1 <= sum + tmp + 2:
+                tmp = tmp + 2
+                sum = sum + tmp
+                for j in range(i + 1):
+                    self.preMove.append(FORWARD)
+                var = (objective + 1) - (sum - floor(tmp / 2))
+                if var < 0:
+                    self.preMove.append(LEFT)
+                elif var > 0:
+                    self.preMove.append(RIGHT)
+                for i in range(abs(var)):
+                    self.preMove.append(FORWARD)
+                break
+            tmp = tmp + 2
+            sum = sum + tmp
 
     def getClosest(self, closeList:list) -> int:
         tmp:int = min(closeList)
-        nbrOfLowest:list = []
-        inc:int = -1
-        while True:
-            try:
-                nbrOfLowest.append(closeList.index(tmp, inc + 1))
-            except ValueError:
-                break
-        if len(nbrOfLowest) == 1:
-            return tmp
-        return random.choice(nbrOfLowest)
+        tmpList:list = []
+        tmpObjList:list = []
+        for i in range(len(closeList)):
+            if closeList[i] == tmp:
+                tmpList.append(self.sightIdx[i])
+                tmpObjList.append(closeList[i])
+        self.sightIdx = tmpList
+        tmp = random.choice(self.sightIdx)
+        return tmp
 
     def getActionCost(self, frequency:list) -> list:
         tmpList:list = []
         for i in range(len(frequency)):
             tmpList.append(self.costList[frequency[i]])
+            self.sightIdx.append(frequency[i])
         return tmpList
     
     def handleMovement(self, sight:list) -> str:
-        if self.preMove != "":
-            tmp = self.preMove
-            self.preMove = ""
-            return tmp
+        self.sightIdx = []
+        print(self.preMove)
+        if len(self.preMove) > 0:
+            self.cli_socket.send((self.preMove.pop(0) + "\n").encode())
+            return
         liste:list = []
         for i in range(len(sight)):
             for j in range(len(self.objectiveList)):
@@ -59,7 +81,11 @@ class Movement:
                 except ValueError:
                     continue
         if len(liste) != 0:
-            tmp:str = self.handleObjectives(self.getClosest(self.getActionCost(liste)))
+            self.handleObjectives(self.getClosest(self.getActionCost(liste)))
+            try:
+                tmp:str = self.preMove.pop(0)
+            except IndexError:
+                tmp:str = random.choice(self.movementList)
         else:
             tmp:str = random.choice(self.movementList)
         self.cli_socket.send((tmp + "\n").encode())
