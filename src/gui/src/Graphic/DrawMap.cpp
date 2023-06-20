@@ -34,6 +34,15 @@ void Zappy::DrawMap::setTexture()
     _texture.insert({"water", raylib::Texture("src/gui/assets/water_flow.png")});
     _texture.insert({"dirt", raylib::Texture("src/gui/assets/dirt.png")});
     _texture.insert({"clearbackground", raylib::Texture("src/gui/assets/clearbackground.png")});
+
+    _texture.insert({"Thystame", raylib::Texture("src/gui/assets/items/texture/nether_star.png")});
+    _texture.insert({"Phiras", raylib::Texture("src/gui/assets/items/texture/emerald.png")});
+    _texture.insert({"Mendiane", raylib::Texture("src/gui/assets/items/texture/diamond.png")});
+    _texture.insert({"Sibur", raylib::Texture("src/gui/assets/items/texture/gold.png")});
+    _texture.insert({"Deraumere", raylib::Texture("src/gui/assets/items/texture/iron.png")});
+    _texture.insert({"Linemate", raylib::Texture("src/gui/assets/items/texture/coal.png")});
+    _texture.insert({"Food", raylib::Texture("src/gui/assets/items/texture/carrot.png")});
+
     _shader.insert({"waterWave", LoadShader(0, TextFormat("src/gui/assets/shaders/wave.fs"))});
 }
 
@@ -101,13 +110,24 @@ void Zappy::DrawMap::drawBlockInformation()
 {
     if (_lastTile.first == 2000)
         return;
-    int rectWidth = 250;
+    int rectWidth = 350;
     int rectHeight = 113;
     int x = _windowSize.first / 2 - rectWidth / 2;
     int y = _windowSize.second  - rectHeight - 113;
     
     DrawRectangle(x, y, rectWidth, rectHeight, Fade(SKYBLUE, 0.5f));
-    // DrawRectangleLines( 10, 10, 250, 113, BLUE);
+    DrawRectangleLines( x, y, rectWidth, rectHeight, BLACK);
+    std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
+    x += 20;
+    y += 20;
+    auto rss = _data->_gameData._map[_lastTile.first][_lastTile.second].getRessources();
+    rss[0]->getQuantity();
+    for (std::size_t i = 0; ressource.size() != i; i++)
+    {
+        DrawText(std::to_string(rss[i]->getQuantity()).c_str(), x + 12, y + 40, 30, WHITE);
+        DrawTextureEx(_texture[ressource[i]], (Vector2){x, y}, 0.0, 2.5, WHITE);
+        x += 45;
+    }
 }
 
 void Zappy::DrawMap::tileSelection(std::size_t x, std::size_t y, int ret)
