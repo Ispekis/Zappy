@@ -18,10 +18,6 @@ class Player:
             else:
                 for j in range(self.obj_list[i]):
                     self.item_needed.append(i)
-        print(self.item_needed)
-
-    def setNewObjList(self):
-        return
 
     def multiplePlayerTile(self):
         if find_value(self.sight, "player") > 1:
