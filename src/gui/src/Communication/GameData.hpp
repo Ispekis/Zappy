@@ -67,6 +67,7 @@ namespace Zappy {
             Incantation _incantationList;
             TimeUnit _timeUnit;
 
+            float _tileSize = 10.0f;
 
         protected:
         private:
