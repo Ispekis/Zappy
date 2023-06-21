@@ -38,11 +38,18 @@ void Zappy::DrawPlayer::setModel()
 
 void Zappy::DrawPlayer::draw()
 {
-    _model["kdd"]->draw(Vector3 { -10.0f, 3.0f, 0.0f}, 3);
-    _model["nweak"]->draw(Vector3 { -5.0f, 3.0f, 0.0f}, 3);
-    _model["nezuko"]->draw(Vector3 { 0.0f, 3.0f, 0.0f}, 3);
-    _model["brennsou"]->draw(Vector3 { 10.0f, 3.0f, 0.0f}, 3);
-    _model["girl1"]->draw(Vector3 { 15.0f, 3.0f, 0.0f}, 3);
-    _model["girl"]->draw(Vector3 { 5.0f, 3.0f, 0.0f}, 3);
+    auto players = _data->_gameData._player;
+    auto size = _data->_gameData._tileSize;
+    auto map = _data->_gameData._mapSize;
+    for (const auto &element : players)
+    {
+        auto id = element.first; // id
+        auto player = element.second; // player class
+        auto Orientation = player->getOrientation();
+        auto pos = player->getPosition();
+        float posX = size * pos.first - (map.first / 2 * size);
+        float posY = size * pos.second - (map.second / 2 * size);
+        float posZ = size;
+        _model["kdd"]->draw((Vector3){posX, posZ, posY}, Orientation);
+    }
 }
-
