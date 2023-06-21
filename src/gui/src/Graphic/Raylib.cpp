@@ -35,6 +35,11 @@ void Zappy::Raylib::event()
         _data->_gameData._menu = !_data->_gameData._menu;
     if (IsKeyPressed(KEY_ESCAPE))
         _exitWindow = true;
+    if (IsKeyPressed(KEY_KP_ADD))
+        _data->_gameData._tileSize++;
+    if (IsKeyPressed(KEY_KP_SUBTRACT))
+        _data->_gameData._tileSize--;
+        
 }
 
 void Zappy::Raylib::draw()

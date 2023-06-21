@@ -50,6 +50,6 @@ void Zappy::DrawPlayer::draw()
         float posX = size * pos.first - (map.first / 2 * size);
         float posY = size * pos.second - (map.second / 2 * size);
         float posZ = size;
-        _model["kdd"]->draw((Vector3){posX, posZ, posY}, Orientation);
+        _model["kdd"]->draw((Vector3){posX, posZ, posY}, Orientation, size);
     }
 }
