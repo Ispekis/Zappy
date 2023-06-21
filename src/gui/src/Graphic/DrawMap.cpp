@@ -25,6 +25,7 @@ void Zappy::DrawMap::setData(std::shared_ptr<Data> data)
     std::shared_ptr<Data> tmp(data, data.get());
     _data = tmp;
     _items.setData(tmp);
+    _player.setData(tmp);
 }
 
 void Zappy::DrawMap::setTexture()
@@ -79,7 +80,7 @@ void Zappy::DrawMap::drawTile(std::size_t x, std::size_t y, std::pair<std::size_
     RayCollision collision;
     Ray ray;
 
-    float size = 3.0f;
+    float size = _data->_gameData._tileSize;
     int midX = map.first / 2;
     int midY = map.second / 2;
     float posX = size * x - (midX * size);
@@ -97,7 +98,7 @@ void Zappy::DrawMap::drawSelectedTile()
     if (_lastTile.first == 2000)
         return;
     auto map = _data->_gameData._mapSize;
-    float size = 3.0f;
+    float size = _data->_gameData._tileSize;
     int midX = map.first / 2;
     int midY = map.second / 2;
     float posX = size * _lastTile.first - (midX * size);

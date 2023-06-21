@@ -21,7 +21,7 @@ namespace Zappy
             MyModel(std::string path, unsigned int animsCount, std::string texture);
             ~MyModel();
 
-            void draw(Vector3 pose, float size);
+            void draw(Vector3 pose, Orientation);
 
             void moveAnimation(int i);
 
