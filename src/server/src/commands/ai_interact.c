@@ -58,7 +58,7 @@ void ai_cmd_set_object(node_t *client, data_t *data, char **params)
 void ai_cmd_incantation(node_t *client, data_t *data,
 char **params __attribute__((unused)))
 {
-    if (can_elevate(client, &data->map)
+    if (can_elevate(client, data->map)
     && client->client.level < MAX_LEVEL) {
         dprintf(client->client.fd, "Elevation underway\n");
         set_cooldown_in_nanosec(client,
