@@ -37,6 +37,25 @@ def parseInventory(inventory:str) -> list:
         v = tmp[i].split()
         res[v[0]] = int(v[1])
     return res
+<<<<<<< HEAD
+
+def parseLevel(filename:str) -> dict:
+    """Parse the level file and file a dict
+
+    Args:
+        filename (str): filename
+
+    Returns:
+        dict: list of objectif for each level
+    """
+    with open(filename) as file:
+        data = json.load(file)
+        parsed_list = {}
+        for key, value in data.items():
+            parsed_list[int(key)] = {k: v for k, v in value.items()}
+        return parsed_list
+=======
+>>>>>>> 569c6e7 (feat[AI]: documentation)
 
 def parseLevel(filename:str) -> dict:
     """Parse the level file and file a dict
