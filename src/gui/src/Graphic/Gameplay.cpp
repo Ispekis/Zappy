@@ -48,7 +48,7 @@ void Zappy::Gameplay::event()
 
 void Zappy::Gameplay::cameraEvent()
 {
-    if (IsKeyPressed(KEY_SPACE)) {
+    if (IsKeyPressed(KEY_L)) {
         _cameraMove = !_cameraMove;
     }
     if (IsKeyPressed(KEY_R)) {
@@ -57,17 +57,18 @@ void Zappy::Gameplay::cameraEvent()
     }
     if (_cameraMove == true) {
         _camera.Update(CAMERA_ORBITAL);
+        _camera.target = (Vector3){0.0f, 0.0f, 0.0f}; // Camera looking at point
         return;
     }
     Vector3 position = {0.0, 0.0, 0.0};
     if (IsKeyDown(KEY_LEFT)) {
         position.y = -0.5f;
         _camera.target = (Vector3){0.0f, 0.0f, 0.0f}; // Camera looking at point
-    }
+        }
     if (IsKeyDown(KEY_RIGHT)) {
         position.y = 0.5f;
         _camera.target = (Vector3){0.0f, 0.0f, 0.0f}; // Camera looking at point
-    }
+        }
     if (IsKeyDown(KEY_UP)) {
         position.z = 0.5f;
         _camera.target = (Vector3){0.0f, 0.0f, 0.0f}; // Camera looking at point
@@ -76,6 +77,11 @@ void Zappy::Gameplay::cameraEvent()
         position.z = -0.5f;
         _camera.target = (Vector3){0.0f, 0.0f, 0.0f}; // Camera looking at point
     }
+    if (IsKeyDown(KEY_C))
+        position.z = -0.5f;
+    if (IsKeyDown(KEY_SPACE))
+        position.z = 0.5f;
+    
     if (IsKeyDown(KEY_W))
         position.x = 0.5f;
     if (IsKeyDown(KEY_S))
