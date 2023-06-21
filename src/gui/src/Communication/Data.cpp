@@ -118,7 +118,7 @@ void Zappy::Data::setUpdateFunction()
     _gameUpdater.insert({"pdi", [this](std::vector<std::string> &value) {_gameData.pdi(value);}});
     _gameUpdater.insert({"enw", [this](std::vector<std::string> &value) {_gameData.enw(value);}});
     _gameUpdater.insert({"ebo", [this](std::vector<std::string> &value) {_gameData.ebo(value);}});
-    _gameUpdater.insert({"edi", [this](std::vector<std::string> &value) {_gameData.edi(value);}});
+    _gameUpdater.insert({"eht", [this](std::vector<std::string> &value) {_gameData.edi(value);}});
     _gameUpdater.insert({"sgt", [this](std::vector<std::string> &value) {_gameData.sgt(value);}});
     _gameUpdater.insert({"sst", [this](std::vector<std::string> &value) {_gameData.sst(value);}});
     _gameUpdater.insert({"seg", [this](std::vector<std::string> &value) {_gameData.seg(value);}});
