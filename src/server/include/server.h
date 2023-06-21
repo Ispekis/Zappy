@@ -346,8 +346,44 @@ void ai_cmd_set_object(node_t *client, data_t *data, char **params);
 void ai_cmd_incantation(node_t *client, data_t *data,
 char **params __attribute__((unused)));
 
+/**
+ * @brief Check if the position cross the map, then set it back
+ *
+ * @param x
+ * @param y
+ * @param width
+ * @param height
+ */
 void cross_map_border(int *x, int *y, int width, int height);
+
+/**
+ * @brief Get the correct tile
+ *
+ * @param map
+ * @param x
+ * @param y
+ * @param data
+ * @return tile_t
+ */
 tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
+
+/**
+ * @brief Check what is present in tile
+ *
+ * @param tile
+ * @param players
+ * @param msg
+ */
+void check_presence_on_tile(tile_t tile, node_t *players, char **msg);
+
+/**
+ * @brief match the direction of the look
+ *
+ * @param player
+ * @param data
+ * @param msg
+ */
+void match_direction(client_t player, data_t *data, char **msg);
 
 /**
  * @brief Check if the player on the tile can elevate
