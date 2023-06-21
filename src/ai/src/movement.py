@@ -76,16 +76,14 @@ class Movement:
     def itemNotThereAnymore(self, sight:list) -> str:
         inc:int = 0
         if self.preMove.count(LEFT) == 0 and self.preMove.count(RIGHT) == 0 and len(self.preMove) != 0:
-            print(self.preMove)
             count:int = self.preMove.count(FORWARD)
             for i in range(1, count + 1):
                 inc = inc + (2 * i)
             try:
                 sight[inc].index(self.itemObj)
-                print("item is still here")
             except ValueError:
-                print("item isn't there anymore", inc, self.itemObj, sight, count)
                 self.itemObj = None
+                self.preMove = []
     
     def handleMovement(self, sight:list) -> str:
         self.sightIdx = []
@@ -98,10 +96,10 @@ class Movement:
                     liste.append(i)
                 except ValueError:
                     continue
-        if len(liste) != 0:
-            self.getClosest(self.getActionCost(liste), sight)
+        if len(liste) != 0 or len(self.preMove) != 0:
+            if len(liste) != 0:
+                self.getClosest(self.getActionCost(liste), sight)
             try:
-                print(self.preMove)
                 tmp:str = self.preMove.pop(0)
             except IndexError:
                 self.itemObj = None
@@ -111,4 +109,4 @@ class Movement:
             tmp:str = random.choice(self.movementList)
         self.lastMove = tmp
         self.cli_socket.send((tmp + "\n").encode())
-        print("The movement is " + tmp)
+        print(tmp)
