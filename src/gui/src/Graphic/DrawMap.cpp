@@ -66,12 +66,13 @@ void Zappy::DrawMap::draw(raylib::Camera3D &camera)
 
 void Zappy::DrawMap::drawMap()
 {
-   auto mapSize = _data->_gameData._mapSize;
+    auto size = _data->_gameData._tileSize;
+    auto mapSize = _data->_gameData._mapSize;
     for (std::size_t x = 0; x != mapSize.first; x++)
         for (std::size_t y = 0; y != mapSize.second; y++) {
             drawTile(x, y, mapSize);
         }
-    _cube["water"].drawWaterTexture((Vector3){0, 0.9, 0}, (Vector3){200, 0.9, 200}, GRAY);
+    _cube["water"].drawWaterTexture((Vector3){0, 0.9, 0}, (Vector3){size * 20, size / 0.9f, size * 20}, GRAY);
 
 }
 
