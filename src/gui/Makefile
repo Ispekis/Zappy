@@ -33,7 +33,8 @@ GRAPHIC =	$(addprefix src/Graphic/,		\
 				Shaders.cpp			\
 				Raylib.cpp			\
 				DrawMap.cpp			\
-				DrawItems.cpp			\
+				DrawItems.cpp		\
+				DrawEggs.cpp 		\
 				DrawPlayer.cpp 		\
 				MyModel.cpp 		\
 				Gameplay.cpp		\
