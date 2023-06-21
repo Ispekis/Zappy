@@ -68,6 +68,7 @@ SRC	=	$(addprefix src/, \
 		ai_incantation.c						\
 		ai_look.c								\
 		ai_look_orien.c							\
+		ai_broadcast_traj.c						\
 		ai_movement.c							))
 
 MAIN_SRC	=	src/main.c
@@ -86,7 +87,7 @@ CPPFLAGS	=	-I./include
 
 CFLAGS	=	-Wall -Wextra
 
-LDFLAGS	=	-luuid
+LDFLAGS	=	-luuid -lm
 
 all: $(NAME)
 
