@@ -7,9 +7,6 @@
 
 #ifndef DRAWTEXT3D_HPP_
     #define DRAWTEXT3D_HPP_
-    #define LETTER_BOUNDRY_SIZE     0.25f
-    #define TEXT_MAX_LAYERS         32
-    #define LETTER_BOUNDRY_COLOR    VIOLET
 
     #include <memory>
     #include "raylib-cpp.hpp"
@@ -27,7 +24,6 @@ namespace Zappy {
 
         protected:
         private:
-            bool _letterBoundry = false;
     };
 }
 
