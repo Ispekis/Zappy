@@ -50,19 +50,9 @@ void ai_cmd_look(node_t *client, data_t *data,
 char **params __attribute__((unused)))
 {
     char *msg = NULL;
-    pos_t pos = client->client.pos;
 
     msg = strdup("[ ");
-    for (int i = 0; i < client->client.level + 1; i++) {
-        for (int y = 0; y < i; y++)
-            check_presence_on_tile(get_correct_tile(data->map, pos.x - (y + 1),
-            pos.y + i, *data), data->clients, &msg);
-        check_presence_on_tile(get_correct_tile(data->map, pos.x, pos.y + i,
-        *data), data->clients, &msg);
-        for (int y = 0; y < i; y++)
-            check_presence_on_tile(get_correct_tile(data->map, pos.x + (y + 1),
-            pos.y + i, *data), data->clients, &msg);
-    }
+    match_direction(client->client, data, &msg);
     msg[strlen(msg) - 2] = '\0';
     my_strcat(&msg, " ]");
     dprintf(client->client.fd, "%s\n", msg);
