@@ -4,7 +4,7 @@ from math import floor
 from macro import *
 
 class Movement:
-    def __init__(self, client_socket:socket, objectives:list):
+    def __init__(self, client_socket:socket, objectives:list) -> None:
         self.cli_socket:socket = client_socket
         self.movementList:list = [FORWARD, FORWARD, RIGHT, LEFT]
         self.preMove:list = []
@@ -20,10 +20,10 @@ class Movement:
                 self.costList.append((i * 2) + 1 - (n - 1))
         self.setObjectivesList(objectives)
 
-    def setObjectivesList(self, objectives:list):
+    def setObjectivesList(self, objectives:list) -> None:
         self.objectiveList = objectives
 
-    def handleObjectives(self, objective:int) -> int:
+    def handleObjectives(self, objective:int) -> None:
         tmp:int = 1
         sum:int = tmp
         for i in range(8):
@@ -45,7 +45,7 @@ class Movement:
             tmp = tmp + 2
             sum = sum + tmp
 
-    def getClosest(self, closeList:list, sight:list) -> int:
+    def getClosest(self, closeList:list, sight:list, item:list) -> None:
         tmp:int = min(closeList)
         tmpList:list = []
         tmpObjList:list = []
@@ -58,10 +58,10 @@ class Movement:
         if len(self.preMove) > tmp or len(self.preMove) == 0:
             self.preMove = []
             self.handleObjectives(tmp)
-            for i in range(len(self.objectiveList)):
+            for i in range(len(item)):
                 try:
-                    sight[tmp].index(self.objectiveList[i])
-                    self.itemObj = self.objectiveList[i]
+                    sight[tmp].index(item[i])
+                    self.itemObj = item[i]
                     break
                 except ValueError:
                     continue
@@ -85,20 +85,29 @@ class Movement:
                 self.itemObj = None
                 self.preMove = []
     
-    def handleMovement(self, sight:list) -> str:
-        self.sightIdx = []
-        liste:list = []
-        self.itemNotThereAnymore(sight)
+    def checkFrequency(self, sight:list, liste:list, items:list) -> None:
         for i in range(len(sight)):
-            for j in range(len(self.objectiveList)):
+            for j in range(len(items)):
                 try:
-                    sight[i].index(self.objectiveList[j])
+                    sight[i].index(items[j])
                     liste.append(i)
                 except ValueError:
                     continue
+
+    
+    def handleMovement(self, sight:list, needs:list) -> str:
+        self.sightIdx = []
+        liste:list = []
+        items:list = []
+        self.itemNotThereAnymore(sight)
+        if len(needs) != 0:
+            items = ["food"]
+        else:
+            items = self.objectiveList.copy()
+        self.checkFrequency(sight, liste, items)
         if len(liste) != 0 or len(self.preMove) != 0:
             if len(liste) != 0:
-                self.getClosest(self.getActionCost(liste), sight)
+                self.getClosest(self.getActionCost(liste), sight, items)
             try:
                 tmp:str = self.preMove.pop(0)
             except IndexError:
@@ -107,6 +116,10 @@ class Movement:
         else:
             self.itemObj = None
             tmp:str = random.choice(self.movementList)
+        print(needs)
         self.lastMove = tmp
         self.cli_socket.send((tmp + "\n").encode())
+        var:str = self.cli_socket.recv(1024)
+        if (var.decode() == "ko"):
+            self.preMove.insert(0, tmp)
         print(tmp)

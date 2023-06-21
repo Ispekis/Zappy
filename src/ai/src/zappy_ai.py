@@ -11,7 +11,7 @@ from level import levelUp
 from fork import *
 
 class AI:
-    def __init__(self, port:str, machine:str, name:str):
+    def __init__(self, port:str, machine:str, name:str) -> None:
         """Run the AI script
 
         Args:
@@ -33,7 +33,7 @@ class AI:
         self.setPlayer(name)
         self.move = Movement(self.client_socket, self.player.item_needed)
 
-    def setPlayer(self, name):
+    def setPlayer(self, name:str) -> None:
         recv_data = self.client_socket.recv(1024)
         print(recv_data.decode(), end="")
         rcv_data = self.client_socket.recv(1024)
@@ -45,7 +45,7 @@ class AI:
         except IndexError:
             print(f"Error while creating the player, check if team name is correct", file=sys.stderr)
 
-    def rcvServerResponse(self):
+    def rcvServerResponse(self) -> None:
         """Set the sight, invetory and update the team slot free
         """
 
@@ -59,28 +59,29 @@ class AI:
         self.player.nb_player = updateNbPlayer(self.client_socket.recv(1024).decode())
         # print(f'nbplayer = {self.player.nb_player}')
 
-    def level_up(self):
+    def level_up(self) -> None:
         if levelUp(self.player.obj_list, self.player.sight[0]):
             self.client_socket.send(("Incantation\n").encode())
             # if self.client_socket.recv(1024).decode() != "ko":
             print(self.client_socket.recv(1024).decode())
 
-    def push(self):
+    def push(self) -> None:
         if self.player.multiplePlayerTile():
             self.client_socket.send(("push\n").encode())
 
-    def reproduction(self):
+    def reproduction(self) -> None:
         if check_if_need_fork(self.player, self.player.sight):
             self.client_socket.send("fork\n".encode())
 
-    def playerAction(self):
-        self.move.handleMovement(self.player.sight)
+    def playerAction(self) -> None:
+        self.itemHandling.takeItem(self.player.sight, self.player.item_needed, self.player.needList, self.player.inventory)
         self.push()
         self.level_up()
-        self.itemHandling.takeItem(self.player.sight, self.player.item_needed, "Todo")
         self.reproduction()
+        self.itemHandling.needsFood(self.player.inventory, self.player.needList)
+        self.move.handleMovement(self.player.sight, self.player.needList)
 
-    def run_ai(self):
+    def run_ai(self) -> int:
         try:
             while True:
                 self.rcvServerResponse()

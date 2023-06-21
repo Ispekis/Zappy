@@ -12,6 +12,7 @@ class Player:
         self.inventory:dict
         self.sight:str
         self.item_needed:list = []
+        self.needList:list = []
         for i in self.obj_list:
             if (i == "player"):
                 continue
