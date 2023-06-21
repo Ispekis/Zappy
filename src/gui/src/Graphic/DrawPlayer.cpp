@@ -44,5 +44,6 @@ void Zappy::DrawPlayer::draw()
     _model["brennsou"]->draw(Vector3 { 10.0f, 3.0f, 0.0f}, 3);
     _model["girl1"]->draw(Vector3 { 15.0f, 3.0f, 0.0f}, 3);
     _model["girl"]->draw(Vector3 { 5.0f, 3.0f, 0.0f}, 3);
-}
 
+    // _drawText3d.DrawText3D(GetFontDefault(), "jeras", (Vector3){ -11.0f, 10.0f, 0}, 10, 1, 1, true, RED);
+}
