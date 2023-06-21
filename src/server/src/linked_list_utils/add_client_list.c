@@ -23,6 +23,12 @@ static void init_inventory(inventory_t *inventory)
 static void init_client_data(node_t **node)
 {
     (*node)->client.fd = UNDEFINED;
+    (*node)->client.tfd = timerfd_create(CLOCK_REALTIME, 0);
+    (*node)->client.timer_spec.it_value.tv_sec = 0;
+    (*node)->client.timer_spec.it_value.tv_nsec = 0;
+    (*node)->client.timer_spec.it_interval.tv_sec = 0;
+    (*node)->client.timer_spec.it_interval.tv_nsec = 0;
+    timerfd_settime((*node)->client.tfd, 0, &(*node)->client.timer_spec, NULL);
     (*node)->client.is_conn = false;
     (*node)->client.is_graphic = false;
     (*node)->client.pos = (pos_t) {UNDEFINED, UNDEFINED};
@@ -30,6 +36,8 @@ static void init_client_data(node_t **node)
     (*node)->client.level = UNDEFINED;
     init_inventory(&(*node)->client.inventory);
     (*node)->client.team = NULL;
+    (*node)->client.is_ready = true;
+    (*node)->client.is_elevating = false;
     (*node)->next = NULL;
 }
 

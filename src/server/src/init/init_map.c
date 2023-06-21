@@ -87,7 +87,7 @@ int init_map(int width, int height, data_t *data)
             return FAILURE;
         for (int y = 0; y < width; y++) {
                 set_default_resources_on_tile(&data->map[i][y],
-                (pos_t) {i, y});
+                (pos_t) {y, i});
         }
     }
     data->map[height] = NULL;
