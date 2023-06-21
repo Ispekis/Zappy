@@ -48,6 +48,12 @@ static const char *RESOURCES_LIB[] __attribute__((unused)) = {
     PHIRAS_NAME, THYSTAME_NAME, NULL
 };
 
+static const int broadcast_base[] __attribute__((unused)) = {
+    2, 1, 8,
+    3, 0, 7,
+    4, 5, 6
+};
+
 typedef struct elevation_ritual_s {
     int req_player;
     int req_linemate;
@@ -345,6 +351,16 @@ void ai_cmd_take_object(node_t *client, data_t *data, char **params);
 void ai_cmd_set_object(node_t *client, data_t *data, char **params);
 void ai_cmd_incantation(node_t *client, data_t *data,
 char **params __attribute__((unused)));
+
+/**
+ * @brief Get the sound trajectory for broadcast
+ *
+ * @param src
+ * @param dest
+ * @param orien
+ * @return int
+ */
+int get_sound_trajectory(pos_t src, pos_t dest, int orien, pos_t delim);
 
 /**
  * @brief Check if the position cross the map, then set it back
