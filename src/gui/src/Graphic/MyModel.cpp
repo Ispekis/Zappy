@@ -32,7 +32,6 @@ static float getRotationAngle(Zappy::Orientation orientation)
 void Zappy::MyModel::draw(Vector3 pose, Orientation orientation, std::size_t size)
 {
     auto orientationAngle = getRotationAngle(orientation);
-    std::cout << "Orientation:" <<orientation << std::endl;
     // moveAnimation(1);
     Vector3 scale = {0.3f * size, 0.3f * size, 0.3f * size};
     _model.Draw(pose, (Vector3){0, 1, 0}, orientationAngle, scale, WHITE);

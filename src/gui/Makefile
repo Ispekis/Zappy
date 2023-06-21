@@ -23,6 +23,7 @@ MAP =	$(addprefix src/Map/,			\
 			Player.cpp					\
 			BroadCast.cpp					\
 			Incantation.cpp					\
+			Egg.cpp					\
 			Team.cpp					\
 			TimeUnit.cpp 				\
 			Tile.cpp					\

@@ -87,3 +87,14 @@ void Zappy::Player::setPickAnimation(bool state)
 {
     _pick = state;
 }
+
+void Zappy::Player::setEjectAnimation(bool state)
+{
+    _eject = state;
+}
+
+void Zappy::Player::setEggLayingAnimation(bool state)
+{
+    _egglaying.loading = 0;
+    _egglaying.state = state;
+}

@@ -142,6 +142,14 @@ void Zappy::GameData::pin(std::vector<std::string> &content)
 void Zappy::GameData::pex(std::vector<std::string> &content)
 {
     std::cout << "pex" << std::endl;
+    if (content.size() != 1)
+        throw Error("Error server response PEX args", "Expected: 1, Got: " + std::to_string(content.size()));
+    checkInt(content);
+
+    std::size_t id = std::stoul(content[0]);
+    if (_player.count(id) == 0)
+        throw Error("player id don't exist", content[0]);
+    _player[id]->setEjectAnimation(true);
     // expulsion
 }
 
@@ -182,21 +190,25 @@ void Zappy::GameData::pie(std::vector<std::string> &content)
     checkInt(content);
 
     _incantationList.endIncantation(content);
-    if (content[2] == "0")
-        ;// failed
-    else
-        ; // sucess
-    // Incantation  end
-    for (auto element : content)
-    {
-        printf("[%s] ", element.c_str());
-    };
+    // for (auto element : content)
+    // {
+        // printf("[%s] ", element.c_str());
+    // };
 }
 
 void Zappy::GameData::pfk(std::vector<std::string> &content)
 {
     std::cout << "pfk" << std::endl;
-    // egg laying
+    // egg pond un oeuf
+    if (content.size() != 1)
+        throw Error("Error server response PFK args", "Expected: 1, Got: " + std::to_string(content.size()));
+    checkInt(content);
+
+    std::size_t id = std::stoul(content[0]);
+    if (_player.count(id) == 0)
+        throw Error("player id don't exist", content[0]);
+    _player[id]->setEggLayingAnimation(true);
+    printf("player :%d is laying an egg\n", id);
 }
 
 void Zappy::GameData::pdr(std::vector<std::string> &content)
@@ -243,17 +255,44 @@ void Zappy::GameData::pdi(std::vector<std::string> &content)
 
 void Zappy::GameData::enw(std::vector<std::string> &content)
 {
+    checkInt(content);
+    if (content.size() != 4)
+        throw Error("Error server response ENW args", "Expected: 4, Got: " + std::to_string(content.size()));
+    std::size_t playerId = std::stoul(content[1]);
+    if (_player.count(playerId) == 0)
+        throw Error("Error player don't exist", std::to_string(playerId));
     std::cout << "enw" << std::endl;
+    _player[playerId]->setEggLayingAnimation(false);
+    std::size_t eggId = std::stoul(content[0]);
+    std::pair<std::size_t, std::size_t> position = {std::stoul(content[2]), std::stoul(content[3])};
+    _egg.addEgg(eggId, position,_player[playerId]->getTeam()->getName(), playerId);
+    printf("EGG id:%d [%d:%d]\n", eggId, position.first, position.second);
 }
 
 void Zappy::GameData::ebo(std::vector<std::string> &content)
 {
     std::cout << "ebo" << std::endl;
+    checkInt(content);
+    if (content.size() != 1)
+        throw Error("Error server response ebo args", "Expected: 1, Got: " + std::to_string(content.size()));
+    size_t eggId = std::stoul(content[0]);
+    if (_egg._eggList.count(eggId) == 0)
+        throw Error("Error egg don't exist", std::to_string(eggId));
+    _egg.connexionEgg(eggId);
+    printf("player connected to egg id :%d\n", eggId);
 }
 
 void Zappy::GameData::edi(std::vector<std::string> &content)
 {
     std::cout << "edi" << std::endl;
+    checkInt(content);
+    if (content.size() != 1)
+        throw Error("Error server response EDI args", "Expected: 1, Got: " + std::to_string(content.size()));
+    size_t eggId = std::stoul(content[0]);
+    if (_egg._eggList.count(eggId) == 0)
+        throw Error("Error egg don't exist", std::to_string(eggId));
+    _egg.failedEgg(eggId);
+    printf("egg id :%d destroyed\n", eggId);
 }
 
 void Zappy::GameData::sgt(std::vector<std::string> &content)
