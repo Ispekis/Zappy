@@ -10,7 +10,10 @@
 Zappy::Team::Team(std::string name)
 {
     _name = name;
-    std::cout << "Team :[" << name << "]Created" << std::endl;
+    int randomNumber = std::rand();
+    _id = randomNumber;
+    std::cout << "Team :[" << name << "]Created: "<< _id << std::endl;
+
 }
 
 Zappy::Team::~Team()
@@ -31,4 +34,14 @@ void Zappy::Team::deletePlayer(std::size_t player)
             break;
         }
     std::cout << player << " deleted from the team:" << _name << std::endl;
+}
+
+std::string Zappy::Team::getName() const
+{
+    return _name;
+}
+
+int Zappy::Team::getId() const
+{
+    return _id;
 }
