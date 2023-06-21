@@ -67,13 +67,16 @@ void Zappy::DrawText3d::DrawTextCodepoint3D(Font font, int codepoint, Vector3 po
     }
 }
 
-void Zappy::DrawText3d::DrawText3D(Font font, const char *text, Vector3 position, float fontSize, float fontSpacing, float lineSpacing, bool backface, Color tint)
+void Zappy::DrawText3d::DrawText3D(Font font, const char *text, Vector3 position, Color tint, float size)
 {
     int length = TextLength(text);
     float textOffsetY = 0.0f;
     float textOffsetX = 0.0f;
-
-    float scale = fontSize/(float)font.baseSize;
+    bool backface = true;
+    float fontSpacing = true;
+    float lineSpacing = true;
+    float fontSize = 2 + size;
+    float scale = fontSize / (float)font.baseSize;
 
     for (int i = 0; i < length;)
     {
