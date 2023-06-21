@@ -36,15 +36,12 @@ void Zappy::DrawText3d::DrawTextCodepoint3D(Font font, int codepoint, Vector3 po
         const float tw = (srcRec.x+srcRec.width)/font.texture.width;
         const float th = (srcRec.y+srcRec.height)/font.texture.height;
 
-        // if (_letterBoundry) DrawCubeWiresV((Vector3){ position.x + width/2, position.y, position.z + height/2}, (Vector3){ width, LETTER_BOUNDRY_SIZE, height }, LETTER_BOUNDRY_COLOR);
-
         rlCheckRenderBatchLimit(4 + 4*backface);
         rlSetTexture(font.texture.id);
 
         rlPushMatrix();
             rlTranslatef(position.x, position.y, position.z);
             rlRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-            // rlRotatef(90.0f, 10.0f, 0.0f, 0.0f);
             rlBegin(RL_QUADS);
                 rlColor4ub(tint.r, tint.g, tint.b, tint.a);
 
