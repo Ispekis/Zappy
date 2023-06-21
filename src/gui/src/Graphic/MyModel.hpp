@@ -16,24 +16,32 @@
 
 namespace Zappy
 {
-    class MyModel {
-        public:
-            MyModel(std::string path, unsigned int animsCount, std::string texture);
-            ~MyModel();
+    enum Animation
+    {
+        eject = 0,
+        move,
+        pick,
+        drop,
+    };
+    class MyModel
+    {
+    public:
+        MyModel(std::string path, unsigned int animsCount, std::string texture);
+        ~MyModel();
 
-            void draw(Vector3 pose, Orientation, std::size_t);
+        void draw(Vector3 pose, Orientation, std::size_t);
 
-            void moveAnimation(int i);
+        void moveAnimation(int i);
 
-        protected:
-        private:
-            // std::shared_ptr<Data> _data;
-            // std::map<std::string, raylib::ModelAnimation> _modelAnimation;
-            ModelAnimation *_animation;
-            raylib::Model _model;
-            raylib::Texture2D _texture;
-            int i = 1;
-            int _animFrameCounter = 3;
+    protected:
+    private:
+        // std::shared_ptr<Data> _data;
+        // std::map<std::string, raylib::ModelAnimation> _modelAnimation;
+        ModelAnimation *_animation;
+        raylib::Model _model;
+        raylib::Texture2D _texture;
+        int i = 1;
+        int _animFrameCounter = 3;
     };
 } // namespace Zappy
 

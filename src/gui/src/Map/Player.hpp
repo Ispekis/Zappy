@@ -24,7 +24,10 @@ namespace Zappy {
         S,
         W
     };
-
+    struct eggLaying_t {
+        bool state;
+        int loading;
+    };
     class Player
     {
     public:
@@ -106,7 +109,12 @@ namespace Zappy {
         void setIncantation(bool);
 
         void setDropAnimation(bool);
+
         void setPickAnimation(bool);
+
+        void setEjectAnimation(bool);
+
+        void setEggLayingAnimation(bool);
 
     protected:
     private:
@@ -119,8 +127,10 @@ namespace Zappy {
         // std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
         bool _incantation;
 
-        bool _drop;
-        bool _pick;
+        bool _drop = false;
+        bool _pick = false;
+        bool _eject = false;
+        eggLaying_t _egglaying = {false, 0};
     };
 }
 
