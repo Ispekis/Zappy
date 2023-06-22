@@ -16,25 +16,12 @@ Zappy::MyModel::~MyModel()
 {
 }
 
-static float getRotationAngle(Zappy::Orientation orientation)
+void Zappy::MyModel::draw(Vector3 pose, float orientation, std::size_t size)
 {
-    // return orientation * 90 - 90;
-    if (orientation == 1)
-        return 0;
-    if (orientation == 2)
-        return 90;
-    if (orientation == 3)
-        return 180;
-    if (orientation == 4)
-        return 270;
-}
-
-void Zappy::MyModel::draw(Vector3 pose, Orientation orientation, std::size_t size)
-{
-    auto orientationAngle = getRotationAngle(orientation);
+    // auto orientationAngle = getRotationAngle(orientation);
     // moveAnimation(1);
     Vector3 scale = {0.3f * size, 0.3f * size, 0.3f * size};
-    _model.Draw(pose, (Vector3){0, 1, 0}, orientationAngle, scale, WHITE);
+    _model.Draw(pose, (Vector3){0, 1, 0}, orientation, scale, WHITE);
 }
 
 void Zappy::MyModel::moveAnimation(int i)
