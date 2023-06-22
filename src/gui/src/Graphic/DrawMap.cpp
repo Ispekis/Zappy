@@ -67,9 +67,6 @@ void Zappy::DrawMap::drawMap()
 
 void Zappy::DrawMap::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
 {
-    RayCollision collision;
-    Ray ray;
-
     float size = _data->_gameData._tileSize;
     int midX = map.first / 2;
     int midY = map.second / 2;
@@ -104,8 +101,8 @@ void Zappy::DrawMap::drawBlockInformation()
         return;
     int rectWidth = 350;
     int rectHeight = 113;
-    int x = _windowSize.first / 2 - rectWidth / 2;
-    int y = _windowSize.second  - rectHeight - 113;
+    float x = _windowSize.first / 2 - rectWidth / 2;
+    float y = _windowSize.second  - rectHeight - 113;
     
     DrawRectangle(x, y, rectWidth, rectHeight, Fade(SKYBLUE, 0.5f));
     DrawRectangleLines( x, y, rectWidth, rectHeight, BLACK);

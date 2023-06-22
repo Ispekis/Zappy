@@ -43,10 +43,9 @@ void Zappy::DrawPlayer::draw()
     auto map = _data->_gameData._mapSize;
     for (const auto &element : players)
     {
-        auto id = element.first; // id
+        // auto id = element.first; // id
         auto player = element.second; // player class
         auto Orientation = player->getOrientation();
-        // auto rotation = player->_rotation;
         player->_rotation = movePlayerRotation(Orientation, player->_rotation);
         auto pos = player->getPosition();
         auto team = player->getTeam()->getName();
@@ -87,12 +86,18 @@ static float getRotationAngle(Zappy::Orientation orientation, float actualRotati
         return 180;
     if (orientation == 4)
         return 90;
+    return 0;
 }
 
 float Zappy::DrawPlayer::movePlayerRotation(Zappy::Orientation orientation, float actualRotation)
 {
     float nextOrientation = getRotationAngle(orientation, actualRotation);
-
+    float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
+    float movement = 90 / nbrframe;
+    if (movement < 1)
+        movement = 1;
+    if (movement > 90)
+        movement = 90;
     if (nextOrientation == actualRotation)
         return actualRotation;
     if (actualRotation == 0 || actualRotation == 360)
@@ -102,9 +107,15 @@ float Zappy::DrawPlayer::movePlayerRotation(Zappy::Orientation orientation, floa
         if (nextOrientation == 90 && actualRotation == 360)
             actualRotation = 0;
     }
-    if (nextOrientation > actualRotation)
-        actualRotation++;
-    if (nextOrientation < actualRotation)
-        actualRotation--;
+    if (nextOrientation > actualRotation) {
+        actualRotation += movement;
+        if (actualRotation > nextOrientation)
+            actualRotation = nextOrientation;
+    }
+    if (nextOrientation < actualRotation) {
+        actualRotation -= movement;
+        if (actualRotation < nextOrientation)
+            actualRotation = nextOrientation;
+    }
     return actualRotation;
 }

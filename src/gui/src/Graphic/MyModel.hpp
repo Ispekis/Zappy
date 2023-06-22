@@ -18,11 +18,16 @@ namespace Zappy
 {
     enum Animation
     {
-        eject = 0,
-        move,
-        pick,
+        laying_egg = 0,
         drop,
+        eject,
+        incancation,
+        marche,
+        victory_danse1,
+        ramassage,
+        victory_danse2,
     };
+
     class MyModel
     {
     public:

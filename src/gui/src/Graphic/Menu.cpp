@@ -125,10 +125,15 @@ void Zappy::Menu::volumeEvent(std::string volume)
 void Zappy::Menu::framerateEvent(std::string framerate)
 {
     if (framerate == "30_fps") {
+        _data->_gameData._timeUnit.setFps(30);
         SetTargetFPS(30);
-    } else if (framerate == "60_fps") {
+    }
+    if (framerate == "60_fps") {
+        _data->_gameData._timeUnit.setFps(60);
         SetTargetFPS(60);
-    } else if (framerate == "90_fps") {
+    }
+    if (framerate == "90_fps") {
+        _data->_gameData._timeUnit.setFps(90);
         SetTargetFPS(90);
     }
 }
