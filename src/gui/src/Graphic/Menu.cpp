@@ -164,7 +164,6 @@ void Zappy::Menu::settingsButtonEvent()
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         if (CheckCollisionPointRec(GetMousePosition(), _rect)) {
             std::cout << "mouse pressed in rect" << std::endl;
-            // _rect.x = (GetMouseX() - _rect.width / 2);
             isDragging = true;
             offset = { GetMouseX() - _rect.x, GetMouseY() - _rect.y };
         }
@@ -175,21 +174,12 @@ void Zappy::Menu::settingsButtonEvent()
     }
 
     if (isDragging) {
-        float minX = _rectangle["settingSidebar"]->getRect().x ;
-        float maxX = _rectangle["settingSidebar"]->getRect().x + _rectangle["settingSidebar"]->getRect().width;
-        float gapLeft;
-        float gapRight;
-        if (GetMouseX() > _rect.x) {
-            gapLeft = GetMouseX() - _rect.x;
-            gapRight = GetMouseX() - (_rect.x + _rect.width);
-        }
-        else {
-            gapLeft = _rect.x - GetMouseX();
-            gapRight = GetMouseX() - (_rect.x + _rect.width);
-        }
-        // Vérifier si la position de la souris est dans la plage autorisée
-        if (GetMouseX() - gapLeft > minX && GetMouseX() + gapRight < maxX)
-            _rect.x = GetMouseX() - offset.x;
+        _rect.x = GetMouseX() - _rect.width / 2;
+
+        if (_rect.x < _rectangle["settingSidebar"]->getRect().x)
+            _rect.x = _rectangle["settingSidebar"]->getRect().x;
+        else if (_rect.x > _rectangle["settingSidebar"]->getRect().x + _rectangle["settingSidebar"]->getRect().width - _rect.width)
+            _rect.x = _rectangle["settingSidebar"]->getRect().x + _rectangle["settingSidebar"]->getRect().width - _rect.width;
     }
 }
 
@@ -243,6 +233,7 @@ void Zappy::Menu::drawVolume()
     DrawText("Volume", 860, 200, 70, WHITE);
     _rectangle["settingSidebar"]->drawRect(1000, 100, {470, 350});
     DrawRectangleRec(_rect, GRAY);
+    DrawRectangleLinesEx(_rect, 5, BLACK);
     DrawText("Press [Enter] to go back", 1200, 970, 50, WHITE);
 }
 
