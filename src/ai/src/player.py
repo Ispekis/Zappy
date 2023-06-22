@@ -2,7 +2,7 @@ from macro import *
 from level import level
 
 class Player:
-    def __init__(self, nb_player, map_size, player_level):
+    def __init__(self, nb_player, map_size, player_level) -> None:
         """Init the player object
 
         Args:
@@ -37,7 +37,7 @@ class Player:
             return True
         return False
 
-def find_value(sight_list, value):
+def find_value(sight_list, value) ->int:
     """find a value in a list of list
 
     Args:
@@ -48,7 +48,7 @@ def find_value(sight_list, value):
         int: number of time that we find the value
     """
 
-    res = 0
+    res:int = 0
     for sublist in sight_list:
         for item in sublist:
             if item == value:

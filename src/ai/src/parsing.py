@@ -26,7 +26,7 @@ def parseInventory(inventory:str) -> list:
     Returns:
         list: return the parsed inventory list
     """
-    tmp = inventory.split(',')
+    tmp:str = inventory.split(',')
     res = {}
     if len(tmp) != INV_LEN:
         return res

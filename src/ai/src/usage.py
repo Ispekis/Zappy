@@ -1,6 +1,6 @@
 import sys
 
-def show_usage(fd):
+def show_usage(fd) -> None:
     """
     Display the usage information about the ai program. About how to use it.
 
