@@ -1,8 +1,9 @@
 import socket
 import myexception
 
-def connection(ip:str, port:int):
-    """Create and connect the client to a tcp_socket server
+def connection(ip:str, port:int) -> socket:
+    """
+    Create and connect the client to a tcp_socket server
 
     Args:
         ip (str): Ip of the machine
