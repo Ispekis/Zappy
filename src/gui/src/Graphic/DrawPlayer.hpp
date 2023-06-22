@@ -28,6 +28,9 @@ namespace Zappy {
 
             void draw();
 
+            void drawTeamText(Vector3 pos, std::shared_ptr<Player> player, float size, std::string team);
+
+            float movePlayerRotation(Zappy::Orientation, float);
 
         protected:
         private:
