@@ -384,6 +384,14 @@ void cross_map_border(int *x, int *y, int width, int height);
 tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
 
 /**
+ * @brief Execute commands that is waiting
+ *
+ * @param current
+ * @param server
+ */
+void execute_waiting_cmd(node_t *current, server_t *server);
+
+/**
  * @brief Check what is present in tile
  *
  * @param tile
