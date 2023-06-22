@@ -74,16 +74,39 @@ namespace Zappy {
         std::size_t getLevel() const;
 
 
-
+        /**
+         * @brief Set the Position of the player
+         * 
+         */
         void setPosition(std::pair<std::size_t, std::size_t>);
 
-        void setInventory();
+        /**
+         * @brief Set the Inventory of the player
+         * 
+         */
+        void setInventory(std::vector<std::string>);
 
+        /**
+         * @brief Set the Orientation of the player
+         * 
+         */
         void setOrientation(Orientation);
 
+        /**
+         * @brief Set the Level of the player
+         * 
+         * @param level 
+         */
         void setLevel(std::size_t level);
 
+        /**
+         * @brief Set the Incantation state of the player
+         * 
+         */
         void setIncantation(bool);
+
+        void setDropAnimation(bool);
+        void setPickAnimation(bool);
 
     protected:
     private:
@@ -93,9 +116,11 @@ namespace Zappy {
         std::shared_ptr<Team> _team;
         std::size_t _level;
         std::size_t _id;
-        std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
+        // std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
         bool _incantation;
 
+        bool _drop;
+        bool _pick;
     };
 }
 

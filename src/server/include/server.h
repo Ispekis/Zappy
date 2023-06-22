@@ -197,6 +197,17 @@ int global_init(server_t *server, int port);
  */
 int init_game(data_t *data, info_t info);
 
+
+/**
+ * @brief Init the map
+ *
+ * @param width
+ * @param height
+ * @param data
+ * @return int
+ */
+int init_map(int width, int height, data_t *data);
+
 /**
  * @brief Init array of pointer on functions
  *

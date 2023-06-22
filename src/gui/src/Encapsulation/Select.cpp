@@ -48,7 +48,7 @@ void Select::doSelect()
     if (ready == -1)
         throw Error("Select", "Select Failed");
     if (ready == 0) {
-        _timeout.tv_sec = 1;
-        _timeout.tv_usec = 0;
+        _timeout.tv_sec = 0;
+        _timeout.tv_usec = 500;
     }
 }
