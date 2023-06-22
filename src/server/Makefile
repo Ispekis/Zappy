@@ -16,6 +16,7 @@ SRC	=	$(addprefix src/, \
 		client_management.c						\
 		read_client.c							\
 		buffer_management.c						\
+		exec_cmd.c								\
 \
 		$(addprefix option/,    				\
 		get_options.c							\

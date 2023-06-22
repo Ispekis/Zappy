@@ -14,6 +14,7 @@ static void connect_player(node_t *client, data_t data)
     client->client.is_conn = true;
     client->client.pos.x = rand_nbr(0, data.width - 1);
     client->client.pos.y = rand_nbr(0, data.height - 1);
+    client->client.inventory.food.quantity = 10;
     client->client.orientation = rand_nbr(1, NUMBER_OF_ORIENTATION);
     client->client.level = 1;
 }

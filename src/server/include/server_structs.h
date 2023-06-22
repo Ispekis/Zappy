@@ -13,6 +13,7 @@
     #include <arpa/inet.h>
     #define TOTAL_GUI_CMD 9
     #define TOTAL_AI_CMD 12
+    #define MAX_CMD_REQUESTS 10
 
 enum orientation_e {
     NORTH = 1,
@@ -50,6 +51,11 @@ typedef struct inventory_s {
     resource_t thystame;
 } inventory_t;
 
+typedef struct commands_s {
+    int id;
+    char **params;
+} commands_t;
+
 /**
  * @brief Teams structure
  *
@@ -85,6 +91,8 @@ typedef struct client_s {
     team_t *team;
     bool is_ready;
     bool is_elevating;
+    commands_t commands[MAX_CMD_REQUESTS];
+    int nb_await_cmd;
 } client_t;
 
 /**
