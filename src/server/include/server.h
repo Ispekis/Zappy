@@ -384,6 +384,21 @@ void cross_map_border(int *x, int *y, int width, int height);
 tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
 
 /**
+ * @brief Disconnect player
+ *
+ * @param data
+ * @param client
+ */
+void disconnect_player(data_t *data, node_t *client);
+
+/**
+ * @brief Handle the game's world clock
+ *
+ * @param server
+ */
+void handle_world_clock(server_t *server);
+
+/**
  * @brief Execute commands that is waiting
  *
  * @param current

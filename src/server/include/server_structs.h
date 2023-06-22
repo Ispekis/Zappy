@@ -135,7 +135,13 @@ typedef struct sock_addrs_s {
     fd_set rfds;
 } sock_addrs_t;
 
+typedef struct timer_clock_s {
+    int tfd;
+    struct itimerspec timer_spec;
+} timer_clock_t;
+
 typedef struct data_s {
+    timer_clock_t w_clock;
     node_t *clients;
     team_t *teams;
     int nb_teams;
