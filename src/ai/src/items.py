@@ -10,7 +10,7 @@ class Items:
                 for i in range(3):
                     ListFilled.append("food")
         except KeyError:
-            print(inventory)
+            return
 
     def takeItem(self, sight:str, objectives:list, foodList:list, inventory:list) -> None:
         for i in range(len(objectives)):
@@ -32,7 +32,7 @@ class Items:
         except ValueError:
             return
         except KeyError:
-            print(inventory)
+            return
         
     def setItem(self, itemToSet:str, objectives:list) -> str:
         self.client_socket.send(("Set " + itemToSet + "\n").encode())

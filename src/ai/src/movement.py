@@ -122,4 +122,3 @@ class Movement:
         var:str = self.cli_socket.recv(1024)
         if (var.decode() == "ko"):
             self.preMove.insert(0, tmp)
-        print(tmp)

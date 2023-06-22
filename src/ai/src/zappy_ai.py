@@ -88,7 +88,6 @@ class AI:
             while True:
                 self.rcvServerResponse()
                 self.playerAction()
-                print(self.player.inventory)
         except KeyboardInterrupt:
             return SUCCESS
         except BrokenPipeError:
