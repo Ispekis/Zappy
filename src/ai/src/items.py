@@ -2,6 +2,11 @@ import socket
 
 class Items:
     def __init__(self, client_socket:socket) -> None:
+        """_summary_
+
+        Args:
+            client_socket (socket): _description_
+        """
         self.client_socket:socket = client_socket
         
     def needsFood(self, inventory:list, ListFilled:list):

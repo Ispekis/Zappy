@@ -3,6 +3,13 @@ from level import level
 
 class Player:
     def __init__(self, nb_player, map_size, player_level):
+        """Init the player object
+
+        Args:
+            nb_player (_type_): _description_
+            map_size (_type_): _description_
+            player_level (_type_): _description_
+        """
         self.nb_player = nb_player
         self.team_mate = 1
         self.map_size = map_size
@@ -20,7 +27,12 @@ class Player:
                 for j in range(self.obj_list[i]):
                     self.item_needed.append(i)
 
-    def multiplePlayerTile(self):
+    def multiplePlayerTile(self) -> bool:
+        """_summary_
+
+        Returns:
+            bool: _description_
+        """
         if find_value(self.sight, "player") > 1:
             return True
         return False

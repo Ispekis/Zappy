@@ -12,7 +12,8 @@ from fork import *
 
 class AI:
     def __init__(self, port:str, machine:str, name:str) -> None:
-        """Run the AI script
+        """
+        Run the AI script
 
         Args:
             port (int): Port parameter
@@ -34,6 +35,12 @@ class AI:
         self.move = Movement(self.client_socket, self.player.item_needed)
 
     def setPlayer(self, name:str) -> None:
+        """
+        Set up player's information for the object
+
+        Args:
+            name (str): name of the player
+        """
         recv_data = self.client_socket.recv(1024)
         print(recv_data.decode(), end="")
         rcv_data = self.client_socket.recv(1024)
@@ -46,9 +53,9 @@ class AI:
             print(f"Error while creating the player, check if team name is correct", file=sys.stderr)
 
     def rcvServerResponse(self) -> None:
-        """Set the sight, invetory and update the team slot free
         """
-
+        Set the sight, invetory and update the team slot free
+        """
         self.client_socket.send(("Look\n").encode())
         self.player.sight = parseLook(self.client_socket.recv(1024).decode()[2:-2])
         # print(f'sight = {self.player.sight}')
@@ -76,6 +83,9 @@ class AI:
             rcv_data = self.client_socket.recv(1024)
 
     def playerAction(self) -> None:
+        """
+        Call every action the player would do in a loop iteration.
+        """
         self.itemHandling.takeItem(self.player.sight, self.player.item_needed, self.player.needList, self.player.inventory)
         self.push()
         self.level_up()
@@ -84,6 +94,12 @@ class AI:
         self.move.handleMovement(self.player.sight, self.player.needList)
 
     def run_ai(self) -> int:
+        """
+        Main loop of the program, sending and receiving informations to/from the server.
+
+        Returns:
+            int: _description_
+        """
         try:
             while True:
                 self.rcvServerResponse()
