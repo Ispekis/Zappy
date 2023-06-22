@@ -32,7 +32,6 @@ void Zappy::DrawItems::setTexture()
     _texture.insert({"Deraumere", raylib::Texture("src/gui/assets/items/texture/iron.png")});
     _texture.insert({"Linemate", raylib::Texture("src/gui/assets/items/texture/coal.png")});
     _texture.insert({"Food", raylib::Texture("src/gui/assets/items/texture/carrot.png")});
-
 }
 
 void Zappy::DrawItems::setModel()
@@ -87,6 +86,6 @@ void Zappy::DrawItems::drawSpacedItem(std::size_t qty, Vector3 pos, std::string 
         _ret = false;
     for (std::size_t a = 0; a != qty; a++)
     {
-       DrawModelEx(_model[ressource], (Vector3){pos.x - (size / 2) + x * 0.8, ((pos.z + size / 2 + 1.7)- 0.2 + a * 0.01) + _itemBounce, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){0, 1, 0}, _rotation, (Vector3){1.5, 1.5, 1.5}, WHITE);
+       DrawModelEx(_model[ressource], (Vector3){pos.x - (size / 2) + x * 0.8, ((pos.z + size / 2 + 1.7)- 0.2 + a * 0.01) + _itemBounce, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){0, 1, 0}, _rotation, (Vector3){size / 3, size / 3, size / 3}, WHITE);
     }
 }
