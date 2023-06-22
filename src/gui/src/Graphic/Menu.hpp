@@ -63,6 +63,9 @@ namespace Zappy {
 
             bool _settings = false;
             float _volume = 0.5;
+            Rectangle _rect = { 920, 356, 100, 87};
+            bool isDragging = false;
+            Vector2 offset = { 0, 0 }; 
     };
 }
 
