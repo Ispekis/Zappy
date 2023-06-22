@@ -35,7 +35,6 @@ void Zappy::Rect::drawRect(float width, float height, Vector2 position)
     src.width = _text.width;
     src.height = _text.height;
 
-    _dest;
     _dest.x = position.x;
     _dest.y = position.y;
     _dest.width = width;

@@ -18,6 +18,7 @@ static float getRotationAngle(Zappy::Orientation orientation)
         return 180;
     if (orientation == 4)
         return 90;
+    return 0;
 }
 
 Zappy::Player::Player(std::vector<std::string> &content, std::shared_ptr<Team> team)

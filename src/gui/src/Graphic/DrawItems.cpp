@@ -44,7 +44,7 @@ void Zappy::DrawItems::setModel()
     _model.insert({"Deraumere", raylib::Model("src/gui/assets/items/obj/iron.obj")});
     _model.insert({"Linemate", raylib::Model("src/gui/assets/items/obj/coal.obj")});
     _model.insert({"Food", raylib::Model("src/gui/assets/items/obj/carrot.obj")});
-    for (int i = 0; ressource.size() != i; ++i)
+    for (std::size_t i = 0; ressource.size() != i; ++i)
         SetMaterialTexture(&_model[ressource[i]].materials[0], MATERIAL_MAP_DIFFUSE, _texture[ressource[i]]);
 }
 
@@ -60,8 +60,8 @@ void Zappy::DrawItems::drawItems(Vector3 pos, std::size_t size, std::vector<std:
 
 void Zappy::DrawItems::drawSpacedItem(std::size_t qty, Vector3 pos, std::string ressource, std::size_t size, std::size_t i)
 {
-    int x = i;
-    int y = 0;
+    float x = i;
+    float y = 0;
 
     if (i > 2) {
         x = i - 2;
@@ -84,8 +84,9 @@ void Zappy::DrawItems::drawSpacedItem(std::size_t qty, Vector3 pos, std::string 
         _ret = true;
     if (_itemBounce < 0)
         _ret = false;
-    for (std::size_t a = 0; a != qty; a++)
+    for (std::size_t a = 0; a < qty;)
     {
-       DrawModelEx(_model[ressource], (Vector3){pos.x - (size / 2) + x * 0.8, ((pos.z + size / 2 + 1.7)- 0.2 + a * 0.01) + _itemBounce, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){0, 1, 0}, _rotation, (Vector3){size / 3, size / 3, size / 3}, WHITE);
+        a += 2;
+        DrawModelEx(_model[ressource], (Vector3){pos.x - (size / 2) + x * 0.8 + size * 0.3, ((pos.z + size / 2 + 1.7) - 0.2 + a * 0.01) + _itemBounce, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){0, 1, 0}, _rotation, (Vector3){size / 3, size / 3, size / 3}, WHITE);
     }
 }
