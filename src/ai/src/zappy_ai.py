@@ -52,12 +52,12 @@ class AI:
         self.client_socket.send(("Look\n").encode())
         self.player.sight = parseLook(self.client_socket.recv(1024).decode()[2:-2])
         # print(f'sight = {self.player.sight}')
-        self.client_socket.send(("Inventory\n").encode())
-        self.player.inventory = parseInventory(self.client_socket.recv(1024).decode()[2:-2])
         # print(f'inventory = {self.player.inventory}')
         self.client_socket.send(("Connect_nbr\n").encode())
         self.player.nb_player = updateNbPlayer(self.client_socket.recv(1024).decode())
         # print(f'nbplayer = {self.player.nb_player}')
+        self.client_socket.send(("Inventory\n").encode())
+        self.player.inventory = parseInventory(self.client_socket.recv(1024).decode()[2:-2])
 
     def level_up(self) -> None:
         if levelUp(self.player.obj_list, self.player.sight[0]):
@@ -68,10 +68,12 @@ class AI:
     def push(self) -> None:
         if self.player.multiplePlayerTile():
             self.client_socket.send(("push\n").encode())
+            rcv_data = self.client_socket.recv(1024)
 
     def reproduction(self) -> None:
         if check_if_need_fork(self.player, self.player.sight):
             self.client_socket.send("fork\n".encode())
+            rcv_data = self.client_socket.recv(1024)
 
     def playerAction(self) -> None:
         self.itemHandling.takeItem(self.player.sight, self.player.item_needed, self.player.needList, self.player.inventory)
@@ -86,10 +88,7 @@ class AI:
             while True:
                 self.rcvServerResponse()
                 self.playerAction()
-                rcv_data = self.client_socket.recv(1024)
-                if rcv_data.decode() == "dead\n":
-                    print("You are dead!")
-                    break
+                print(self.player.inventory)
         except KeyboardInterrupt:
             return SUCCESS
         except BrokenPipeError:
