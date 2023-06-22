@@ -12,24 +12,23 @@
 static int choose_cmd(char *buffer, node_t *client, server_t *server)
 {
     char **params = str_to_word_array(buffer, " ");
-    char **params_cpy = params;
     char *cmd = NULL;
     int pos = 0;
 
-    if (params == NULL) {
+    if (params == NULL || params[0] == NULL)
         return FAILURE;
-    }
     cmd = params[0];
     pos = get_cmd_pos(cmd, AI_CMD_LIB);
     if (pos != -1) {
-        params_cpy++;
-        server->ai_cmd[pos](client, &server->data, params_cpy);
+        if (client->client.nb_await_cmd < 10) {
+            client->client.commands[client->client.nb_await_cmd].id = pos;
+            client->client.commands[client->client.nb_await_cmd].params =
+            params;
+            client->client.nb_await_cmd++;
+        }
     } else {
         dprintf(client->client.fd, "ko\n");
     }
-    for (int i = 0; params[i] != NULL; i++)
-        free(params[i]);
-    free(params);
     return SUCCESS;
 }
 

@@ -19,12 +19,11 @@ int get_cmd_pos(char *str, const char **lib)
 
 void set_cooldown_in_nanosec(node_t *player, uint64_t nseconds)
 {
-    int sec = (nseconds / 1000000000);
-    player->client.timer_spec.it_value.tv_sec = sec;
-    player->client.timer_spec.it_value.tv_nsec = 0;
+    if (nseconds > 1e9)
+        player->client.timer_spec.it_value.tv_nsec = (nseconds / 1e9);
+    else
+        player->client.timer_spec.it_value.tv_nsec = nseconds;
     timerfd_settime(player->client.tfd, 0, &player->client.timer_spec, NULL);
-    if (sec > 0)
-        player->client.is_ready = false;
 }
 
 void send_res_cd(node_t *client, int cooldown, int freq)

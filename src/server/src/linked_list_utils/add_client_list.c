@@ -24,7 +24,7 @@ static void init_client_data(node_t **node)
 {
     (*node)->client.fd = UNDEFINED;
     (*node)->client.tfd = timerfd_create(CLOCK_REALTIME, 0);
-    (*node)->client.timer_spec.it_value.tv_sec = 0;
+    (*node)->client.timer_spec.it_value.tv_sec = 1;
     (*node)->client.timer_spec.it_value.tv_nsec = 0;
     (*node)->client.timer_spec.it_interval.tv_sec = 0;
     (*node)->client.timer_spec.it_interval.tv_nsec = 0;
@@ -38,6 +38,7 @@ static void init_client_data(node_t **node)
     (*node)->client.team = NULL;
     (*node)->client.is_ready = true;
     (*node)->client.is_elevating = false;
+    (*node)->client.nb_await_cmd = 0;
     (*node)->next = NULL;
 }
 
