@@ -17,6 +17,7 @@ SRC	=	$(addprefix src/, \
 		read_client.c							\
 		buffer_management.c						\
 		exec_cmd.c								\
+		world_clock.c							\
 \
 		$(addprefix option/,    				\
 		get_options.c							\
