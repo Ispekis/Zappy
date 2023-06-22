@@ -116,9 +116,12 @@ namespace Zappy {
 
         void setEggLayingAnimation(bool);
 
+        float _rotation;
+
     protected:
     private:
         std::pair<std::size_t, std::size_t> _position;
+        std::pair<std::size_t, std::size_t> _actualPosition;
         std::unordered_map<std::string, std::size_t> _inventory;
         Orientation _orientation;
         std::shared_ptr<Team> _team;

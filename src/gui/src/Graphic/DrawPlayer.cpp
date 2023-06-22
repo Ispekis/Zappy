@@ -46,24 +46,65 @@ void Zappy::DrawPlayer::draw()
         auto id = element.first; // id
         auto player = element.second; // player class
         auto Orientation = player->getOrientation();
+        // auto rotation = player->_rotation;
+        player->_rotation = movePlayerRotation(Orientation, player->_rotation);
         auto pos = player->getPosition();
         auto team = player->getTeam()->getName();
         float posX = size * pos.first - (map.first / 2 * size);
         float posY = size * pos.second - (map.second / 2 * size);
         float posZ = size;
-        _model["kdd"]->draw((Vector3){posX, posZ, posY}, Orientation, size);
+        _model["kdd"]->draw((Vector3){posX, posZ, posY},  player->_rotation, size);
 
-
-        unsigned char tmpcolorR = (player->getTeam()->getId()) % 255;
-        unsigned char tmpcolorG = tmpcolorR * 4 % 150;
-        Color textColor = Color{30, tmpcolorR, 30, 255};
-        if (tmpcolorR % 3 == 1)
-            textColor = Color{tmpcolorR, 30, tmpcolorG, 255};
-        if (tmpcolorR % 3 == 2)
-            textColor = Color{30, tmpcolorR, 30, 255};
-        if (tmpcolorR % 3 == 3)
-            textColor = Color{tmpcolorR, 30, tmpcolorG, 255};
-        _drawText3d.DrawText3D(GetFontDefault(), team.c_str(), (Vector3){posX - size / 6, posZ + size * 1.2, posY}, textColor, size);
-        _drawText3d.DrawText3D(GetFontDefault(), std::to_string(player->getId()).c_str(), (Vector3){posX - size / 6 + 1, posZ + size * 1.1, posY}, textColor, size);
+        drawTeamText((Vector3){posX, posZ, posY}, player, size, team);
     }
+}
+
+void Zappy::DrawPlayer::drawTeamText(Vector3 pos, std::shared_ptr<Player> player, float size, std::string team)
+{
+    unsigned char tmpcolorR = (player->getTeam()->getId()) % 255;
+    unsigned char tmpcolorG = tmpcolorR * 4 % 150;
+    Color textColor = Color{30, tmpcolorR, 30, 255};
+    if (tmpcolorR % 3 == 1)
+        textColor = Color{tmpcolorR, 30, tmpcolorG, 255};
+    if (tmpcolorR % 3 == 2)
+        textColor = Color{30, tmpcolorR, 30, 255};
+    if (tmpcolorR % 3 == 3)
+        textColor = Color{tmpcolorR, 30, tmpcolorG, 255};
+    _drawText3d.DrawText3D(GetFontDefault(), team.c_str(), (Vector3){pos.x - size / 6, pos.y + size * 1.2, pos.z}, textColor, size);
+    _drawText3d.DrawText3D(GetFontDefault(), std::to_string(player->getId()).c_str(), (Vector3){pos.x - size / 6 + 1, pos.y + size * 1.1, pos.z}, textColor, size);
+}
+
+static float getRotationAngle(Zappy::Orientation orientation, float actualRotation)
+{
+    // return orientation * 90 - 90;
+    if (orientation == 1 && actualRotation >= 270)
+        return 360;
+    if (orientation == 1)
+        return 0;
+    if (orientation == 2)
+        return 270;
+    if (orientation == 3)
+        return 180;
+    if (orientation == 4)
+        return 90;
+}
+
+float Zappy::DrawPlayer::movePlayerRotation(Zappy::Orientation orientation, float actualRotation)
+{
+    float nextOrientation = getRotationAngle(orientation, actualRotation);
+
+    if (nextOrientation == actualRotation)
+        return actualRotation;
+    if (actualRotation == 0 || actualRotation == 360)
+    {
+        if (nextOrientation == 270 && actualRotation == 0)
+            actualRotation = 360;
+        if (nextOrientation == 90 && actualRotation == 360)
+            actualRotation = 0;
+    }
+    if (nextOrientation > actualRotation)
+        actualRotation++;
+    if (nextOrientation < actualRotation)
+        actualRotation--;
+    return actualRotation;
 }

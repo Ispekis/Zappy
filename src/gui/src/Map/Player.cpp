@@ -7,13 +7,28 @@
 
 #include "Player.hpp"
 
+static float getRotationAngle(Zappy::Orientation orientation)
+{
+    // return orientation * 90 - 90;
+    if (orientation == 1)
+        return 0;
+    if (orientation == 2)
+        return 270;
+    if (orientation == 3)
+        return 180;
+    if (orientation == 4)
+        return 90;
+}
+
 Zappy::Player::Player(std::vector<std::string> &content, std::shared_ptr<Team> team)
 {
     _id = std::stoi(content[0]);
     _incantation = false;
     _level = std::stoi(content[4]);
     _orientation = static_cast<Orientation>(std::stoi(content[3]));
+    _rotation = getRotationAngle(_orientation);
     _position = {std::stoi(content[1]), std::stoi(content[2])};
+    _actualPosition = _position;
     _team = team;
 }
 
