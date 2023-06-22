@@ -18,13 +18,10 @@ int init_world_clock(data_t *data, int freq)
         return FAILURE;
     data->w_clock.timer_spec.it_value.tv_sec = 1;
     data->w_clock.timer_spec.it_value.tv_nsec = 0;
-    data->w_clock.timer_spec.it_interval.tv_sec = 1;
-    data->w_clock.timer_spec.it_interval.tv_nsec = 0;
-    // nseconds = sec_to_nanosec((double) FOOD_LIVE_TIME / (double) freq);
-    // if (nseconds > 1e9)
-    //     data->w_clock.timer_spec.it_interval.tv_sec = (nseconds / 1e9);
-    // else
-    //     data->w_clock.timer_spec.it_interval.tv_nsec = ((nseconds / 1e9) * 1e9) - nseconds;
+    data->w_clock.timer_spec.it_interval.tv_sec = FOOD_LIVE_TIME / freq;
+    data->w_clock.timer_spec.it_interval.tv_nsec =
+    sec_to_nanosec((double) FOOD_LIVE_TIME / (double) freq) -
+    (sec_to_nanosec(FOOD_LIVE_TIME / freq));
     if (timerfd_settime(data->w_clock.tfd, 0, &data->w_clock.timer_spec,
     NULL) == -1)
         return FAILURE;
