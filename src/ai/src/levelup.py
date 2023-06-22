@@ -26,7 +26,7 @@ def split_lvl(return_value:str, actual_lvl:int):
 def get_return_value(return_value:str, player:Player):
     # if return_value == "Elevation underway\n":
     player.attitude = NORMAL
-    player.level = split_lvl(return_value)
+    player.level = split_lvl(return_value, player.level)
     player.obj_list = player.lvl_instance.setObj(player.level)
     player.set_item_needed()
     player.ask = False
