@@ -171,7 +171,7 @@ class Movement:
         else:
             self.itemObj = None
             tmp:str = random.choice(self.movementList)
-        print(needs)
+        # print(needs)
         self.lastMove = tmp
         self.cli_socket.send((tmp + "\n").encode())
         var:str = self.cli_socket.recv(1024)

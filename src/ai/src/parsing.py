@@ -1,3 +1,5 @@
+import json
+
 INV_LEN = 7
 
 def parseLook(look:str) -> list:
@@ -31,16 +33,23 @@ def parseInventory(inventory:str) -> list:
     if len(tmp) != INV_LEN:
         return res
     for i in range(len(tmp)):
+        # print(tmp[i])
         v = tmp[i].split()
         res[v[0]] = int(v[1])
     return res
 
-def updateNbPlayer(nbPlayer:str) -> int:
-    """Update the number of player
+def parseLevel(filename:str) -> dict:
+    """Parse the level file and file a dict
 
     Args:
-        nbPlayer (str): new number of player
+        filename (str): filename
+
     Returns:
-        int: number of player
+        dict: list of objectif for each level
     """
-    return nbPlayer
+    with open(filename) as file:
+        data = json.load(file)
+        parsed_list = {}
+        for key, value in data.items():
+            parsed_list[int(key)] = {k: v for k, v in value.items()}
+        return parsed_list

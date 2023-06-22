@@ -24,6 +24,7 @@ class Items:
                 self.client_socket.send(("Take " + objectives[i] + "\n").encode())
                 self.client_socket.recv(1024)
                 objectives.pop(i)
+                break
             except ValueError:
                 continue
         try:
@@ -42,4 +43,6 @@ class Items:
     def setItem(self, itemToSet:str, objectives:list) -> str:
         self.client_socket.send(("Set " + itemToSet + "\n").encode())
         objectives.append(itemToSet)
-        return self.client_socket.recv(1024).decode()
+        return_value = self.client_socket.recv(1024).decode()
+        print(return_value)
+        return return_value
