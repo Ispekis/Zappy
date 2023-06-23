@@ -63,7 +63,6 @@ void Zappy::DrawPlayer::draw()
         auto pos = player->getPosition();
         std::string team = player->getTeam()->getName();
         std::size_t level = player->getLevel();
-        // printf("Actual %f, Next %f\n", player->_rotation ,getRotationAngle(Orientation, player->_rotation));
         if (rotation != 10)
             drawRotatePlayer(player);
         drawMovementPlayer(player);
@@ -116,7 +115,7 @@ float Zappy::DrawPlayer::movePlayerRotation(Zappy::Orientation orientation, floa
 void Zappy::DrawPlayer::drawRotatePlayer(std::shared_ptr<Player> player)
 {
     float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
-    float movement = nbrframe / 90;
+    float movement = 90 / nbrframe;
     int movement1 = ceil(movement);
     float size = _data->_gameData._tileSize;
     std::size_t level = player->getLevel();
@@ -126,10 +125,8 @@ void Zappy::DrawPlayer::drawRotatePlayer(std::shared_ptr<Player> player)
         if (tmp == 10)
             break;
         player->_rotation = tmp;
-        _model[level]->draw(player->_actualPosition, player->_rotation, size);
-        // std::cout << "tmp:" << tmp << std::endl;
     }
-    // std::cout << "Rotation DOne: " << << << << std::endl;
+    _model[level]->draw(player->_actualPosition, player->_rotation, size);
 }
 
 static bool isEqual(float a, float b)
@@ -148,33 +145,39 @@ void Zappy::DrawPlayer::drawMovementPlayer(std::shared_ptr<Player> player)
 
     if (isEqual(player->_actualPosition.x, posX) == false)
         movePlayerPositionX(player,(Vector3){posX, posZ, posY});
-    if (isEqual(player->_actualPosition.z, posY) == false)
+    else if (isEqual(player->_actualPosition.z, posY) == false)
         movePlayerPositionY(player,(Vector3){posX, posZ, posY});
+    else
+        _model[player->getLevel()]->moveAnimationToStart(Animation::marche);
 }
 
 void Zappy::DrawPlayer::movePlayerPositionX(std::shared_ptr<Player> player, Vector3 target)
 {
     float distance = target.x - (player->_LastPosition.x);
     float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
-    float movement = distance * 10 / nbrframe;
-    int movement1 = std::abs(ceil(movement));
-    std::cout << "Distance :" << distance << " movement :"<< movement1 << std::endl;
+    float moveFrame = distance * 10 / nbrframe;
+    int moveFramePerLoop = std::abs(ceil(moveFrame));
+    float animFrame = 120 / nbrframe;
+    int animFramePerLoop = std::abs(ceil(animFrame));
     std::size_t level = player->getLevel();
     float size = _data->_gameData._tileSize;
     float increment;
+
     if (distance > 0)
         increment = 0.1;
     else
         increment = -0.1;
-    for (int i = 0; i != movement1; i++)
+    std::cout << "Anim per loop" << animFramePerLoop << std::endl;
+    for (int i = 0; i != moveFramePerLoop  + 1; i++)
     {
         if (isEqual(player->_actualPosition.x, target.x)) {
             player->_actualPosition.x = target.x;
+            // _model[level]->moveAnimationToStart(Animation::marche);
             return;
         }
         player->_actualPosition.x = player->_actualPosition.x + increment;
-        _model[level]->moveAnimation(Animation::marche);
-        _model[level]->draw(player->_actualPosition, player->_rotation, size);
+        _model[level]->moveAnimation(Animation::marche, animFramePerLoop);
+        // _model[level]->draw(player->_actualPosition, player->_rotation, size);
     }
 }
 
@@ -182,23 +185,28 @@ void Zappy::DrawPlayer::movePlayerPositionY(std::shared_ptr<Player> player, Vect
 {
     float distance = target.z - (player->_LastPosition.z);
     float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
-    float movement = distance * 10/ nbrframe;
-    int movement1 = std::abs(ceil(movement));
+    float moveFrame = distance * 10 / nbrframe;
+    int moveFramePerLoop = std::abs(ceil(moveFrame));
+    float animFrame = 120 / nbrframe;
+    int animFramePerLoop = std::abs(ceil(animFrame));
     std::size_t level = player->getLevel();
     float size = _data->_gameData._tileSize;
     float increment;
+
     if (distance > 0)
         increment = 0.1;
     else
         increment = -0.1;
-    for (int i = 0; i != movement1; i++) {
+    std::cout << "Anim per loop" << animFramePerLoop << std::endl;
+
+    for (int i = 0; i != moveFramePerLoop + 1; i++) {
         if (isEqual(player->_actualPosition.z, target.z)) {
+            // _model[level]->moveAnimationToStart(Animation::marche);
             player->_actualPosition.z = target.z;
             return;
         }
         player->_actualPosition.z = player->_actualPosition.z + increment;
-        _model[level]->moveAnimation(Animation::marche);
-        _model[level]->draw(player->_actualPosition, player->_rotation, size);
-
+        _model[level]->moveAnimation(Animation::marche, animFramePerLoop);
+        // _model[level]->draw(player->_actualPosition, player->_rotation, size);
     }
 }

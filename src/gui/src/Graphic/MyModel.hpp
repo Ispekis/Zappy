@@ -36,7 +36,11 @@ namespace Zappy
 
         void draw(Vector3 pose, float, std::size_t);
 
+        void moveAnimation(int i, int frame);
+
         void moveAnimation(int i);
+
+        void moveAnimationToStart(int i);
 
     protected:
     private:
