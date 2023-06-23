@@ -17,11 +17,15 @@ SRC	=	$(addprefix src/, \
 		read_client.c							\
 		buffer_management.c						\
 		exec_cmd.c								\
-		world_clock.c							\
 \
 		$(addprefix option/,    				\
 		get_options.c							\
 		set_options.c							)\
+\
+		$(addprefix world/,    					\
+		refill_resources.c						\
+		eat_food.c								\
+		world_clock.c							)\
 \
 		$(addprefix linked_list_utils/,    		\
 		client_linked_list.c					\
