@@ -9,15 +9,14 @@
 
 static float getRotationAngle(Zappy::Orientation orientation)
 {
-    // return orientation * 90 - 90;
     if (orientation == 1)
-        return 0;
+        return -180;
     if (orientation == 2)
-        return 270;
+        return -270;
     if (orientation == 3)
-        return 180;
+        return 0;
     if (orientation == 4)
-        return 90;
+        return -90;
     return 0;
 }
 
@@ -27,16 +26,16 @@ Zappy::Player::Player(std::vector<std::string> &content, std::shared_ptr<Team> t
     _incantation = false;
     _level = std::stoi(content[4]);
     _orientation = static_cast<Orientation>(std::stoi(content[3]));
+    std::cout << "player orientation:" <<content[3] << std::endl;
     _rotation = getRotationAngle(_orientation);
     _position = {std::stoi(content[1]), std::stoi(content[2])};
     _team = team;
-    
 }
 
 void Zappy::Player::setCurrentPosition(float size, std::pair<std::size_t, std::size_t> map)
 {
     float posX = size * _position.first - (map.first / 2 * size);
-    float posY = size * _position.second - (map.second / 2 * size);
+    float posY = -(size * _position.second - (map.second / 2 * size));
     float posZ = size;
     _actualPosition = (Vector3){posX, posZ, posY};
     _LastPosition = (Vector3){posX, posZ, posY};
@@ -90,6 +89,8 @@ void Zappy::Player::setInventory(std::vector<std::string> newInventory)
 
 void Zappy::Player::setOrientation(Orientation newOrientation)
 {
+    std::cout << "orientation :" << _orientation << " -> " << newOrientation << std::endl;
+
     _orientation = newOrientation;
 }
 

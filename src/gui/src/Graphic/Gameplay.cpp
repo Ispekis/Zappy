@@ -26,7 +26,7 @@ void Zappy::Gameplay::setData(std::shared_ptr<Data> data)
 
 void Zappy::Gameplay::setCamera()
 {
-    _camera.position = (Vector3){0.0f, 80.0f, 60.0f};    // Camera position
+    _camera.position = (Vector3){0.0f, 100.0f, 50.0f};    // Camera position
     _camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
     _camera.up = (Vector3){ 0.0f, 10.0f, 0.0f };          // Camera up vector (rotation towards target)
     _camera.fovy = 45.0f;                                // Camera field-of-view Y

@@ -100,10 +100,12 @@ void Zappy::GameData::ppo(std::vector<std::string> &content)
 
     if (_player.count(id) == 0)
         throw Error("player id don't exist", content[0]);
+    printf("player %ld : [%ld:%ld] -> [%ld:%ld]", id, _player[id]->_position.first, _player[id]->_position.second, newPosition.first, newPosition.second);
+    // std::cout << "player id:" << id << "moved to" << newPosition.first << ":" << newPosition.second << std::endl;
+
     _player[id]->setCurrentPosition(_tileSize, _mapSize);
     _player[id]->setPosition(newPosition);
     _player[id]->setOrientation(newOrientation);
-    std::cout << "player id:" << id << "moved to" << newPosition.first << ":" << newPosition.second << std::endl;
 }
 
 void Zappy::GameData::plv(std::vector<std::string> &content)
