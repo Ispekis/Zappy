@@ -15,6 +15,7 @@
 
     #include "IRessource.hpp"
     #include "Team.hpp"
+    #include "raylib.h"
 
 namespace Zappy {
     enum Orientation
@@ -116,12 +117,16 @@ namespace Zappy {
 
         void setEggLayingAnimation(bool);
 
+        void setCurrentPosition(float tileSize, std::pair<std::size_t, std::size_t> map);
+
         float _rotation;
+        std::pair<std::size_t, std::size_t> _position;
+        // std::pair<std::size_t, std::size_t> _actualPosition;
+        Vector3 _actualPosition;
+        Vector3 _LastPosition;
 
     protected:
     private:
-        std::pair<std::size_t, std::size_t> _position;
-        std::pair<std::size_t, std::size_t> _actualPosition;
         std::unordered_map<std::string, std::size_t> _inventory;
         Orientation _orientation;
         std::shared_ptr<Team> _team;

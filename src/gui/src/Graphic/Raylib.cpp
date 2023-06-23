@@ -30,7 +30,7 @@ void Zappy::Raylib::setData(std::shared_ptr<Data> data)
 
 void Zappy::Raylib::run()
 {
-    while (_exitWindow != true && _data->_gameData._end != true) {
+    while (_exitWindow == false) {
         event();
         draw();
     }
