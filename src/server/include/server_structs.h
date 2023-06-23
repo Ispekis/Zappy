@@ -65,6 +65,26 @@ typedef struct team_s {
     int clients_nbr;
 } team_t;
 
+typedef struct egg_s {
+    /**
+     * @brief Egg id
+     *
+     */
+    int id;
+
+    /**
+     * @brief The team's name of the player who layed the egg
+     *
+     */
+    team_t *team;
+
+    /**
+     * @brief The layed egg position
+     *
+     */
+    pos_t pos;
+} egg_t;
+
 typedef struct client_s {
     /**
      * @brief File descriptor of a player
@@ -102,6 +122,7 @@ typedef struct client_s {
 typedef struct node_s {
     // team_t team;
     client_t client;
+    egg_t egg;
     struct node_s *next;
 } node_t;
 
@@ -143,6 +164,7 @@ typedef struct timer_clock_s {
 typedef struct data_s {
     timer_clock_t w_clock;
     node_t *clients;
+    node_t *egg;
     team_t *teams;
     int nb_teams;
     tile_t **map;
