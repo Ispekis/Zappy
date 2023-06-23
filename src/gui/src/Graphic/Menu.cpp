@@ -73,7 +73,8 @@ void Zappy::Menu::setRectangle()
     _rectangle.insert({"30_fps", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"60_fps", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"90_fps", std::make_shared<Rect>(_texture["basicButton"])});
-    _rectangle.insert({"settingSidebar", std::make_shared<Rect>(_texture["sidebar"])});
+    _rectangle.insert({"volumeSidebar", std::make_shared<Rect>(_texture["sidebar"])});
+    _rectangle.insert({"framerateSidebar", std::make_shared<Rect>(_texture["sidebar"])});
 }
 
 void Zappy::Menu::setCube()
@@ -144,39 +145,41 @@ float MapValue(float value, float inputMin, float inputMax, float outputMin, flo
 
 void Zappy::Menu::settingsButtonEvent()
 {
-    Vector2 mouse = GetMousePosition();
-
-    auto it = _rectangle.begin();
-
-    for (; it != _rectangle.end(); ++it) {
-        if (CheckCollisionPointRec(mouse, it->second->getRect())) {
-            if (it->first != "menuLogo" && it->first != "settingSidebar") 
-                it->second->setTexture(_texture["hoverButton"]);
-            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                if (it->first == "30_fps" || it->first == "60_fps" || it->first == "90_fps") {
-                    PlaySound(_click);
-                    framerateEvent(it->first);
-                }
-            }
-        } else if (it->first == "30_fps" || it->first == "60_fps" || it->first == "90_fps") {
-            if (it->first != "menuLogo")
-                it->second->setTexture(_texture["basicButton"]);
-        }
-    }
-
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        if (CheckCollisionPointRec(GetMousePosition(), _rect2)) {
+            _isFramerate = true;
+        }
         if (CheckCollisionPointRec(GetMousePosition(), _rect)) {
-            _isDragging = true;
+            _isVolume = true;
         }
     }
 
     if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-        _isDragging = false;
+        _isFramerate = false;
     }
 
-    if (_isDragging) {
-        float minX = _rectangle["settingSidebar"]->getRect().x;
-        float maxX = _rectangle["settingSidebar"]->getRect().x + _rectangle["settingSidebar"]->getRect().width - _rect.width;
+    if (_isFramerate) {
+        float minX = _rectangle["framerateSidebar"]->getRect().x;
+        float maxX = _rectangle["framerateSidebar"]->getRect().x + _rectangle["framerateSidebar"]->getRect().width - _rect2.width;
+
+        _rect2.x = Clamp(GetMouseX() - _rect2.width / 2, minX, maxX);
+
+        float fpsRange = _maxFps - _minFps;
+        float rectRange = maxX - minX;
+        float fpsIncrement = fpsRange / rectRange;
+        _fps = _minFps + static_cast<int>(fpsIncrement * (_rect2.x - minX));
+
+        SetTargetFPS(_fps);
+    }
+
+
+    if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+        _isVolume = false;
+    }
+
+    if (_isVolume) {
+        float minX = _rectangle["volumeSidebar"]->getRect().x;
+        float maxX = _rectangle["volumeSidebar"]->getRect().x + _rectangle["volumeSidebar"]->getRect().width - _rect.width;
 
         _rect.x = Clamp(GetMouseX() - _rect.width / 2, minX, maxX);
 
@@ -236,7 +239,7 @@ void Zappy::Menu::drawText()
 void Zappy::Menu::drawVolume()
 {
     DrawText("Volume", 860, 200, 70, WHITE);
-    _rectangle["settingSidebar"]->drawRect(1000, 100, {470, 350});
+    _rectangle["volumeSidebar"]->drawRect(1000, 100, {470, 350});
     DrawRectangleRec(_rect, GRAY);
     DrawRectangleLinesEx(_rect, 5, BLACK);
     DrawText("Press [Enter] to go back", 1200, 970, 50, WHITE);
@@ -245,12 +248,9 @@ void Zappy::Menu::drawVolume()
 void Zappy::Menu::drawFramerate()
 {
     DrawText("FPS", 900, 500, 70, WHITE);
-    _rectangle["30_fps"]->drawRect(200, 100, {470, 640});
-    _rectangle["60_fps"]->drawRect(200, 100, {870, 640});
-    _rectangle["90_fps"]->drawRect(200, 100, {1270, 640});
-    DrawText("30", 550, 660, 50, WHITE);
-    DrawText("60", 950, 660, 50, WHITE);
-    DrawText("90", 1350, 660, 50, WHITE);
+    _rectangle["framerateSidebar"]->drawRect(1000, 100, {470, 650});
+    DrawRectangleRec(_rect2, GRAY);
+    DrawRectangleLinesEx(_rect2, 5, BLACK);
 }
 
 void Zappy::Menu::drawSettings()
@@ -291,7 +291,7 @@ void Zappy::Menu::mouseHovering()
 
     if (_settings != true) {
         for (; it != _rectangle.end(); ++it) {
-            if (CheckCollisionPointRec(mousePos, it->second->getRect()) && it->first != "menuLogo" && it->first != "settingSidebar")
+            if (CheckCollisionPointRec(mousePos, it->second->getRect()) && it->first != "menuLogo" && it->first != "volumeSidebar" && it->first != "framerateSidebar")
                 it->second->setTexture(_texture["hoverButton"]);
             else if (it->first == "menuPlayButton" || it->first == "menuSettingsButton" || it->first == "menuQuitButton") {
                 if (it->first != "menuLogo")
