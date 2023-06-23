@@ -67,6 +67,9 @@ namespace Zappy {
             int _fps = 30;
             const int _maxFps = 90;
             const int _minFps = 30;
+
+            int _volumePercentage = 1;
+
     };
 }
 
