@@ -29,8 +29,17 @@ Zappy::Player::Player(std::vector<std::string> &content, std::shared_ptr<Team> t
     _orientation = static_cast<Orientation>(std::stoi(content[3]));
     _rotation = getRotationAngle(_orientation);
     _position = {std::stoi(content[1]), std::stoi(content[2])};
-    _actualPosition = _position;
     _team = team;
+    
+}
+
+void Zappy::Player::setCurrentPosition(float size, std::pair<std::size_t, std::size_t> map)
+{
+    float posX = size * _position.first - (map.first / 2 * size);
+    float posY = size * _position.second - (map.second / 2 * size);
+    float posZ = size;
+    _actualPosition = (Vector3){posX, posZ, posY};
+    _LastPosition = (Vector3){posX, posZ, posY};
 }
 
 Zappy::Player::~Player()
