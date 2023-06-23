@@ -83,6 +83,7 @@ void Zappy::GameData::pnw(std::vector<std::string> &content)
     std::shared_ptr<Team> team = _teams[content[5]];
     std::shared_ptr<Player> player = std::make_shared<Player>(content, team);
     team->addPlayer(std::stoul(content[0]));
+    player->setCurrentPosition(_tileSize, _mapSize);
     _player.insert({std::stoul(content[0]), player});
 }
 
@@ -99,9 +100,12 @@ void Zappy::GameData::ppo(std::vector<std::string> &content)
 
     if (_player.count(id) == 0)
         throw Error("player id don't exist", content[0]);
+    printf("player %ld : [%ld:%ld] -> [%ld:%ld]", id, _player[id]->_position.first, _player[id]->_position.second, newPosition.first, newPosition.second);
+    // std::cout << "player id:" << id << "moved to" << newPosition.first << ":" << newPosition.second << std::endl;
+
+    _player[id]->setCurrentPosition(_tileSize, _mapSize);
     _player[id]->setPosition(newPosition);
     _player[id]->setOrientation(newOrientation);
-    std::cout << "player id:" << id << "moved to" << newPosition.first << ":" << newPosition.second << std::endl;
 }
 
 void Zappy::GameData::plv(std::vector<std::string> &content)
@@ -133,6 +137,7 @@ void Zappy::GameData::pin(std::vector<std::string> &content)
         throw Error("player id don't exist", content[0]);
 
     auto newPosition = std::make_pair(std::stoul(content[1]), std::stoul(content[2]));
+    _player[id]->setCurrentPosition(_tileSize, _mapSize);
     _player[id]->setPosition(newPosition);
     auto split = separateVectorByIndex(content, 2);
     _player[id]->setInventory(split.second);
@@ -184,7 +189,7 @@ void Zappy::GameData::pic(std::vector<std::string> &content)
 void Zappy::GameData::pie(std::vector<std::string> &content)
 {
     std::cout << "pie" << std::endl;
-    std::pair<std::size_t, std::size_t> position = std::make_pair(std::stoul(content[0]), std::stoul(content[1]));
+    // std::pair<std::size_t, std::size_t> position = std::make_pair(std::stoul(content[0]), std::stoul(content[1]));
     if (content.size() != 3)
         throw Error("Error server response PIN args", "Expected: 3, Got: " + std::to_string(content.size()));
     checkInt(content);
@@ -208,7 +213,7 @@ void Zappy::GameData::pfk(std::vector<std::string> &content)
     if (_player.count(id) == 0)
         throw Error("player id don't exist", content[0]);
     _player[id]->setEggLayingAnimation(true);
-    printf("player :%d is laying an egg\n", id);
+    printf("player :%ld is laying an egg\n", id);
 }
 
 void Zappy::GameData::pdr(std::vector<std::string> &content)
@@ -312,26 +317,26 @@ void Zappy::GameData::sgt(std::vector<std::string> &content)
 void Zappy::GameData::sst(std::vector<std::string> &content)
 {
     std::cout << "sst: Time Unit updated:" << content[0] << std::endl;
-    
+    _timeUnit.setTimeUnit(std::stof(content[0]));
 }
 
-void Zappy::GameData::seg(std::vector<std::string> &content)
+void Zappy::GameData::seg([[maybe_unused]] std::vector<std::string> &content)
 {
     std::cout << "seg: end game" << std::endl;
     _end = true;
 }
 
-void Zappy::GameData::smg(std::vector<std::string> &content)
+void Zappy::GameData::smg([[maybe_unused]] std::vector<std::string> &content)
 {
     std::cout << "smg:"<< content[0] << std::endl;
 }
 
-void Zappy::GameData::suc(std::vector<std::string> &content)
+void Zappy::GameData::suc([[maybe_unused]] std::vector<std::string> &content)
 {
     std::cout << "suc: unknow command" << std::endl;
 }
 
-void Zappy::GameData::sbp(std::vector<std::string> &content)
+void Zappy::GameData::sbp([[maybe_unused]] std::vector<std::string> &content)
 {
     std::cout << "sbp" << std::endl;
 }

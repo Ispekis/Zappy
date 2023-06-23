@@ -35,6 +35,7 @@ void Zappy::DrawMap::setTexture()
     _texture.insert({"water", raylib::Texture("src/gui/assets/water_flow.png")});
     _texture.insert({"dirt", raylib::Texture("src/gui/assets/dirt.png")});
     _texture.insert({"clearbackground", raylib::Texture("src/gui/assets/clearbackground.png")});
+    _shader.insert({"waterWave", LoadShader(0, TextFormat("src/gui/assets/shaders/wave.fs"))});
 
     _texture.insert({"Thystame", raylib::Texture("src/gui/assets/items/texture/nether_star.png")});
     _texture.insert({"Phiras", raylib::Texture("src/gui/assets/items/texture/emerald.png")});
@@ -44,7 +45,6 @@ void Zappy::DrawMap::setTexture()
     _texture.insert({"Linemate", raylib::Texture("src/gui/assets/items/texture/coal.png")});
     _texture.insert({"Food", raylib::Texture("src/gui/assets/items/texture/carrot.png")});
 
-    _shader.insert({"waterWave", LoadShader(0, TextFormat("src/gui/assets/shaders/wave.fs"))});
 }
 
 void Zappy::DrawMap::setCube()
@@ -68,30 +68,34 @@ void Zappy::DrawMap::drawMap()
 {
     auto size = _data->_gameData._tileSize;
     auto mapSize = _data->_gameData._mapSize;
+
+    // _cube["grass"].drawBlockTexture((Vector3){0, 0, 75}, (Vector3){50.0,  50.0, 50.0}, BLUE);
+    // _cube["grass"].drawBlockTexture((Vector3){75, 0, 0}, (Vector3) {50.0,  50.0, 50.0}, WHITE);
+    // _cube["grass"].drawBlockTexture((Vector3){-75, 0, 0}, (Vector3) {50.0, 50.0, 50.0}, RED);
+    // _cube["grass"].drawBlockTexture((Vector3){0, 0, -75}, (Vector3) {50.0, 50.0, 50.0}, BLACK);
+
     for (std::size_t x = 0; x != mapSize.first; x++)
         for (std::size_t y = 0; y != mapSize.second; y++) {
             drawTile(x, y, mapSize);
         }
     _cube["water"].drawWaterTexture((Vector3){0, 0.9, 0}, (Vector3){size * 20, size / 0.9f, size * 20}, GRAY);
-
 }
 
 void Zappy::DrawMap::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
 {
-    RayCollision collision;
-    Ray ray;
-
     float size = _data->_gameData._tileSize;
     int midX = map.first / 2;
     int midY = map.second / 2;
-    float posX = size * x - (midX * size);
-    float posY = size * y - (midY * size);
+    float posX = (size * x - (midX * size));
+    float posY = -(size * y - (midY * size));
+
     float posZ = size / 2;
 
     int ret = tilehover(posX, posY, posZ, size);
     tileSelection(x, y, ret);
     _cube["grass"].drawBlockTexture((Vector3){posX, posZ, posY}, (Vector3){size, size, size}, WHITE);
     _items.drawItems((Vector3){posX, posY, posZ}, size, _data->_gameData._map[x][y].getRessources());
+
 }
 
 void Zappy::DrawMap::drawSelectedTile()
@@ -103,7 +107,7 @@ void Zappy::DrawMap::drawSelectedTile()
     int midX = map.first / 2;
     int midY = map.second / 2;
     float posX = size * _lastTile.first - (midX * size);
-    float posY = size * _lastTile.second - (midY * size);
+    float posY = -(size * _lastTile.second - (midY * size));
     float posZ = size / 2;
     if (_data->_gameData._map[_lastTile.first][_lastTile.second]._selected == true)
         DrawCubeWiresV((Vector3){posX, posZ + size / 2 + 1, posY}, (Vector3){size,  2, size}, GREEN);
@@ -115,8 +119,8 @@ void Zappy::DrawMap::drawBlockInformation()
         return;
     int rectWidth = 350;
     int rectHeight = 113;
-    int x = _windowSize.first / 2 - rectWidth / 2;
-    int y = _windowSize.second  - rectHeight - 113;
+    float x = _windowSize.first / 2 - rectWidth / 2;
+    float y = _windowSize.second  - rectHeight - 113;
     
     DrawRectangle(x, y, rectWidth, rectHeight, Fade(SKYBLUE, 0.5f));
     DrawRectangleLines( x, y, rectWidth, rectHeight, BLACK);
@@ -131,6 +135,11 @@ void Zappy::DrawMap::drawBlockInformation()
         DrawTextureEx(_texture[ressource[i]], (Vector2){x, y}, 0.0, 2.5, WHITE);
         x += 45;
     }
+    std::string lol;
+    lol.append(std::to_string(_lastTile.first).c_str());
+    lol.append(":");
+    lol.append(std::to_string(_lastTile.second).c_str());
+    DrawText(lol.c_str(), x + 12 + 10, y + 40, 30, WHITE);
 }
 
 void Zappy::DrawMap::tileSelection(std::size_t x, std::size_t y, int ret)

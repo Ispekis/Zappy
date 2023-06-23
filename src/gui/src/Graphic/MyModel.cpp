@@ -24,10 +24,27 @@ void Zappy::MyModel::draw(Vector3 pose, float orientation, std::size_t size)
     _model.Draw(pose, (Vector3){0, 1, 0}, orientation, scale, WHITE);
 }
 
+void Zappy::MyModel::moveAnimation(int i, int frame)
+{
+    UpdateModelAnimation(_model, _animation[i], _animFrameCounter);
+    _animFrameCounter += frame;
+
+    if (_animFrameCounter >= _animation[i].frameCount) {
+        UpdateModelAnimation(_model, _animation[i], _animation[i].frameCount);
+        _animFrameCounter = 0;
+    }
+}
+
 void Zappy::MyModel::moveAnimation(int i)
 {
     UpdateModelAnimation(_model, _animation[i], _animFrameCounter);
     _animFrameCounter += 3;
 	if (_animFrameCounter >= _animation[i].frameCount)
         _animFrameCounter = 0;
+}
+
+void Zappy::MyModel::moveAnimationToStart(int i)
+{
+    UpdateModelAnimation(_model, _animation[i], 0);
+    _animFrameCounter = 0;
 }
