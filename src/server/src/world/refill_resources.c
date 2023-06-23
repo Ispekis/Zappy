@@ -22,12 +22,26 @@ void check_resources_on_tiles(data_t *data, inventory_t *inv)
     }
 }
 
+static int nb_ai_player(node_t *head)
+{
+    node_t *current = head;
+    int res = 0;
+
+    while (current != NULL) {
+        if (is_ai_player(current->client))
+            res++;
+        current = current->next;
+    }
+    return res;
+}
+
 inventory_t get_resources_on_map(data_t *data)
 {
     inventory_t resources;
+    int nb = nb_ai_player(data->clients);
 
     resources = data->max_res;
-    resources.food.quantity = 5;
+    resources.food.quantity = 5 * nb;
     check_resources_on_tiles(data, &resources);
     set_rand_resource_in_tiles(data, resources);
 }
