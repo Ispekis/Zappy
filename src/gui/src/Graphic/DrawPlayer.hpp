@@ -27,7 +27,7 @@ namespace Zappy {
 
             void setModel();
 
-            void draw();
+            void draw(raylib::Camera &camera);
 
             void drawTeamText(Vector3 pos, std::shared_ptr<Player> player, float size, std::string team);
 
@@ -47,6 +47,7 @@ namespace Zappy {
             std::shared_ptr<Data> _data;
             std::map<std::size_t, std::shared_ptr<MyModel>> _model;
             DrawText3d _drawText3d;
+            bool _playerSelected = false;
     };
 
 } // namespace Zappy
