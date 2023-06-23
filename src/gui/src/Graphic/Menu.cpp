@@ -247,6 +247,7 @@ void Zappy::Menu::drawVolume()
     DrawRectangleRec(_rect, GRAY);
     DrawRectangleLinesEx(_rect, 5, BLACK);
     DrawText(volumeText.c_str(), 947, 370, 50, WHITE);
+    DrawText("Press [Enter] to go back", 1200, 970, 50, WHITE);
 }
 
 void Zappy::Menu::drawFramerate()
