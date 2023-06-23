@@ -243,6 +243,15 @@ char **str_to_word_array(char *buffer, char *sep);
  */
 void my_strcat(char **dest, char *src);
 
+/**
+ * @brief Check if there's an egg on the tile and remove it from the linked
+ * list
+ *
+ * @param client
+ * @param data
+ */
+void eject_break_egg(client_t *client, data_t *data);
+
 //** Init **//
 
 /**

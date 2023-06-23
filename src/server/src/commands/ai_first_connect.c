@@ -17,6 +17,7 @@ static void connect_player(node_t *client, data_t data)
     client->client.inventory.food.quantity = 10;
     client->client.orientation = rand_nbr(1, NUMBER_OF_ORIENTATION);
     client->client.level = 1;
+    dprintf(client->client.fd, "without egg\n");
 }
 
 static void connect_player_to_egg(node_t *client, data_t data, pos_t egg_pos)
@@ -26,6 +27,7 @@ static void connect_player_to_egg(node_t *client, data_t data, pos_t egg_pos)
     client->client.inventory.food.quantity = 10;
     client->client.orientation = rand_nbr(1, NUMBER_OF_ORIENTATION);
     client->client.level = 1;
+    dprintf(client->client.fd, "with egg\n");
 }
 
 static void check_availability(char *buffer, node_t *client, data_t *data)

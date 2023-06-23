@@ -58,6 +58,7 @@ char **params __attribute__((unused)))
     }
     current = data->clients;
     fmt_player_expulsion(data->graphic_fd, client->client);
+    eject_break_egg(client, data);
     while (current != NULL) {
         if (is_ai_player(current->client)
         && current->client.fd != client->client.fd) {

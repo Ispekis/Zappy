@@ -76,7 +76,8 @@ SRC	=	$(addprefix src/, \
 		ai_look.c								\
 		ai_look_orien.c							\
 		ai_broadcast_traj.c						\
-		ai_movement.c							))
+		ai_movement.c							\
+		ai_eject.c								))
 
 MAIN_SRC	=	src/main.c
 
