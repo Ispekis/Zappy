@@ -19,6 +19,30 @@ static void connect_player(node_t *client, data_t data)
     client->client.level = 1;
 }
 
+static void connect_player_to_egg(node_t *client, data_t data, pos_t egg_pos)
+{
+    client->client.is_conn = true;
+    client->client.pos = egg_pos;
+    client->client.inventory.food.quantity = 10;
+    client->client.orientation = rand_nbr(1, NUMBER_OF_ORIENTATION);
+    client->client.level = 1;
+}
+
+static void check_availability(char *buffer, node_t *client, data_t *data)
+{
+    node_t *current = data->egg;
+
+    while (current != NULL) {
+        if (strcmp(current->egg.team->name, buffer) == 0) {
+            connect_player_to_egg(client, *data, current->egg.pos);
+            remove_egg_node(&data->egg, current->egg.id);
+            return;
+        }
+        current = current->next;
+    }
+    connect_player(client, *data);
+}
+
 static team_t *add_player_to_team(char *name, int fd, data_t *data)
 {
     char buffer[1024];
@@ -43,7 +67,7 @@ int do_ai_first_connect(char *buffer, node_t *client, data_t *data)
     team_t *team = add_player_to_team(buffer, client->client.fd, data);
     if (team != NULL) {
         client->client.team = team;
-        connect_player(client, *data);
+        check_availability(buffer, client, data);
         if (data->graphic_fd != UNDEFINED) {
             fmt_conn_new_player(data->graphic_fd, client->client);
         }

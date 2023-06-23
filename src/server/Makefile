@@ -24,7 +24,8 @@ SRC	=	$(addprefix src/, \
 \
 		$(addprefix linked_list_utils/,    		\
 		client_linked_list.c					\
-		add_client_list.c						)\
+		add_client_list.c						\
+		egg_linked_list.c						)\
 \
 		$(addprefix init/,    					\
 		init_server.c							\

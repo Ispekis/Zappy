@@ -290,9 +290,12 @@ void read_from_client(server_t *server, node_t *client);
 
 // Linked list utils
 node_t *add_client_node(node_t **head);
+node_t *add_egg_node(node_t **head);
 void print_client_list(node_t *head);
 void remove_client_node(node_t **head, int fd);
 node_t *get_client_node(node_t **head, int fd);
+int get_linked_list_length(node_t *node);
+void remove_egg_node(node_t **head, int id);
 
 // Set options
 int set_number_arg(int *opt);
