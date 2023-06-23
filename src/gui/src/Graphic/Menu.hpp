@@ -33,7 +33,6 @@ namespace Zappy {
             void settingsEvent();
             void settingsButtonEvent();
             void volumeEvent(std::string);
-            void framerateEvent(std::string);
 
             void draw();
             void drawText();
@@ -43,9 +42,6 @@ namespace Zappy {
             void drawSettings();
             void drawVolume();
             void drawFramerate();
-
-            void playSound();
-            void playMusic();
 
             void mouseHovering();
             void mouseClicking();

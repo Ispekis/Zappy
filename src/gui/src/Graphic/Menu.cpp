@@ -123,26 +123,6 @@ void Zappy::Menu::volumeEvent(std::string volume)
     SetMusicVolume(_music, _volume);
 }
 
-void Zappy::Menu::framerateEvent(std::string framerate)
-{
-    if (framerate == "30_fps") {
-        _data->_gameData._timeUnit.setFps(30);
-        SetTargetFPS(30);
-    }
-    if (framerate == "60_fps") {
-        _data->_gameData._timeUnit.setFps(60);
-        SetTargetFPS(60);
-    }
-    if (framerate == "90_fps") {
-        _data->_gameData._timeUnit.setFps(90);
-        SetTargetFPS(90);
-    }
-}
-
-float MapValue(float value, float inputMin, float inputMax, float outputMin, float outputMax) {
-    return ((value - inputMin) / (inputMax - inputMin)) * (outputMax - outputMin) + outputMin;
-}
-
 void Zappy::Menu::settingsButtonEvent()
 {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
