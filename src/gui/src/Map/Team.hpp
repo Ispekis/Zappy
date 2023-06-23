@@ -11,6 +11,8 @@
     #include <iostream>
     #include <memory>
     #include <vector>
+    #include <cstdlib> // for rand and srand functions
+    #include <ctime> // for time function
 
 namespace Zappy {
     class Team {
@@ -22,9 +24,14 @@ namespace Zappy {
 
             void deletePlayer(std::size_t);
 
+            std::string getName() const;
+
+            int getId() const;
+
         protected:
         private:
             std::string _name;
+            int _id;
             std::vector<std::size_t> _playerList;
     };
 }

@@ -15,6 +15,7 @@
 
     #include "IRessource.hpp"
     #include "Team.hpp"
+    #include "raylib.h"
 
 namespace Zappy {
     enum Orientation
@@ -24,7 +25,10 @@ namespace Zappy {
         S,
         W
     };
-
+    struct eggLaying_t {
+        bool state;
+        int loading;
+    };
     class Player
     {
     public:
@@ -106,11 +110,23 @@ namespace Zappy {
         void setIncantation(bool);
 
         void setDropAnimation(bool);
+
         void setPickAnimation(bool);
+
+        void setEjectAnimation(bool);
+
+        void setEggLayingAnimation(bool);
+
+        void setCurrentPosition(float tileSize, std::pair<std::size_t, std::size_t> map);
+
+        float _rotation;
+        std::pair<std::size_t, std::size_t> _position;
+        // std::pair<std::size_t, std::size_t> _actualPosition;
+        Vector3 _actualPosition;
+        Vector3 _LastPosition;
 
     protected:
     private:
-        std::pair<std::size_t, std::size_t> _position;
         std::unordered_map<std::string, std::size_t> _inventory;
         Orientation _orientation;
         std::shared_ptr<Team> _team;
@@ -119,8 +135,10 @@ namespace Zappy {
         // std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
         bool _incantation;
 
-        bool _drop;
-        bool _pick;
+        bool _drop = false;
+        bool _pick = false;
+        bool _eject = false;
+        eggLaying_t _egglaying = {false, 0};
     };
 }
 

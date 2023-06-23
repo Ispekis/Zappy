@@ -28,9 +28,24 @@ namespace Zappy {
              */
             void setTimeUnit(int);
 
+            /**
+             * @brief Set the Fps 
+             * 
+             * @param fps 
+             */
+            void setFps(float fps);
+
+            float getFps() const;
+
+            float getSecondPerFrame() const;
+
+            float getActionTime(float action);
+
         protected:
         private:
             int _timeUnit;
+            float _secondPerFrame;
+            float _fps;
     };
 }
 

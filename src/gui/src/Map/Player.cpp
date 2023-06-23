@@ -7,14 +7,38 @@
 
 #include "Player.hpp"
 
+static float getRotationAngle(Zappy::Orientation orientation)
+{
+    if (orientation == 1)
+        return -180;
+    if (orientation == 2)
+        return -270;
+    if (orientation == 3)
+        return 0;
+    if (orientation == 4)
+        return -90;
+    return 0;
+}
+
 Zappy::Player::Player(std::vector<std::string> &content, std::shared_ptr<Team> team)
 {
     _id = std::stoi(content[0]);
     _incantation = false;
     _level = std::stoi(content[4]);
     _orientation = static_cast<Orientation>(std::stoi(content[3]));
+    std::cout << "player orientation:" <<content[3] << std::endl;
+    _rotation = getRotationAngle(_orientation);
     _position = {std::stoi(content[1]), std::stoi(content[2])};
     _team = team;
+}
+
+void Zappy::Player::setCurrentPosition(float size, std::pair<std::size_t, std::size_t> map)
+{
+    float posX = size * _position.first - (map.first / 2 * size);
+    float posY = -(size * _position.second - (map.second / 2 * size));
+    float posZ = size;
+    _actualPosition = (Vector3){posX, posZ, posY};
+    _LastPosition = (Vector3){posX, posZ, posY};
 }
 
 Zappy::Player::~Player()
@@ -65,6 +89,8 @@ void Zappy::Player::setInventory(std::vector<std::string> newInventory)
 
 void Zappy::Player::setOrientation(Orientation newOrientation)
 {
+    std::cout << "orientation :" << _orientation << " -> " << newOrientation << std::endl;
+
     _orientation = newOrientation;
 }
 
@@ -86,4 +112,15 @@ void Zappy::Player::setDropAnimation(bool state)
 void Zappy::Player::setPickAnimation(bool state)
 {
     _pick = state;
+}
+
+void Zappy::Player::setEjectAnimation(bool state)
+{
+    _eject = state;
+}
+
+void Zappy::Player::setEggLayingAnimation(bool state)
+{
+    _egglaying.loading = 0;
+    _egglaying.state = state;
 }

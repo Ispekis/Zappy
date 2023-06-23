@@ -12,6 +12,14 @@ Zappy::Raylib::Raylib(std::string title) : _window(GetMonitorWidth(0), GetMonito
     _window.SetTargetFPS(60);
 }
 
+static void handleMapTiles(float *size)
+{
+    if (*size <= 3)
+        *size = 3;
+    if (*size >= 20)
+        *size = 20;
+}
+
 void Zappy::Raylib::setData(std::shared_ptr<Data> data)
 {
     std::shared_ptr<Data> tmp(data, data.get());
@@ -22,7 +30,7 @@ void Zappy::Raylib::setData(std::shared_ptr<Data> data)
 
 void Zappy::Raylib::run()
 {
-    while (_exitWindow != true && _data->_gameData._end != true) {
+    while (_exitWindow == false) {
         event();
         draw();
     }
@@ -35,6 +43,12 @@ void Zappy::Raylib::event()
         _data->_gameData._menu = !_data->_gameData._menu;
     if (IsKeyPressed(KEY_ESCAPE))
         _exitWindow = true;
+    if (IsKeyPressed(KEY_G))
+        _data->_gameData._tileSize++;
+    if (IsKeyPressed(KEY_H))
+        _data->_gameData._tileSize--;
+    handleMapTiles(&_data->_gameData._tileSize);
+        
 }
 
 void Zappy::Raylib::draw()

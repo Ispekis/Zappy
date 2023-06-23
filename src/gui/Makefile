@@ -23,6 +23,7 @@ MAP =	$(addprefix src/Map/,			\
 			Player.cpp					\
 			BroadCast.cpp					\
 			Incantation.cpp					\
+			Egg.cpp					\
 			Team.cpp					\
 			TimeUnit.cpp 				\
 			Tile.cpp					\
@@ -32,9 +33,15 @@ GRAPHIC =	$(addprefix src/Graphic/,		\
 				Cube.cpp			\
 				Shaders.cpp			\
 				Raylib.cpp			\
+				DrawMap.cpp			\
+				DrawItems.cpp		\
+				DrawEggs.cpp 		\
+				DrawPlayer.cpp 		\
+				MyModel.cpp 		\
 				Gameplay.cpp		\
 				Menu.cpp		\
-				Rectangle.cpp		)
+				Rectangle.cpp		\
+				DrawText3d.cpp)
 
 SRC	=	$(addprefix src/,				\
 			Parser.cpp					\

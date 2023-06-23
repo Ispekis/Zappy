@@ -13,6 +13,7 @@
     #include "raylib-cpp.hpp"
     #include "Data.hpp"
     #include "Cube.hpp"
+    #include "DrawMap.hpp"
 
 namespace Zappy {
     class Gameplay {
@@ -52,9 +53,10 @@ namespace Zappy {
             std::map<std::string, raylib::Model> _model;
 
             std::shared_ptr<Data> _data;
+
+            DrawMap _worldMap;
             bool _cameraMove;
             int _cameraMode;
-            bool _animated;
             float _rotation = 0;
             float _itemBounce = 0;
             bool _ret = false;
