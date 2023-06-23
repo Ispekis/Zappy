@@ -47,8 +47,8 @@ void Zappy::Raylib::event()
         _data->_gameData._tileSize++;
     if (IsKeyPressed(KEY_H))
         _data->_gameData._tileSize--;
+    // if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     handleMapTiles(&_data->_gameData._tileSize);
-        
 }
 
 void Zappy::Raylib::draw()
