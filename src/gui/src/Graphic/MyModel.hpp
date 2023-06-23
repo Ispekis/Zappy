@@ -18,11 +18,16 @@ namespace Zappy
 {
     enum Animation
     {
-        eject = 0,
-        move,
-        pick,
+        laying_egg = 0,
         drop,
+        eject,
+        incancation,
+        marche,
+        victory_danse1,
+        ramassage,
+        victory_danse2,
     };
+
     class MyModel
     {
     public:
@@ -31,7 +36,11 @@ namespace Zappy
 
         void draw(Vector3 pose, float, std::size_t);
 
+        void moveAnimation(int i, int frame);
+
         void moveAnimation(int i);
+
+        void moveAnimationToStart(int i);
 
     protected:
     private:
