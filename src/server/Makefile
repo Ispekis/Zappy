@@ -16,6 +16,8 @@ SRC	=	$(addprefix src/, \
 		client_management.c						\
 		read_client.c							\
 		buffer_management.c						\
+		exec_cmd.c								\
+		world_clock.c							\
 \
 		$(addprefix option/,    				\
 		get_options.c							\
@@ -40,6 +42,7 @@ SRC	=	$(addprefix src/, \
 		$(addprefix utils/,    					\
 		map_utils.c								\
 		my_strcat.c								\
+		convertion.c							\
 		player_utils.c							)\
 \
 		$(addprefix gui_protocol/,    			\
@@ -64,7 +67,10 @@ SRC	=	$(addprefix src/, \
 		ai_action.c								\
 		ai_info.c								\
 		ai_interact.c							\
+		ai_incantation.c						\
 		ai_look.c								\
+		ai_look_orien.c							\
+		ai_broadcast_traj.c						\
 		ai_movement.c							))
 
 MAIN_SRC	=	src/main.c
@@ -83,7 +89,7 @@ CPPFLAGS	=	-I./include
 
 CFLAGS	=	-Wall -Wextra
 
-LDFLAGS	=	-luuid
+LDFLAGS	=	-luuid -lm
 
 all: $(NAME)
 

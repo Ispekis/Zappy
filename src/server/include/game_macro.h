@@ -31,5 +31,17 @@
     #define PHIRAS_NAME "phiras"
     #define THYSTAME_NAME "thystame"
     #define MAX_LEVEL 8
+    #define COOLDOWN_FORWARD 7
+    #define COOLDOWN_RIGHT 7
+    #define COOLDOWN_LEFT 7
+    #define COOLDOWN_LOOK 7
+    #define COOLDOWN_INVENTORY 1
+    #define COOLDOWN_BROADCAST 7
+    #define COOLDOWN_FORK 42
+    #define COOLDOWN_EJECT 7
+    #define COOLDOWN_TAKE 7
+    #define COOLDOWN_SET 7
+    #define COOLDOWN_INCANTATION 300
+    #define FOOD_LIVE_TIME 126
 
 #endif /* !ZAPPY_MACRO_H_ */

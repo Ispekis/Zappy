@@ -13,6 +13,7 @@
     #include <arpa/inet.h>
     #define TOTAL_GUI_CMD 9
     #define TOTAL_AI_CMD 12
+    #define MAX_CMD_REQUESTS 10
 
 enum orientation_e {
     NORTH = 1,
@@ -50,6 +51,11 @@ typedef struct inventory_s {
     resource_t thystame;
 } inventory_t;
 
+typedef struct commands_s {
+    int id;
+    char **params;
+} commands_t;
+
 /**
  * @brief Teams structure
  *
@@ -60,7 +66,22 @@ typedef struct team_s {
 } team_t;
 
 typedef struct client_s {
+    /**
+     * @brief File descriptor of a player
+     *
+     */
     int fd;
+
+    /**
+     * @brief The timerfd of a player
+     *
+     */
+    int tfd;
+    /**
+     * @brief Timer spec of the player
+     *
+     */
+    struct itimerspec timer_spec;
     bool is_conn;
     bool is_graphic;
     pos_t pos;
@@ -68,6 +89,10 @@ typedef struct client_s {
     int level;
     inventory_t inventory;
     team_t *team;
+    bool is_ready;
+    bool is_elevating;
+    commands_t commands[MAX_CMD_REQUESTS];
+    int nb_await_cmd;
 } client_t;
 
 /**
@@ -110,7 +135,13 @@ typedef struct sock_addrs_s {
     fd_set rfds;
 } sock_addrs_t;
 
+typedef struct timer_clock_s {
+    int tfd;
+    struct itimerspec timer_spec;
+} timer_clock_t;
+
 typedef struct data_s {
+    timer_clock_t w_clock;
     node_t *clients;
     team_t *teams;
     int nb_teams;

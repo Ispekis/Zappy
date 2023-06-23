@@ -9,7 +9,7 @@
 #include "game_macro.h"
 #include "macro.h"
 
-static void disconnect_player(data_t *data, node_t *client)
+void disconnect_player(data_t *data, node_t *client)
 {
     printf("client %i has disconnected\n", client->client.fd);
     if (client->client.team != NULL) {

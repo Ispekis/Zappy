@@ -24,7 +24,7 @@ void ai_cmd_take_object(node_t *client, data_t *data, char **params)
         if ((tile_res != NULL && inv_res != NULL) && tile_res->quantity > 0) {
             tile_res->quantity--;
             inv_res->quantity++;
-            dprintf(client->client.fd, "ok\n");
+            send_res_cd(client, COOLDOWN_TAKE, data->freq);
         } else {
             dprintf(client->client.fd, "ko\n");
         }
@@ -48,7 +48,7 @@ void ai_cmd_set_object(node_t *client, data_t *data, char **params)
         if (tile_res != NULL && inv_res != NULL && inv_res->quantity > 0) {
             inv_res->quantity--;
             tile_res->quantity++;
-            dprintf(client->client.fd, "ok\n");
+            send_res_cd(client, COOLDOWN_SET, data->freq);
         } else {
             dprintf(client->client.fd, "ko\n");
         }
@@ -58,5 +58,13 @@ void ai_cmd_set_object(node_t *client, data_t *data, char **params)
 void ai_cmd_incantation(node_t *client, data_t *data,
 char **params __attribute__((unused)))
 {
-
+    if (can_elevate(client, data->map)
+    && client->client.level < MAX_LEVEL) {
+        dprintf(client->client.fd, "Elevation underway\n");
+        set_cooldown_in_nanosec(client,
+        sec_to_nanosec(((double) 7 / (double) data->freq)));
+        client->client.is_elevating = true;
+    } else {
+        dprintf(client->client.fd, "ko\n");
+    }
 }

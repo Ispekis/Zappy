@@ -7,6 +7,7 @@
 
 #include "server.h"
 #include "macro.h"
+#include "game_macro.h"
 
 void ai_cmd_inventory(node_t *client, data_t *data,
 char **params __attribute__((unused)))
@@ -17,16 +18,22 @@ char **params __attribute__((unused)))
 sibur %i, mendiane %i, phiras %i, thystame %i ]\n", inv.food.quantity,
     inv.linemate.quantity, inv.deraumere.quantity, inv.sibur.quantity,
     inv.mendiane.quantity, inv.phiras.quantity, inv.thystame.quantity);
+    set_cooldown_in_nanosec(client,
+    sec_to_nanosec(((double) COOLDOWN_INVENTORY / (double) data->freq)));
 }
 
-static void send_all_client(node_t *head, int current_fd, char *msg)
+static void send_all_client(data_t *data, pos_t pos_src, int current_fd,
+char *msg)
 {
-    node_t *current = head;
+    node_t *current = data->clients;
 
     while (current != NULL) {
         if (current->client.is_conn && !current->client.is_graphic
         && current->client.fd != current_fd) {
-            dprintf(current->client.fd, "message %i, %s\n", 0, msg);
+            dprintf(current->client.fd, "message %i, %s\n",
+            get_sound_trajectory(pos_src, current->client.pos,
+            current->client.orientation, (pos_t) {data->width, data->height}),
+            msg);
         }
         current = current->next;
     }
@@ -39,7 +46,9 @@ void ai_cmd_broadcast(node_t *client, data_t *data, char **params)
     } else {
         if (data->graphic_fd != UNDEFINED)
             fmt_player_broadcast(data->graphic_fd, client->client, params[0]);
-        send_all_client(data->clients, client->client.fd, params[0]);
+        send_all_client(data, client->client.pos, client->client.fd, params[0]);
         dprintf(client->client.fd, "ok\n");
+        set_cooldown_in_nanosec(client,
+        sec_to_nanosec(((double) COOLDOWN_BROADCAST / (double) data->freq)));
     }
 }
