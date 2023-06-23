@@ -36,9 +36,9 @@ def count_player(player_tile:list) -> int:
 
 
 def check_dict(obj_dict: dict, inventory: dict):
+    # refaire cette fonction avec des int a la place des str en key, j'ai deja remplacer dans le json
     key_list = list(obj_dict.keys())
     for key in key_list:
-        print(type(key))
         if obj_dict[key] != inventory[key]:
             return False
     return True
@@ -58,3 +58,9 @@ def comp_obj(obj_list: dict, inventory: dict) -> bool:
     if check_dict(tmp, inventory):
         return True
     return False
+
+def crypt(key:str, message:str) -> str:
+    crypt_msg:str = ""
+    for i in range(len(message)):
+        crypt_msg += chr(ord(message[i]) ^ ord(key[i % len(key)]))
+    return crypt_msg

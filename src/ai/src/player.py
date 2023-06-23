@@ -54,7 +54,6 @@ class Player:
             str: The stone with the highest rarity and quantity
         """
         res = {item: 0 for item in items_list}
-        print(f"sight = {self.sight}")
         for item in items_list:
             for i in self.sight:
                 for j in i:
@@ -87,7 +86,6 @@ def check_density(my_dict: dict) -> str:
     freq = [2, 3, 4, 4, 5, 9, 20]
     key_list = list(reversed(my_dict.keys()))
 
-    print(f"key list = {key_list}")
     # for i in range(len(freq)):
         # if my_dict[key_list[i]] >= freq[i]:
             # return key_list[i]

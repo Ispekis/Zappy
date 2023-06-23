@@ -16,25 +16,23 @@ RIGHT = "Right"
 
 ASK = 0
 RESPONSE = 1
-SIGNAL = 2
 LVL = "level"
-PLAYER = "player"
-FOOD = "food"
-LINEMATE = "linemate"
-DERAUMERE = "deraumere"
-SIBUR = "sibur"
-MENDIANE = "mendiane"
-PHIRAS = "phiras"
-THYSTAME = "thystame"
+PLAYER = 0
+FOOD = 1
+LINEMATE = 2
+DERAUMERE = 3
+SIBUR = 4
+MENDIANE = 5
+PHIRAS = 6
+THYSTAME = 7
 
 # Macro for the different attitude of the player
 
 NORMAL = 0
 ATTACK = 1
 REACH_INCANTATION = 2
-REACH_SIGNAL = 3
-GIVE_STONE = 4
-STEAL_STONE = 5
-INCANTATION = 6
+GIVE_STONE = 3
+STEAL_STONE = 4
+INCANTATION = 5
 
 items_list = ["food", "linemate", "deraumere", "sibur", "mendiane", "phiras", "thystame"]

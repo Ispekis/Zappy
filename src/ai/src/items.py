@@ -44,5 +44,5 @@ class Items:
         self.client_socket.send(("Set " + itemToSet + "\n").encode())
         objectives.append(itemToSet)
         return_value = self.client_socket.recv(1024).decode()
-        print(return_value)
+        print(f"set = {return_value}")
         return return_value

@@ -80,7 +80,8 @@ class AI:
             self.move.handleMovement(self.player.sight, self.player.needList)
             push(self.player, self.client_socket)
             self.reproduction()
-        # broadcast(self.player, self.client_socket)
+            broadcast(self.player, self.client_socket)
+
 
     def run_ai(self) -> int:
         """
@@ -93,6 +94,7 @@ class AI:
             while True:
                 self.rcvServerResponse()
                 self.playerAction()
+                analyse_broadcast(self.player, self.client_socket)
         except KeyboardInterrupt:
             return SUCCESS
         except BrokenPipeError:

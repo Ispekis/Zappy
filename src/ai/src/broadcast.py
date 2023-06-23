@@ -1,5 +1,5 @@
 from macro import *
-from utils import comp_obj
+from utils import comp_obj, crypt
 from player import Player
 import socket
 
@@ -16,29 +16,36 @@ def ask(team:str, type:int, value:str=None, level:int=0) -> str:
     Returns:
         str: Message for the broadcast
     """
-    if type == SIGNAL:
-        return "{} {}\n".format(team, type)
-    elif level == 0:
+    if level == 0:
         # ask stone
-        return "{} {} {} {}\n".format(team, type, value)
+        return "{} {} {}".format(team, type, value)
     elif level != 0:
         # ask player with a same level
-        return "{} {} {} {} {}\n".format(team, type, value, level)
+        return "{} {} {} {}".format(team, type, value, level)
     else:
         # ask food
-        return "{} {} {}\n".format(team, type, value)
+        return "{} {} {}".format(team, type, value)
 
 def broadcast(player:Player, client_socket:socket) -> None:
-    signal_value = player.analyse_sight()
-    if signal_value != None and player.ask == False:
-        client_socket.send(f"Broadcast {ask(player.team, SIGNAL, signal_value)}")
-        player.ask = True
-    elif player.check_necessity() == True and player.ask == False:
-        client_socket.send(f"Broadcast {ask(player.team, ASK, player.item_needed[0], len(player.item_needed))}")
-        player.ask = True
-    elif comp_obj(player.obj_list, player.sight[0]) and player.ask == False:
-        client_socket.send(f"Broadcast {ask(player.team, ASK, PLAYER, player.level)}")
-        player.ask = True
+    """Créate the broadcast message
 
-# def analyse_broadcast(broadcast:str, player:Player) -> int:
-    # if 
+    Args:
+        player (Player): player info
+        client_socket (socket): client socket
+    """
+    message:str = None
+    if player.check_necessity() == True and player.ask == False:
+        message = ask(player.team, ASK, player.item_needed[0])
+    elif comp_obj(player.obj_list, player.sight[0]) and player.ask == False:
+        message = ask(player.team, ASK, PLAYER, player.level)
+    if message != None:
+        print("Broadcast")
+        client_socket.send(("Broadcast " + crypt(message, player.team) + "\n").encode())
+        res = client_socket.recv(1024).decode()
+        print(f"broadcast = {res}")
+        if res != "ok\n":
+            player.ask = True
+
+def analyse_broadcast(player:Player, client_socket:socket) -> str:
+    broadcast = client_socket.recv(1024).decode()
+    print(crypt(broadcast, player.team))
