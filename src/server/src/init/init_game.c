@@ -34,6 +34,7 @@ int init_game(data_t *data, info_t info)
     data->width = info.width;
     data->height = info.height;
     data->graphic_fd = UNDEFINED;
+    data->egg = NULL;
     if (init_map(info.width, info.height, data) == FAILURE)
         return FAILURE;
     if (init_world_clock(data, data->freq) == FAILURE)
