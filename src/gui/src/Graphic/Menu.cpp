@@ -167,6 +167,7 @@ void Zappy::Menu::settingsButtonEvent()
         float rectRange = maxX - minX;
         float volumeIncrement = volumeRange / rectRange;
         _volume = volumeIncrement * (_rect.x - minX);
+        _volumePercentage = static_cast<int>(_volume * 100);
         SetMusicVolume(_music, _volume);
     }
 }
@@ -220,8 +221,10 @@ void Zappy::Menu::drawVolume()
 {
     DrawText("Volume", 860, 200, 70, WHITE);
     _rectangle["volumeSidebar"]->drawRect(1000, 100, {470, 350});
+    std::string volumeText = std::to_string(_volumePercentage) + "%";
     DrawRectangleRec(_rect, GRAY);
     DrawRectangleLinesEx(_rect, 5, BLACK);
+    DrawText(volumeText.c_str(), 947, 370, 50, WHITE);
     DrawText("Press [Enter] to go back", 1200, 970, 50, WHITE);
 }
 
@@ -229,8 +232,10 @@ void Zappy::Menu::drawFramerate()
 {
     DrawText("FPS", 900, 500, 70, WHITE);
     _rectangle["framerateSidebar"]->drawRect(1000, 100, {470, 650});
+    std::string fpsText = std::to_string(_fps);
     DrawRectangleRec(_rect2, GRAY);
     DrawRectangleLinesEx(_rect2, 5, BLACK);
+    DrawText(fpsText.c_str(), 947, 670, 50, WHITE);
 }
 
 void Zappy::Menu::drawSettings()
