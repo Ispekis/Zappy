@@ -133,54 +133,65 @@ void Zappy::Menu::framerateEvent(std::string framerate)
     }
 }
 
+float MapValue(float value, float inputMin, float inputMax, float outputMin, float outputMax) {
+    return ((value - inputMin) / (inputMax - inputMin)) * (outputMax - outputMin) + outputMin;
+}
+
 void Zappy::Menu::settingsButtonEvent()
 {
-    // Vector2 mouse = GetMousePosition();
+    Vector2 mouse = GetMousePosition();
 
-    // auto it = _rectangle.begin();
+    auto it = _rectangle.begin();
 
-    // Rectangle rect = 
-
-    // for (; it != _rectangle.end(); ++it) {
-    //     if (CheckCollisionPointRec(mouse, it->second->getRect())) {
-    //         if (it->first != "menuLogo") 
-    //             it->second->setTexture(_texture["hoverButton"]);
-    //         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-    //             if (it->first == "volumeUp" || it->first == "volumeDown") {
-    //                 PlaySound(_click);
-    //                 volumeEvent(it->first);
-    //             } 
-    //             if (it->first == "30_fps" || it->first == "60_fps" || it->first == "90_fps") {
-    //                 PlaySound(_click);
-    //                 framerateEvent(it->first);
-    //             }
-    //         }
-    //     } else if (it->first == "volumeUp" || it->first == "volumeDown" || it->first == "30_fps" || it->first == "60_fps" || it->first == "90_fps") {
-    //         if (it->first != "menuLogo")
-    //             it->second->setTexture(_texture["basicButton"]);
-    //     }
-    // }
+    for (; it != _rectangle.end(); ++it) {
+        if (CheckCollisionPointRec(mouse, it->second->getRect())) {
+            if (it->first != "menuLogo" && it->first != "settingSidebar") 
+                it->second->setTexture(_texture["hoverButton"]);
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                if (it->first == "30_fps" || it->first == "60_fps" || it->first == "90_fps") {
+                    PlaySound(_click);
+                    framerateEvent(it->first);
+                }
+            }
+        } else if (it->first == "30_fps" || it->first == "60_fps" || it->first == "90_fps") {
+            if (it->first != "menuLogo")
+                it->second->setTexture(_texture["basicButton"]);
+        }
+    }
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         if (CheckCollisionPointRec(GetMousePosition(), _rect)) {
-            std::cout << "mouse pressed in rect" << std::endl;
-            isDragging = true;
-            offset = { GetMouseX() - _rect.x, GetMouseY() - _rect.y };
+            _isDragging = true;
         }
     }
 
     if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-        isDragging = false;
+        _isDragging = false;
     }
 
-    if (isDragging) {
-        _rect.x = GetMouseX() - _rect.width / 2;
+    if (_isDragging) {
+    _rect.x = GetMouseX() - _rect.width / 2;
 
-        if (_rect.x < _rectangle["settingSidebar"]->getRect().x)
-            _rect.x = _rectangle["settingSidebar"]->getRect().x;
-        else if (_rect.x > _rectangle["settingSidebar"]->getRect().x + _rectangle["settingSidebar"]->getRect().width - _rect.width)
-            _rect.x = _rectangle["settingSidebar"]->getRect().x + _rectangle["settingSidebar"]->getRect().width - _rect.width;
+    if (_rect.x < _rectangle["settingSidebar"]->getRect().x) {
+        _rect.x = _rectangle["settingSidebar"]->getRect().x;
+        // Augmenter le volume
+        float volumeRange = 1.0f - 0.0f;
+        float rectRange = _rectangle["settingSidebar"]->getRect().width - _rect.width;
+        float volumeIncrement = volumeRange / rectRange;
+        _volume = 0.0f + volumeIncrement * (_rect.x - _rectangle["settingSidebar"]->getRect().x);
+        SetMusicVolume(_music, _volume);
     }
+    else if (_rect.x > _rectangle["settingSidebar"]->getRect().x + _rectangle["settingSidebar"]->getRect().width - _rect.width) {
+        _rect.x = _rectangle["settingSidebar"]->getRect().x + _rectangle["settingSidebar"]->getRect().width - _rect.width;
+        // Diminuer le volume
+        float volumeRange = 0.1f - 0.0f;
+        float rectRange = _rectangle["settingSidebar"]->getRect().width - _rect.width;
+        float volumeDecrement = volumeRange / rectRange;
+        _volume = 0.1f - volumeDecrement * (_rect.x - (_rectangle["settingSidebar"]->getRect().x + _rectangle["settingSidebar"]->getRect().width - _rect.width));
+        SetMusicVolume(_music, _volume);
+    }
+}
+
 }
 
 void Zappy::Menu::drawBackground()
@@ -286,7 +297,7 @@ void Zappy::Menu::mouseHovering()
 
     if (_settings != true) {
         for (; it != _rectangle.end(); ++it) {
-            if (CheckCollisionPointRec(mousePos, it->second->getRect()) && it->first != "menuLogo")
+            if (CheckCollisionPointRec(mousePos, it->second->getRect()) && it->first != "menuLogo" && it->first != "settingSidebar")
                 it->second->setTexture(_texture["hoverButton"]);
             else if (it->first == "menuPlayButton" || it->first == "menuSettingsButton" || it->first == "menuQuitButton") {
                 if (it->first != "menuLogo")

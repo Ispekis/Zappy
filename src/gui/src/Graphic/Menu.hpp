@@ -62,9 +62,9 @@ namespace Zappy {
             Sound _click;
 
             bool _settings = false;
-            float _volume = 0.5;
-            Rectangle _rect = { 945, 356, 50, 88};
-            bool isDragging = false;
+            float _volume = 0.0;
+            Rectangle _rect = { 470, 356, 50, 88};
+            bool _isDragging = false;
             Vector2 offset = { 0, 0 }; 
     };
 }
