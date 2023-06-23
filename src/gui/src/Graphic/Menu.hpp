@@ -63,9 +63,14 @@ namespace Zappy {
 
             bool _settings = false;
             float _volume = 0.0;
+            bool _isVolume = false;
+            bool _isFramerate = false;
             Rectangle _rect = { 470, 356, 50, 88};
-            bool _isDragging = false;
-            Vector2 offset = { 0, 0 }; 
+            Rectangle _rect2 = { 470, 656, 50, 88};
+            Vector2 offset = { 0, 0 };
+            int _fps = 30;
+            const int _maxFps = 90;
+            const int _minFps = 30;
     };
 }
 
