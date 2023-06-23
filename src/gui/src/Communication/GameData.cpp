@@ -83,6 +83,7 @@ void Zappy::GameData::pnw(std::vector<std::string> &content)
     std::shared_ptr<Team> team = _teams[content[5]];
     std::shared_ptr<Player> player = std::make_shared<Player>(content, team);
     team->addPlayer(std::stoul(content[0]));
+    player->setCurrentPosition(_tileSize, _mapSize);
     _player.insert({std::stoul(content[0]), player});
 }
 
@@ -99,6 +100,7 @@ void Zappy::GameData::ppo(std::vector<std::string> &content)
 
     if (_player.count(id) == 0)
         throw Error("player id don't exist", content[0]);
+    _player[id]->setCurrentPosition(_tileSize, _mapSize);
     _player[id]->setPosition(newPosition);
     _player[id]->setOrientation(newOrientation);
     std::cout << "player id:" << id << "moved to" << newPosition.first << ":" << newPosition.second << std::endl;
@@ -133,6 +135,7 @@ void Zappy::GameData::pin(std::vector<std::string> &content)
         throw Error("player id don't exist", content[0]);
 
     auto newPosition = std::make_pair(std::stoul(content[1]), std::stoul(content[2]));
+    _player[id]->setCurrentPosition(_tileSize, _mapSize);
     _player[id]->setPosition(newPosition);
     auto split = separateVectorByIndex(content, 2);
     _player[id]->setInventory(split.second);
