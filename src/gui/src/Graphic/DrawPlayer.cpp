@@ -22,6 +22,21 @@ void Zappy::DrawPlayer::setData(std::shared_ptr<Data> data)
     _data = tmp;
 }
 
+static float getRotationAngle(Zappy::Orientation orientation, float actualRotation)
+{
+    if (orientation == 3 && actualRotation <= -270)
+        return -360;
+    if (orientation == 1)
+        return -180;
+    if (orientation == 2)
+        return -270;
+    if (orientation == 3)
+        return 0;
+    if (orientation == 4)
+        return -90;
+    return 0;
+}
+
 void Zappy::DrawPlayer::setModel()
 {
     _model.insert({1, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/nezuko.png")});
@@ -48,11 +63,10 @@ void Zappy::DrawPlayer::draw()
         auto pos = player->getPosition();
         std::string team = player->getTeam()->getName();
         std::size_t level = player->getLevel();
-        if (rotation != -10)
+        // printf("Actual %f, Next %f\n", player->_rotation ,getRotationAngle(Orientation, player->_rotation));
+        if (rotation != 10)
             drawRotatePlayer(player);
         drawMovementPlayer(player);
-        // drawMovementPlayer(player);
-
         _model[level]->draw(player->_actualPosition, player->_rotation, size);
         drawTeamText(player->_actualPosition, player, size, team);
     }
@@ -73,77 +87,28 @@ void Zappy::DrawPlayer::drawTeamText(Vector3 pos, std::shared_ptr<Player> player
     _drawText3d.DrawText3D(GetFontDefault(), std::to_string(player->getId()).c_str(), (Vector3){pos.x - size / 6 + 1, pos.y + size * 1.1, pos.z}, textColor, size);
 }
 
-// Vector3 Zappy::DrawPlayer::movePlayerPosition(std::shared_ptr<Player> player)
-// {
-//     float size = _data->_gameData._tileSize;
-//     std::pair<std::size_t, std::size_t> map = _data->_gameData._mapSize;
-//     Vector3 actual = player->_actualPosition;
-//     Vector3 last = player->_LastPosition;
-//     std::pair<std::size_t, std::size_t> next = player->_position;
-//     float posX = size * next.first - (map.first / 2 * size);
-//     float posY = size * next.second - (map.second / 2 * size);
-//     float posZ = size;
-//     Vector3 position = (Vector3){posX, posZ, posY};
-
-//     float distance;
-//     if (last.x != position.x) {
-//         distance = position.x - last.x;
-//         // movePlayerPositionX();
-//     }
-//     if (last.z != position.z)
-//         distance = position.z - last.z;
-    
-//     // movePlayerPositionY();
-//     printf("actual [%f:%f:%f]\n", actual.x, actual.y, actual.z);
-//     printf("next [%f:%f:%f]\n", position.x, position.y, position.z);
-// }
-
-// Vector3 Zappy::DrawPlayer::movePlayerPositionX(std::shared_ptr<Player> player)
-// {
-    
-// }
-
-// Vector3 Zappy::DrawPlayer::movePlayerPositionX(std::shared_ptr<Player> player)
-// {
-
-// }
-
-static float getRotationAngle(Zappy::Orientation orientation, float actualRotation)
-{
-    if (orientation == 1 && actualRotation >= 270)
-        return 360;
-    if (orientation == 1)
-        return 0;
-    if (orientation == 2)
-        return 270;
-    if (orientation == 3)
-        return 180;
-    if (orientation == 4)
-        return 90;
-    return 0;
-}
-
 float Zappy::DrawPlayer::movePlayerRotation(Zappy::Orientation orientation, float actualRotation)
 {
     float nextOrientation = getRotationAngle(orientation, actualRotation);
     if (nextOrientation == actualRotation)
-        return -10;
-    if (actualRotation == 0 || actualRotation == 360)
-    {
-        if (nextOrientation == 270 && actualRotation == 0)
-            actualRotation = 360;
-        if (nextOrientation == 90 && actualRotation == 360)
+        return 10;
+        if (nextOrientation == -270 && actualRotation == 0)
+            actualRotation = -360;
+        if (nextOrientation == -90 && actualRotation == -360)
             actualRotation = 0;
-    }
+        if (nextOrientation == -90 && actualRotation == -360)
+            actualRotation = 0;
     if (nextOrientation > actualRotation) {
         actualRotation++;
         if (actualRotation > nextOrientation)
             actualRotation = nextOrientation;
+    return actualRotation;
     }
     if (nextOrientation < actualRotation) {
         actualRotation--;
         if (actualRotation < nextOrientation)
             actualRotation = nextOrientation;
+    return actualRotation;
     }
     return actualRotation;
 }
@@ -151,18 +116,20 @@ float Zappy::DrawPlayer::movePlayerRotation(Zappy::Orientation orientation, floa
 void Zappy::DrawPlayer::drawRotatePlayer(std::shared_ptr<Player> player)
 {
     float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
-    float movement = 90 / nbrframe;
+    float movement = nbrframe / 90;
     int movement1 = ceil(movement);
     float size = _data->_gameData._tileSize;
     std::size_t level = player->getLevel();
     for (int i = 0; i != movement1; i++)
     {
         float tmp = movePlayerRotation(player->getOrientation(), player->_rotation);
-        if (tmp == -10)
+        if (tmp == 10)
             break;
         player->_rotation = tmp;
         _model[level]->draw(player->_actualPosition, player->_rotation, size);
+        // std::cout << "tmp:" << tmp << std::endl;
     }
+    // std::cout << "Rotation DOne: " << << << << std::endl;
 }
 
 static bool isEqual(float a, float b)
@@ -176,7 +143,7 @@ void Zappy::DrawPlayer::drawMovementPlayer(std::shared_ptr<Player> player)
     auto size = _data->_gameData._tileSize;
     auto map = _data->_gameData._mapSize;
     float posX = size * next.first - (map.first / 2 * size);
-    float posY = size * next.second - (map.second / 2 * size);
+    float posY = -(size * next.second - (map.second / 2 * size));
     float posZ = size;
 
     if (isEqual(player->_actualPosition.x, posX) == false)
@@ -187,10 +154,11 @@ void Zappy::DrawPlayer::drawMovementPlayer(std::shared_ptr<Player> player)
 
 void Zappy::DrawPlayer::movePlayerPositionX(std::shared_ptr<Player> player, Vector3 target)
 {
-    float distance = target.x - player->_LastPosition.x;
+    float distance = target.x - (player->_LastPosition.x);
     float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
     float movement = distance * 10 / nbrframe;
-    int movement1 = ceil(movement);
+    int movement1 = std::abs(ceil(movement));
+    std::cout << "Distance :" << distance << " movement :"<< movement1 << std::endl;
     std::size_t level = player->getLevel();
     float size = _data->_gameData._tileSize;
     float increment;
@@ -198,30 +166,24 @@ void Zappy::DrawPlayer::movePlayerPositionX(std::shared_ptr<Player> player, Vect
         increment = 0.1;
     else
         increment = -0.1;
-    printf("movement %d", movement1);
-
     for (int i = 0; i != movement1; i++)
     {
-        printf("actual %f | target %f\n", player->_actualPosition.x, target.x);
-        // if (player->_actualPosition.x >= target.x && increment == 0.1)
-            // return;
-        // if (player->_actualPosition.x <= target.x && increment == -0.1)
-            // return;
         if (isEqual(player->_actualPosition.x, target.x)) {
             player->_actualPosition.x = target.x;
             return;
         }
         player->_actualPosition.x = player->_actualPosition.x + increment;
+        _model[level]->moveAnimation(Animation::marche);
         _model[level]->draw(player->_actualPosition, player->_rotation, size);
     }
 }
 
 void Zappy::DrawPlayer::movePlayerPositionY(std::shared_ptr<Player> player, Vector3 target)
 {
-    float distance = target.z - player->_LastPosition.z;
+    float distance = target.z - (player->_LastPosition.z);
     float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
     float movement = distance * 10/ nbrframe;
-    int movement1 = ceil(movement);
+    int movement1 = std::abs(ceil(movement));
     std::size_t level = player->getLevel();
     float size = _data->_gameData._tileSize;
     float increment;
@@ -229,15 +191,14 @@ void Zappy::DrawPlayer::movePlayerPositionY(std::shared_ptr<Player> player, Vect
         increment = 0.1;
     else
         increment = -0.1;
-
-    for (int i = 0; i != movement1; i++)
-    {
-        printf("actual %f | target %f\n", player->_actualPosition.z, target.z);
+    for (int i = 0; i != movement1; i++) {
         if (isEqual(player->_actualPosition.z, target.z)) {
             player->_actualPosition.z = target.z;
             return;
         }
         player->_actualPosition.z = player->_actualPosition.z + increment;
+        _model[level]->moveAnimation(Animation::marche);
         _model[level]->draw(player->_actualPosition, player->_rotation, size);
+
     }
 }
