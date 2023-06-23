@@ -3,11 +3,11 @@ import myexception
 import socket
 import sys
 from parsing import *
-from player import Player
+from player import Player, push
 from movement import Movement
 from items import Items
 from macro import *
-from level import levelUp
+from levelup import *
 from fork import *
 
 class AI:
@@ -47,8 +47,8 @@ class AI:
         tmp = rcv_data.decode().split("\n")
         map_size = tmp[1].split(" ")
         try:
-            self.client_socket.send((f'Broadcast {name}').encode())
-            self.player = Player(tmp[0], (map_size[0], map_size[1]), 1)
+            # self.client_socket.send((f'Broadcast {name}').encode())
+            self.player = Player(int(tmp[0]), 1, name)
         except IndexError:
             print(f"Error while creating the player, check if team name is correct", file=sys.stderr)
 
@@ -59,23 +59,12 @@ class AI:
         self.client_socket.send(("Look\n").encode())
         self.player.sight = parseLook(self.client_socket.recv(1024).decode()[2:-2])
         # print(f'sight = {self.player.sight}')
-        # print(f'inventory = {self.player.inventory}')
-        self.client_socket.send(("Connect_nbr\n").encode())
-        self.player.nb_player = updateNbPlayer(self.client_socket.recv(1024).decode())
-        # print(f'nbplayer = {self.player.nb_player}')
         self.client_socket.send(("Inventory\n").encode())
         self.player.inventory = parseInventory(self.client_socket.recv(1024).decode()[2:-2])
-
-    def level_up(self) -> None:
-        if levelUp(self.player.obj_list, self.player.sight[0]):
-            self.client_socket.send(("Incantation\n").encode())
-            # if self.client_socket.recv(1024).decode() != "ko":
-            print(self.client_socket.recv(1024).decode())
-
-    def push(self) -> None:
-        if self.player.multiplePlayerTile():
-            self.client_socket.send(("push\n").encode())
-            rcv_data = self.client_socket.recv(1024)
+        # print(f'inventory = {self.player.inventory}')
+        self.client_socket.send(("Connect_nbr\n").encode())
+        self.player.nb_player = int(self.client_socket.recv(1024).decode())
+        # print(f'nbplayer = {self.player.nb_player}')
 
     def reproduction(self) -> None:
         if check_if_need_fork(self.player, self.player.sight):
@@ -83,15 +72,14 @@ class AI:
             rcv_data = self.client_socket.recv(1024)
 
     def playerAction(self) -> None:
-        """
-        Call every action the player would do in a loop iteration.
-        """
-        self.itemHandling.takeItem(self.player.sight, self.player.item_needed, self.player.needList, self.player.inventory)
-        self.push()
-        self.level_up()
-        self.reproduction()
-        self.itemHandling.needsFood(self.player.inventory, self.player.needList)
-        self.move.handleMovement(self.player.sight, self.player.needList)
+        levelUp(self.player, self.client_socket)
+        if self.player.attitude != INCANTATION:
+            self.itemHandling.needsFood(self.player.inventory, self.player.needList)
+            self.itemHandling.takeItem(self.player.sight, self.player.item_needed, self.player.needList, self.player.inventory)
+            self.move.handleMovement(self.player.sight, self.player.needList)
+            push(self.player, self.client_socket)
+            self.reproduction()
+        # broadcast(self.player, self.client_socket)
 
     def run_ai(self) -> int:
         """
