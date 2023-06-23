@@ -10,8 +10,6 @@
 Zappy::MyModel::MyModel(std::string path, unsigned int animsCount, std::string texture): _animation(LoadModelAnimations(path.c_str(), &animsCount)), _model(path.c_str()), _texture(texture.c_str())
 {
     SetMaterialTexture(&_model.materials[0], MATERIAL_MAP_DIFFUSE, _texture);
-    _boundingBox = GetMeshBoundingBox(_model.meshes[0]);
-    // setBoundingBox();
 }
 
 Zappy::MyModel::~MyModel()
