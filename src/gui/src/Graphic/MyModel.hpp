@@ -58,7 +58,6 @@ namespace Zappy
         float _size;
         int i = 1;
         int _animFrameCounter = 3;
-        bool _playerSelected = false;
     };
 } // namespace Zappy
 
