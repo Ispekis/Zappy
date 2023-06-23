@@ -30,8 +30,6 @@ inventory_t get_resources_on_map(data_t *data)
     resources.food.quantity = 5;
     check_resources_on_tiles(data, &resources);
     set_rand_resource_in_tiles(data, resources);
-    printf("%i\n", resources.linemate.quantity);
-
 }
 
 void refill_resources(data_t *data)
