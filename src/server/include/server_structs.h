@@ -102,6 +102,8 @@ typedef struct client_s {
     team_t *team;
     bool is_ready;
     bool is_elevating;
+    bool elevation_triggerer;
+    int triggerer_fd;
     commands_t commands[MAX_CMD_REQUESTS];
     int nb_await_cmd;
 } client_t;

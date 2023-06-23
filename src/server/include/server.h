@@ -475,6 +475,16 @@ void eat_food(data_t *data);
 int get_nb_players_on_tile(pos_t pos, node_t *head);
 
 /**
+ * @brief Get the number of players on tile with the same level
+ *
+ * @param pos
+ * @param head
+ * @param lvl
+ * @return int
+ */
+int get_nb_players_on_tile_w_lvl(pos_t pos, node_t *head, int lvl);
+
+/**
  * @brief Get the nb of players on a tile that have the same team's name
  *
  * @param pos
@@ -493,6 +503,16 @@ int get_nb_team_players_on_tile(pos_t pos, node_t *head, char *team);
  * @return false
  */
 bool is_ai_player(client_t player);
+
+/**
+ * @brief Check if the concerned client is an ai client and its connected and is
+ * in the corresponding position, then its returning true else false
+ *
+ * @param player
+ * @return true
+ * @return false
+ */
+bool is_player_on_pos(client_t player, pos_t pos);
 
 /**
  * @brief Get a pointer of the resource by name in inventory, return NULL if

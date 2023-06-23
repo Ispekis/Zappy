@@ -55,13 +55,30 @@ void ai_cmd_set_object(node_t *client, data_t *data, char **params)
     }
 }
 
+void elevate_met_prereq_players(node_t *head, pos_t pos, int lvl)
+{
+    node_t *current = head;
+
+    while (current != NULL) {
+        if (is_ai_player(current->client)
+        && is_player_on_pos(current->client, pos)
+        && lvl == current->client.level) {
+            dprintf(current->client.fd, "Elevation underway\n");
+            current->client.is_elevating = true;
+            current->client.elevation_triggerer = false;
+        }
+        current = current->next;
+    }
+}
+
 void ai_cmd_incantation(node_t *client, data_t *data,
 char **params __attribute__((unused)))
 {
     if (can_elevate(client, data->map)
     && client->client.level < MAX_LEVEL) {
-        dprintf(client->client.fd, "Elevation underway\n");
-        client->client.is_elevating = true;
+        elevate_met_prereq_players(data->clients, client->client.pos,
+        client->client.level);
+        client->client.elevation_triggerer = true;
     } else {
         dprintf(client->client.fd, "ko\n");
     }

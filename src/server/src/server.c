@@ -38,6 +38,14 @@ int block_signal(int *sfd)
     return 0;
 }
 
+void elevating_players(node_t *client, data_t *data)
+{
+    if (client->client.is_elevating && client->client.elevation_triggerer
+    && client->client.timer >= COOLDOWN_INCANTATION) {
+        
+    }
+}
+
 static int listen_events(server_t *server)
 {
     node_t *current = NULL;
