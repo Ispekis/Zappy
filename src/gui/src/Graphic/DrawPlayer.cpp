@@ -20,9 +20,6 @@ void Zappy::DrawPlayer::setData(std::shared_ptr<Data> data)
 {
     std::shared_ptr<Data> tmp(data, data.get());
     _data = tmp;
-    float size = _data->_gameData._tileSize * 3;
-    for (auto &element: _model)
-        element.second->setSize(size);
 }
 
 static float getRotationAngle(Zappy::Orientation orientation, float actualRotation)
@@ -95,6 +92,7 @@ void Zappy::DrawPlayer::draw(raylib::Camera &cameraraylib::Camera &camera)
         if (rotation != 10)
             drawRotatePlayer(player);
         drawMovementPlayer(player);
+        _model[level]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
         drawTeamText(player->_actualPosition, player, size, team);
         _model[id]->setCamera(_camera);
         bool tmp = _model[id]->drawSelectedPlayer(player->_actualPosition, size, player->_rotation);
@@ -106,9 +104,6 @@ void Zappy::DrawPlayer::draw(raylib::Camera &cameraraylib::Camera &camera)
             player->_selected = false;
         _model[id]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
     }
-    // _model["kdd"]->draw((Vector3){0, 10, 0},  0, size);
-    // _model["kdd"]->drawSelectedPlayer(size);
-
 }
 
 void Zappy::DrawPlayer::drawTeamText(Vector3 pos, std::shared_ptr<Player> player, float size, std::string team)
