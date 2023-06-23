@@ -20,9 +20,6 @@ void Zappy::DrawPlayer::setData(std::shared_ptr<Data> data)
 {
     std::shared_ptr<Data> tmp(data, data.get());
     _data = tmp;
-    float size = _data->_gameData._tileSize * 3;
-    for (auto &element: _model)
-        element.second->setSize(size);
 }
 
 static float getRotationAngle(Zappy::Orientation orientation, float actualRotation)
@@ -70,21 +67,17 @@ void Zappy::DrawPlayer::draw(raylib::Camera &camera)
         if (rotation != 10)
             drawRotatePlayer(player);
         drawMovementPlayer(player);
-        _model[level]->draw(player->_actualPosition, player->_rotation, size);
+        _model[level]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
         drawTeamText(player->_actualPosition, player, size, team);
-        auto team = player->getTeam()->getName();
-        float posX = size * pos.first - (map.first / 2 * size);
-        float posY = size * pos.second - (map.second / 2 * size);
-        float posZ = size;
-        _model["kdd"]->setCamera(_camera);
-        _model["kdd"]->draw((Vector3){posX, posZ, posY},  player->_rotation, size);
-        _model["kdd"]->drawSelectedPlayer(size);
-
-        drawTeamText((Vector3){posX, posZ, posY}, player, size, team);
+        _model[level]->setCamera(_camera);
+        bool tmp = _model[level]->drawSelectedPlayer(player->_actualPosition, size, player->_rotation);
+        if (tmp == true && player->_selected == false) {
+            for (const auto &element1 : players)
+                element1.second->_selected = false;
+            player->_selected = true;
+        } else if (tmp == true && player->_selected == true)
+            player->_selected = false;
     }
-    // _model["kdd"]->draw((Vector3){0, 10, 0},  0, size);
-    // _model["kdd"]->drawSelectedPlayer(size);
-
 }
 
 void Zappy::DrawPlayer::drawTeamText(Vector3 pos, std::shared_ptr<Player> player, float size, std::string team)
@@ -142,7 +135,7 @@ void Zappy::DrawPlayer::drawRotatePlayer(std::shared_ptr<Player> player)
             break;
         player->_rotation = tmp;
     }
-    _model[level]->draw(player->_actualPosition, player->_rotation, size);
+    // _model[level]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
 }
 
 static bool isEqual(float a, float b)
