@@ -7,12 +7,25 @@
 
 #include "server.h"
 
+bool is_need_freeze_timer(client_t player)
+{
+    if (player.is_elevating) {
+        if (player.elevation_triggerer)
+            return false;
+        else
+            return true;
+    } else {
+        return false;
+    }
+}
+
 void inc_players_timer(node_t *head)
 {
     node_t *current = head;
 
     while (current != NULL) {
-        if (is_ai_player(current->client) && current->client.nb_await_cmd > 0)
+        if (is_ai_player(current->client) && current->client.nb_await_cmd > 0
+            && !is_need_freeze_timer(current->client))
             current->client.timer++;
         current = current->next;
     }

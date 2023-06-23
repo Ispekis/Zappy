@@ -22,6 +22,22 @@ int get_nb_players_on_tile(pos_t pos, node_t *head)
     return count;
 }
 
+int get_nb_players_on_tile_w_lvl(pos_t pos, node_t *head, int lvl)
+{
+    node_t *current = head;
+    int count = 0;
+
+    while (current != NULL) {
+        if (is_ai_player(current->client) &&
+        is_player_on_pos(current->client, pos)
+        && lvl == current->client.level) {
+            count++;
+        }
+        current = current->next;
+    }
+    return count;
+}
+
 int get_nb_team_players_on_tile(pos_t pos, node_t *head, char *team)
 {
     node_t *current = head;
