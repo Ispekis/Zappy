@@ -163,11 +163,14 @@ typedef struct timer_clock_s {
 
 typedef struct data_s {
     timer_clock_t w_clock;
+    int food_eat_tick;
+    int food_refill_res;
     node_t *clients;
     node_t *egg;
     team_t *teams;
     int nb_teams;
     tile_t **map;
+    inventory_t max_res;
     int freq;
     int width;
     int height;

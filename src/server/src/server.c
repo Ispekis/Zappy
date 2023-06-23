@@ -70,7 +70,6 @@ int run_server(server_t server)
     printf("Server Started!\n");
     block_signal(&server.sfd);
 
-
     while (true) {
         re_set_fds(&server, server.sfd);
         if (select(FD_SETSIZE, &server.addrs.rfds, NULL, NULL, NULL) < 0)

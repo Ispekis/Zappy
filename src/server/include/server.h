@@ -187,6 +187,28 @@ void set_cooldown_in_nanosec(node_t *player, uint64_t nseconds);
 uint64_t sec_to_nanosec(double seconds);
 
 /**
+ * @brief Handle refill resources
+ *
+ * @param server
+ */
+void handle_world_refill_clock(server_t *server);
+
+/**
+ * @brief Refill the resources
+ *
+ * @param data
+ */
+void refill_resources(data_t *data);
+
+/**
+ * @brief Set the rand resource in tiles
+ *
+ * @param data
+ * @param resources
+ */
+void set_rand_resource_in_tiles(data_t *data, inventory_t resources);
+
+/**
  * @brief Send response and update the cooldown
  *
  * @param client
@@ -444,6 +466,13 @@ bool can_elevate(node_t *client, tile_t **map);
  * @param data
  */
 void elevate_player(node_t *client, data_t *data);
+
+/**
+ * @brief Eat food in world
+ *
+ * @param data
+ */
+void eat_food(data_t *data);
 
 //** Utils **//
 
