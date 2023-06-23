@@ -170,28 +170,17 @@ void Zappy::Menu::settingsButtonEvent()
     }
 
     if (_isDragging) {
-    _rect.x = GetMouseX() - _rect.width / 2;
+        float minX = _rectangle["settingSidebar"]->getRect().x;
+        float maxX = _rectangle["settingSidebar"]->getRect().x + _rectangle["settingSidebar"]->getRect().width - _rect.width;
 
-    if (_rect.x < _rectangle["settingSidebar"]->getRect().x) {
-        _rect.x = _rectangle["settingSidebar"]->getRect().x;
-        // Augmenter le volume
+        _rect.x = Clamp(GetMouseX() - _rect.width / 2, minX, maxX);
+
         float volumeRange = 1.0f - 0.0f;
-        float rectRange = _rectangle["settingSidebar"]->getRect().width - _rect.width;
+        float rectRange = maxX - minX;
         float volumeIncrement = volumeRange / rectRange;
-        _volume = 0.0f + volumeIncrement * (_rect.x - _rectangle["settingSidebar"]->getRect().x);
+        _volume = volumeIncrement * (_rect.x - minX);
         SetMusicVolume(_music, _volume);
     }
-    else if (_rect.x > _rectangle["settingSidebar"]->getRect().x + _rectangle["settingSidebar"]->getRect().width - _rect.width) {
-        _rect.x = _rectangle["settingSidebar"]->getRect().x + _rectangle["settingSidebar"]->getRect().width - _rect.width;
-        // Diminuer le volume
-        float volumeRange = 0.1f - 0.0f;
-        float rectRange = _rectangle["settingSidebar"]->getRect().width - _rect.width;
-        float volumeDecrement = volumeRange / rectRange;
-        _volume = 0.1f - volumeDecrement * (_rect.x - (_rectangle["settingSidebar"]->getRect().x + _rectangle["settingSidebar"]->getRect().width - _rect.width));
-        SetMusicVolume(_music, _volume);
-    }
-}
-
 }
 
 void Zappy::Menu::drawBackground()
