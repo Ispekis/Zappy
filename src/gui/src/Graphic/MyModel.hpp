@@ -10,6 +10,7 @@
 
     #include <memory>
     #include <map>
+    #include <math.h>
 
     #include "Data.hpp"
     #include "raylib-cpp.hpp"
@@ -34,16 +35,12 @@ namespace Zappy
         MyModel(std::string path, unsigned int animsCount, std::string texture);
 
         ~MyModel();
-        
-        void setBoundingBox();
 
         void setCamera(raylib::Camera3D camera);
 
-        void setSize(float size);
+        bool drawSelectedPlayer(Vector3 position, float size, float rotation);
 
-        void drawSelectedPlayer(float size);
-
-        void draw(Vector3 pose, float, std::size_t);
+        void draw(Vector3 pose, float, std::size_t, bool selected);
 
         void moveAnimation(int i, int frame);
 
@@ -61,7 +58,6 @@ namespace Zappy
         float _size;
         int i = 1;
         int _animFrameCounter = 3;
-        bool _playerSelected = false;
     };
 } // namespace Zappy
 
