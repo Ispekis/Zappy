@@ -59,7 +59,7 @@ void Zappy::DrawMap::draw(raylib::Camera3D &camera)
     _camera.BeginMode();
     drawMap();
     drawSelectedTile();
-    _player.draw();
+    _player.draw(_camera);
     _camera.EndMode();
     drawBlockInformation();
 }

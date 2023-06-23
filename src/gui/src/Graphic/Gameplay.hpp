@@ -57,9 +57,6 @@ namespace Zappy {
             DrawMap _worldMap;
             bool _cameraMove;
             int _cameraMode;
-            float _rotation = 0;
-            float _itemBounce = 0;
-            bool _ret = false;
     };
 }
 
