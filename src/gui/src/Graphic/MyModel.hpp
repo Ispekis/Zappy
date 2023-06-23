@@ -35,6 +35,14 @@ namespace Zappy
         MyModel(std::string path, unsigned int animsCount, std::string texture);
 
         ~MyModel();
+        
+        void setBoundingBox();
+
+        void setCamera(raylib::Camera3D camera);
+
+        void setSize(float size);
+
+        void drawSelectedPlayer(float size);
 
         void setCamera(raylib::Camera3D camera);
 
@@ -58,6 +66,7 @@ namespace Zappy
         float _size;
         int i = 1;
         int _animFrameCounter = 3;
+        bool _playerSelected = false;
     };
 } // namespace Zappy
 
