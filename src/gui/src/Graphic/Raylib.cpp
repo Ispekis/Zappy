@@ -9,7 +9,7 @@
 
 Zappy::Raylib::Raylib(std::string title) : _window(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str())
 {
-    _window.SetTargetFPS(60);
+    _window.SetTargetFPS(30);
 }
 
 static void handleMapTiles(float *size)
