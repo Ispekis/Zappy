@@ -2,10 +2,11 @@
 ** EPITECH PROJECT, 2023
 ** B-YEP-400-PAR-4-1-zappy-vincent.shao
 ** File description:
-** world_clock
+** eat_food
 */
 
 #include "server.h"
+#include "game_macro.h"
 
 static void remove_foods(node_t *head)
 {
@@ -37,14 +38,11 @@ void is_player_death(data_t *data, node_t *head)
     }
 }
 
-void handle_world_clock(server_t *server)
+void eat_food(data_t *data)
 {
-    uint64_t num_exp;
-    ssize_t bytes;
-
-    if (FD_ISSET(server->data.w_clock.tfd, &server->addrs.rfds)) {
-        bytes = read(server->data.w_clock.tfd, &num_exp, sizeof(uint64_t));
-        remove_foods(server->data.clients);
-        is_player_death(&server->data, server->data.clients);
+    if (data->food_eat_tick >= FOOD_LIVE_TIME) {
+        remove_foods(data->clients);
+        is_player_death(data, data->clients);
+        data->food_eat_tick = 0;
     }
 }
