@@ -22,6 +22,8 @@ static int choose_cmd(char *buffer, node_t *client, server_t *server)
     if (pos != -1) {
         if (client->client.nb_await_cmd < 10) {
             client->client.commands[client->client.nb_await_cmd].id = pos;
+            client->client.commands[client->client.nb_await_cmd].timer =
+            AI_ACTION_CD[pos];
             client->client.commands[client->client.nb_await_cmd].params =
             params;
             client->client.nb_await_cmd++;

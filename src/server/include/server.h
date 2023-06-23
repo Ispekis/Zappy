@@ -43,6 +43,12 @@ static const char *AI_CMD_LIB[] __attribute__((unused)) = {
     "Connect_nbr", "Fork", "Eject", "Take", "Set", "Incantation", NULL
 };
 
+static const int AI_ACTION_CD[] __attribute__((unused)) = {
+    COOLDOWN_FORWARD, COOLDOWN_RIGHT, COOLDOWN_LEFT, COOLDOWN_LOOK,
+    COOLDOWN_INVENTORY, COOLDOWN_BROADCAST, 0, COOLDOWN_FORK, COOLDOWN_EJECT,
+    COOLDOWN_TAKE, COOLDOWN_SET, COOLDOWN_INCANTATION
+};
+
 static const char *RESOURCES_LIB[] __attribute__((unused)) = {
     FOOD_NAME, LINEMATE_NAME, DERAUMERE_NAME, SIBUR_NAME, MENDIANE_NAME,
     PHIRAS_NAME, THYSTAME_NAME, NULL
@@ -171,14 +177,6 @@ bool can_convert_to_int(const char* str);
 int get_cmd_pos(char *str, const char **lib);
 
 /**
- * @brief Set the cooldown in nanosec
- *
- * @param player
- * @param nseconds
- */
-void set_cooldown_in_nanosec(node_t *player, uint64_t nseconds);
-
-/**
  * @brief Convert seconds to nano seconds
  *
  * @param seconds
@@ -207,15 +205,6 @@ void refill_resources(data_t *data);
  * @param resources
  */
 void set_rand_resource_in_tiles(data_t *data, inventory_t resources);
-
-/**
- * @brief Send response and update the cooldown
- *
- * @param client
- * @param cooldown
- * @param freq
- */
-void send_res_cd(node_t *client, int cooldown, int freq);
 
 /**
  * @brief Generate random number with a minimum and a maximum
