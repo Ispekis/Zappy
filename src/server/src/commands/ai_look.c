@@ -57,6 +57,4 @@ char **params __attribute__((unused)))
     my_strcat(&msg, " ]");
     dprintf(client->client.fd, "%s\n", msg);
     free(msg);
-    set_cooldown_in_nanosec(client,
-    sec_to_nanosec(((double) COOLDOWN_LOOK / (double) data->freq)));
 }

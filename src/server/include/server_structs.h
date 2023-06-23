@@ -53,6 +53,7 @@ typedef struct inventory_s {
 
 typedef struct commands_s {
     int id;
+    int timer;
     char **params;
 } commands_t;
 
@@ -91,17 +92,7 @@ typedef struct client_s {
      *
      */
     int fd;
-
-    /**
-     * @brief The timerfd of a player
-     *
-     */
-    int tfd;
-    /**
-     * @brief Timer spec of the player
-     *
-     */
-    struct itimerspec timer_spec;
+    int timer;
     bool is_conn;
     bool is_graphic;
     pos_t pos;

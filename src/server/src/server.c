@@ -19,9 +19,6 @@ void re_set_fds(server_t *server, int sfd)
         if (current->client.fd >= 0) {
             FD_SET(current->client.fd, &server->addrs.rfds);
         }
-        if (current->client.tfd >= 0) {
-            FD_SET(current->client.tfd, &server->addrs.rfds);
-        }
         current = current->next;
     }
 }
@@ -50,10 +47,8 @@ static int listen_events(server_t *server)
     handle_world_clock(server);
     current = server->data.clients;
     while (current != NULL) {
-        if (FD_ISSET(current->client.tfd, &server->addrs.rfds))
-            current->client.is_ready = true;
-        if (current->client.is_ready && current->client.is_elevating)
-            elevate_player(current, &server->data);
+        // if (current->client.is_ready && current->client.is_elevating)
+        //     elevate_player(current, &server->data);
         execute_waiting_cmd(current, server);
         if (FD_ISSET(current->client.fd, &server->addrs.rfds)
         && current->client.fd != server->addrs.socket_fd) {
