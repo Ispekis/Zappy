@@ -20,6 +20,9 @@ void Zappy::DrawPlayer::setData(std::shared_ptr<Data> data)
 {
     std::shared_ptr<Data> tmp(data, data.get());
     _data = tmp;
+    float size = _data->_gameData._tileSize * 3;
+    for (auto &element: _model)
+        element.second->setSize(size);
 }
 
 static float getRotationAngle(Zappy::Orientation orientation, float actualRotation)
@@ -51,6 +54,7 @@ void Zappy::DrawPlayer::setModel()
 
 void Zappy::DrawPlayer::draw(raylib::Camera &camera)
 {
+    _camera = camera;
     _camera = camera;
     auto players = _data->_gameData._player;
     auto size = _data->_gameData._tileSize;
