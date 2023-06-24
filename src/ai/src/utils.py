@@ -1,4 +1,6 @@
 from macro import *
+import socket
+import select
 
 def check_sight_value(sight:list, value:str, len:int=0) -> int:
     """Check how much of value are in the player sight
@@ -36,10 +38,8 @@ def count_player(player_tile:list) -> int:
 
 
 def check_dict(obj_dict: dict, inventory: dict):
-    # refaire cette fonction avec des int a la place des str en key, j'ai deja remplacer dans le json
-    key_list = list(obj_dict.keys())
-    for key in key_list:
-        if obj_dict[key] != inventory[key]:
+    for key, value in obj_dict.items():
+        if inventory[key] != inventory[key]:
             return False
     return True
 
@@ -64,3 +64,15 @@ def crypt(key:str, message:str) -> str:
     for i in range(len(message)):
         crypt_msg += chr(ord(message[i]) ^ ord(key[i % len(key)]))
     return crypt_msg
+
+def exec_cmd(client_socket:socket, commande:str=None) -> str:
+    readable, writable, exeptionnal = select.select([client_socket], [client_socket], [])
+    if writable and commande != None:
+        print("send")
+        client_socket.send(commande.encode())
+    if readable:
+        print("here")
+        rcv_value = client_socket.recv(1024).decode()
+        return rcv_value
+    else:
+        return None

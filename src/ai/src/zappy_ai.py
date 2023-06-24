@@ -9,6 +9,7 @@ from items import Items
 from macro import *
 from levelup import *
 from fork import *
+from utils import *
 from broadcast import *
 
 class AI:
@@ -92,9 +93,11 @@ class AI:
         """
         try:
             while True:
+                rcv_value = exec_cmd(self.client_socket)
+                if (rcv_value != None):
+                    analyse_broadcast(self.player, rcv_value)
                 self.rcvServerResponse()
                 self.playerAction()
-                analyse_broadcast(self.player, self.client_socket)
         except KeyboardInterrupt:
             return SUCCESS
         except BrokenPipeError:

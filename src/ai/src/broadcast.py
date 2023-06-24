@@ -1,5 +1,5 @@
 from macro import *
-from utils import comp_obj, crypt
+from utils import comp_obj, crypt, exec_cmd
 from player import Player
 import socket
 
@@ -36,16 +36,14 @@ def broadcast(player:Player, client_socket:socket) -> None:
     message:str = None
     if player.check_necessity() == True and player.ask == False:
         message = ask(player.team, ASK, player.item_needed[0])
-    elif comp_obj(player.obj_list, player.sight[0]) and player.ask == False:
+    elif comp_obj(player.obj_list, player.inventory) and player.ask == False:
         message = ask(player.team, ASK, PLAYER, player.level)
     if message != None:
-        print("Broadcast")
         client_socket.send(("Broadcast " + crypt(message, player.team) + "\n").encode())
         res = client_socket.recv(1024).decode()
         print(f"broadcast = {res}")
         if res != "ok\n":
             player.ask = True
 
-def analyse_broadcast(player:Player, client_socket:socket) -> str:
-    broadcast = client_socket.recv(1024).decode()
-    print(crypt(broadcast, player.team))
+def analyse_broadcast(player:Player, rcv_data:str) -> str:
+    print(f'{crypt(rcv_data, player.team)}')

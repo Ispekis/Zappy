@@ -36,6 +36,7 @@ def parseInventory(inventory:str) -> list:
         # print(tmp[i])
         v = tmp[i].split()
         res[v[0]] = int(v[1])
+    print(res["linemate"])
     return res
 
 def parseLevel(filename:str) -> dict:
@@ -51,5 +52,6 @@ def parseLevel(filename:str) -> dict:
         data = json.load(file)
         parsed_list = {}
         for key, value in data.items():
-            parsed_list[int(key)] = {str(k): v for k, v in value.items()}
+            parsed_list[int(key)] = {k: v for k, v in value.items()}
+        print(parsed_list[1]["linemate"])
         return parsed_list

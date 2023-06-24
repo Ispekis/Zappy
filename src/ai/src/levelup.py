@@ -33,6 +33,7 @@ def split_lvl(return_value:str, actual_lvl:int) -> int:
         int: level of the player
     """
     tmp = return_value.split(" ")
+    print(tmp)
     if len(tmp) == 3:
         return int(tmp[2][0])
     return actual_lvl

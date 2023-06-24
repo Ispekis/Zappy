@@ -17,14 +17,14 @@ RIGHT = "Right"
 ASK = 0
 RESPONSE = 1
 LVL = "level"
-PLAYER = 0
-FOOD = 1
-LINEMATE = 2
-DERAUMERE = 3
-SIBUR = 4
-MENDIANE = 5
-PHIRAS = 6
-THYSTAME = 7
+PLAYER = "player"
+FOOD = "food"
+LINEMATE = "linemate"
+DERAUMERE = "deraumere"
+SIBUR = "sibur"
+MENDIANE = "mendiane"
+PHIRAS = "phiras"
+THYSTAME = "thystame"
 
 # Macro for the different attitude of the player
 
