@@ -43,6 +43,8 @@ void Zappy::Gameplay::run()
 
 void Zappy::Gameplay::event()
 {
+    if (IsKeyPressed(KEY_ESCAPE))
+        _data->_gameData._end = true;
     playerSelectionEvent();
     if (_playerView == false)
         cameraEvent();
