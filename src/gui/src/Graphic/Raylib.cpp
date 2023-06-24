@@ -9,7 +9,7 @@
 
 Zappy::Raylib::Raylib(std::string title) : _window(GetMonitorWidth(0), GetMonitorHeight(0), title.c_str())
 {
-    _window.SetTargetFPS(60);
+    _window.SetTargetFPS(30);
 }
 
 static void handleMapTiles(float *size)
@@ -47,8 +47,8 @@ void Zappy::Raylib::event()
         _data->_gameData._tileSize++;
     if (IsKeyPressed(KEY_H))
         _data->_gameData._tileSize--;
+    // if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     handleMapTiles(&_data->_gameData._tileSize);
-        
 }
 
 void Zappy::Raylib::draw()

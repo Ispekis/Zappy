@@ -39,35 +39,69 @@ static float getRotationAngle(Zappy::Orientation orientation, float actualRotati
 
 void Zappy::DrawPlayer::setModel()
 {
-    _model.insert({1, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/nezuko.png")});
-    _model.insert({2, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/nweak.png")});
-    _model.insert({3, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/kdd.png")});
-    _model.insert({4, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/babyking.png")});
-    _model.insert({5, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/brennsou.png")});
-    _model.insert({6, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/spiderman.png")});    
-    _model.insert({7, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/steve.png")});    
-    _model.insert({8, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/zirnox.png")});    
+    // _model.insert({1, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/nezuko.png")});
+    // _model.insert({2, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/nweak.png")});
+    // _model.insert({3, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/kdd.png")});
+    // _model.insert({4, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/babyking.png")});
+    // _model.insert({5, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/brennsou.png")});
+    // _model.insert({6, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/spiderman.png")});    
+    // _model.insert({7, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/steve.png")});    
+    // _model.insert({8, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, "src/gui/assets/skin/zirnox.png")});    
 }
 
-void Zappy::DrawPlayer::draw()
+void Zappy::DrawPlayer::checkPlayerModel(std::shared_ptr<Player> player)
 {
+    std::map<std::size_t, std::string> skinLevel = {
+        {1, "src/gui/assets/skin/nezuko.png"},
+        {2, "src/gui/assets/skin/nweak.png"},
+        {3, "src/gui/assets/skin/kdd.png"},
+        {4, "src/gui/assets/skin/babyking.png"},
+        {5, "src/gui/assets/skin/brennsou.png"},
+        {6, "src/gui/assets/skin/spiderman.png"},
+        {7, "src/gui/assets/skin/steve.png"},
+        {8, "src/gui/assets/skin/zirnox.png"},
+    };
+    std::size_t id = player->getId();
+    std::size_t actualLevel = player->getLevel();
+    if (_model.count(id) == 0)
+    {
+        _model.insert({id, std::make_shared<MyModel>("src/gui/assets/skin/player_model.glb", 3, skinLevel[actualLevel])});
+    }
+    else
+    {
+        if (_model[id]->level != actualLevel)
+            _model[id]->changeSkin(skinLevel[actualLevel]);
+    }
+        _model[id]->level = actualLevel;
+}
+
+void Zappy::DrawPlayer::draw(raylib::Camera &camera)
+{
+    _camera = camera;
     auto players = _data->_gameData._player;
     auto size = _data->_gameData._tileSize;
     auto map = _data->_gameData._mapSize;
     for (const auto &element : players)
     {
-        // auto id = element.first; // id
         auto player = element.second; // player class
         Orientation Orientation = player->getOrientation();
         float rotation = movePlayerRotation(Orientation, player->_rotation);
-        auto pos = player->getPosition();
         std::string team = player->getTeam()->getName();
-        std::size_t level = player->getLevel();
+        std::size_t id = player->getId();
+        checkPlayerModel(player);
         if (rotation != 10)
             drawRotatePlayer(player);
         drawMovementPlayer(player);
-        _model[level]->draw(player->_actualPosition, player->_rotation, size);
         drawTeamText(player->_actualPosition, player, size, team);
+        _model[id]->setCamera(_camera);
+        bool tmp = _model[id]->drawSelectedPlayer(player->_actualPosition, size, player->_rotation);
+        if (tmp == true && player->_selected == false) {
+            for (const auto &element1 : players)
+                element1.second->_selected = false;
+            player->_selected = true;
+        } else if (tmp == true && player->_selected == true)
+            player->_selected = false;
+        _model[id]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
     }
 }
 
@@ -118,15 +152,15 @@ void Zappy::DrawPlayer::drawRotatePlayer(std::shared_ptr<Player> player)
     float movement = 90 / nbrframe;
     int movement1 = ceil(movement);
     float size = _data->_gameData._tileSize;
-    std::size_t level = player->getLevel();
+    std::size_t level = player->getId();
     for (int i = 0; i != movement1; i++)
     {
         float tmp = movePlayerRotation(player->getOrientation(), player->_rotation);
         if (tmp == 10)
             break;
         player->_rotation = tmp;
+        // _model[level]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
     }
-    _model[level]->draw(player->_actualPosition, player->_rotation, size);
 }
 
 static bool isEqual(float a, float b)
@@ -148,7 +182,7 @@ void Zappy::DrawPlayer::drawMovementPlayer(std::shared_ptr<Player> player)
     else if (isEqual(player->_actualPosition.z, posY) == false)
         movePlayerPositionY(player,(Vector3){posX, posZ, posY});
     else
-        _model[player->getLevel()]->moveAnimationToStart(Animation::marche);
+        _model[player->getId()]->moveAnimationToStart(Animation::marche);
 }
 
 void Zappy::DrawPlayer::movePlayerPositionX(std::shared_ptr<Player> player, Vector3 target)
@@ -157,7 +191,7 @@ void Zappy::DrawPlayer::movePlayerPositionX(std::shared_ptr<Player> player, Vect
     float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
     float moveFrame = distance * 10 / nbrframe;
     int moveFramePerLoop = std::abs(ceil(moveFrame));
-    float animFrame = 120 / nbrframe;
+    float animFrame = 120 * 0.1;
     int animFramePerLoop = std::abs(ceil(animFrame));
     std::size_t level = player->getLevel();
     float size = _data->_gameData._tileSize;
@@ -176,7 +210,7 @@ void Zappy::DrawPlayer::movePlayerPositionX(std::shared_ptr<Player> player, Vect
             return;
         }
         player->_actualPosition.x = player->_actualPosition.x + increment;
-        _model[level]->moveAnimation(Animation::marche, animFramePerLoop);
+        _model[player->getId()]->moveAnimation(Animation::marche, animFramePerLoop);
         // _model[level]->draw(player->_actualPosition, player->_rotation, size);
     }
 }
@@ -187,7 +221,7 @@ void Zappy::DrawPlayer::movePlayerPositionY(std::shared_ptr<Player> player, Vect
     float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
     float moveFrame = distance * 10 / nbrframe;
     int moveFramePerLoop = std::abs(ceil(moveFrame));
-    float animFrame = 120 / nbrframe;
+    float animFrame = 120 * 0.1;
     int animFramePerLoop = std::abs(ceil(animFrame));
     std::size_t level = player->getLevel();
     float size = _data->_gameData._tileSize;
@@ -206,7 +240,7 @@ void Zappy::DrawPlayer::movePlayerPositionY(std::shared_ptr<Player> player, Vect
             return;
         }
         player->_actualPosition.z = player->_actualPosition.z + increment;
-        _model[level]->moveAnimation(Animation::marche, animFramePerLoop);
+        _model[player->getId()]->moveAnimation(Animation::marche, animFramePerLoop);
         // _model[level]->draw(player->_actualPosition, player->_rotation, size);
     }
 }

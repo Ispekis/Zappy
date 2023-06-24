@@ -124,6 +124,7 @@ namespace Zappy {
         // std::pair<std::size_t, std::size_t> _actualPosition;
         Vector3 _actualPosition;
         Vector3 _LastPosition;
+        bool _selected = false;
 
     protected:
     private:
