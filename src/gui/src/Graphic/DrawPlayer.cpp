@@ -107,8 +107,15 @@ void Zappy::DrawPlayer::playerSelection(std::shared_ptr<Player> player, std::siz
         for (const auto &element1 : players)
             element1.second->_selected = false;
         player->_selected = true;
-    } else if (tmp == true && player->_selected == true)
+        _data->_gameData._playerIdSelect = player->getId();
+        std::cout << player->getId() << std::endl;
+    }
+    else if (tmp == true && player->_selected == true) {
         player->_selected = false;
+        _data->_gameData._playerIdSelect = 0;
+    }
+
+
 }
 
 void Zappy::DrawPlayer::drawTeamText(Vector3 pos, std::shared_ptr<Player> player, float size, std::string team)

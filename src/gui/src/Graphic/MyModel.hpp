@@ -40,13 +40,7 @@ namespace Zappy
 
         bool getSelectedModel(Vector3 position, float size, float rotation);
 
-        // void drawSelectedPlayer(float size);
-
         void changeSkin(std::string skin);
-        
-        // void setCamera(raylib::Camera3D camera);
-
-        // bool drawSelectedPlayer(Vector3 position, float size, float rotation);
 
         void draw(Vector3 pose, float, std::size_t, bool selected);
 
