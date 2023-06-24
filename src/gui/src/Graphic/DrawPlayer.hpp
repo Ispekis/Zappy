@@ -43,6 +43,8 @@ namespace Zappy {
 
             void checkPlayerModel(std::shared_ptr<Player>);
 
+            void playerSelection(std::shared_ptr<Player>, std::size_t, raylib::Camera &);
+
         protected:
         private:
             raylib::Camera3D _camera;
