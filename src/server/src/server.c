@@ -38,14 +38,6 @@ int block_signal(int *sfd)
     return 0;
 }
 
-void elevating_players(node_t *client, data_t *data)
-{
-    if (client->client.is_elevating && client->client.elevation_triggerer
-    && client->client.timer >= COOLDOWN_INCANTATION) {
-        
-    }
-}
-
 static int listen_events(server_t *server)
 {
     node_t *current = NULL;
@@ -55,8 +47,6 @@ static int listen_events(server_t *server)
     handle_world_clock(server);
     current = server->data.clients;
     while (current != NULL) {
-        // if (current->client.is_ready && current->client.is_elevating)
-        //     elevate_player(current, &server->data);
         execute_waiting_cmd(current, server);
         if (FD_ISSET(current->client.fd, &server->addrs.rfds)
         && current->client.fd != server->addrs.socket_fd) {

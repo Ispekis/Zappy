@@ -34,6 +34,8 @@ int init_game(data_t *data, info_t info)
     data->height = info.height;
     data->graphic_fd = UNDEFINED;
     data->egg = NULL;
+    data->elevation = NULL;
+    data->nb_elevation = 0;
     data->food_eat_tick = 0;
     data->food_refill_res = 0;
     if (init_map(info.width, info.height, data) == FAILURE)
