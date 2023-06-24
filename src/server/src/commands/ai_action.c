@@ -25,6 +25,8 @@ char **params __attribute__((unused)))
     node->egg.team = client->client.team;
     node->egg.team->clients_nbr++;
     dprintf(client->client.fd, "ok\n");
+    fmt_egg_laid(data->graphic_fd, node->egg.id, client->client,
+    node->egg.pos);
 }
 
 static void move_player(node_t *player, int orient, int width, int height)

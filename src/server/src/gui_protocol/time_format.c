@@ -6,13 +6,16 @@
 */
 
 #include <stdio.h>
+#include "macro.h"
 
 void fmt_tm_request(int fd, int time)
 {
-    dprintf(fd, "sgt %i\n", time);
+    if (fd != UNDEFINED)
+        dprintf(fd, "sgt %i\n", time);
 }
 
 void fmt_tm_modification(int fd, int time)
 {
-    dprintf(fd, "sst %i\n", time);
+    if (fd != UNDEFINED)
+        dprintf(fd, "sst %i\n", time);
 }

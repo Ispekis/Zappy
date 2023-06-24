@@ -71,10 +71,36 @@ void elevate_player(node_t *elevation, data_t *data)
         &data->map[elevation->elevation.pos.y][elevation->elevation.pos.x]);
         for (int i = 0; i < elevation->elevation.nb_players; i++)
             success_elevate(data->clients, elevation->elevation.player_fds[i]);
+        fmt_player_end_incantation(data->graphic_fd, elevation->elevation.pos,
+        true);
     } else {
         for (int i = 0; i < elevation->elevation.nb_players; i++)
             failure_elevate(data->clients, elevation->elevation.player_fds[i]);
+        fmt_player_end_incantation(data->graphic_fd, elevation->elevation.pos,
+        false);
     }
     for (int i = 0; i < elevation->elevation.nb_players; i++)
         done_elevate(data->clients, elevation->elevation.player_fds[i]);
+}
+
+void elevate_met_prereq_players(data_t *data, pos_t pos, int lvl)
+{
+    node_t *current = data->clients;
+    node_t *new = add_elevation_node(&data->elevation);
+
+    while (current != NULL) {
+        if (is_ai_player(current->client)
+        && is_player_on_pos(current->client, pos)
+        && lvl == current->client.level && !current->client.is_elevating) {
+            dprintf(current->client.fd, "Elevation underway\n");
+            new->elevation.pos = pos;
+            new->elevation.level = lvl;
+            current->client.is_elevating = true;
+            new->elevation.player_fds[new->elevation.nb_players] =
+            current->client.fd;
+            new->elevation.nb_players++;
+            current->client.timer = 0;
+        }
+        current = current->next;
+    }
 }

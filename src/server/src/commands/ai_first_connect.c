@@ -35,6 +35,7 @@ static void check_availability(char *buffer, node_t *client, data_t *data)
     while (current != NULL) {
         if (strcmp(current->egg.team->name, buffer) == 0) {
             connect_player_to_egg(client, *data, current->egg.pos);
+            fmt_egg_conn(data->graphic_fd, current->egg.id);
             remove_egg_node(&data->egg, current->egg.id);
             return;
         }

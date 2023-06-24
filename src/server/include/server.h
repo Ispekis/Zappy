@@ -403,6 +403,15 @@ char **params __attribute__((unused)));
 int get_sound_trajectory(pos_t src, pos_t dest, int orien, pos_t delim);
 
 /**
+ * @brief Check prerequis for elevate and elevate all the players
+ *
+ * @param data
+ * @param pos
+ * @param lvl
+ */
+void elevate_met_prereq_players(data_t *data, pos_t pos, int lvl);
+
+/**
  * @brief Check if the position cross the map, then set it back
  *
  * @param x
@@ -603,9 +612,9 @@ void fmt_egg_conn(int fd, int egg_nb);
 
 void fmt_egg_death(int fd, int egg_nb);
 
-void fmt_player_start_incantation(int fd);
+void fmt_player_start_incantation(int fd, client_t player);
 
-void fmt_player_end_incantation(int fd);
+void fmt_player_end_incantation(int fd, pos_t pos, bool incante_res);
 
 void fmt_map_size(int fd, int width, int height);
 
