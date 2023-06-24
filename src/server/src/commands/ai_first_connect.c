@@ -19,7 +19,7 @@ static void connect_player(node_t *client, data_t data)
     client->client.level = 1;
 }
 
-static void connect_player_to_egg(node_t *client, data_t data, pos_t egg_pos)
+static void connect_player_to_egg(node_t *client, pos_t egg_pos)
 {
     client->client.is_conn = true;
     client->client.pos = egg_pos;
@@ -34,7 +34,7 @@ static void check_availability(char *buffer, node_t *client, data_t *data)
 
     while (current != NULL) {
         if (strcmp(current->egg.team->name, buffer) == 0) {
-            connect_player_to_egg(client, *data, current->egg.pos);
+            connect_player_to_egg(client, current->egg.pos);
             fmt_egg_conn(data->graphic_fd, current->egg.id);
             remove_egg_node(&data->egg, current->egg.id);
             return;

@@ -35,7 +35,7 @@ static int nb_ai_player(node_t *head)
     return res;
 }
 
-inventory_t get_resources_on_map(data_t *data)
+void get_resources_on_map(data_t *data)
 {
     inventory_t resources;
     int nb = nb_ai_player(data->clients);

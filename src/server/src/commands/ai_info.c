@@ -9,7 +9,7 @@
 #include "macro.h"
 #include "game_macro.h"
 
-void ai_cmd_inventory(node_t *client, data_t *data,
+void ai_cmd_inventory(node_t *client, data_t *data __attribute__((unused)),
 char **params __attribute__((unused)))
 {
     inventory_t inv = client->client.inventory;
