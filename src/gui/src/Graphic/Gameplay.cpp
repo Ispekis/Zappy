@@ -43,7 +43,51 @@ void Zappy::Gameplay::run()
 
 void Zappy::Gameplay::event()
 {
-    cameraEvent();
+    playerSelectionEvent();
+    if (_playerView == false)
+        cameraEvent();
+}
+
+static bool isEqual(float a, float b)
+{
+    return std::abs(a - b) < 0.01;
+}
+
+void Zappy::Gameplay::playerViewCamera()
+{
+    std::size_t id = _data->_gameData._playerIdSelect;
+    Vector3 position = _data->_gameData._player[id]->_actualPosition;
+    position.y += _data->_gameData._tileSize * 1.5;
+    Vector3 actualTarget = _camera.target;
+    float tmpx = actualTarget.x - (_data->_gameData._player[id]->_actualPosition.x * 0.01);
+    float tmpy = actualTarget.y - (_data->_gameData._player[id]->_actualPosition.y * 0.01);
+    float tmpz = actualTarget.z - (_data->_gameData._player[id]->_actualPosition.z * 0.01);
+    _camera.position = position;
+    _camera.target = (Vector3){tmpx, tmpy, tmpz};
+    _camera.Update(CAMERA_CUSTOM);
+}
+
+void Zappy::Gameplay::playerSelectionEvent()
+{
+    if (_data->_gameData._playerIdSelect != 0)
+    {
+        if (IsKeyPressed(KEY_P) && _playerView == false) {
+            _playerView = true;
+            _camera.fovy = 90.0f;                                // Camera field-of-view Y
+            _camera.Update(CAMERA_CUSTOM);
+        }
+        else if (IsKeyPressed(KEY_P) && _playerView == true) {
+            _playerView = false;
+        _camera.position =(Vector3){0.0f, 100.0f, 50.0f};    // Camera position
+            _camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+            _camera.fovy = 45.0f;                                // Camera field-of-view Y
+
+        }
+        if (_playerView == true) {
+            playerViewCamera();
+        }
+    }
+
 }
 
 void Zappy::Gameplay::cameraEvent()
@@ -52,7 +96,7 @@ void Zappy::Gameplay::cameraEvent()
         _cameraMove = !_cameraMove;
     }
     if (IsKeyPressed(KEY_R)) {
-        _camera.position = (Vector3){0.0f, 60.0f, 20.0f};    // Camera position
+        _camera.position =(Vector3){0.0f, 100.0f, 50.0f};    // Camera position
         _camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
     }
     if (_cameraMove == true) {

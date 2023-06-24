@@ -62,6 +62,7 @@ void Zappy::Raylib::draw()
             _gameplay.run();
         }
     }
+    _window.DrawFPS(20, 30);
     EndDrawing();
 }
 
