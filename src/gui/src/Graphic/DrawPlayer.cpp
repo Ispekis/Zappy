@@ -116,9 +116,30 @@ void Zappy::DrawPlayer::allAction(std::shared_ptr<Player> player)
         ejectAnimationPlayer(player);
         return;
     }
+    if (player->_egglaying != -1) {
+        // std::cout << "Ject" << std::endl;
+        eggLayingAnimationPlayer(player);
+        return;
+    }
     // if (player->_egglaying != -1)
     //     eggLayingAnimationPlayer(player);
     drawMovementPlayer(player);
+}
+
+void Zappy::DrawPlayer::eggLayingAnimationPlayer(std::shared_ptr<Player> player)
+{
+    float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
+    float AnimationFrame = _model[player->getId()]->getAnimCount(Animation::laying_egg) / (nbrframe);
+    
+    int AnimationFrameRounded = ceil(AnimationFrame);
+    if (AnimationFrame < 1)
+        AnimationFrameRounded = 1;
+    player->_egglaying += AnimationFrameRounded;
+    _model[player->getId()]->moveAnimation(Animation::laying_egg, AnimationFrameRounded);
+    if (player->_egglaying >= _model[player->getId()]->getAnimCount(Animation::laying_egg)) {
+        _model[player->getId()]->moveAnimationToStart(Animation::laying_egg);
+        player->_egglaying = -1;
+    }
 }
 
 void Zappy::DrawPlayer::incantationAnimationPlayer(std::shared_ptr<Player> player)

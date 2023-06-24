@@ -217,7 +217,7 @@ void Zappy::GameData::pfk(std::vector<std::string> &content)
     std::size_t id = std::stoul(content[0]);
     if (_player.count(id) == 0)
         throw Error("player id don't exist", content[0]);
-    _player[id]->setEggLayingAnimation(true);
+    _player[id]->setEggLayingAnimation(0);
     printf("player :%ld is laying an egg\n", id);
 }
 
@@ -272,7 +272,7 @@ void Zappy::GameData::enw(std::vector<std::string> &content)
     if (_player.count(playerId) == 0)
         throw Error("Error player don't exist", std::to_string(playerId));
     std::cout << "enw" << std::endl;
-    _player[playerId]->setEggLayingAnimation(false);
+    _player[playerId]->setEggLayingAnimation(-1);
     std::size_t eggId = std::stoul(content[0]);
     std::pair<std::size_t, std::size_t> position = {std::stoul(content[2]), std::stoul(content[3])};
     _egg.addEgg(eggId, position,_player[playerId]->getTeam()->getName(), playerId);
