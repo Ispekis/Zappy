@@ -38,7 +38,7 @@ namespace Zappy
 
         void setCamera(raylib::Camera3D camera);
 
-        bool drawSelectedPlayer(Vector3 position, float size, float rotation);
+        bool getSelectedModel(Vector3 position, float size, float rotation);
 
         void drawSelectedPlayer(float size);
 
