@@ -75,7 +75,7 @@ void Zappy::DrawPlayer::checkPlayerModel(std::shared_ptr<Player> player)
         _model[id]->level = actualLevel;
 }
 
-void Zappy::DrawPlayer::draw(raylib::Camera &cameraraylib::Camera &camera)
+void Zappy::DrawPlayer::draw(raylib::Camera &camera)
 {
     _camera = camera;
     auto players = _data->_gameData._player;
@@ -85,25 +85,30 @@ void Zappy::DrawPlayer::draw(raylib::Camera &cameraraylib::Camera &camera)
     {
         auto player = element.second; // player class
         Orientation Orientation = player->getOrientation();
-        float rotation = movePlayerRotation(Orientation, player->_rotation);
-        std::string team = player->getTeam()->getName();
         std::size_t id = player->getId();
         checkPlayerModel(player);
-        if (rotation != 10)
+        if (movePlayerRotation(Orientation, player->_rotation) != 10)
             drawRotatePlayer(player);
         drawMovementPlayer(player);
         _model[id]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
-        drawTeamText(player->_actualPosition, player, size, team);
-        _model[id]->setCamera(_camera);
-        bool tmp = _model[id]->drawSelectedPlayer(player->_actualPosition, size, player->_rotation);
-        if (tmp == true && player->_selected == false) {
-            for (const auto &element1 : players)
-                element1.second->_selected = false;
-            player->_selected = true;
-        } else if (tmp == true && player->_selected == true)
-            player->_selected = false;
+        drawTeamText(player->_actualPosition, player, size, player->getTeam()->getName());
+        playerSelection(player, size, camera);
         _model[id]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
     }
+}
+
+void Zappy::DrawPlayer::playerSelection(std::shared_ptr<Player> player, std::size_t size, raylib::Camera& camera)
+{
+    std::size_t id = player->getId();
+    auto players = _data->_gameData._player;
+    bool tmp = _model[id]->getSelectedModel(player->_actualPosition, size, player->_rotation);
+    _model[id]->setCamera(_camera);
+    if (tmp == true && player->_selected == false) {
+        for (const auto &element1 : players)
+            element1.second->_selected = false;
+        player->_selected = true;
+    } else if (tmp == true && player->_selected == true)
+        player->_selected = false;
 }
 
 void Zappy::DrawPlayer::drawTeamText(Vector3 pos, std::shared_ptr<Player> player, float size, std::string team)
