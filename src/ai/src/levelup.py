@@ -64,7 +64,7 @@ def levelUp(player:Player, client_socket:socket) -> None:
     if len(player.item_needed) == 0 and player_needed == player.obj_list[PLAYER]:
         drop_obj(player.inventory, player.obj_list, player.item_needed, client_socket)
         client_socket.send(("Incantation\n").encode())
-        elevation_ko = rcvFromatter(client_socket)
+        elevation_ko = rcvFromatter(client_socket, INCANTATION)
         print(f"elevation = {elevation_ko}")
         if elevation_ko != "ko\n":
             get_return_value(elevation_ko, player)
