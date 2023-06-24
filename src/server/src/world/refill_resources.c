@@ -41,7 +41,7 @@ void get_resources_on_map(data_t *data)
     int nb = nb_ai_player(data->clients);
 
     resources = data->max_res;
-    resources.food.quantity = 5 * nb;
+    resources.food.quantity = FOOD_REFILL_TICK_AMPL + (FOOD_REFILL_TICK * nb);
     check_resources_on_tiles(data, &resources);
     set_rand_resource_in_tiles(data, resources);
 }
