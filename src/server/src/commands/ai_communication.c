@@ -26,9 +26,16 @@ static void add_cmd(node_t *client, int pos, char **params)
     client->client.nb_await_cmd++;
 }
 
+static void free_params(char **arr)
+{
+    for (int i = 0; arr[i] != NULL; i++)
+        free(arr[i]);
+    free(arr);
+}
+
 static int choose_cmd(char *buffer, node_t *client, server_t *server)
 {
-    char **params = str_to_word_array(buffer, " ");
+    char **params = str_to_word_array(buffer, " \t");
     char *cmd = NULL;
     int pos = 0;
 
@@ -40,9 +47,13 @@ static int choose_cmd(char *buffer, node_t *client, server_t *server)
         if (client->client.nb_await_cmd < 10) {
             instant_exec(pos, client, &server->data);
             add_cmd(client, pos, params);
+        } else {
+            free_params(params);
         }
-    } else
+    } else {
+        free_params(params);
         dprintf(client->client.fd, "ko\n");
+    }
     return SUCCESS;
 }
 

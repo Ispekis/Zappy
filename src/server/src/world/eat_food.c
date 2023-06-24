@@ -23,18 +23,18 @@ static void remove_foods(node_t *head)
 void is_player_death(data_t *data, node_t *head)
 {
     node_t *current = head;
-    node_t *tmp = NULL;
+    node_t *next = NULL;
 
     while (current != NULL) {
         if (is_ai_player(current->client)
         && current->client.inventory.food.quantity <= 0) {
-            tmp = current;
+            next = current->next;
+            dprintf(current->client.fd, "dead\n");
+            disconnect_player(data, current);
+            current = next;
+        } else {
             current = current->next;
-            dprintf(tmp->client.fd, "dead\n");
-            disconnect_player(data, tmp);
-            continue;
         }
-        current = current->next;
     }
 }
 

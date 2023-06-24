@@ -34,16 +34,19 @@ bool check_done_incantation(node_t *players)
 void world_elevate_players(data_t *data)
 {
     node_t *current = data->elevation;
+    node_t *next = NULL;
 
     while (current != NULL) {
         current->elevation.timer++;
         if (current->elevation.timer >= COOLDOWN_INCANTATION) {
+            next = current->next;
             elevate_player(current, data);
             current->elevation.timer = 0;
             remove_elevation_node(&data->elevation, current->elevation.uuid);
-            break;
+            current = next;
+        } else {
+            current = current->next;
         }
-        current = current->next;
     }
 }
 
