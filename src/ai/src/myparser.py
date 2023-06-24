@@ -1,11 +1,11 @@
 import getopt
 import myexception
 
-def parse_data(argv):
-    port = None
-    name = None
-    machine = None
-    shortopts = "p:n:h:"
+def parse_data(argv:list) -> int:
+    port:int = None
+    name:str = None
+    machine:str = None
+    shortopts:str = "p:n:h:"
 
     args, values = getopt.getopt(argv[1:], shortopts)
     for current_arg, current_value in args:
