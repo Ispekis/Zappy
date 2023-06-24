@@ -54,18 +54,35 @@ class AI:
         except IndexError:
             print(f"Error while creating the player, check if team name is correct", file=sys.stderr)
 
+    def eventMessages(self, string:str) -> bool:
+        if (len(string.split()) > 1 and string.split()[0] == "message"):
+            # logic for catching broadcast
+            print("MESSAGE FROM BROADCAST")
+            return True
+        if (len(string.split()) == 2 and string.split()[0] == "Elevation" and string.split()[1] == "underway"):
+            # logic after getting freezed
+            print("Get freezed")
+            return True
+        return False
+
+    def rcvFromatter(self) -> str:
+        string:str = self.client_socket.recv(1024).decode()
+        if (self.eventMessages(string)):
+            string = self.client_socket.recv(1024).decode()
+        return string
+
     def rcvServerResponse(self) -> None:
         """
         Set the sight, invetory and update the team slot free
         """
         self.client_socket.send(("Look\n").encode())
-        self.player.sight = parseLook(self.client_socket.recv(1024).decode()[2:-2])
+        self.player.sight = parseLook(self.rcvFromatter()[2:-2])
         # print(f'sight = {self.player.sight}')
         self.client_socket.send(("Inventory\n").encode())
-        self.player.inventory = parseInventory(self.client_socket.recv(1024).decode()[2:-2])
+        self.player.inventory = parseInventory(self.rcvFromatter()[2:-2])
         # print(f'inventory = {self.player.inventory}')
         self.client_socket.send(("Connect_nbr\n").encode())
-        self.player.nb_player = int(self.client_socket.recv(1024).decode())
+        self.player.nb_player = int(self.rcvFromatter())
         # print(f'nbplayer = {self.player.nb_player}')
 
     def reproduction(self) -> None:
