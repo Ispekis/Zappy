@@ -25,10 +25,10 @@ namespace Zappy {
         S,
         W
     };
-    struct eggLaying_t {
-        bool state;
-        int loading;
-    };
+    // struct eggLaying_t {
+        // bool state;
+        // int loading;
+    // };
     class Player
     {
     public:
@@ -107,15 +107,15 @@ namespace Zappy {
          * @brief Set the Incantation state of the player
          * 
          */
-        void setIncantation(bool);
+        void setIncantation(int);
 
-        void setDropAnimation(bool);
+        void setDropAnimation(int);
 
-        void setPickAnimation(bool);
+        void setPickAnimation(int);
 
-        void setEjectAnimation(bool);
+        void setEjectAnimation(int);
 
-        void setEggLayingAnimation(bool);
+        void setEggLayingAnimation(int);
 
         void setCurrentPosition(float tileSize, std::pair<std::size_t, std::size_t> map);
 
@@ -126,6 +126,11 @@ namespace Zappy {
         Vector3 _nextPosition;
         Vector3 _LastPosition;
         bool _selected = false;
+        int _incantation = -1;
+        int _drop = -1;
+        int _pick = -1;
+        int _eject = -1;
+        int _egglaying = -1;
 
     protected:
     private:
@@ -135,12 +140,7 @@ namespace Zappy {
         std::size_t _level;
         std::size_t _id;
         // std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
-        bool _incantation;
-
-        bool _drop = false;
-        bool _pick = false;
-        bool _eject = false;
-        eggLaying_t _egglaying = {false, 0};
+        // eggLaying_t _egglaying = {false, 0};
     };
 }
 

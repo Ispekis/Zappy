@@ -148,7 +148,7 @@ void Zappy::Menu::settingsButtonEvent()
         float rectRange = maxX - minX;
         float fpsIncrement = fpsRange / rectRange;
         _fps = _minFps + static_cast<int>(fpsIncrement * (_rect2.x - minX));
-
+        _data->_gameData._timeUnit.setFps(_fps);
         SetTargetFPS(_fps);
     }
 

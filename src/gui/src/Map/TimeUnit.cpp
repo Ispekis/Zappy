@@ -34,6 +34,8 @@ void Zappy::TimeUnit::setFps(float fps)
 {
     _fps = fps;
     _secondPerFrame = 1 / _fps;
+    std::cout << "fps" <<_fps << std::endl;
+    std::cout << "secondPerFrame" <<_secondPerFrame << std::endl;
 }
 
 float Zappy::TimeUnit::getFps() const

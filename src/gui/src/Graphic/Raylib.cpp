@@ -24,8 +24,10 @@ void Zappy::Raylib::setData(std::shared_ptr<Data> data)
 {
     std::shared_ptr<Data> tmp(data, data.get());
     _data = tmp;
+    _data->_gameData._timeUnit.setFps(30);
     _gameplay.setData(tmp);
     _menu.setData(tmp);
+
 }
 
 void Zappy::Raylib::run()
