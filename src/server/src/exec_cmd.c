@@ -18,6 +18,8 @@ void execute_waiting_cmd(node_t *current, server_t *server)
 {
     char **param_cpy = NULL;
 
+    if (current->client.is_elevating)
+        return;
     if (current->client.nb_await_cmd > 0
     && current->client.timer >= current->client.commands[0].timer) {
         current->client.nb_await_cmd--;

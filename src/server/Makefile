@@ -31,6 +31,8 @@ SRC	=	$(addprefix src/, \
 		client_linked_list.c					\
 		add_client_list.c						\
 		remove_client_list.c					\
+		add_elevation_list.c					\
+		remove_elevation_list.c					\
 		egg_linked_list.c						)\
 \
 		$(addprefix init/,    					\
@@ -49,6 +51,7 @@ SRC	=	$(addprefix src/, \
 		map_utils.c								\
 		my_strcat.c								\
 		convertion.c							\
+		nb_player.c								\
 		player_utils.c							)\
 \
 		$(addprefix gui_protocol/,    			\
@@ -74,6 +77,7 @@ SRC	=	$(addprefix src/, \
 		ai_info.c								\
 		ai_interact.c							\
 		ai_incantation.c						\
+		ai_incantation_status.c					\
 		ai_look.c								\
 		ai_look_orien.c							\
 		ai_broadcast_traj.c						\

@@ -55,17 +55,23 @@ void ai_cmd_set_object(node_t *client, data_t *data, char **params)
     }
 }
 
-void elevate_met_prereq_players(node_t *head, pos_t pos, int lvl)
+void elevate_met_prereq_players(data_t *data, pos_t pos, int lvl)
 {
-    node_t *current = head;
+    node_t *current = data->clients;
+    node_t *new = add_elevation_node(&data->elevation);
 
     while (current != NULL) {
         if (is_ai_player(current->client)
         && is_player_on_pos(current->client, pos)
-        && lvl == current->client.level) {
+        && lvl == current->client.level && !current->client.is_elevating) {
             dprintf(current->client.fd, "Elevation underway\n");
+            new->elevation.pos = pos;
+            new->elevation.level = lvl;
             current->client.is_elevating = true;
-            current->client.elevation_triggerer = false;
+            new->elevation.player_fds[new->elevation.nb_players] =
+            current->client.fd;
+            new->elevation.nb_players++;
+            current->client.timer = 0;
         }
         current = current->next;
     }
@@ -74,11 +80,10 @@ void elevate_met_prereq_players(node_t *head, pos_t pos, int lvl)
 void ai_cmd_incantation(node_t *client, data_t *data,
 char **params __attribute__((unused)))
 {
-    if (can_elevate(client, data->map)
+    if (can_elevate(client, data->clients, data->map)
     && client->client.level < MAX_LEVEL) {
-        elevate_met_prereq_players(data->clients, client->client.pos,
+        elevate_met_prereq_players(data, client->client.pos,
         client->client.level);
-        client->client.elevation_triggerer = true;
     } else {
         dprintf(client->client.fd, "ko\n");
     }

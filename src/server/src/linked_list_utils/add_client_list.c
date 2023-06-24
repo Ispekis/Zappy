@@ -33,7 +33,8 @@ static void init_client_data(node_t **node)
     (*node)->client.team = NULL;
     (*node)->client.is_ready = true;
     (*node)->client.is_elevating = false;
-    (*node)->client.elevation_triggerer = false;
+    (*node)->client.done_elevating = false;
+    uuid_clear((*node)->client.elevation_uuid);
     (*node)->client.nb_await_cmd = 0;
     (*node)->next = NULL;
 }

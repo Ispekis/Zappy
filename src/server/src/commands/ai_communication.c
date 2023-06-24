@@ -28,9 +28,8 @@ static int choose_cmd(char *buffer, node_t *client, server_t *server)
             params;
             client->client.nb_await_cmd++;
         }
-    } else {
+    } else
         dprintf(client->client.fd, "ko\n");
-    }
     return SUCCESS;
 }
 

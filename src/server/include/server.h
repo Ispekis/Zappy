@@ -46,7 +46,7 @@ static const char *AI_CMD_LIB[] __attribute__((unused)) = {
 static const int AI_ACTION_CD[] __attribute__((unused)) = {
     COOLDOWN_FORWARD, COOLDOWN_RIGHT, COOLDOWN_LEFT, COOLDOWN_LOOK,
     COOLDOWN_INVENTORY, COOLDOWN_BROADCAST, 0, COOLDOWN_FORK, COOLDOWN_EJECT,
-    COOLDOWN_TAKE, COOLDOWN_SET, COOLDOWN_INCANTATION
+    COOLDOWN_TAKE, COOLDOWN_SET, 0
 };
 
 static const char *RESOURCES_LIB[] __attribute__((unused)) = {
@@ -177,6 +177,30 @@ bool can_convert_to_int(const char* str);
 int get_cmd_pos(char *str, const char **lib);
 
 /**
+ * @brief Elevation successful
+ *
+ * @param players
+ * @param fd
+ */
+void success_elevate(node_t *players, int fd);
+
+/**
+ * @brief Elevation failure
+ *
+ * @param players
+ * @param fd
+ */
+void failure_elevate(node_t *players, int fd);
+
+/**
+ * @brief Set done elevation data
+ *
+ * @param players
+ * @param fd
+ */
+void done_elevate(node_t *players, int fd);
+
+/**
  * @brief Convert seconds to nano seconds
  *
  * @param seconds
@@ -302,8 +326,10 @@ void read_from_client(server_t *server, node_t *client);
 // Linked list utils
 node_t *add_client_node(node_t **head);
 node_t *add_egg_node(node_t **head);
+node_t *add_elevation_node(node_t **head);
 void print_client_list(node_t *head);
 void remove_client_node(node_t **head, int fd);
+void remove_elevation_node(node_t **head, uuid_t uuid);
 node_t *get_client_node(node_t **head, int fd);
 int get_linked_list_length(node_t *node);
 void remove_egg_node(node_t **head, int id);
@@ -443,18 +469,31 @@ void match_direction(client_t player, data_t *data, char **msg);
  *
  * @param client
  * @param map
+ * @param head
  * @return true
  * @return false
  */
-bool can_elevate(node_t *client, tile_t **map);
+bool can_elevate(node_t *client, node_t *head, tile_t **map);
+
+/**
+ * @brief Check it can elevate after the elevation
+ *
+ * @param pos
+ * @param lvl
+ * @param head
+ * @param map
+ * @return true
+ * @return false
+ */
+// bool can_elevate_after(pos_t pos, int lvl, node_t *head, tile_t **map);
 
 /**
  * @brief Elevate the player
  *
- * @param client
+ * @param elevation
  * @param data
  */
-void elevate_player(node_t *client, data_t *data);
+void elevate_player(node_t *elevation, data_t *data);
 
 /**
  * @brief Eat food in world
@@ -475,6 +514,18 @@ void eat_food(data_t *data);
 int get_nb_players_on_tile(pos_t pos, node_t *head);
 
 /**
+ * @brief Get the number of players on tile with the same level and uuid
+ *
+ * @param pos
+ * @param head
+ * @param lvl
+ * @param uuid
+ * @return int
+ */
+int get_nb_players_on_tile_w_lvl_uuid(pos_t pos, node_t *head, int lvl,
+uuid_t uuid);
+
+/**
  * @brief Get the number of players on tile with the same level
  *
  * @param pos
@@ -483,6 +534,15 @@ int get_nb_players_on_tile(pos_t pos, node_t *head);
  * @return int
  */
 int get_nb_players_on_tile_w_lvl(pos_t pos, node_t *head, int lvl);
+
+/**
+ * @brief Get the nb players on tile that done elevating
+ *
+ * @param pos
+ * @param head
+ * @return int
+ */
+int get_nb_players_elev_on_tile(elevation_t elev, pos_t pos, node_t *head);
 
 /**
  * @brief Get the nb of players on a tile that have the same team's name
