@@ -40,12 +40,6 @@ namespace Zappy
 
         bool drawSelectedPlayer(Vector3 position, float size, float rotation);
 
-        void drawSelectedPlayer(float size);
-
-        void setCamera(raylib::Camera3D camera);
-
-        bool drawSelectedPlayer(Vector3 position, float size, float rotation);
-
         void draw(Vector3 pose, float, std::size_t, bool selected);
 
         void moveAnimation(int i, int frame);
@@ -60,7 +54,7 @@ namespace Zappy
         raylib::Model _model;
         ModelAnimation *_animation;
         raylib::Texture2D _texture;
-        raylib::BoundingBox _boundingBox;
+        BoundingBox _boundingBox;
         float _size;
         int i = 1;
         int _animFrameCounter = 3;
