@@ -344,6 +344,12 @@ int check_all_info_set(info_t info);
 void global_free(server_t server);
 void free_server(server_t server);
 void free_game(data_t data, int height);
+/**
+ * @brief Free any nodes
+ *
+ * @param head
+ */
+void free_node(node_t *head);
 
 //** COMMANDS **//
 

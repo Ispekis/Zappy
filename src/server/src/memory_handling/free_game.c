@@ -14,18 +14,6 @@ static void free_teams(data_t data)
     free(data.teams);
 }
 
-static void free_eggs(node_t *head)
-{
-    node_t *current = head;
-    node_t *next = NULL;
-
-    while (current != NULL) {
-        next = current->next;
-        free(current);
-        current = next;
-    }
-}
-
 void free_map(data_t data, int height)
 {
     for (int y = 0; y < height; y++) {
@@ -38,5 +26,6 @@ void free_game(data_t data, int height)
 {
     free_teams(data);
     free_map(data, height);
-    free_eggs(data.egg);
+    free_node(data.egg);
+    free_node(data.elevation);
 }
