@@ -27,42 +27,19 @@ static double degreesToRadians(double degrees) {
 
 bool Zappy::MyModel::drawSelectedPlayer(Vector3 position, float size, float rotation)
 {
-    // float cos = std::cos(std::abs(rotation) * DEG2RAD);
-    // float sin = std::sin(std::abs(rotation) * DEG2RAD);
+    _boundingBox = { (Vector3){ position.x - size * 0.235, position.y, position.z - size * 0.235 },
+                    (Vector3){ position.x + size * 0.235, position.y + size, position.z + size * 0.235 } };
 
-    // Matrix rotationMatrix = MatrixRotate(Vector3 {position.x, position.y + size/2, position.z}, rotation * DEG2RAD);
-    // BoundingBox box = {(Vector3){ (position.x - size * 0.3), position.y, (position.z - size * 0.2)}, 
-    //                     (Vector3){ (position.x + size * 0.3), position.y + size, (position.z + size * 0.2)}};
-    
-        //     Vector3 rotatedMin = Vector3Transform(box.min, rotationMatrix);
-    //     Vector3 rotatedMax = Vector3Transform(box.max, rotationMatrix);
-    //     box.min = Vector3Add(Vector3 {position.x, position.y + size/2, position.z}, rotatedMin);
-    //     box.max = Vector3Add(Vector3 {position.x, position.y + size/2, position.z}, rotatedMax);
-
-
-    // BoundingBox box = {(Vector3){ (position.x - size * 0.3 * cos), position.y, (position.z - size * 0.2 * sin)}, 
-    //                     (Vector3){ (position.x + size * 0.3 * sin), position.y + size, (position.z + size * 0.2 * cos)}};
-    
-    BoundingBox box = {(Vector3){ (position.x - size * 0.235), position.y, (position.z - size * 0.235)},
-                        (Vector3){ (position.x + size * 0.235), position.y + size, (position.z + size * 0.235)}};
-
-    if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
-        if (GetRayCollisionBox(GetMouseRay(GetMousePosition(), _camera), box).hit)
+    if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+        if (GetRayCollisionBox(GetMouseRay(GetMousePosition(), _camera), _boundingBox).hit)
             return true;
-        else
-            return false;
-    }
+    return false;
 }
 
 void Zappy::MyModel::draw(Vector3 pose, float orientation, std::size_t size, bool selected)
 {
-    // auto orientationAngle = getRotationAngle(orientation);
-    // moveAnimation(1);
-    BoundingBox box = {(Vector3){ (pose.x - size * 0.235), pose.y, (pose.z - size * 0.235)},
-                        (Vector3){ (pose.x + size * 0.235), pose.y + size, (pose.z + size * 0.235)}};
-
     if (selected)
-        DrawBoundingBox(box, RED);
+        DrawBoundingBox(_boundingBox, RED);
     Vector3 scale = {0.3f * size, 0.3f * size, 0.3f * size};
     _model.Draw(pose, (Vector3){0, 1, 0}, orientation, scale, WHITE);
 }
