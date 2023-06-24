@@ -27,27 +27,11 @@ static double degreesToRadians(double degrees) {
 
 bool Zappy::MyModel::drawSelectedPlayer(Vector3 position, float size, float rotation)
 {
-    // float cos = std::cos(std::abs(rotation) * DEG2RAD);
-    // float sin = std::sin(std::abs(rotation) * DEG2RAD);
-
-    // Matrix rotationMatrix = MatrixRotate(Vector3 {position.x, position.y + size/2, position.z}, rotation * DEG2RAD);
-    // BoundingBox box = {(Vector3){ (position.x - size * 0.3), position.y, (position.z - size * 0.2)}, 
-    //                     (Vector3){ (position.x + size * 0.3), position.y + size, (position.z + size * 0.2)}};
-    
-        //     Vector3 rotatedMin = Vector3Transform(box.min, rotationMatrix);
-    //     Vector3 rotatedMax = Vector3Transform(box.max, rotationMatrix);
-    //     box.min = Vector3Add(Vector3 {position.x, position.y + size/2, position.z}, rotatedMin);
-    //     box.max = Vector3Add(Vector3 {position.x, position.y + size/2, position.z}, rotatedMax);
-
-
-    // BoundingBox box = {(Vector3){ (position.x - size * 0.3 * cos), position.y, (position.z - size * 0.2 * sin)}, 
-    //                     (Vector3){ (position.x + size * 0.3 * sin), position.y + size, (position.z + size * 0.2 * cos)}};
-    
-    BoundingBox box = {(Vector3){ (position.x - size * 0.235), position.y, (position.z - size * 0.235)},
+    _boundingBox = {(Vector3){ (position.x - size * 0.235), position.y, (position.z - size * 0.235)},
                         (Vector3){ (position.x + size * 0.235), position.y + size, (position.z + size * 0.235)}};
 
     if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
-        if (GetRayCollisionBox(GetMouseRay(GetMousePosition(), _camera), box).hit)
+        if (GetRayCollisionBox(GetMouseRay(GetMousePosition(), _camera), _boundingBox).hit)
             return true;
         else
             return false;
@@ -85,4 +69,11 @@ void Zappy::MyModel::moveAnimationToStart(int i)
 {
     UpdateModelAnimation(_model, _animation[i], 0);
     _animFrameCounter = 0;
+}
+
+void Zappy::MyModel::changeSkin(std::string skin)
+{
+    _texture.Unload();
+    _texture.Load(skin);
+    SetMaterialTexture(&_model.materials[0], MATERIAL_MAP_DIFFUSE, _texture);
 }

@@ -41,6 +41,8 @@ namespace Zappy {
             void drawRotatePlayer(std::shared_ptr<Player>);
             void drawMovementPlayer(std::shared_ptr<Player>);
 
+            void checkPlayerModel(std::shared_ptr<Player>);
+
         protected:
         private:
             raylib::Camera3D _camera;
