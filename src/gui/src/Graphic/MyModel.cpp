@@ -86,3 +86,8 @@ void Zappy::MyModel::moveAnimationToStart(int i)
     UpdateModelAnimation(_model, _animation[i], 0);
     _animFrameCounter = 0;
 }
+
+void Zappy::MyModel::changeSkin(std::string skin)
+{
+
+}

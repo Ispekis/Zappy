@@ -36,6 +36,8 @@ namespace Zappy
 
         ~MyModel();
 
+        void changeSkin(std::string skin);
+        
         void setCamera(raylib::Camera3D camera);
 
         bool drawSelectedPlayer(Vector3 position, float size, float rotation);
@@ -47,6 +49,7 @@ namespace Zappy
         void moveAnimation(int i);
 
         void moveAnimationToStart(int i);
+        std::size_t level = 1;
 
     protected:
     private:
