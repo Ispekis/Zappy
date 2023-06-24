@@ -62,5 +62,6 @@ void handle_world_clock(server_t *server)
         world_elevate_players(&server->data);
         eat_food(&server->data);
         refill_resources(&server->data);
+        check_winning_team(&server->data);
     }
 }

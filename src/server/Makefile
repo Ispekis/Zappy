@@ -25,6 +25,7 @@ SRC	=	$(addprefix src/, \
 		$(addprefix world/,    					\
 		refill_resources.c						\
 		eat_food.c								\
+		winning.c								\
 		world_clock.c							)\
 \
 		$(addprefix linked_list_utils/,    		\

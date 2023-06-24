@@ -17,6 +17,9 @@ static void connect_player(node_t *client, data_t data)
     client->client.inventory.food.quantity = 10;
     client->client.orientation = rand_nbr(1, NUMBER_OF_ORIENTATION);
     client->client.level = 1;
+
+    client->client.pos.x = 0;
+    client->client.pos.y = 0;
 }
 
 static void connect_player_to_egg(node_t *client, pos_t egg_pos)

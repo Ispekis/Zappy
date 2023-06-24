@@ -30,7 +30,7 @@ static void display_connected_player(int fd, data_t data)
 static void send_first_connection_message(int fd, data_t data)
 {
     fmt_map_size(fd, data.width, data.height);
-    fmt_msg_from_server(fd, "100");
+    fmt_tm_request(fd, data.freq);
     fmt_content_of_map(fd, data.map, data.width, data.height);
     fmt_name_of_teams(fd, data.teams, data.nb_teams);
     display_connected_player(fd, data);
