@@ -17,8 +17,16 @@ char **params __attribute__((unused)))
 void ai_cmd_fork_player(node_t *client, data_t *data,
 char **params __attribute__((unused)))
 {
-    client = client;
-    data = data;
+    node_t *node = add_egg_node(&data->egg);
+    int id = get_linked_list_length(data->egg) - 1;
+
+    node->egg.id = id;
+    node->egg.pos = client->client.pos;
+    node->egg.team = client->client.team;
+    node->egg.team->clients_nbr++;
+    dprintf(client->client.fd, "ok\n");
+    fmt_egg_laid(data->graphic_fd, node->egg.id, client->client,
+    node->egg.pos);
 }
 
 static void move_player(node_t *player, int orient, int width, int height)
@@ -61,5 +69,5 @@ char **params __attribute__((unused)))
         }
         current = current->next;
     }
-    send_res_cd(client, COOLDOWN_EJECT, data->freq);
+    dprintf(client->client.fd, "ok\n");
 }

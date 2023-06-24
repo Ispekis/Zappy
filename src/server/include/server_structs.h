@@ -53,6 +53,7 @@ typedef struct inventory_s {
 
 typedef struct commands_s {
     int id;
+    int timer;
     char **params;
 } commands_t;
 
@@ -65,23 +66,33 @@ typedef struct team_s {
     int clients_nbr;
 } team_t;
 
+typedef struct egg_s {
+    /**
+     * @brief Egg id
+     *
+     */
+    int id;
+
+    /**
+     * @brief The team's name of the player who layed the egg
+     *
+     */
+    team_t *team;
+
+    /**
+     * @brief The layed egg position
+     *
+     */
+    pos_t pos;
+} egg_t;
+
 typedef struct client_s {
     /**
      * @brief File descriptor of a player
      *
      */
     int fd;
-
-    /**
-     * @brief The timerfd of a player
-     *
-     */
-    int tfd;
-    /**
-     * @brief Timer spec of the player
-     *
-     */
-    struct itimerspec timer_spec;
+    int timer;
     bool is_conn;
     bool is_graphic;
     pos_t pos;
@@ -91,17 +102,29 @@ typedef struct client_s {
     team_t *team;
     bool is_ready;
     bool is_elevating;
+    bool done_elevating;
+    uuid_t elevation_uuid;
     commands_t commands[MAX_CMD_REQUESTS];
     int nb_await_cmd;
 } client_t;
+
+typedef struct elevation_s {
+    uuid_t uuid;
+    pos_t pos;
+    int level;
+    int timer;
+    int player_fds[MAX_CONNECTIONS];
+    int nb_players;
+} elevation_t;
 
 /**
  * @brief Any nodes
  *
  */
 typedef struct node_s {
-    // team_t team;
     client_t client;
+    egg_t egg;
+    elevation_t elevation;
     struct node_s *next;
 } node_t;
 
@@ -142,10 +165,16 @@ typedef struct timer_clock_s {
 
 typedef struct data_s {
     timer_clock_t w_clock;
+    int food_eat_tick;
+    int food_refill_res;
     node_t *clients;
+    node_t *egg;
+    node_t *elevation;
+    int nb_elevation;
     team_t *teams;
     int nb_teams;
     tile_t **map;
+    inventory_t max_res;
     int freq;
     int width;
     int height;

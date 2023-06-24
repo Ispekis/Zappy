@@ -18,7 +18,7 @@ static resource_t set_resource_quantity(int width, int height, float density)
     return resource;
 }
 
-static void set_rand_resource_in_tiles(data_t *data, inventory_t resources)
+void set_rand_resource_in_tiles(data_t *data, inventory_t resources)
 {
     for (int i = 0; i < resources.linemate.quantity; i++)
         data->map[rand_nbr(0, data->height - 1)][rand_nbr(0, data->width - 1)]
@@ -42,26 +42,24 @@ static void set_rand_resource_in_tiles(data_t *data, inventory_t resources)
 
 void resources_distribution(data_t *data)
 {
-    inventory_t resources;
-
-    resources.food = set_resource_quantity(data->width, data->height,
+    data->max_res.food = set_resource_quantity(data->width, data->height,
     FOOD_DENSITY);
-    resources.linemate = set_resource_quantity(data->width, data->height,
+    data->max_res.linemate = set_resource_quantity(data->width, data->height,
     LINEMATE_DENSITY);
-    resources.deraumere = set_resource_quantity(data->width, data->height,
+    data->max_res.deraumere = set_resource_quantity(data->width, data->height,
     DERAUMERE_DENSITY);
-    resources.sibur = set_resource_quantity(data->width, data->height,
+    data->max_res.sibur = set_resource_quantity(data->width, data->height,
     SIBUR_DENSITY);
-    resources.mendiane = set_resource_quantity(data->width, data->height,
+    data->max_res.mendiane = set_resource_quantity(data->width, data->height,
     MENDIANE_DENSITY);
-    resources.phiras = set_resource_quantity(data->width, data->height,
+    data->max_res.phiras = set_resource_quantity(data->width, data->height,
     PHIRAS_DENSITY);
-    resources.thystame = set_resource_quantity(data->width, data->height,
+    data->max_res.thystame = set_resource_quantity(data->width, data->height,
     THYSTAME_DENSITY);
-    for (int i = 0; i < resources.food.quantity; i++)
+    for (int i = 0; i < data->max_res.food.quantity; i++)
         data->map[rand_nbr(0, data->height - 1)][rand_nbr(0, data->width - 1)]
         .food.quantity++;
-    set_rand_resource_in_tiles(data, resources);
+    set_rand_resource_in_tiles(data, data->max_res);
 }
 
 static void set_default_resources_on_tile(tile_t *tile, pos_t pos)

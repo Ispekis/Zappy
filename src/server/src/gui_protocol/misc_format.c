@@ -6,23 +6,28 @@
 */
 
 #include <stdio.h>
+#include "macro.h"
 
 void fmt_end_of_game(int fd, char *team_name)
 {
-    dprintf(fd, "seg %s\n", team_name);
+    if (fd != UNDEFINED)
+        dprintf(fd, "seg %s\n", team_name);
 }
 
 void fmt_msg_from_server(int fd, char *msg)
 {
-    dprintf(fd, "smg %s\n", msg);
+    if (fd != UNDEFINED)
+        dprintf(fd, "smg %s\n", msg);
 }
 
 void fmt_unknown_cmd(int fd)
 {
-    dprintf(fd, "suc\n");
+    if (fd != UNDEFINED)
+        dprintf(fd, "suc\n");
 }
 
 void fmt_cmd_parameter(int fd)
 {
-    dprintf(fd, "sbp\n");
+    if (fd != UNDEFINED)
+        dprintf(fd, "sbp\n");
 }

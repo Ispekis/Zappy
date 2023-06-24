@@ -77,6 +77,7 @@ std::size_t Zappy::Player::getLevel() const
 
 void Zappy::Player::setPosition(std::pair<std::size_t, std::size_t> newPosition)
 {
+    
     _position = newPosition;
 }
 
