@@ -36,6 +36,7 @@ int init_game(data_t *data, info_t info)
     data->egg = NULL;
     data->food_eat_tick = 0;
     data->food_refill_res = 0;
+    data->inc_egg = 0;
     if (init_map(info.width, info.height, data) == FAILURE)
         return FAILURE;
     if (init_world_clock(data, data->freq) == FAILURE)

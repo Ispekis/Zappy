@@ -26,18 +26,6 @@ static void set_next_node(node_t **head, node_t *current, node_t *previous)
     }
 }
 
-int get_linked_list_length(node_t *node)
-{
-    int i = 0;
-    node_t *current = node;
-
-    while (current != NULL) {
-        i++;
-        current = current->next;
-    }
-    return i;
-}
-
 void remove_egg_node(node_t **head, int id)
 {
     node_t *current = *head;

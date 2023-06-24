@@ -18,8 +18,9 @@ void ai_cmd_fork_player(node_t *client, data_t *data,
 char **params __attribute__((unused)))
 {
     node_t *node = add_egg_node(&data->egg);
-    int id = get_linked_list_length(data->egg) - 1;
+    int id = data->inc_egg;
 
+    data->inc_egg++;
     node->egg.id = id;
     node->egg.pos = client->client.pos;
     node->egg.team = client->client.team;

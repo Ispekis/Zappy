@@ -168,6 +168,7 @@ typedef struct data_s {
     node_t *clients;
     node_t *egg;
     team_t *teams;
+    int inc_egg;
     int nb_teams;
     tile_t **map;
     inventory_t max_res;

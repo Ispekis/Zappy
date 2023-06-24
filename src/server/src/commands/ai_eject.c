@@ -19,8 +19,9 @@ void eject_break_egg(client_t *client, data_t *data)
     node_t *current = data->egg;
 
     while (current != NULL) {
-        if (check_same_pos(client->pos, current->egg.pos))
+        if (check_same_pos(client->pos, current->egg.pos) == true) {
             remove_egg_node(&data->egg, current->egg.id);
-        current = current->next;
+        } else
+            current = current->next;
     }
 }
