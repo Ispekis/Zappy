@@ -52,7 +52,6 @@ void Zappy::DrawPlayer::setModel()
 void Zappy::DrawPlayer::draw(raylib::Camera &camera)
 {
     _camera = camera;
-    _camera = camera;
     auto players = _data->_gameData._player;
     auto size = _data->_gameData._tileSize;
     auto map = _data->_gameData._mapSize;
