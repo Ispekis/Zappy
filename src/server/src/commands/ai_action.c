@@ -49,6 +49,23 @@ static void move_player(node_t *player, int orient, int width, int height)
     height);
 }
 
+void eject_eggs(pos_t pos, data_t *data)
+{
+    node_t *current = data->egg;
+    node_t *next = NULL;
+
+    while (current != NULL) {
+        if (current->egg.pos.x == pos.x && current->egg.pos.y == pos.y) {
+            next = current->next;
+            fmt_egg_death(data->graphic_fd, current->egg.id);
+            remove_egg_node(&data->egg, current->egg.id);
+            current = next;
+        } else {
+            current = current->next;
+        }
+    }
+}
+
 void ai_cmd_eject(node_t *client, data_t *data,
 char **params __attribute__((unused)))
 {
@@ -60,6 +77,7 @@ char **params __attribute__((unused)))
     }
     current = data->clients;
     fmt_player_expulsion(data->graphic_fd, client->client);
+    eject_eggs(client->client.pos, data);
     while (current != NULL) {
         if (is_ai_player(current->client)
         && current->client.fd != client->client.fd) {
