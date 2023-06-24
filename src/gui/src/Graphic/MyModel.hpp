@@ -49,6 +49,8 @@ namespace Zappy
         void moveAnimation(int i);
 
         void moveAnimationToStart(int i);
+        int getAnimCount(int i);
+
         std::size_t level = 1;
 
     protected:

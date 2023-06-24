@@ -225,7 +225,7 @@ void Zappy::GameData::pdr(std::vector<std::string> &content)
     std::size_t id = std::stoul(content[0]);
     if (_player.count(id) == 0)
         throw Error("player id don't exist", content[0]);
-    _player[id]->setDropAnimation(true);
+    _player[id]->setDropAnimation(0);
     std::cout << "Drop Animation added" << std::endl;
 }
 
@@ -238,7 +238,7 @@ void Zappy::GameData::pgt(std::vector<std::string> &content)
     std::size_t id = std::stoul(content[0]);
     if (_player.count(id) == 0)
         throw Error("player id don't exist", content[0]);
-    _player[id]->setPickAnimation(true);
+    _player[id]->setPickAnimation(0);
     std::cout << "Pick Animation added" << std::endl;
 }
 

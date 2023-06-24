@@ -84,18 +84,63 @@ void Zappy::DrawPlayer::draw(raylib::Camera &camera)
     for (const auto &element : players)
     {
         auto player = element.second; // player class
-        Orientation Orientation = player->getOrientation();
         std::size_t id = player->getId();
-        checkPlayerModel(player);
-        if (movePlayerRotation(Orientation, player->_rotation) != 10)
-            drawRotatePlayer(player);
-        drawMovementPlayer(player);
-        _model[id]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
+        allAction(player);
         drawTeamText(player->_actualPosition, player, size, player->getTeam()->getName());
         playerSelection(player, size, camera);
         _model[id]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
     }
 }
+
+void Zappy::DrawPlayer::allAction(std::shared_ptr<Player> player)
+{
+    checkPlayerModel(player);
+    if (movePlayerRotation(player->getOrientation(), player->_rotation) != 10) {
+        drawRotatePlayer(player);
+        return;
+    }
+    if (player->_pick != -1) {
+        pickAnimationPlayer(player);
+        return;
+    }
+    if (player->_drop != -1) {
+        dropAnimationPlayer(player);
+        return;
+    }
+    drawMovementPlayer(player);
+}
+
+void Zappy::DrawPlayer::pickAnimationPlayer(std::shared_ptr<Player>player)
+{
+    float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
+    float AnimationFrame = _model[player->getId()]->getAnimCount(Animation::ramassage) / (nbrframe);
+    
+    int AnimationFrameRounded = ceil(AnimationFrame);
+    if (AnimationFrame < 1)
+        AnimationFrameRounded = 1;
+    player->_pick += AnimationFrameRounded;
+    _model[player->getId()]->moveAnimation(Animation::ramassage, AnimationFrameRounded);
+    if (player->_pick >= _model[player->getId()]->getAnimCount(Animation::ramassage)) {
+        _model[player->getId()]->moveAnimationToStart(Animation::ramassage);
+        player->_pick = -1;
+    }
+}
+
+void Zappy::DrawPlayer::dropAnimationPlayer(std::shared_ptr<Player>player)
+{
+    float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
+    float AnimationFrame = _model[player->getId()]->getAnimCount(Animation::drop) / (nbrframe);
+    int AnimationFrameRounded = ceil(AnimationFrame);
+    player->_drop += AnimationFrameRounded;
+        if (AnimationFrame < 1)
+        AnimationFrameRounded = 1;
+    _model[player->getId()]->moveAnimation(Animation::drop, AnimationFrameRounded);
+    if (player->_drop >= _model[player->getId()]->getAnimCount(Animation::drop)) {
+        _model[player->getId()]->moveAnimationToStart(Animation::drop);
+        player->_drop = -1;
+    }
+}
+
 
 void Zappy::DrawPlayer::playerSelection(std::shared_ptr<Player> player, std::size_t size, raylib::Camera& camera)
 {
@@ -114,8 +159,6 @@ void Zappy::DrawPlayer::playerSelection(std::shared_ptr<Player> player, std::siz
         player->_selected = false;
         _data->_gameData._playerIdSelect = 0;
     }
-
-
 }
 
 void Zappy::DrawPlayer::drawTeamText(Vector3 pos, std::shared_ptr<Player> player, float size, std::string team)
@@ -162,23 +205,22 @@ float Zappy::DrawPlayer::movePlayerRotation(Zappy::Orientation orientation, floa
 void Zappy::DrawPlayer::drawRotatePlayer(std::shared_ptr<Player> player)
 {
     float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
-    float movement = 90 / nbrframe;
-    int movement1 = ceil(movement);
+    float animationFrame = 90 / nbrframe;
+    int animationFrameRounded = ceil(animationFrame);
     float size = _data->_gameData._tileSize;
     std::size_t level = player->getId();
-    for (int i = 0; i != movement1; i++)
+    for (int i = 0; i != animationFrameRounded; i++)
     {
         float tmp = movePlayerRotation(player->getOrientation(), player->_rotation);
         if (tmp == 10)
             break;
         player->_rotation = tmp;
-        // _model[level]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
     }
 }
 
 static bool isEqual(float a, float b)
 {
-    return std::abs(a - b) < 0.01;
+    return std::abs(a - b) < 0.001;
 }
 
 void Zappy::DrawPlayer::drawMovementPlayer(std::shared_ptr<Player> player)
@@ -190,52 +232,65 @@ void Zappy::DrawPlayer::drawMovementPlayer(std::shared_ptr<Player> player)
     float posY = -(size * next.second - (map.second / 2 * size));
     float posZ = size;
 
-    if (isEqual(player->_actualPosition.x, posX) == false)
-        movePlayerPositionX(player,(Vector3){posX, posZ, posY});
-    else if (isEqual(player->_actualPosition.z, posY) == false)
+    if (isEqual(std::abs(player->_actualPosition.x), std::abs(posX)) == false) {
+        movePlayerPositionX(player, (Vector3){posX, posZ, posY});
+    }
+    else if (isEqual(std::abs(player->_actualPosition.z), std::abs(posY)) == false) {
         movePlayerPositionY(player,(Vector3){posX, posZ, posY});
-    else
+    }
+    else {
         _model[player->getId()]->moveAnimationToStart(Animation::marche);
+    }
 }
 
 void Zappy::DrawPlayer::movePlayerPositionX(std::shared_ptr<Player> player, Vector3 target)
 {
     float distance = target.x - (player->_LastPosition.x);
+    if (isEqual(std::abs(distance), _data->_gameData._tileSize) == false) {
+        player->_actualPosition.x = target.x;
+        return;
+    }
     float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
-    float moveFrame = distance * 10 / nbrframe;
+    float moveFrame = std::abs(distance) * 10 / nbrframe;
     int moveFramePerLoop = std::abs(ceil(moveFrame));
-    float animFrame = 120 * 0.1;
+    float animFrame = _model[player->getId()]->getAnimCount(Animation::marche) / nbrframe / moveFramePerLoop;
+    if (std::isinf(animFrame))
+        animFrame = 1;
     int animFramePerLoop = std::abs(ceil(animFrame));
     std::size_t level = player->getLevel();
     float size = _data->_gameData._tileSize;
     float increment;
-
     if (distance > 0)
         increment = 0.1;
     else
         increment = -0.1;
-    std::cout << "Anim per loop" << animFramePerLoop << std::endl;
-    for (int i = 0; i != moveFramePerLoop  + 1; i++)
+    for (int i = 0; i != moveFramePerLoop ; i++)
     {
         if (isEqual(player->_actualPosition.x, target.x)) {
             player->_actualPosition.x = target.x;
-            // _model[level]->moveAnimationToStart(Animation::marche);
             return;
         }
         player->_actualPosition.x = player->_actualPosition.x + increment;
         _model[player->getId()]->moveAnimation(Animation::marche, animFramePerLoop);
-        // _model[level]->draw(player->_actualPosition, player->_rotation, size);
     }
 }
 
 void Zappy::DrawPlayer::movePlayerPositionY(std::shared_ptr<Player> player, Vector3 target)
 {
     float distance = target.z - (player->_LastPosition.z);
+    if (isEqual(std::abs(distance), _data->_gameData._tileSize) == false) {
+        player->_actualPosition.z = target.z;
+        return;
+    }
     float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
-    float moveFrame = distance * 10 / nbrframe;
+    float moveFrame = std::abs(distance) * 10 / nbrframe;
     int moveFramePerLoop = std::abs(ceil(moveFrame));
-    float animFrame = 120 * 0.1;
+    float animFrame = _model[player->getId()]->getAnimCount(Animation::marche) / nbrframe / moveFramePerLoop;
+    std::cout << animFrame << std::endl;
+    if (std::isinf(animFrame))
+        animFrame = 1;
     int animFramePerLoop = std::abs(ceil(animFrame));
+    std::cout << animFramePerLoop << std::endl;
     std::size_t level = player->getLevel();
     float size = _data->_gameData._tileSize;
     float increment;
@@ -244,16 +299,13 @@ void Zappy::DrawPlayer::movePlayerPositionY(std::shared_ptr<Player> player, Vect
         increment = 0.1;
     else
         increment = -0.1;
-    std::cout << "Anim per loop" << animFramePerLoop << std::endl;
 
-    for (int i = 0; i != moveFramePerLoop + 1; i++) {
+    for (int i = 0; i != moveFramePerLoop; i++) {
         if (isEqual(player->_actualPosition.z, target.z)) {
-            // _model[level]->moveAnimationToStart(Animation::marche);
             player->_actualPosition.z = target.z;
             return;
         }
         player->_actualPosition.z = player->_actualPosition.z + increment;
         _model[player->getId()]->moveAnimation(Animation::marche, animFramePerLoop);
-        // _model[level]->draw(player->_actualPosition, player->_rotation, size);
     }
 }
