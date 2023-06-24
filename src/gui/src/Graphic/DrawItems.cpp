@@ -86,7 +86,7 @@ void Zappy::DrawItems::drawSpacedItem(std::size_t qty, Vector3 pos, std::string 
         _ret = false;
     for (std::size_t a = 0; a < qty;)
     {
-        a += 2;
+        a += 5;
         DrawModelEx(_model[ressource], (Vector3){pos.x - (size / 2) + x * 0.8 + size * 0.3, ((pos.z + size / 2 + 1.7) - 0.2 + a * 0.01) + _itemBounce, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){0, 1, 0}, _rotation, (Vector3){size / 3, size / 3, size / 3}, WHITE);
     }
 }

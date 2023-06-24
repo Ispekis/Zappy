@@ -77,6 +77,7 @@ std::size_t Zappy::Player::getLevel() const
 
 void Zappy::Player::setPosition(std::pair<std::size_t, std::size_t> newPosition)
 {
+    
     _position = newPosition;
 }
 
@@ -99,28 +100,27 @@ void Zappy::Player::setLevel(std::size_t newLevel)
     _level = newLevel;
 }
 
-void Zappy::Player::setIncantation(bool state)
+void Zappy::Player::setIncantation(int state)
 {
     _incantation = state;
 }
 
 
-void Zappy::Player::setDropAnimation(bool state)
+void Zappy::Player::setDropAnimation(int state)
 {
     _drop = state;
 }
-void Zappy::Player::setPickAnimation(bool state)
+void Zappy::Player::setPickAnimation(int state)
 {
     _pick = state;
 }
 
-void Zappy::Player::setEjectAnimation(bool state)
+void Zappy::Player::setEjectAnimation(int state)
 {
     _eject = state;
 }
 
-void Zappy::Player::setEggLayingAnimation(bool state)
+void Zappy::Player::setEggLayingAnimation(int state)
 {
-    _egglaying.loading = 0;
-    _egglaying.state = state;
+    _egglaying = state;
 }

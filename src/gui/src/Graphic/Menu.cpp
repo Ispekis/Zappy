@@ -59,6 +59,15 @@ void Zappy::Menu::setTexture()
     _texture.insert({"basicButton", raylib::Texture("src/gui/assets/basic_button.png")});
     _texture.insert({"hoverButton", raylib::Texture("src/gui/assets/hover_button.png")});
     _texture.insert({"sidebar", raylib::Texture("src/gui/assets/sidebar.png")});
+
+    _texture.insert({"level1", raylib::Texture("src/gui/assets/levelSkin/1.png")});
+    _texture.insert({"level2", raylib::Texture("src/gui/assets/levelSkin/2.png")});
+    _texture.insert({"level3", raylib::Texture("src/gui/assets/levelSkin/3.png")});
+    _texture.insert({"level4", raylib::Texture("src/gui/assets/levelSkin/4.png")});
+    _texture.insert({"level5", raylib::Texture("src/gui/assets/levelSkin/5.png")});
+    _texture.insert({"level6", raylib::Texture("src/gui/assets/levelSkin/6.png")});
+    _texture.insert({"level7", raylib::Texture("src/gui/assets/levelSkin/7.png")});
+    _texture.insert({"level8", raylib::Texture("src/gui/assets/levelSkin/8.png")});
 }
 
 void Zappy::Menu::setRectangle()
@@ -67,14 +76,12 @@ void Zappy::Menu::setRectangle()
     _rectangle.insert({"menuPlayButton", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"menuSettingsButton", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"menuQuitButton", std::make_shared<Rect>(_texture["basicButton"])});
+    _rectangle.insert({"menuHowToPlayButton", std::make_shared<Rect>(_texture["basicButton"])});
+    _rectangle.insert({"returnButton", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"menuHoverButton", std::make_shared<Rect>(_texture["hoverButton"])});
-    _rectangle.insert({"volumeUp", std::make_shared<Rect>(_texture["basicButton"])});
-    _rectangle.insert({"volumeDown", std::make_shared<Rect>(_texture["basicButton"])});
-    _rectangle.insert({"30_fps", std::make_shared<Rect>(_texture["basicButton"])});
-    _rectangle.insert({"60_fps", std::make_shared<Rect>(_texture["basicButton"])});
-    _rectangle.insert({"90_fps", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"volumeSidebar", std::make_shared<Rect>(_texture["sidebar"])});
     _rectangle.insert({"framerateSidebar", std::make_shared<Rect>(_texture["sidebar"])});
+    _rectangle.insert({"howToPlayBackGround", std::make_shared<Rect>(_texture["basicButton"])});
 }
 
 void Zappy::Menu::setCube()
@@ -90,10 +97,12 @@ void Zappy::Menu::setCube()
 void Zappy::Menu::run()
 {
     UpdateMusicStream(_music);
+    event();
     if (_settings == true)
         settingsEvent();
-    else
-        event();
+    if (_howToPlay == true) {
+        howToPlayEvent();
+    }
     draw();
 }
 
@@ -105,7 +114,8 @@ void Zappy::Menu::event()
 
 void Zappy::Menu::settingsEvent()
 {
-    if (IsKeyPressed(KEY_ENTER)) {
+    if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_ENTER)) {
+        _principalMenu = true;
         _settings = false;
     }
     settingsButtonEvent();
@@ -148,7 +158,7 @@ void Zappy::Menu::settingsButtonEvent()
         float rectRange = maxX - minX;
         float fpsIncrement = fpsRange / rectRange;
         _fps = _minFps + static_cast<int>(fpsIncrement * (_rect2.x - minX));
-
+        _data->_gameData._timeUnit.setFps(_fps);
         SetTargetFPS(_fps);
     }
 
@@ -172,6 +182,14 @@ void Zappy::Menu::settingsButtonEvent()
     }
 }
 
+void Zappy::Menu::howToPlayEvent()
+{
+    if (IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_ENTER)) {
+        _principalMenu = true;
+        _howToPlay = false;
+    }
+}
+
 void Zappy::Menu::drawBackground()
 {
     float size = 2;
@@ -190,12 +208,14 @@ void Zappy::Menu::drawBackground()
 void Zappy::Menu::draw()
 {
     drawBackground();
-    if (!_settings && _data->_gameData._menu == true) {
+    if (!_settings && !_howToPlay && _data->_gameData._menu == true) {
         drawLogo();
         drawButton();
         drawText();
-    } else
+    } else if (_settings && !_howToPlay)
         drawSettings();
+    else if (!_settings && _howToPlay)
+        drawHowToPlay();
 }
 
 void Zappy::Menu::drawLogo()
@@ -206,15 +226,17 @@ void Zappy::Menu::drawLogo()
 void Zappy::Menu::drawButton()
 {
     _rectangle["menuPlayButton"]->drawRect(1000, 100, {470, 450});
-    _rectangle["menuSettingsButton"]->drawRect(1000, 100, {470, 650});
-    _rectangle["menuQuitButton"]->drawRect(1000, 100, {470, 850});
+    _rectangle["menuHowToPlayButton"]->drawRect(1000, 100, {470, 600});
+    _rectangle["menuSettingsButton"]->drawRect(1000, 100, {470, 750});
+    _rectangle["menuQuitButton"]->drawRect(1000, 100, {470, 900});
 }
 
 void Zappy::Menu::drawText()
 {
     DrawText("Play", 900, 470, 50, WHITE);
-    DrawText("Settings", 850, 670, 50, WHITE);
-    DrawText("Quit", 900, 870, 50, WHITE);
+    DrawText("How to play", 810, 620, 50, WHITE);
+    DrawText("Settings", 850, 770, 50, WHITE);
+    DrawText("Quit", 900, 920, 50, WHITE);
 }
 
 void Zappy::Menu::drawVolume()
@@ -225,7 +247,6 @@ void Zappy::Menu::drawVolume()
     DrawRectangleRec(_rect, GRAY);
     DrawRectangleLinesEx(_rect, 5, BLACK);
     DrawText(volumeText.c_str(), 947, 370, 50, WHITE);
-    DrawText("Press [Enter] to go back", 1200, 970, 50, WHITE);
 }
 
 void Zappy::Menu::drawFramerate()
@@ -238,12 +259,34 @@ void Zappy::Menu::drawFramerate()
     DrawText(fpsText.c_str(), 947, 670, 50, WHITE);
 }
 
+void Zappy::Menu::drawReturnButton()
+{
+    _rectangle["returnButton"]->drawRect(400, 100, {1500, 970});
+    DrawText("Return", 1610, 995, 50, WHITE);
+}
+
 void Zappy::Menu::drawSettings()
 {
-    if (_settings == true) {
-        drawVolume();
-        drawFramerate();
+    drawVolume();
+    drawFramerate();
+    drawReturnButton();
+}
+
+void Zappy::Menu::drawHowToPlay()
+{
+    std::vector<std::string> level = { "level1","level2", "level3", "level4", "level5", "level6", "level7", "level8" };
+    float x = 180;
+    Rectangle rec = {250, 100, 1400, 450};
+
+    DrawRectangleRec(rec, GRAY);
+    DrawRectangleLinesEx(rec, 5, BLACK);
+    for (int i = 0; level.size() != i; ++i) {
+        _texture[level[i]].Draw((Vector2) { x, 600 }, 0, 0.2, WHITE);
+        DrawRectangle(x, 850, 140, 40, GRAY);
+        DrawText(TextFormat("Level %d", i + 1), x + 15, 860, 30, BLACK);
+        x += 200;
     }
+    drawReturnButton();
 }
 
 void Zappy::Menu::mouseClicking()
@@ -258,10 +301,19 @@ void Zappy::Menu::mouseClicking()
                 PlaySound(_click);
                 if (it->first == "menuPlayButton")
                     _data->_gameData._menu = false;
-                else if (it->first == "menuSettingsButton")
+                else if (it->first == "menuHowToPlayButton") {
+                    _howToPlay = true;
+                    _principalMenu = false;
+                } else if (it->first == "menuSettingsButton") {
                     _settings = true;
-                else if (it->first == "menuQuitButton")
+                    _principalMenu = false;
+                } else if (it->first == "menuQuitButton")
                     _data->_gameData._end = true;
+                else if (it->first == "returnButton") {
+                    _principalMenu = true;
+                    _settings = false;
+                    _howToPlay = false;
+                }
             }
         }
     }
@@ -276,12 +328,18 @@ void Zappy::Menu::mouseHovering()
 
     if (_settings != true) {
         for (; it != _rectangle.end(); ++it) {
-            if (CheckCollisionPointRec(mousePos, it->second->getRect()) && it->first != "menuLogo" && it->first != "volumeSidebar" && it->first != "framerateSidebar")
+            if (CheckCollisionPointRec(mousePos, it->second->getRect()) && it->first != "menuLogo" && it->first != "volumeSidebar" && it->first != "framerateSidebar") {
                 it->second->setTexture(_texture["hoverButton"]);
-            else if (it->first == "menuPlayButton" || it->first == "menuSettingsButton" || it->first == "menuQuitButton") {
+            } else if (it->first == "menuPlayButton" || it->first == "menuSettingsButton" || it->first == "menuQuitButton" || it->first == "menuHowToPlayButton" || it->first == "returnButton") { 
                 if (it->first != "menuLogo")
                     it->second->setTexture(_texture["basicButton"]);
+            
             }
         }
     }
+}
+
+bool Zappy::Menu::getPrincipaleMenu()
+{
+    return _principalMenu;
 }

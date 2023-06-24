@@ -71,6 +71,8 @@ namespace Zappy {
 
             float _tileSize = 10;
 
+            std::size_t _playerIdSelect = 0;
+
         protected:
         private:
     };

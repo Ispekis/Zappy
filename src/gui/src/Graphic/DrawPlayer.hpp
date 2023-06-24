@@ -41,7 +41,16 @@ namespace Zappy {
             void drawRotatePlayer(std::shared_ptr<Player>);
             void drawMovementPlayer(std::shared_ptr<Player>);
 
+            void pickAnimationPlayer(std::shared_ptr<Player>);
+            void ejectAnimationPlayer(std::shared_ptr<Player>);
+            void incantationAnimationPlayer(std::shared_ptr<Player>);
+            void eggLayingAnimationPlayer(std::shared_ptr<Player>);
+            void dropAnimationPlayer(std::shared_ptr<Player>);
             void checkPlayerModel(std::shared_ptr<Player>);
+
+            void playerSelection(std::shared_ptr<Player>, std::size_t, raylib::Camera &);
+
+            void allAction(std::shared_ptr<Player>);
 
         protected:
         private:
