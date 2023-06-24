@@ -21,7 +21,7 @@ void Zappy::MyModel::setCamera(raylib::Camera3D camera)
     _camera = camera;
 }
 
-bool Zappy::MyModel::getSelectedModel(Vector3 pose, float size, float rotation)
+bool Zappy::MyModel::getSelectedModel(Vector3 position, float size, float rotation)
 {
     _boundingBox = {(Vector3){ (position.x - size * 0.235), position.y, (position.z - size * 0.235)},
                         (Vector3){ (position.x + size * 0.235), position.y + size, (position.z + size * 0.235)}};
