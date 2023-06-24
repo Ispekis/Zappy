@@ -42,6 +42,9 @@ namespace Zappy {
             void drawMovementPlayer(std::shared_ptr<Player>);
 
             void pickAnimationPlayer(std::shared_ptr<Player>);
+            void ejectAnimationPlayer(std::shared_ptr<Player>);
+            void incantationAnimationPlayer(std::shared_ptr<Player>);
+            void eggLayingAnimationPlayer(std::shared_ptr<Player>);
             void dropAnimationPlayer(std::shared_ptr<Player>);
             void checkPlayerModel(std::shared_ptr<Player>);
 

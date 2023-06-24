@@ -52,7 +52,6 @@ void Zappy::MyModel::moveAnimation(int i, int frame)
         UpdateModelAnimation(_model, _animation[i], _animation[i].frameCount);
         _animFrameCounter = 0;
     }
-    std::cout << "counter" << _animFrameCounter << ":"<< frame << std::endl;
 }
 
 int Zappy::MyModel::getAnimCount(int i)

@@ -154,7 +154,7 @@ void Zappy::GameData::pex(std::vector<std::string> &content)
     std::size_t id = std::stoul(content[0]);
     if (_player.count(id) == 0)
         throw Error("player id don't exist", content[0]);
-    _player[id]->setEjectAnimation(true);
+    _player[id]->setEjectAnimation(0);
     // expulsion
 }
 
@@ -182,7 +182,12 @@ void Zappy::GameData::pic(std::vector<std::string> &content)
     checkInt(content);
     if (content.size() < 4)
         throw Error("Error server response PIC args", "Expected: >= 4, Got: " + std::to_string(content.size()));
+    
     _incantationList.addIncantation(content);
+    for (std::size_t id = 3; id != content.size() - 1; id++) {
+        printf("%ld : %ld\n", content.size(), id);
+        _player[id]->_incantation = 0;
+    }
     // Incantation start
 }
 
