@@ -67,5 +67,5 @@ char **params __attribute__((unused)))
         }
         current = current->next;
     }
-    send_res_cd(client, COOLDOWN_EJECT, data->freq);
+    dprintf(client->client.fd, "ok\n");
 }

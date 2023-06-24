@@ -19,31 +19,6 @@ void print_client_list(node_t *head)
     }
 }
 
-static void set_next_node(node_t **head, node_t *current, node_t *previous)
-{
-    if (previous == NULL) {
-        *head = current->next;
-    } else {
-        previous->next = current->next;
-    }
-}
-
-void remove_client_node(node_t **head, int fd)
-{
-    node_t *current = *head;
-    node_t *previous = NULL;
-
-    while (current != NULL) {
-        if (current->client.fd == fd) {
-            set_next_node(head, current, previous);
-            free(current);
-            return;
-        }
-        previous = current;
-        current = current->next;
-    }
-}
-
 node_t *get_client_node(node_t **head, int fd)
 {
     node_t *current = *head;
