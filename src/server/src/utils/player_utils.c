@@ -14,6 +14,13 @@ bool is_ai_player(client_t player)
     return false;
 }
 
+bool is_player_on_pos(client_t player, pos_t pos)
+{
+    if (is_ai_player(player) && player.pos.x == pos.x && player.pos.y == pos.y)
+        return true;
+    return false;
+}
+
 resource_t *get_resource_by_name_in_inventory(char *name,
 inventory_t *inventory)
 {

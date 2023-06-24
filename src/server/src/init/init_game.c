@@ -11,17 +11,14 @@
 
 int init_world_clock(data_t *data, int freq)
 {
-    uint64_t nseconds = 0;
-
     data->w_clock.tfd = timerfd_create(CLOCK_REALTIME, 0);
     if (data->w_clock.tfd == -1)
         return FAILURE;
     data->w_clock.timer_spec.it_value.tv_sec = 1;
     data->w_clock.timer_spec.it_value.tv_nsec = 0;
-    data->w_clock.timer_spec.it_interval.tv_sec = FOOD_LIVE_TIME / freq;
+    data->w_clock.timer_spec.it_interval.tv_sec = 0;
     data->w_clock.timer_spec.it_interval.tv_nsec =
-    sec_to_nanosec((double) FOOD_LIVE_TIME / (double) freq) -
-    (sec_to_nanosec(FOOD_LIVE_TIME / freq));
+    sec_to_nanosec(1.0f / (double) freq);
     if (timerfd_settime(data->w_clock.tfd, 0, &data->w_clock.timer_spec,
     NULL) == -1)
         return FAILURE;
@@ -34,6 +31,11 @@ int init_game(data_t *data, info_t info)
     data->width = info.width;
     data->height = info.height;
     data->graphic_fd = UNDEFINED;
+    data->egg = NULL;
+    data->elevation = NULL;
+    data->nb_elevation = 0;
+    data->food_eat_tick = 0;
+    data->food_refill_res = 0;
     if (init_map(info.width, info.height, data) == FAILURE)
         return FAILURE;
     if (init_world_clock(data, data->freq) == FAILURE)

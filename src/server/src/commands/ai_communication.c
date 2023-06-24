@@ -9,6 +9,13 @@
 #include "macro.h"
 #include "game_macro.h"
 
+static void instant_exec(int pos, node_t *client, data_t *data)
+{
+    if (pos == CMD_FORK) {
+        fmt_player_egg_laying(data->graphic_fd, client->client);
+    }
+}
+
 static int choose_cmd(char *buffer, node_t *client, server_t *server)
 {
     char **params = str_to_word_array(buffer, " ");
@@ -21,14 +28,16 @@ static int choose_cmd(char *buffer, node_t *client, server_t *server)
     pos = get_cmd_pos(cmd, AI_CMD_LIB);
     if (pos != -1) {
         if (client->client.nb_await_cmd < 10) {
+            instant_exec(pos, client, &server->data);
             client->client.commands[client->client.nb_await_cmd].id = pos;
+            client->client.commands[client->client.nb_await_cmd].timer =
+            AI_ACTION_CD[pos];
             client->client.commands[client->client.nb_await_cmd].params =
             params;
             client->client.nb_await_cmd++;
         }
-    } else {
+    } else
         dprintf(client->client.fd, "ko\n");
-    }
     return SUCCESS;
 }
 

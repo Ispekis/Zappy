@@ -43,5 +43,6 @@
     #define COOLDOWN_SET 7
     #define COOLDOWN_INCANTATION 300
     #define FOOD_LIVE_TIME 126
+    #define COOLDOWN_REFILL 20
 
 #endif /* !ZAPPY_MACRO_H_ */
