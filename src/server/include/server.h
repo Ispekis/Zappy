@@ -378,7 +378,7 @@ void ai_cmd_left(node_t *client, data_t *data,
 char **params __attribute__((unused)));
 void ai_cmd_look(node_t *client, data_t *data,
 char **params __attribute__((unused)));
-void ai_cmd_inventory(node_t *client, data_t *data,
+void ai_cmd_inventory(node_t *client, data_t *data __attribute__((unused)),
 char **params __attribute__((unused)));
 void ai_cmd_broadcast(node_t *client, data_t *data, char **params);
 void ai_cmd_team_unused_slot(node_t *client, data_t *data,

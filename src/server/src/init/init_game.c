@@ -11,8 +11,6 @@
 
 int init_world_clock(data_t *data, int freq)
 {
-    uint64_t nseconds = 0;
-
     data->w_clock.tfd = timerfd_create(CLOCK_REALTIME, 0);
     if (data->w_clock.tfd == -1)
         return FAILURE;

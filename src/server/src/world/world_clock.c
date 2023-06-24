@@ -54,6 +54,8 @@ void handle_world_clock(server_t *server)
 
     if (FD_ISSET(server->data.w_clock.tfd, &server->addrs.rfds)) {
         bytes = read(server->data.w_clock.tfd, &num_exp, sizeof(uint64_t));
+        if (bytes < 0)
+            return;
         server->data.food_eat_tick++;
         server->data.food_refill_res++;
         inc_players_timer(server->data.clients);

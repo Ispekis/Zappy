@@ -39,7 +39,7 @@ fclean:
 
 re:
 	$(MAKE) re -C $(SERVER_PATH)
-	# $(MAKE) re -C $(GUI_PATH)
+	$(MAKE) re -C $(GUI_PATH)
 	$(MAKE) re -C $(AI_PATH)
 
 debug:
