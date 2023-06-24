@@ -140,7 +140,7 @@ void Zappy::DrawPlayer::incantationAnimationPlayer(std::shared_ptr<Player> playe
 void Zappy::DrawPlayer::ejectAnimationPlayer(std::shared_ptr<Player> player)
 {
     float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
-    float AnimationFrame = _model[player->getId()]->getAnimCount(Animation::eject) / (nbrframe);
+    float AnimationFrame = _model[player->getId()]->getAnimCount(Animation::eject) * 2 / (nbrframe);
     
     int AnimationFrameRounded = ceil(AnimationFrame);
     if (AnimationFrame < 1)
