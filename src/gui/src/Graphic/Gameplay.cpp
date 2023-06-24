@@ -45,6 +45,8 @@ void Zappy::Gameplay::event()
 {
     if (IsKeyPressed(KEY_ESCAPE))
         _data->_gameData._end = true;
+    if (IsKeyPressed(KEY_TAB))
+        _scoreboardView = !_scoreboardView;
     playerSelectionEvent();
     if (_playerView == false)
         cameraEvent();
@@ -142,4 +144,6 @@ void Zappy::Gameplay::cameraEvent()
 void Zappy::Gameplay::draw()
 {
     _worldMap.draw(_camera);
+    if (_scoreboardView == true)
+        _scoreboard.drawScoreboard();
 }

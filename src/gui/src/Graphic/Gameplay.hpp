@@ -14,6 +14,7 @@
     #include "Data.hpp"
     #include "Cube.hpp"
     #include "DrawMap.hpp"
+    #include "DrawScoreboard.hpp"
 
 namespace Zappy {
     class Gameplay {
@@ -49,9 +50,11 @@ namespace Zappy {
             std::shared_ptr<Data> _data;
 
             DrawMap _worldMap;
+            DrawScoreboard _scoreboard;
             bool _cameraMove;
             int _cameraMode;
             bool _playerView = false;
+            bool _scoreboardView = false;
     };
 }
 
