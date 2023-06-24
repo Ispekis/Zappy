@@ -107,7 +107,50 @@ void Zappy::DrawPlayer::allAction(std::shared_ptr<Player> player)
         dropAnimationPlayer(player);
         return;
     }
+    if (player->_incantation != -1) {
+        incantationAnimationPlayer(player);
+        return;
+    }
+    if (player->_eject != -1) {
+        // std::cout << "Ject" << std::endl;
+        ejectAnimationPlayer(player);
+        return;
+    }
+    // if (player->_egglaying != -1)
+    //     eggLayingAnimationPlayer(player);
     drawMovementPlayer(player);
+}
+
+void Zappy::DrawPlayer::incantationAnimationPlayer(std::shared_ptr<Player> player)
+{
+    float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
+    float AnimationFrame = _model[player->getId()]->getAnimCount(Animation::incancation) / (nbrframe);
+    
+    int AnimationFrameRounded = ceil(AnimationFrame);
+    if (AnimationFrame < 1)
+        AnimationFrameRounded = 1;
+    player->_incantation += AnimationFrameRounded;
+    _model[player->getId()]->moveAnimation(Animation::incancation, AnimationFrameRounded);
+    if (player->_incantation >= _model[player->getId()]->getAnimCount(Animation::incancation)) {
+        _model[player->getId()]->moveAnimationToStart(Animation::incancation);
+        player->_incantation = -1;
+    }
+}
+
+void Zappy::DrawPlayer::ejectAnimationPlayer(std::shared_ptr<Player> player)
+{
+    float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
+    float AnimationFrame = _model[player->getId()]->getAnimCount(Animation::eject) / (nbrframe);
+    
+    int AnimationFrameRounded = ceil(AnimationFrame);
+    if (AnimationFrame < 1)
+        AnimationFrameRounded = 1;
+    player->_eject += AnimationFrameRounded;
+    _model[player->getId()]->moveAnimation(Animation::eject, AnimationFrameRounded);
+    if (player->_eject >= _model[player->getId()]->getAnimCount(Animation::eject)) {
+        _model[player->getId()]->moveAnimationToStart(Animation::eject);
+        player->_eject = -1;
+    }
 }
 
 void Zappy::DrawPlayer::pickAnimationPlayer(std::shared_ptr<Player>player)
