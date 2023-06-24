@@ -16,6 +16,16 @@ static void instant_exec(int pos, node_t *client, data_t *data)
     }
 }
 
+static void add_cmd(node_t *client, int pos, char **params)
+{
+    client->client.commands[client->client.nb_await_cmd].id = pos;
+    client->client.commands[client->client.nb_await_cmd].timer =
+    AI_ACTION_CD[pos];
+    client->client.commands[client->client.nb_await_cmd].params =
+    params;
+    client->client.nb_await_cmd++;
+}
+
 static int choose_cmd(char *buffer, node_t *client, server_t *server)
 {
     char **params = str_to_word_array(buffer, " ");
@@ -29,12 +39,7 @@ static int choose_cmd(char *buffer, node_t *client, server_t *server)
     if (pos != -1) {
         if (client->client.nb_await_cmd < 10) {
             instant_exec(pos, client, &server->data);
-            client->client.commands[client->client.nb_await_cmd].id = pos;
-            client->client.commands[client->client.nb_await_cmd].timer =
-            AI_ACTION_CD[pos];
-            client->client.commands[client->client.nb_await_cmd].params =
-            params;
-            client->client.nb_await_cmd++;
+            add_cmd(client, pos, params);
         }
     } else
         dprintf(client->client.fd, "ko\n");

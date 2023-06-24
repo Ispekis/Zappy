@@ -454,6 +454,13 @@ void disconnect_player(data_t *data, node_t *client);
 void handle_world_clock(server_t *server);
 
 /**
+ * @brief Check if the game ends
+ *
+ * @param data
+ */
+void check_winning_team(data_t *data);
+
+/**
  * @brief Execute commands that is waiting
  *
  * @param current

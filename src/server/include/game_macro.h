@@ -44,5 +44,8 @@
     #define COOLDOWN_INCANTATION 300
     #define FOOD_LIVE_TIME 126
     #define COOLDOWN_REFILL 20
+    #define PLAYER_TO_WIN 6
+    #define FOOD_REFILL_TICK_AMPL 2
+    #define FOOD_REFILL_TICK 20
 
 #endif /* !ZAPPY_MACRO_H_ */

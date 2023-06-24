@@ -55,7 +55,7 @@ static int listen_events(server_t *server)
         }
         current = current->next;
     }
-    return 0;
+    return SUCCESS;
 }
 
 int run_server(server_t server)
@@ -63,15 +63,18 @@ int run_server(server_t server)
     printf("Server Started!\n");
     block_signal(&server.sfd);
 
-    while (true) {
+    while (server.data.is_game_running) {
         re_set_fds(&server, server.sfd);
         if (select(FD_SETSIZE, &server.addrs.rfds, NULL, NULL, NULL) < 0)
             return FAILURE;
         if (catch_shutdown(server) == 1) {
-            break;
+            return SUCCESS;
         }
         if (listen_events(&server) == FAILURE)
             return FAILURE;
     }
+    fmt_end_of_game(server.data.graphic_fd,
+    server.data.teams[server.data.winner_team_index].name);
+    global_free(server);
     return SUCCESS;
 }

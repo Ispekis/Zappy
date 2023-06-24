@@ -179,6 +179,8 @@ typedef struct data_s {
     int width;
     int height;
     int graphic_fd;
+    bool is_game_running;
+    int winner_team_index;
 } data_t;
 
 typedef struct server_s {
