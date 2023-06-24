@@ -1,6 +1,5 @@
 from macro import *
 import socket
-import select
 
 def check_sight_value(sight:list, value:str, len:int=0) -> int:
     """Check how much of value are in the player sight
@@ -76,8 +75,8 @@ def eventMessages(string:str) -> bool:
         return True
     return False
 
-def rcvFromatter(client_socket:socket) -> str:
+def rcvFromatter(client_socket:socket, action:int=NORMAL) -> str:
     string:str = client_socket.recv(1024).decode()
-    if (eventMessages(string)):
+    if (eventMessages(string)) or action == INCANTATION:
         string = client_socket.recv(1024).decode()
     return string
