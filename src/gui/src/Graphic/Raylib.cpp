@@ -30,7 +30,7 @@ void Zappy::Raylib::setData(std::shared_ptr<Data> data)
 
 void Zappy::Raylib::run()
 {
-    while (_exitWindow == false) {
+    while (_data->_gameData._end == false) {
         event();
         draw();
     }
@@ -41,13 +41,12 @@ void Zappy::Raylib::event()
 {
     if(IsKeyPressed(KEY_T))
         _data->_gameData._menu = !_data->_gameData._menu;
-    if (IsKeyPressed(KEY_ESCAPE))
-        _exitWindow = true;
+    if (IsKeyPressed(KEY_ESCAPE) && _menu.getPrincipaleMenu() == true)
+        _data->_gameData._end = true;
     if (IsKeyPressed(KEY_G))
         _data->_gameData._tileSize++;
     if (IsKeyPressed(KEY_H))
         _data->_gameData._tileSize--;
-    // if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     handleMapTiles(&_data->_gameData._tileSize);
 }
 
