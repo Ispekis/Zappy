@@ -92,7 +92,7 @@ void Zappy::DrawPlayer::draw(raylib::Camera &cameraraylib::Camera &camera)
         if (rotation != 10)
             drawRotatePlayer(player);
         drawMovementPlayer(player);
-        _model[level]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
+        _model[id]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
         drawTeamText(player->_actualPosition, player, size, team);
         _model[id]->setCamera(_camera);
         bool tmp = _model[id]->drawSelectedPlayer(player->_actualPosition, size, player->_rotation);
