@@ -1,9 +1,14 @@
 import socket
-
+from utils import *
 class Items:
     def __init__(self, client_socket:socket) -> None:
+        """_summary_
+
+        Args:
+            client_socket (socket): _description_
+        """
         self.client_socket:socket = client_socket
-        
+
     def needsFood(self, inventory:list, ListFilled:list):
         try:
             if inventory["food"] < 5 and len(ListFilled) < 3:
@@ -17,8 +22,10 @@ class Items:
             try:
                 sight[0].index(objectives[i])
                 self.client_socket.send(("Take " + objectives[i] + "\n").encode())
-                self.client_socket.recv(1024)
+                res = rcvFromatter(self.client_socket)
+                print(f"take = {res}")
                 objectives.pop(i)
+                break
             except ValueError:
                 continue
         try:
@@ -26,15 +33,18 @@ class Items:
                 return
             sight[0].index("food")
             self.client_socket.send(("Take food\n").encode())
-            self.client_socket.recv(1024)
+            res = rcvFromatter(self.client_socket)
+            print(f"take = {res}")
             if (len(foodList) > 0):
                 foodList.pop(0)
         except ValueError:
             return
         except KeyError:
             return
-        
+
     def setItem(self, itemToSet:str, objectives:list) -> str:
         self.client_socket.send(("Set " + itemToSet + "\n").encode())
         objectives.append(itemToSet)
-        return self.client_socket.recv(1024).decode()
+        return_value = rcvFromatter(self.client_socket)
+        print(f"set = {return_value}")
+        return return_value
