@@ -17,15 +17,6 @@ static void init_egg_data(node_t **node)
     (*node)->next = NULL;
 }
 
-static void set_next_node(node_t **head, node_t *current, node_t *previous)
-{
-    if (previous == NULL) {
-        *head = current->next;
-    } else {
-        previous->next = current->next;
-    }
-}
-
 int get_linked_list_length(node_t *node)
 {
     int i = 0;
@@ -36,6 +27,15 @@ int get_linked_list_length(node_t *node)
         current = current->next;
     }
     return i;
+}
+
+static void set_next_node(node_t **head, node_t *current, node_t *previous)
+{
+    if (previous == NULL) {
+        *head = current->next;
+    } else {
+        previous->next = current->next;
+    }
 }
 
 void remove_egg_node(node_t **head, int id)
