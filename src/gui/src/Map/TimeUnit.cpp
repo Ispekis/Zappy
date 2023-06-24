@@ -9,7 +9,7 @@
 
 Zappy::TimeUnit::TimeUnit()
 {
-    _timeUnit = 1000;
+    _timeUnit = 15;
     _fps = 60;
     _secondPerFrame = 1 / _fps;
     

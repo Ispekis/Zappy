@@ -57,7 +57,7 @@ namespace Zappy
         raylib::Model _model;
         ModelAnimation *_animation;
         raylib::Texture2D _texture;
-        raylib::BoundingBox _boundingBox;
+        BoundingBox _boundingBox;
         float _size;
         int i = 1;
         int _animFrameCounter = 3;
