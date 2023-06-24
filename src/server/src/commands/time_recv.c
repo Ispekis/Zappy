@@ -34,5 +34,10 @@ void send_time_unit_modif(int fd, data_t *data, char *params)
         return;
     }
     data->freq = nbr;
+    data->w_clock.timer_spec.it_interval.tv_nsec =
+    sec_to_nanosec(1.0f / (double) data->freq);
+    if (timerfd_settime(data->w_clock.tfd, 0, &data->w_clock.timer_spec,
+    NULL) == -1)
+        return;
     fmt_tm_modification(fd, data->freq);
 }
