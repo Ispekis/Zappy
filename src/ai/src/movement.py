@@ -122,7 +122,7 @@ class Movement:
                 inc = inc + (2 * i)
             try:
                 sight[inc].index(self.itemObj)
-            except ValueError:
+            except (ValueError, IndexError):
                 self.itemObj = None
                 self.preMove = []
     

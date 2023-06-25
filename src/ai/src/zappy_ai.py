@@ -58,14 +58,17 @@ class AI:
         """
         Set the sight, invetory and update the team slot free
         """
-        self.client_socket.send(("Look\n").encode())
-        self.player.sight = parseLook(rcvFromatter(self.client_socket)[2:-2])
-        # print(f'sight = {self.player.sight}')
-        self.client_socket.send(("Inventory\n").encode())
-        self.player.inventory = parseInventory(rcvFromatter(self.client_socket)[2:-2])
-        # print(f'inventory = {self.player.inventory}')
-        self.client_socket.send(("Connect_nbr\n").encode())
-        self.player.nb_player = int(rcvFromatter(self.client_socket))
+        try:
+            self.client_socket.send(("Look\n").encode())
+            self.player.sight = parseLook(rcvFromatter(self.client_socket)[2:-2])
+            # print(f'sight = {self.player.sight}')
+            self.client_socket.send(("Inventory\n").encode())
+            self.player.inventory = parseInventory(rcvFromatter(self.client_socket)[2:-2])
+            # print(f'inventory = {self.player.inventory}')
+            self.client_socket.send(("Connect_nbr\n").encode())
+            self.player.nb_player = int(rcvFromatter(self.client_socket))
+        except:
+            return
         # print(f'nbplayer = {self.player.nb_player}')
 
     def reproduction(self) -> None:
@@ -80,8 +83,8 @@ class AI:
             self.itemHandling.takeItem(self.player.sight, self.player.item_needed, self.player.needList, self.player.inventory)
             self.move.handleMovement(self.player.sight, self.player.needList)
             push(self.player, self.client_socket)
-            self.reproduction()
-            broadcast(self.player, self.client_socket)
+            # self.reproduction()
+            # broadcast(self.player, self.client_socket)
 
 
     def run_ai(self) -> int:
