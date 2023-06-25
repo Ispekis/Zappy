@@ -84,8 +84,10 @@ void Zappy::Player::setPosition(std::pair<std::size_t, std::size_t> newPosition)
 void Zappy::Player::setInventory(std::vector<std::string> newInventory)
 {
     std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
-    for (std::size_t i = 0; i != newInventory.size() - 1; i++)
+    for (std::size_t i = 0; i != newInventory.size() - 1; i++) {
+        std::cout << ressource[i] << ":" << newInventory[i] << std::endl;
         _inventory[ressource[i]] = std::stoul(newInventory[i]);
+    }
 }
 
 void Zappy::Player::setOrientation(Orientation newOrientation)
