@@ -60,13 +60,10 @@ def comp_obj(obj_list: dict, inventory: dict) -> bool:
 
 def crypt(key:str, message:str) -> str:
     crypt_msg:str = ""
-    print(f"message = {message}")
+    # print(f"message = [{message}]")
     for i in range(len(message)):
         crypt_msg += chr(ord(message[i]) ^ ord(key[i % len(key)]))
     return crypt_msg
-
-def decrypt(key:str, message:str) -> str:
-    
 
 def eventMessages(string:str, broadcast:list, broadcast_direction:list, action:int=NORMAL) -> bool:
     if len(string.split()) > 1 and (action == SIGHT and (string.split()[1].split(",")[0] != "player")):
@@ -89,8 +86,6 @@ def rcvFromatter(client_socket:socket, action:int=NORMAL, broadcast:list=[], bro
     string:str = client_socket.recv(1024).decode()
     if (eventMessages(string, broadcast, broadcast_direction, action)):
         string = client_socket.recv(1024).decode()
-        if len(string.split()) > 1 and string.split()[0] == "message":
-            broadcast_direction.append(string.split()[1][0])
-            broadcast.append(string.split(",")[1])
+        if eventMessages(string, broadcast, broadcast_direction, action):
             string = client_socket.recv(1024).decode()
     return string

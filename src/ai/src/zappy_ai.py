@@ -79,13 +79,13 @@ class AI:
             rcv_data = rcvFromatter(self.client_socket, NORMAL, self.broadcast, self.broadcast_direction)
 
     def playerAction(self) -> None:
+        levelUp(self.player, self.client_socket, self.broadcast, self.broadcast_direction)
         self.itemHandling.needsFood(self.player.inventory, self.player.needList)
         self.itemHandling.takeItem(self.player.sight, self.player.item_needed, self.player.needList, self.player.inventory, self.broadcast, self.broadcast_direction)
         self.move.handleMovement(self.player.sight, self.player.needList)
         push(self.player, self.client_socket)
         self.reproduction()
         broadcast(self.player, self.client_socket, self.broadcast, self.broadcast_direction)
-        levelUp(self.player, self.client_socket, self.broadcast, self.broadcast_direction)
 
 
     def run_ai(self) -> int:

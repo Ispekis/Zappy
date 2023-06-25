@@ -22,9 +22,6 @@ def ask(team:str, type:int, value:str=None, level:int=0) -> str:
     elif level != 0:
         # ask player with a same level
         return "{} {} {} {}".format(team, str(type), value, level)
-    else:
-        # ask food
-        return "{} {} {}".format(team, str(type), value)
 
 def broadcast(player:Player, client_socket:socket, broadcast:list, broadcast_direction:list) -> None:
     """Créate the broadcast message
@@ -39,6 +36,8 @@ def broadcast(player:Player, client_socket:socket, broadcast:list, broadcast_dir
     elif len(player.item_needed) and player.ask == False and player.level >= 2:
         message = ask(player.team, ASK, PLAYER, player.level)
     if message != None:
+        # message = crypt(player.team, message)
+        # print(message)
         client_socket.send(("Broadcast " + message + "\n").encode())
         res = rcvFromatter(client_socket, NORMAL, broadcast, broadcast_direction)
         print(f"broadcast = {res}")
@@ -46,7 +45,8 @@ def broadcast(player:Player, client_socket:socket, broadcast:list, broadcast_dir
             player.ask = True
 
 def analyse_broadcast(player:Player, broadcast:list, broadcast_direction:list) -> str:
-    # for i in range(len(broadcast)):
-    #         print(crypt(player.team, broadcast[i]))
-    #         print(broadcast_direction[i])
+    for i in range(len(broadcast)):
+            print(f"crypter = {broadcast[i]}")
+            # print(f"decrpter = {crypt(player.team, broadcast[i])}")
+            print(broadcast_direction[i])
     return
