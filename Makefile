@@ -51,4 +51,4 @@ debug:
 	$(MAKE) debug -C $(GUI_PATH)
 	$(MAKE) debug -C $(AI_PATH)
 
-.PHONY: all zappy_server zappy_gui zappy_ai tests_run clean fclean re debug
+.PHONY: all zappy_server zappy_gui zappy_ai tests_run clean fclean re debug doc
