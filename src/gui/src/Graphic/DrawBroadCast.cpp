@@ -47,12 +47,16 @@ void Zappy::DrawBroadCast::boxHover()
     }
 }
 
-void Zappy::DrawBroadCast::draw()
+void Zappy::DrawBroadCast::draw(raylib::Camera& camera)
 {
+    _camera = camera;
     event();
+    // _camera.BeginMode();
+    // drawAnimation();
+    // _camera.EndMode();
     if (_drawChatBox)
         drawChatBox();
-    drawAnimation();
+
 }
 
 static Color getTeamColor(std::size_t id)
@@ -80,9 +84,6 @@ void Zappy::DrawBroadCast::drawChatBox()
     std::vector<broadcast_t> message = _data->_gameData._broadCast._All;
     for (std::size_t i = 0; i != message.size(); i++)
     {
-        // int tmp = _scrollIndex;
-        // if (_scrollIndex > message.size() - i - 1)
-            // tmp = message.size() - i - 1;
         std::size_t index = message.size() - i - 1;
         std::size_t id = message[index]._playerId;
         std::string player = "[" + std::to_string(index) +  "]" + "Player " + std::to_string(id) + ":";
@@ -104,5 +105,36 @@ void Zappy::DrawBroadCast::drawChatBox()
 
 void Zappy::DrawBroadCast::drawAnimation()
 {
+    auto &animation = _data->_gameData._broadCast;
+    float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
+    int i = 0;
+    float size = _data->_gameData._tileSize;
+    auto map = _data->_gameData._mapSize;
+    
+    for (auto &element : animation._broadCastList)
+    {
+        std::size_t id = element._playerId;
+        float posX = size * element._position.first - (map.first / 2 * size);
+        float posY = -(size * element._position.second - (map.second / 2 * size));
+        float posZ = size + 0.15;
+        Vector3 position = {posX,posZ,posY};
+        addModel(id);
+        float AnimationFrame = _model[id]->getAnimCount(0) / (nbrframe);
+        int AnimationFrameRounded = ceil(AnimationFrame);
+        element._animation += AnimationFrameRounded;
+        _model[id]->moveAnimation(0, AnimationFrameRounded);
+        if (element._animation >= _model[id]->getAnimCount(0)) {
+            _model[id]->moveAnimationToStart(0);
+            _data->_gameData._broadCast.endBroadCast(i);
+        }
+        _model[id]->draw(position, size);
+        i++;
+    }
+}
 
+void Zappy::DrawBroadCast::addModel(std::size_t playerId)
+{
+    if (_model.count(playerId) == 0) {
+        _model.insert({playerId, std::make_shared<MyModel>("src/gui/assets/items/obj/broadCastEffect.glb", 3)});
+    }
 }

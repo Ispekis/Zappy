@@ -174,7 +174,8 @@ void Zappy::GameData::pbc(std::vector<std::string> &content)
         message.append(content[i]);
         message.append(" ");
     }
-    broadcast_t e = {id, position, message};
+    std::cout << "ddddddddd:" << message << std::endl;
+    broadcast_t e = {id, position, message, 0};
     _broadCast.addBroadCast(e);
     std::cout << ": New broadcast by player" << content[0] << ":" << content[1] << std::endl;
 }

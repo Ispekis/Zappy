@@ -148,5 +148,6 @@ void Zappy::Gameplay::cameraEvent()
 void Zappy::Gameplay::draw()
 {
     _worldMap.draw(_camera);
-    _broadCast.draw();
+    _broadCast.draw(_camera);
+    DrawGrid(10, 1);
 }
