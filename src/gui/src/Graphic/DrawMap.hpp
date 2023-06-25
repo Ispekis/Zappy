@@ -41,6 +41,8 @@ namespace Zappy {
 
             void drawBlockInformation();
 
+            void drawPlayerInventory();
+
             void tileSelection(std::size_t, std::size_t, int ret);
 
             void drawSkybox();
