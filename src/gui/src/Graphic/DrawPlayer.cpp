@@ -216,8 +216,9 @@ void Zappy::DrawPlayer::playerSelection(std::shared_ptr<Player> player, std::siz
     }
     else if (tmp == true && player->_selected == true) {
         player->_selected = false;
-        _data->_gameData._playerIdSelect = 0;
+        _data->_gameData._playerIdSelect = 0;                             // Camera field-of-view Y
     }
+        
 }
 
 void Zappy::DrawPlayer::drawTeamText(Vector3 pos, std::shared_ptr<Player> player, float size, std::string team)
