@@ -22,11 +22,13 @@ void Zappy::Gameplay::setData(std::shared_ptr<Data> data)
     std::shared_ptr<Data> tmp(data, data.get());
     _data = tmp;
     _worldMap.setData(tmp);
+    _broadCast.setData(tmp);
+    _scoreBoard.setData(tmp);
 }
 
 void Zappy::Gameplay::setCamera()
 {
-    _camera.position = (Vector3){0.0f, 100.0f, 50.0f};    // Camera position
+    _camera.position = (Vector3){0.0f, 150.0f, 150.0f};    // Camera position
     _camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
     _camera.up = (Vector3){ 0.0f, 10.0f, 0.0f };          // Camera up vector (rotation towards target)
     _camera.fovy = 45.0f;                                // Camera field-of-view Y
@@ -45,6 +47,8 @@ void Zappy::Gameplay::event()
 {
     if (IsKeyPressed(KEY_ESCAPE))
         _data->_gameData._end = true;
+    if (IsKeyPressed(KEY_TAB))
+        _scoreboardView = !_scoreboardView;
     playerSelectionEvent();
     if (_playerView == false)
         cameraEvent();
@@ -80,14 +84,19 @@ void Zappy::Gameplay::playerSelectionEvent()
         }
         else if (IsKeyPressed(KEY_P) && _playerView == true) {
             _playerView = false;
-        _camera.position =(Vector3){0.0f, 100.0f, 50.0f};    // Camera position
+            _camera.position =(Vector3){0.0f, 150.0f, 150.0f};    // Camera position
             _camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
             _camera.fovy = 45.0f;                                // Camera field-of-view Y
-
         }
         if (_playerView == true) {
             playerViewCamera();
         }
+    }
+    else {
+                            _playerView = false;
+        // _camera.position =(Vector3){0.0f, 100.0f, 50.0f};    // Camera position
+            // _camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+            // _camera.fovy = 45.0f;   
     }
 
 }
@@ -142,4 +151,8 @@ void Zappy::Gameplay::cameraEvent()
 void Zappy::Gameplay::draw()
 {
     _worldMap.draw(_camera);
+    _broadCast.draw(_camera);
+    if (_scoreboardView == true)
+        _scoreBoard.drawScoreboard();
+    // DrawGrid(10, 1);
 }

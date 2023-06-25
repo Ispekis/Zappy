@@ -80,14 +80,14 @@ void Zappy::DrawPlayer::draw(raylib::Camera &camera)
     _camera = camera;
     auto players = _data->_gameData._player;
     auto size = _data->_gameData._tileSize;
-    auto map = _data->_gameData._mapSize;
+    // auto map = _data->_gameData._mapSize;
     for (const auto &element : players)
     {
         auto player = element.second; // player class
         std::size_t id = player->getId();
         allAction(player);
         drawTeamText(player->_actualPosition, player, size, player->getTeam()->getName());
-        playerSelection(player, size, camera);
+        playerSelection(player, size);
         _model[id]->draw(player->_actualPosition, player->_rotation, size, player->_selected);
     }
 }
@@ -112,18 +112,19 @@ void Zappy::DrawPlayer::allAction(std::shared_ptr<Player> player)
         return;
     }
     if (player->_eject != -1) {
-        // std::cout << "Ject" << std::endl;
         ejectAnimationPlayer(player);
         return;
     }
-    // if (player->_egglaying != -1)
-    //     eggLayingAnimationPlayer(player);
+    if (player->_egglaying != -1) {
+        eggLayingAnimationPlayer(player);
+        return;
+    }
     drawMovementPlayer(player);
 }
 
 void Zappy::DrawPlayer::incantationAnimationPlayer(std::shared_ptr<Player> player)
 {
-    float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
+    float nbrframe = _data->_gameData._timeUnit.getActionTime(300) / _data->_gameData._timeUnit.getSecondPerFrame();
     float AnimationFrame = _model[player->getId()]->getAnimCount(Animation::incancation) / (nbrframe);
     
     int AnimationFrameRounded = ceil(AnimationFrame);
@@ -134,6 +135,23 @@ void Zappy::DrawPlayer::incantationAnimationPlayer(std::shared_ptr<Player> playe
     if (player->_incantation >= _model[player->getId()]->getAnimCount(Animation::incancation)) {
         _model[player->getId()]->moveAnimationToStart(Animation::incancation);
         player->_incantation = -1;
+    }
+}
+
+void Zappy::DrawPlayer::eggLayingAnimationPlayer(std::shared_ptr<Player> player)
+{
+    float nbrframe = _data->_gameData._timeUnit.getActionTime(47) / _data->_gameData._timeUnit.getSecondPerFrame();
+    float AnimationFrame = _model[player->getId()]->getAnimCount(Animation::laying_egg) / (nbrframe);
+    
+    int AnimationFrameRounded = ceil(AnimationFrame);
+    if (AnimationFrame < 1)
+        AnimationFrameRounded = 1;
+    player->_egglaying += AnimationFrameRounded;
+    _model[player->getId()]->moveAnimation(Animation::laying_egg, AnimationFrameRounded);
+    if (player->_egglaying >= _model[player->getId()]->getAnimCount(Animation::laying_egg))
+    {
+        _model[player->getId()]->moveAnimationToStart(Animation::laying_egg);
+        player->_egglaying = -1;
     }
 }
 
@@ -185,23 +203,24 @@ void Zappy::DrawPlayer::dropAnimationPlayer(std::shared_ptr<Player>player)
 }
 
 
-void Zappy::DrawPlayer::playerSelection(std::shared_ptr<Player> player, std::size_t size, raylib::Camera& camera)
+void Zappy::DrawPlayer::playerSelection(std::shared_ptr<Player> player, std::size_t size)
 {
     std::size_t id = player->getId();
     auto players = _data->_gameData._player;
-    bool tmp = _model[id]->getSelectedModel(player->_actualPosition, size, player->_rotation);
+    bool tmp = _model[id]->getSelectedModel(player->_actualPosition, size);
     _model[id]->setCamera(_camera);
     if (tmp == true && player->_selected == false) {
         for (const auto &element1 : players)
             element1.second->_selected = false;
         player->_selected = true;
         _data->_gameData._playerIdSelect = player->getId();
-        std::cout << player->getId() << std::endl;
+        _data->sendPinProtocol(player->getId());
     }
     else if (tmp == true && player->_selected == true) {
         player->_selected = false;
-        _data->_gameData._playerIdSelect = 0;
+        _data->_gameData._playerIdSelect = 0;                             // Camera field-of-view Y
     }
+        
 }
 
 void Zappy::DrawPlayer::drawTeamText(Vector3 pos, std::shared_ptr<Player> player, float size, std::string team)
@@ -215,8 +234,8 @@ void Zappy::DrawPlayer::drawTeamText(Vector3 pos, std::shared_ptr<Player> player
         textColor = Color{30, tmpcolorR, 30, 255};
     if (tmpcolorR % 3 == 3)
         textColor = Color{tmpcolorR, 30, tmpcolorG, 255};
-    _drawText3d.DrawText3D(GetFontDefault(), team.c_str(), (Vector3){pos.x - size / 6, pos.y + size * 1.2, pos.z}, textColor, size);
-    _drawText3d.DrawText3D(GetFontDefault(), std::to_string(player->getId()).c_str(), (Vector3){pos.x - size / 6 + 1, pos.y + size * 1.1, pos.z}, textColor, size);
+    _drawText3d.DrawText3D(GetFontDefault(), team.c_str(), (Vector3){pos.x - size / 6.0f, pos.y + size * 1.2f, pos.z}, textColor, size);
+    _drawText3d.DrawText3D(GetFontDefault(), std::to_string(player->getId()).c_str(), (Vector3){pos.x - size / 6.0f + 1.0f, pos.y + size * 1.1f, pos.z}, textColor, size);
 }
 
 float Zappy::DrawPlayer::movePlayerRotation(Zappy::Orientation orientation, float actualRotation)
@@ -224,23 +243,23 @@ float Zappy::DrawPlayer::movePlayerRotation(Zappy::Orientation orientation, floa
     float nextOrientation = getRotationAngle(orientation, actualRotation);
     if (nextOrientation == actualRotation)
         return 10;
-        if (nextOrientation == -270 && actualRotation == 0)
-            actualRotation = -360;
-        if (nextOrientation == -90 && actualRotation == -360)
-            actualRotation = 0;
-        if (nextOrientation == -90 && actualRotation == -360)
-            actualRotation = 0;
+    if (nextOrientation == -270 && actualRotation == 0)
+        actualRotation = -360;
+    if (nextOrientation == -90 && actualRotation == -360)
+        actualRotation = 0;
+    if (nextOrientation == -90 && actualRotation == -360)
+        actualRotation = 0;
     if (nextOrientation > actualRotation) {
         actualRotation++;
         if (actualRotation > nextOrientation)
             actualRotation = nextOrientation;
-    return actualRotation;
+        return actualRotation;
     }
     if (nextOrientation < actualRotation) {
         actualRotation--;
         if (actualRotation < nextOrientation)
             actualRotation = nextOrientation;
-    return actualRotation;
+        return actualRotation;
     }
     return actualRotation;
 }
@@ -250,8 +269,6 @@ void Zappy::DrawPlayer::drawRotatePlayer(std::shared_ptr<Player> player)
     float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
     float animationFrame = 90 / nbrframe;
     int animationFrameRounded = ceil(animationFrame);
-    float size = _data->_gameData._tileSize;
-    std::size_t level = player->getId();
     for (int i = 0; i != animationFrameRounded; i++)
     {
         float tmp = movePlayerRotation(player->getOrientation(), player->_rotation);
@@ -300,8 +317,6 @@ void Zappy::DrawPlayer::movePlayerPositionX(std::shared_ptr<Player> player, Vect
     if (std::isinf(animFrame))
         animFrame = 1;
     int animFramePerLoop = std::abs(ceil(animFrame));
-    std::size_t level = player->getLevel();
-    float size = _data->_gameData._tileSize;
     float increment;
     if (distance > 0)
         increment = 0.1;
@@ -334,10 +349,7 @@ void Zappy::DrawPlayer::movePlayerPositionY(std::shared_ptr<Player> player, Vect
         animFrame = 1;
     int animFramePerLoop = std::abs(ceil(animFrame));
     std::cout << animFramePerLoop << std::endl;
-    std::size_t level = player->getLevel();
-    float size = _data->_gameData._tileSize;
     float increment;
-
     if (distance > 0)
         increment = 0.1;
     else

@@ -37,11 +37,13 @@ GRAPHIC =	$(addprefix src/Graphic/,		\
 				DrawItems.cpp		\
 				DrawEggs.cpp 		\
 				DrawPlayer.cpp 		\
+				DrawBroadCast.cpp 	\
 				MyModel.cpp 		\
 				Gameplay.cpp		\
 				Menu.cpp		\
 				Rectangle.cpp		\
-				DrawText3d.cpp)
+				DrawText3d.cpp	\
+				DrawScoreboard.cpp)
 
 SRC	=	$(addprefix src/,				\
 			Parser.cpp					\

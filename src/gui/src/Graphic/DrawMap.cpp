@@ -24,6 +24,7 @@ void Zappy::DrawMap::setData(std::shared_ptr<Data> data)
 {
     std::shared_ptr<Data> tmp(data, data.get());
     _data = tmp;
+    _egg.setData(tmp);
     _items.setData(tmp);
     _player.setData(tmp);
 }
@@ -45,23 +46,83 @@ void Zappy::DrawMap::setTexture()
     _texture.insert({"Linemate", raylib::Texture("src/gui/assets/items/texture/coal.png")});
     _texture.insert({"Food", raylib::Texture("src/gui/assets/items/texture/carrot.png")});
 
+    _texture.insert({"sky", raylib::Texture("src/gui/assets/InGameSkybox/sky.png")});
+    _texture.insert({"est", raylib::Texture("src/gui/assets/InGameSkybox/est.png")});
+    _texture.insert({"nord", raylib::Texture("src/gui/assets/InGameSkybox/nord.png")});
+    _texture.insert({"ouest", raylib::Texture("src/gui/assets/InGameSkybox/ouest.png")});
+    _texture.insert({"bot", raylib::Texture("src/gui/assets/InGameSkybox/bot.png")});
+    _texture.insert({"sud", raylib::Texture("src/gui/assets/InGameSkybox/sud.png")});
 }
 
 void Zappy::DrawMap::setCube()
 {
     _cube.insert({"water", Cube(_texture["water"].GetId(), _texture["clearbackground"].GetId(), _texture["water"].GetId(), _shader["waterWave"])});
     _cube.insert({"grass", Cube(_texture["grassTop"].GetId(), _texture["grassSide"].GetId(), _texture["dirt"].GetId())});
+
+    _cube.insert({"sky", Cube(_texture["sky"].GetId(), _texture["sky"].GetId(), _texture["sky"].GetId())});
+    _cube.insert({"est", Cube(_texture["est"].GetId(), _texture["est"].GetId(), _texture["est"].GetId())});
+    _cube.insert({"nord", Cube(_texture["nord"].GetId(), _texture["nord"].GetId(), _texture["nord"].GetId())});
+    _cube.insert({"ouest", Cube(_texture["ouest"].GetId(), _texture["ouest"].GetId(), _texture["ouest"].GetId())});
+    _cube.insert({"bot", Cube(_texture["bot"].GetId(), _texture["bot"].GetId(), _texture["bot"].GetId())});
+    _cube.insert({"sud", Cube(_texture["sud"].GetId(), _texture["sud"].GetId(), _texture["sud"].GetId())});
+
+}
+
+void Zappy::DrawMap::drawSkybox()
+{
+    _cube["est"].drawBlockTexture(Vector3{1.0f, 1.0f, 1.0f - _data->_gameData._tileSize * 40}, Vector3{_data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40}, WHITE);
+    _cube["sud"].drawBlockTexture(Vector3{1.0f - _data->_gameData._tileSize * 40, 1.0f, 1.0f}, Vector3 {_data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40}, WHITE);
+    _cube["ouest"].drawBlockTexture(Vector3{1.0f, 1.0f, 1.0f + _data->_gameData._tileSize * 40}, Vector3{_data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40}, WHITE);
+    _cube["nord"].drawBlockTexture(Vector3{1.0f + _data->_gameData._tileSize * 40, 1.0f, 1.0f}, Vector3 {_data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40}, WHITE);
+    _cube["sky"].drawBlockTexture(Vector3{1.0f, 1.0f + _data->_gameData._tileSize * 40, 1.0f}, Vector3 {_data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40}, WHITE);
+    _cube["bot"].drawBlockTexture(Vector3{1.0f, 1.0f - _data->_gameData._tileSize * 40, 1.0f}, Vector3 {_data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40}, WHITE);
 }
 
 void Zappy::DrawMap::draw(raylib::Camera3D &camera)
 {
     _camera = camera;
     _camera.BeginMode();
+    drawSkybox();
     drawMap();
     drawSelectedTile();
+    _egg.draw();
     _player.draw(_camera);
     _camera.EndMode();
     drawBlockInformation();
+    drawPlayerInventory();
+}
+
+void Zappy::DrawMap::drawPlayerInventory()
+{
+    std::size_t id = _data->_gameData._playerIdSelect;
+    if (id != 0)
+    {
+        if (_data->_gameData._player.count(id) == 0)
+            return;
+        std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
+        auto player = _data->_gameData._player[id];
+        int rectWidth = _windowSize.first * 0.2;
+        int rectHeight = _windowSize.second * 0.15;
+        float x = _windowSize.first * 0.005;
+        float y = _windowSize.second * 0.05;
+        std::string teamName = player->getTeam()->getName();
+        std::string playerId = std::to_string(player->getId());
+        std::string Name = teamName;
+        std::string Level = "Level : " + std::to_string(player->getLevel());
+        Name.append(" : ID ");
+        Name.append(playerId);
+        DrawText(Name.c_str(), x + rectWidth * 0.1 , y + rectHeight * 0.1, 20, RED);
+        DrawText(Level.c_str(), x + rectWidth * 0.1 , y + rectHeight * 0.3, 20, MAROON);
+        DrawRectangle(x, y, rectWidth, rectHeight, Fade(SKYBLUE, 0.5f));
+        DrawRectangleLines( x, y, rectWidth, rectHeight, BLACK);
+        auto rss = player->getInventory();
+        for (std::size_t i = 0; i != ressource.size(); i++)
+        {
+            // std::string e = std::to_string(rss[ressource[i]]);
+            DrawTextureEx(_texture[ressource[i]], (Vector2){x + rectWidth * 0.1 * (i + 1), y + rectHeight * 0.5}, 0.0, 2, WHITE);
+            DrawText(std::to_string(rss[ressource[i]]).c_str(), x + rectWidth * 0.105 * (i + 1), y + rectHeight * 0.8, 20, WHITE);
+        }
+    }
 }
 
 void Zappy::DrawMap::drawMap()
@@ -69,16 +130,11 @@ void Zappy::DrawMap::drawMap()
     auto size = _data->_gameData._tileSize;
     auto mapSize = _data->_gameData._mapSize;
 
-    // _cube["grass"].drawBlockTexture((Vector3){0, 0, 75}, (Vector3){50.0,  50.0, 50.0}, BLUE);
-    // _cube["grass"].drawBlockTexture((Vector3){75, 0, 0}, (Vector3) {50.0,  50.0, 50.0}, WHITE);
-    // _cube["grass"].drawBlockTexture((Vector3){-75, 0, 0}, (Vector3) {50.0, 50.0, 50.0}, RED);
-    // _cube["grass"].drawBlockTexture((Vector3){0, 0, -75}, (Vector3) {50.0, 50.0, 50.0}, BLACK);
-
     for (std::size_t x = 0; x != mapSize.first; x++)
         for (std::size_t y = 0; y != mapSize.second; y++) {
             drawTile(x, y, mapSize);
         }
-    _cube["water"].drawWaterTexture((Vector3){0, 0.9, 0}, (Vector3){size * 20, size / 0.9f, size * 20}, GRAY);
+    _cube["water"].drawWaterTexture((Vector3){0, 0.9, 0}, (Vector3){size * 40, size / 0.9f, size * 40}, GRAY);
 }
 
 void Zappy::DrawMap::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)

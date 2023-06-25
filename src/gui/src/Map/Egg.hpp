@@ -32,7 +32,6 @@ namespace Zappy {
 
         void connexionEgg(std::size_t);
 
-
         std::map<std::size_t, egg_t> _eggList;
         std::vector<egg_t> _eggArchive;
     };

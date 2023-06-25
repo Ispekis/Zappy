@@ -75,11 +75,15 @@ void Zappy::DrawItems::drawSpacedItem(std::size_t qty, Vector3 pos, std::string 
         x = i - 6;
         y++;
     }
-    _rotation -= 0.01f;
+    float fps = _data->_gameData._timeUnit.getFps();
+    float increment = (0.001 * 60) / fps;
+    float incrementbouncing = (0.00002 * 60) / fps;
+    std::cout << increment << std::endl;
+    _rotation -= increment;
     if (_ret == false)
-        _itemBounce += 0.00008f;
+        _itemBounce += incrementbouncing;
     if (_ret == true)
-        _itemBounce -= 0.00008f;
+        _itemBounce -= incrementbouncing;
     if (_itemBounce > 0.8)
         _ret = true;
     if (_itemBounce < 0)
@@ -87,6 +91,6 @@ void Zappy::DrawItems::drawSpacedItem(std::size_t qty, Vector3 pos, std::string 
     for (std::size_t a = 0; a < qty;)
     {
         a += 5;
-        DrawModelEx(_model[ressource], (Vector3){pos.x - (size / 2) + x * 0.8 + size * 0.3, ((pos.z + size / 2 + 1.7) - 0.2 + a * 0.01) + _itemBounce, pos.y - (size / 2) + a * 0.2 + y * 1}, (Vector3){0, 1, 0}, _rotation, (Vector3){size / 3, size / 3, size / 3}, WHITE);
+        DrawModelEx(_model[ressource], (Vector3){pos.x - (size / 2) + x * 0.8f + size * 0.3f, ((pos.z + size / 2 + 1.7f) - 0.2f + a * 0.01f) + _itemBounce, pos.y - (size / 2) + a * 0.2f + y * 1}, (Vector3){0, 1, 0}, _rotation, (Vector3){size / 3.0f, size / 3.0f, size / 3.0f}, WHITE);
     }
 }

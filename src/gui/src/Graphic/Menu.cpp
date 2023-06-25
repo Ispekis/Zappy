@@ -68,6 +68,14 @@ void Zappy::Menu::setTexture()
     _texture.insert({"level6", raylib::Texture("src/gui/assets/levelSkin/6.png")});
     _texture.insert({"level7", raylib::Texture("src/gui/assets/levelSkin/7.png")});
     _texture.insert({"level8", raylib::Texture("src/gui/assets/levelSkin/8.png")});
+
+    _texture.insert({"Thystame", raylib::Texture("src/gui/assets/items/texture/nether_star.png")});
+    _texture.insert({"Phiras", raylib::Texture("src/gui/assets/items/texture/emerald.png")});
+    _texture.insert({"Mendiane", raylib::Texture("src/gui/assets/items/texture/diamond.png")});
+    _texture.insert({"Sibur", raylib::Texture("src/gui/assets/items/texture/gold.png")});
+    _texture.insert({"Deraumere", raylib::Texture("src/gui/assets/items/texture/iron.png")});
+    _texture.insert({"Linemate", raylib::Texture("src/gui/assets/items/texture/coal.png")});
+    _texture.insert({"Food", raylib::Texture("src/gui/assets/items/texture/carrot.png")});
 }
 
 void Zappy::Menu::setRectangle()
@@ -76,7 +84,7 @@ void Zappy::Menu::setRectangle()
     _rectangle.insert({"menuPlayButton", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"menuSettingsButton", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"menuQuitButton", std::make_shared<Rect>(_texture["basicButton"])});
-    _rectangle.insert({"menuHowToPlayButton", std::make_shared<Rect>(_texture["basicButton"])});
+    _rectangle.insert({"menuRuleButton", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"returnButton", std::make_shared<Rect>(_texture["basicButton"])});
     _rectangle.insert({"menuHoverButton", std::make_shared<Rect>(_texture["hoverButton"])});
     _rectangle.insert({"volumeSidebar", std::make_shared<Rect>(_texture["sidebar"])});
@@ -97,12 +105,11 @@ void Zappy::Menu::setCube()
 void Zappy::Menu::run()
 {
     UpdateMusicStream(_music);
-    event();
     if (_settings == true)
         settingsEvent();
-    if (_howToPlay == true) {
+    else if (_howToPlay == true)
         howToPlayEvent();
-    }
+    event();
     draw();
 }
 
@@ -208,13 +215,14 @@ void Zappy::Menu::drawBackground()
 void Zappy::Menu::draw()
 {
     drawBackground();
-    if (!_settings && !_howToPlay && _data->_gameData._menu == true) {
+    if (!_settings && !_howToPlay && _data->_gameData._menu == true && _principalMenu == true) {
         drawLogo();
         drawButton();
         drawText();
-    } else if (_settings && !_howToPlay)
+    }
+    else if (_settings && _principalMenu == false && !_howToPlay)
         drawSettings();
-    else if (!_settings && _howToPlay)
+    else if (_howToPlay && _principalMenu == false && !_settings)
         drawHowToPlay();
 }
 
@@ -226,7 +234,7 @@ void Zappy::Menu::drawLogo()
 void Zappy::Menu::drawButton()
 {
     _rectangle["menuPlayButton"]->drawRect(1000, 100, {470, 450});
-    _rectangle["menuHowToPlayButton"]->drawRect(1000, 100, {470, 600});
+    _rectangle["menuRuleButton"]->drawRect(1000, 100, {470, 600});
     _rectangle["menuSettingsButton"]->drawRect(1000, 100, {470, 750});
     _rectangle["menuQuitButton"]->drawRect(1000, 100, {470, 900});
 }
@@ -234,7 +242,7 @@ void Zappy::Menu::drawButton()
 void Zappy::Menu::drawText()
 {
     DrawText("Play", 900, 470, 50, WHITE);
-    DrawText("How to play", 810, 620, 50, WHITE);
+    DrawText("Rule", 895, 620, 50, WHITE);
     DrawText("Settings", 850, 770, 50, WHITE);
     DrawText("Quit", 900, 920, 50, WHITE);
 }
@@ -275,15 +283,42 @@ void Zappy::Menu::drawSettings()
 void Zappy::Menu::drawHowToPlay()
 {
     std::vector<std::string> level = { "level1","level2", "level3", "level4", "level5", "level6", "level7", "level8" };
+    std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
     float x = 180;
-    Rectangle rec = {250, 100, 1400, 450};
+    float ressourceX = 120;
+    Rectangle rec = {250, 100, 1400, 300};
 
     DrawRectangleRec(rec, GRAY);
     DrawRectangleLinesEx(rec, 5, BLACK);
-    for (int i = 0; level.size() != i; ++i) {
-        _texture[level[i]].Draw((Vector2) { x, 600 }, 0, 0.2, WHITE);
-        DrawRectangle(x, 850, 140, 40, GRAY);
-        DrawText(TextFormat("Level %d", i + 1), x + 15, 860, 30, BLACK);
+    DrawText("Each player must collect the resources necessary to level up and the food to survive:", 260, 110, 30, BLACK);
+    DrawText("Level 1 -> Level 2: linemate x1", 260, 145, 30, BLACK);
+    DrawText("Level 2 -> Level 3: linemate x1, deraumere x1, sibur x1", 260, 180, 30, BLACK);
+    DrawText("Level 3 -> Level 4: linemate x2, sibur x1, phiras x2", 260, 215, 30, BLACK);
+    DrawText("Level 4 -> Level 5: linemate x1, deraumere x1, sibur x2, phiras x1", 260, 250, 30, BLACK);
+    DrawText("Level 5 -> Level 6: linemate x1, deraumere x2, sibur x1, mendiane x3", 260, 285, 30, BLACK);
+    DrawText("Level 6 -> Level 7: linemate x1, deraumere x2, shibur x3, phiras x1", 260, 320, 30, BLACK);
+    DrawText("Level 7 -> Level 8: linemate x1, deraumere x2, sibur x2; mendiane x1, phiras x2, thystame x1", 260, 355, 30, BLACK);
+    for (std::size_t i = 0; ressource.size() != i; ++i) {
+        DrawRectangle(ressourceX, 760, 130, 115, GRAY);
+        DrawRectangleLinesEx((Rectangle) {ressourceX, 760, 130, 115}, 4, BLACK);
+        _texture[ressource[i]].Draw((Vector2) { ressourceX + 25, 770}, 0, 5, WHITE);
+        DrawRectangle(ressourceX - 15, 890, 170, 40, GRAY);
+        DrawRectangleLinesEx((Rectangle) {ressourceX - 15, 890, 170, 40}, 4, BLACK);
+        ressourceX += 250;
+    }
+    DrawText("Food", 150, 900, 30, BLACK);
+    DrawText("Linemate", 375, 900, 30, BLACK);
+    DrawText("Deraumere", 610, 900, 30, BLACK);
+    DrawText("Sibur", 900, 900, 30, BLACK);
+    DrawText("Mendiane", 1120, 900, 30, BLACK);
+    DrawText("Phiras", 1390, 900, 30, BLACK);
+    DrawText("Thystame", 1620, 900, 30, BLACK);
+    for (std::size_t i = 0; level.size() != i; ++i) {
+        _texture[level[i]].Draw((Vector2) { x, 450 }, 0, 0.2, WHITE);
+        DrawRectangleLinesEx((Rectangle) {x, 450, 140, 220}, 4, BLACK);
+        DrawRectangle(x, 700, 140, 40, GRAY);
+        DrawRectangleLinesEx((Rectangle) {x, 700, 140, 40}, 4, BLACK);
+        DrawText(TextFormat("Level %d", i + 1), x + 15, 710, 30, BLACK);
         x += 200;
     }
     drawReturnButton();
@@ -299,15 +334,15 @@ void Zappy::Menu::mouseClicking()
         for (; it != _rectangle.end(); ++it) {
             if (CheckCollisionPointRec(mousePos, it->second->getRect())) {
                 PlaySound(_click);
-                if (it->first == "menuPlayButton")
+                if (it->first == "menuPlayButton" && _principalMenu && !_settings && !_howToPlay)
                     _data->_gameData._menu = false;
-                else if (it->first == "menuHowToPlayButton") {
+                else if (it->first == "menuRuleButton" && !_settings) {
                     _howToPlay = true;
                     _principalMenu = false;
-                } else if (it->first == "menuSettingsButton") {
+                } else if (it->first == "menuSettingsButton" && !_howToPlay) {
                     _settings = true;
                     _principalMenu = false;
-                } else if (it->first == "menuQuitButton")
+                } else if (it->first == "menuQuitButton" && _principalMenu && !_settings && !_howToPlay)
                     _data->_gameData._end = true;
                 else if (it->first == "returnButton") {
                     _principalMenu = true;
@@ -330,7 +365,7 @@ void Zappy::Menu::mouseHovering()
         for (; it != _rectangle.end(); ++it) {
             if (CheckCollisionPointRec(mousePos, it->second->getRect()) && it->first != "menuLogo" && it->first != "volumeSidebar" && it->first != "framerateSidebar") {
                 it->second->setTexture(_texture["hoverButton"]);
-            } else if (it->first == "menuPlayButton" || it->first == "menuSettingsButton" || it->first == "menuQuitButton" || it->first == "menuHowToPlayButton" || it->first == "returnButton") { 
+            } else if (it->first == "menuPlayButton" || it->first == "menuSettingsButton" || it->first == "menuQuitButton" || it->first == "menuRuleButton" || it->first == "returnButton") { 
                 if (it->first != "menuLogo")
                     it->second->setTexture(_texture["basicButton"]);
             

@@ -34,15 +34,18 @@ namespace Zappy
     public:
         MyModel(std::string path, unsigned int animsCount, std::string texture);
 
+        MyModel(std::string path, unsigned int animsCount);
+
         ~MyModel();
 
         void setCamera(raylib::Camera3D camera);
 
-        bool getSelectedModel(Vector3 position, float size, float rotation);
+        bool getSelectedModel(Vector3 position, float size);
 
         void changeSkin(std::string skin);
 
         void draw(Vector3 pose, float, std::size_t, bool selected);
+        void draw(Vector3 pose, std::size_t, std::pair<std::size_t, std::size_t>, Color);
 
         void moveAnimation(int i, int frame);
 
