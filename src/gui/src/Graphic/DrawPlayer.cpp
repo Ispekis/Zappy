@@ -196,11 +196,7 @@ void Zappy::DrawPlayer::playerSelection(std::shared_ptr<Player> player, std::siz
             element1.second->_selected = false;
         player->_selected = true;
         _data->_gameData._playerIdSelect = player->getId();
-        char tmp[1024] = "pin ";
-        strcat(tmp, std::to_string(player->getId()).c_str());
-        strcat(tmp, "\n");
-        _data->writeToServer(tmp);
-        std::cout << player->getId() << std::endl;
+        _data->sendPinProtocol(player->getId());
     }
     else if (tmp == true && player->_selected == true) {
         player->_selected = false;
