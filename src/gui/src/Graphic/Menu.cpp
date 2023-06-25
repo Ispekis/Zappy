@@ -290,6 +290,14 @@ void Zappy::Menu::drawHowToPlay()
 
     DrawRectangleRec(rec, GRAY);
     DrawRectangleLinesEx(rec, 5, BLACK);
+    DrawText("Each player must collect the resources necessary to level up and the food to survive:", 260, 110, 30, BLACK);
+    DrawText("Level 1 -> Level 2: linemate x1", 260, 145, 30, BLACK);
+    DrawText("Level 2 -> Level 3: linemate x1, deraumere x1, sibur x1", 260, 180, 30, BLACK);
+    DrawText("Level 3 -> Level 4: linemate x2, sibur x1, phiras x2", 260, 215, 30, BLACK);
+    DrawText("Level 4 -> Level 5: linemate x1, deraumere x1, sibur x2, phiras x1", 260, 250, 30, BLACK);
+    DrawText("Level 5 -> Level 6: linemate x1, deraumere x2, sibur x1, mendiane x3", 260, 285, 30, BLACK);
+    DrawText("Level 6 -> Level 7: linemate x1, deraumere x2, shibur x3, phiras x1", 260, 320, 30, BLACK);
+    DrawText("Level 7 -> Level 8: linemate x1, deraumere x2, sibur x2; mendiane x1, phiras x2, thystame x1", 260, 355, 30, BLACK);
     for (std::size_t i = 0; ressource.size() != i; ++i) {
         DrawRectangle(ressourceX, 760, 130, 115, GRAY);
         DrawRectangleLinesEx((Rectangle) {ressourceX, 760, 130, 115}, 4, BLACK);
