@@ -42,7 +42,7 @@ int change_with_orien(int index, int orien)
     int res = broadcast_base[index];
 
     for (int i = 0; i < orien - 1; i++) {
-        if (orien + 2 >= 8)
+        if (res + 2 >= 8)
             res = 0;
         res += 2;
     }
