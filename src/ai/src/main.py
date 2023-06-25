@@ -11,7 +11,7 @@ from zappy_ai import AI
 import myexception
 from getopt import GetoptError
 
-def main(argv):
+def main(argv:list) -> int:
     if len(argv) == 2 and argv[1] == "-help":
         usage.show_usage(sys.stdout)
         return 0

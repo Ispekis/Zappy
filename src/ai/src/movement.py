@@ -1,10 +1,17 @@
 import random
 import socket
 from math import floor
+from utils import *
 from macro import *
 
 class Movement:
     def __init__(self, client_socket:socket, objectives:list) -> None:
+        """Initialize movement object for the player
+
+        Args:
+            client_socket (socket): the client socket, to send and receive value.
+            objectives (list): The objectives list
+        """
         self.cli_socket:socket = client_socket
         self.movementList:list = [FORWARD, FORWARD, RIGHT, LEFT]
         self.preMove:list = []
@@ -21,9 +28,19 @@ class Movement:
         self.setObjectivesList(objectives)
 
     def setObjectivesList(self, objectives:list) -> None:
+        """Function that will update the goal variable with new objectives
+
+        Args:
+            objectives (list): new list of objectives
+        """
         self.objectiveList = objectives
 
     def handleObjectives(self, objective:int) -> None:
+        """Handle the path to the objectives adding Forward or turning value
+
+        Args:
+            objective (int): Being the tile the objectives is in, in the player's sight
+        """
         tmp:int = 1
         sum:int = tmp
         for i in range(8):
@@ -46,6 +63,15 @@ class Movement:
             sum = sum + tmp
 
     def getClosest(self, closeList:list, sight:list, item:list) -> None:
+        """Get the closest objectives in the objectives list by doing some math and comparing
+        every sight objectives path with the old one to check which is the cheapest one.
+
+        Args:
+            closeList (list): Being a list with every index of tile where we can find an objectives item
+            sight (list): Sight is the vision array that the server sends us
+            item (list): Being the item that the player need to look for, foor or check
+            the list of objectives
+        """
         tmp:int = min(closeList)
         tmpList:list = []
         tmpObjList:list = []
@@ -67,13 +93,28 @@ class Movement:
                     continue
 
     def getActionCost(self, frequency:list) -> list:
+        """Get action cost of every value found in the sight, currently in frequency array
+
+        Args:
+            frequency (list): array storing the tile where an objectives has been found in the sight array
+
+        Returns:
+            list: return the list of cost of every value in the list
+        """
         tmpList:list = []
         for i in range(len(frequency)):
             tmpList.append(self.costList[frequency[i]])
             self.sightIdx.append(frequency[i])
         return tmpList
     
-    def itemNotThereAnymore(self, sight:list) -> str:
+    def itemNotThereAnymore(self, sight:list) -> None:
+        """Error handling function checking if the item is still on the tile after turning
+        because the item will eventually get out of the AI sight.
+        If the item does disappear the preMove list get emptied.
+
+        Args:
+            sight (list): Parsed array of the player's sight
+        """
         inc:int = 0
         if self.preMove.count(LEFT) == 0 and self.preMove.count(RIGHT) == 0 and len(self.preMove) != 0:
             count:int = self.preMove.count(FORWARD)
@@ -81,11 +122,18 @@ class Movement:
                 inc = inc + (2 * i)
             try:
                 sight[inc].index(self.itemObj)
-            except ValueError:
+            except (ValueError, IndexError):
                 self.itemObj = None
                 self.preMove = []
     
     def checkFrequency(self, sight:list, liste:list, items:list) -> None:
+        """Check the number of objectives present in the player's vision
+
+        Args:
+            sight (list): Parsed array for the vision
+            liste (list): List made to save the index where the objective was found
+            items (list): List of item the player need to find right now (Food or Objectives list)
+        """
         for i in range(len(sight)):
             for j in range(len(items)):
                 try:
@@ -95,7 +143,15 @@ class Movement:
                     continue
 
     
-    def handleMovement(self, sight:list, needs:list) -> str:
+    def handleMovement(self, sight:list, needs:list) -> None:
+        """Main function for handling the player's movement
+        Act differenttly if the needs list is empty or not, will look for food or objectives,
+        depending on it.
+
+        Args:
+            sight (list): The vision array sent by the server, and parsed by us
+            needs (list): An array made so the the AI will start looking for food when his food bar is too low
+        """
         self.sightIdx = []
         liste:list = []
         items:list = []
@@ -116,9 +172,9 @@ class Movement:
         else:
             self.itemObj = None
             tmp:str = random.choice(self.movementList)
-        print(needs)
+        # print(needs)
         self.lastMove = tmp
         self.cli_socket.send((tmp + "\n").encode())
-        var:str = self.cli_socket.recv(1024)
-        if (var.decode() == "ko"):
+        var:str = rcvFromatter(self.cli_socket)
+        if (var == "ko"):
             self.preMove.insert(0, tmp)
