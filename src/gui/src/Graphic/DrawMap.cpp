@@ -87,17 +87,47 @@ void Zappy::DrawMap::draw(raylib::Camera3D &camera)
     _player.draw(_camera);
     _camera.EndMode();
     drawBlockInformation();
+    drawPlayerInventory();
+}
+
+void Zappy::DrawMap::drawPlayerInventory()
+{
+    std::size_t id = _data->_gameData._playerIdSelect;
+    if (id != 0)
+    {
+        if (_data->_gameData._player.count(id) == 0)
+            return;
+        std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
+        // std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
+        auto player = _data->_gameData._player[id];
+        int rectWidth = 400;
+        int rectHeight = 150;
+        float x = _windowSize.first * 0.005;
+        float y = _windowSize.second * 0.05;
+        std::string teamName = player->getTeam()->getName();
+        std::string playerId = std::to_string(player->getId());
+        std::string Name = teamName;
+        std::string Level = "Level : " + std::to_string(player->getLevel());
+        Name.append(" : ID ");
+        Name.append(playerId);
+        DrawText(Name.c_str(), x + rectWidth * 0.1 , y + rectHeight * 0.1, 20, WHITE);
+        DrawText(Level.c_str(), x + rectWidth * 0.1 , y + rectHeight * 0.3, 20, WHITE);
+        DrawRectangle(x, y, rectWidth, rectHeight, Fade(SKYBLUE, 0.5f));
+        DrawRectangleLines( x, y, rectWidth, rectHeight, BLACK);
+        auto rss = player->getInventory();
+        for (std::size_t i = 0; i != ressource.size(); i++)
+        {
+            // std::string e = std::to_string(rss[ressource[i]]);
+            DrawTextureEx(_texture[ressource[i]], (Vector2){x + rectWidth * 0.1 * (i + 1), y + rectHeight * 0.5}, 0.0, 2, WHITE);
+            DrawText(std::to_string(rss[ressource[i]]).c_str(), x + rectWidth * 0.105 * (i + 1), y + rectHeight * 0.8, 20, WHITE);
+        }
+    }
 }
 
 void Zappy::DrawMap::drawMap()
 {
     auto size = _data->_gameData._tileSize;
     auto mapSize = _data->_gameData._mapSize;
-
-    // _cube["grass"].drawBlockTexture((Vector3){0, 0, 75}, (Vector3){50.0,  50.0, 50.0}, BLUE);
-    // _cube["grass"].drawBlockTexture((Vector3){75, 0, 0}, (Vector3) {50.0,  50.0, 50.0}, WHITE);
-    // _cube["grass"].drawBlockTexture((Vector3){-75, 0, 0}, (Vector3) {50.0, 50.0, 50.0}, RED);
-    // _cube["grass"].drawBlockTexture((Vector3){0, 0, -75}, (Vector3) {50.0, 50.0, 50.0}, BLACK);
 
     for (std::size_t x = 0; x != mapSize.first; x++)
         for (std::size_t y = 0; y != mapSize.second; y++) {
