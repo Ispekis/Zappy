@@ -38,7 +38,7 @@ namespace Zappy
 
         void setCamera(raylib::Camera3D camera);
 
-        bool getSelectedModel(Vector3 position, float size, float rotation);
+        bool getSelectedModel(Vector3 position, float size);
 
         void changeSkin(std::string skin);
 

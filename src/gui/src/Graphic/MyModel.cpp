@@ -21,17 +21,15 @@ void Zappy::MyModel::setCamera(raylib::Camera3D camera)
     _camera = camera;
 }
 
-bool Zappy::MyModel::getSelectedModel(Vector3 position, float size, float rotation)
+bool Zappy::MyModel::getSelectedModel(Vector3 position, float size)
 {
-    _boundingBox = {(Vector3){ (position.x - size * 0.235), position.y, (position.z - size * 0.235)},
-                        (Vector3){ (position.x + size * 0.235), position.y + size, (position.z + size * 0.235)}};
+    _boundingBox = {(Vector3){ (position.x - size * 0.235f), position.y, (position.z - size * 0.235f)},
+                        (Vector3){ (position.x + size * 0.235f), position.y + size, (position.z + size * 0.235f)}};
 
-    if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+    if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
         if (GetRayCollisionBox(GetMouseRay(GetMousePosition(), _camera), _boundingBox).hit)
             return true;
-        else
-            return false;
-    }
+    return false;
 }
 
 void Zappy::MyModel::draw(Vector3 pose, float orientation, std::size_t size, bool selected)
@@ -41,6 +39,7 @@ void Zappy::MyModel::draw(Vector3 pose, float orientation, std::size_t size, boo
     
     Vector3 scale = {0.3f * size, 0.3f * size, 0.3f * size};
     _model.Draw(pose, (Vector3){0, 1, 0}, orientation, scale, WHITE);
+    return;
 }
 
 void Zappy::MyModel::moveAnimation(int i, int frame)
