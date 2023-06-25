@@ -42,7 +42,8 @@ GRAPHIC =	$(addprefix src/Graphic/,		\
 				Gameplay.cpp		\
 				Menu.cpp		\
 				Rectangle.cpp		\
-				DrawText3d.cpp)
+				DrawText3d.cpp	\
+				DrawScoreboard.cpp)
 
 SRC	=	$(addprefix src/,				\
 			Parser.cpp					\

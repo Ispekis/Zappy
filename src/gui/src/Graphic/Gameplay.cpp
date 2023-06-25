@@ -23,6 +23,7 @@ void Zappy::Gameplay::setData(std::shared_ptr<Data> data)
     _data = tmp;
     _worldMap.setData(tmp);
     _broadCast.setData(tmp);
+    _scoreBoard.setData(tmp);
 }
 
 void Zappy::Gameplay::setCamera()
@@ -46,6 +47,8 @@ void Zappy::Gameplay::event()
 {
     if (IsKeyPressed(KEY_ESCAPE))
         _data->_gameData._end = true;
+    if (IsKeyPressed(KEY_TAB))
+        _scoreboardView = !_scoreboardView;
     playerSelectionEvent();
     if (_playerView == false)
         cameraEvent();
@@ -149,5 +152,7 @@ void Zappy::Gameplay::draw()
 {
     _worldMap.draw(_camera);
     _broadCast.draw(_camera);
+    if (_scoreboardView == true)
+        _scoreBoard.drawScoreboard();
     // DrawGrid(10, 1);
 }
