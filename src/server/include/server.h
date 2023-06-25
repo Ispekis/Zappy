@@ -182,7 +182,7 @@ int get_cmd_pos(char *str, const char **lib);
  * @param players
  * @param fd
  */
-void success_elevate(node_t *players, int fd);
+void success_elevate(node_t *players, int fd, int graph_fd);
 
 /**
  * @brief Elevation failure
