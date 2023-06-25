@@ -1,6 +1,5 @@
 # Blender 3.5.1
 # www.blender.org
-mtllib turtle_eggs.mtl
 o four_turtle_eggs
 v 0.189000 0.441000 0.252000
 v -0.063000 0.441000 0.252000
