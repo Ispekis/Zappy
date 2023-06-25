@@ -65,22 +65,29 @@ def crypt(key:str, message:str) -> str:
         crypt_msg += chr(ord(message[i]) ^ ord(key[i % len(key)]))
     return crypt_msg
 
-def eventMessages(string:str, broadcast:list, broadcast_direction:list) -> bool:
+def decrypt(key:str, message:str) -> str:
+    
+
+def eventMessages(string:str, broadcast:list, broadcast_direction:list, action:int=NORMAL) -> bool:
+    if len(string.split()) > 1 and (action == SIGHT and (string.split()[1].split(",")[0] != "player")):
+        return True
     if (len(string.split()) > 1 and string.split()[0] == "message"):
         # logic for catching broadcast
         print("MESSAGE FROM BROADCAST")
         broadcast_direction.append(string.split()[1][0])
         broadcast.append(string.split(",")[1])
         return True
-    if (len(string.split()) == 2 and string.split()[0] == "Elevation" and string.split()[1] == "underway"):
+    if (len(string.split()) == 2 and string.split()[0] == "Elevation" and string.split()[1] == "underway") or action == INCANTATION:
         # logic after getting freezed
         print("Get freezed")
         return True
+    # if (action == MOVE or action == BROADCAST or action == FORK or action == TAKE or action == SET) and string != "ok":
+        # return True
     return False
 
 def rcvFromatter(client_socket:socket, action:int=NORMAL, broadcast:list=[], broadcast_direction:list=[]) -> str:
     string:str = client_socket.recv(1024).decode()
-    if (eventMessages(string, broadcast, broadcast_direction)) or action == INCANTATION:
+    if (eventMessages(string, broadcast, broadcast_direction, action)):
         string = client_socket.recv(1024).decode()
         if len(string.split()) > 1 and string.split()[0] == "message":
             broadcast_direction.append(string.split()[1][0])

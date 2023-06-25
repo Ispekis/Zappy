@@ -36,7 +36,7 @@ def broadcast(player:Player, client_socket:socket, broadcast:list, broadcast_dir
     message:str = None
     if player.check_necessity() == True and player.ask == False and player.level >= 2:
         message = ask(player.team, ASK, player.item_needed[0])
-    elif comp_obj(player.obj_list, player.inventory) and player.ask == False and player.level >= 2:
+    elif len(player.item_needed) and player.ask == False and player.level >= 2:
         message = ask(player.team, ASK, PLAYER, player.level)
     if message != None:
         client_socket.send(("Broadcast " + message + "\n").encode())
@@ -46,6 +46,7 @@ def broadcast(player:Player, client_socket:socket, broadcast:list, broadcast_dir
             player.ask = True
 
 def analyse_broadcast(player:Player, broadcast:list, broadcast_direction:list) -> str:
+    # for i in range(len(broadcast)):
+    #         print(crypt(player.team, broadcast[i]))
+    #         print(broadcast_direction[i])
     return
-# for i in range(len(broadcast)):
-        # print(player.team, broadcast[i])
