@@ -35,13 +35,27 @@ static int nb_ai_player(node_t *head)
     return res;
 }
 
+static void refill_foods_evenly(data_t *data, int max_quantity)
+{
+    int rand_x = 0;
+    int rand_y = 0;
+
+    for (int i = 0; i < max_quantity; i++) {
+        rand_x = rand_nbr(0, data->width - 1);
+        rand_y = rand_nbr(0, data->height - 1);
+        if (data->map[rand_y][rand_x].food.quantity < 20)
+            data->map[rand_y][rand_x]
+            .food.quantity++;
+    }
+}
+
 void get_resources_on_map(data_t *data)
 {
     inventory_t resources;
     int nb = nb_ai_player(data->clients);
 
     resources = data->max_res;
-    resources.food.quantity = FOOD_REFILL_TICK_AMPL + (FOOD_REFILL_TICK * nb);
+    refill_foods_evenly(data, FOOD_REFILL_TICK_AMPL + (FOOD_REFILL_TICK * nb));
     check_resources_on_tiles(data, &resources);
     set_rand_resource_in_tiles(data, resources);
 }
