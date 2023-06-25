@@ -51,9 +51,9 @@ void Zappy::DrawBroadCast::draw(raylib::Camera& camera)
 {
     _camera = camera;
     event();
-    // _camera.BeginMode();
-    // drawAnimation();
-    // _camera.EndMode();
+    _camera.BeginMode();
+    drawAnimation();
+    _camera.EndMode();
     if (_drawChatBox)
         drawChatBox();
 
@@ -127,7 +127,10 @@ void Zappy::DrawBroadCast::drawAnimation()
             _model[id]->moveAnimationToStart(0);
             _data->_gameData._broadCast.endBroadCast(i);
         }
-        _model[id]->draw(position, size);
+        if (_data->_gameData._player.count(id) == 0)
+            return;
+        Color color = getTeamColor(_data->_gameData._player[id]->getTeam()->getId());
+        _model[id]->draw(position, size, _data->_gameData._mapSize, color);
         i++;
     }
 }

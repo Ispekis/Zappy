@@ -16,12 +16,13 @@ Zappy::BroadCast::~BroadCast()
 {
     _broadCastList.clear();
     _archive.clear();
+    _All.clear();
 }
 
 void Zappy::BroadCast::addBroadCast(broadcast_t newBroadCast)
 {
-    _broadCastList.push_back((newBroadCast));
     _All.push_back((newBroadCast));
+    _broadCastList.push_back((newBroadCast));
 }
 
 Zappy::broadcast_t Zappy::BroadCast::getFirstBroacCast(void)
