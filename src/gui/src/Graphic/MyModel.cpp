@@ -36,11 +36,14 @@ bool Zappy::MyModel::getSelectedModel(Vector3 position, float size)
     return false;
 }
 
-void Zappy::MyModel::draw(Vector3 pose, std::size_t size)
+void Zappy::MyModel::draw(Vector3 pose, std::size_t size, std::pair<std::size_t, std::size_t> map, Color team)
 {
-    Vector3 scale = {size * 3, size * 3, size * 3};
-
-    _model.Draw(pose, (Vector3){0, 1, 0}, 0, scale, BLACK);
+    std::size_t higher = map.first;
+    if (map.first < map.second)
+        higher = map.second;
+    higher *= 0.2;
+    Vector3 scale = {size * higher, size * higher, size * higher};
+    _model.Draw(pose, (Vector3){0, 1, 0}, 0, scale, team);
 }
 
 void Zappy::MyModel::draw(Vector3 pose, float orientation, std::size_t size, bool selected)

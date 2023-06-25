@@ -45,7 +45,7 @@ namespace Zappy
         void changeSkin(std::string skin);
 
         void draw(Vector3 pose, float, std::size_t, bool selected);
-        void draw(Vector3 pose, std::size_t);
+        void draw(Vector3 pose, std::size_t, std::pair<std::size_t, std::size_t>, Color);
 
         void moveAnimation(int i, int frame);
 
