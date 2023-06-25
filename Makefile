@@ -22,6 +22,10 @@ zappy_gui:
 zappy_ai:
 	$(MAKE) -C $(AI_PATH)
 
+doc:
+	sphinx-build -b html $(AI_PATH)/src Doc/Zappy_ai/
+	doxygen Doxyfile
+
 tests_run:
 	$(MAKE) tests_run -C $(SERVER_PATH)
 	$(MAKE) tests_run -C $(GUI_PATH)
