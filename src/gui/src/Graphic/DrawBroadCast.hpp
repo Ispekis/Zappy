@@ -11,6 +11,7 @@
 
     #include "Data.hpp"
     #include "raylib-cpp.hpp"
+    #include "MyModel.hpp"
 
 namespace Zappy {
     class DrawBroadCast {
@@ -20,7 +21,7 @@ namespace Zappy {
 
             void setData(std::shared_ptr<Data>);
 
-            void draw();
+            void draw(raylib::Camera&);
 
             void drawChatBox();
 
@@ -30,12 +31,16 @@ namespace Zappy {
 
             void boxHover();
 
+            void addModel(std::size_t );
+
         protected:
         private:
             std::shared_ptr<Data> _data;
             bool _drawChatBox = true;
             std::pair<int, int> _windowSize;
             std::size_t _scrollIndex = 0;
+            std::map<std::size_t, std::shared_ptr<MyModel>> _model;
+            raylib::Camera _camera;
     };
 }
 
