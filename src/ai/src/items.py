@@ -17,12 +17,12 @@ class Items:
         except KeyError:
             return
 
-    def takeItem(self, sight:str, objectives:list, foodList:list, inventory:list) -> None:
+    def takeItem(self, sight:str, objectives:list, foodList:list, inventory:list, broadcast:list, broadcast_direction:list) -> None:
         for i in range(len(objectives)):
             try:
                 sight[0].index(objectives[i])
                 self.client_socket.send(("Take " + objectives[i] + "\n").encode())
-                res = rcvFromatter(self.client_socket)
+                res = rcvFromatter(self.client_socket, NORMAL, broadcast, broadcast_direction)
                 print(f"take = {res}")
                 objectives.pop(i)
                 break
@@ -33,7 +33,7 @@ class Items:
                 return
             sight[0].index("food")
             self.client_socket.send(("Take food\n").encode())
-            res = rcvFromatter(self.client_socket)
+            res = rcvFromatter(self.client_socket, NORMAL, broadcast, broadcast_direction)
             print(f"take = {res}")
             if (len(foodList) > 0):
                 foodList.pop(0)
@@ -42,9 +42,9 @@ class Items:
         except KeyError:
             return
 
-    def setItem(self, itemToSet:str, objectives:list) -> str:
+    def setItem(self, itemToSet:str, objectives:list, broadcast:list, broadcast_direction:list) -> str:
         self.client_socket.send(("Set " + itemToSet + "\n").encode())
         objectives.append(itemToSet)
-        return_value = rcvFromatter(self.client_socket)
+        return_value = rcvFromatter(self.client_socket, NORMAL, broadcast, broadcast_direction)
         print(f"set = {return_value}")
         return return_value

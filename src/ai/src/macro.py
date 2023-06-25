@@ -36,3 +36,7 @@ STEAL_STONE = 4
 INCANTATION = 5
 
 items_list = ["food", "linemate", "deraumere", "sibur", "mendiane", "phiras", "thystame"]
+
+NONE = 0
+BROADCAST = 1
+INCANTATION = 2

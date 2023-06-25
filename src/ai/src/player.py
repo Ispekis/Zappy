@@ -99,4 +99,4 @@ def push(player:Player, client_socket:socket) -> None:
         client_socket (socket): Socket of the client
     """
     if player.multiplePlayerTile():
-        client_socket.send(("push\n").encode())
+        client_socket.send(("Eject\n").encode())

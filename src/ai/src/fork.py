@@ -40,6 +40,9 @@ def check_if_need_fork(player:Player, sight:list) -> bool:
     Returns:
         bool: True if he need or False
     """
-    if check_nb_player(player.nb_player, player.team_mate) or no_food(sight, player.inventory["food"]):
-        return True
+    try:
+        if check_nb_player(player.nb_player, player.team_mate) or no_food(sight, player.inventory['food']):
+            return True
+    except KeyError:
+        return False
     return False

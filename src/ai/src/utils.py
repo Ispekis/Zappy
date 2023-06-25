@@ -38,7 +38,7 @@ def count_player(player_tile:list) -> int:
 
 def check_dict(obj_dict: dict, inventory: dict):
     for key, value in obj_dict.items():
-        if inventory[key] != inventory[key]:
+        if inventory[key] != value:
             return False
     return True
 
@@ -60,14 +60,17 @@ def comp_obj(obj_list: dict, inventory: dict) -> bool:
 
 def crypt(key:str, message:str) -> str:
     crypt_msg:str = ""
+    print(f"message = {message}")
     for i in range(len(message)):
         crypt_msg += chr(ord(message[i]) ^ ord(key[i % len(key)]))
     return crypt_msg
 
-def eventMessages(string:str) -> bool:
+def eventMessages(string:str, broadcast:list, broadcast_direction:list) -> bool:
     if (len(string.split()) > 1 and string.split()[0] == "message"):
         # logic for catching broadcast
         print("MESSAGE FROM BROADCAST")
+        broadcast_direction.append(string.split()[1][0])
+        broadcast.append(string.split(",")[1])
         return True
     if (len(string.split()) == 2 and string.split()[0] == "Elevation" and string.split()[1] == "underway"):
         # logic after getting freezed
@@ -75,8 +78,12 @@ def eventMessages(string:str) -> bool:
         return True
     return False
 
-def rcvFromatter(client_socket:socket, action:int=NORMAL) -> str:
+def rcvFromatter(client_socket:socket, action:int=NORMAL, broadcast:list=[], broadcast_direction:list=[]) -> str:
     string:str = client_socket.recv(1024).decode()
-    if (eventMessages(string)) or action == INCANTATION:
+    if (eventMessages(string, broadcast, broadcast_direction)) or action == INCANTATION:
         string = client_socket.recv(1024).decode()
+        if len(string.split()) > 1 and string.split()[0] == "message":
+            broadcast_direction.append(string.split()[1][0])
+            broadcast.append(string.split(",")[1])
+            string = client_socket.recv(1024).decode()
     return string

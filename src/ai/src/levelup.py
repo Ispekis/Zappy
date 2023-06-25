@@ -5,7 +5,7 @@ from items import Items
 from utils import count_player, rcvFromatter
 from level import level
 
-def drop_obj(inventory:dict, obj_list:dict, objectives:list, client_socket:socket) -> None:
+def drop_obj(inventory:dict, obj_list:dict, objectives:list, client_socket:socket, broadcast:list, broadcast_direction:list) -> None:
     """drop stone of the objectif list for the incantation
 
     Args:
@@ -20,7 +20,7 @@ def drop_obj(inventory:dict, obj_list:dict, objectives:list, client_socket:socke
 
     for key, value in tmp.items():
         if inventory[key] == tmp[key]:
-            items.setItem(key, objectives)
+            items.setItem(key, objectives, broadcast, broadcast_direction)
 
 def split_lvl(return_value:str, actual_lvl:int) -> int:
     """parse the return value from the incantation
@@ -38,7 +38,7 @@ def split_lvl(return_value:str, actual_lvl:int) -> int:
         return int(tmp[2][0])
     return actual_lvl
 
-def get_return_value(return_value:str, player:Player):
+def get_return_value(return_value:str, player:Player, broadcast:list, broadcast_direction:list):
     """set the return value of an incantation to the player info
 
     Args:
@@ -52,7 +52,7 @@ def get_return_value(return_value:str, player:Player):
     player.set_item_needed()
     player.ask = False
 
-def levelUp(player:Player, client_socket:socket) -> None:
+def levelUp(player:Player, client_socket:socket, broadcast:list, broadcast_direction:list) -> None:
     """Launche the incantation if he can
 
     Args:
@@ -62,9 +62,9 @@ def levelUp(player:Player, client_socket:socket) -> None:
     player_needed = count_player(player.sight[0])
     # print(player.inventory)
     if len(player.item_needed) == 0 and player_needed == player.obj_list[PLAYER]:
-        drop_obj(player.inventory, player.obj_list, player.item_needed, client_socket)
+        drop_obj(player.inventory, player.obj_list, player.item_needed, client_socket, broadcast, broadcast_direction)
         client_socket.send(("Incantation\n").encode())
-        elevation_ko = rcvFromatter(client_socket, INCANTATION)
+        elevation_ko = rcvFromatter(client_socket, INCANTATION, broadcast, broadcast_direction)
         print(f"elevation = {elevation_ko}")
         if elevation_ko != "ko\n":
-            get_return_value(elevation_ko, player)
+            get_return_value(elevation_ko, player, broadcast, broadcast_direction)

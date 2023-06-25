@@ -18,15 +18,15 @@ def ask(team:str, type:int, value:str=None, level:int=0) -> str:
     """
     if level == 0:
         # ask stone
-        return "{} {} {}".format(team, type, value)
+        return "{} {} {}".format(team, str(type), value)
     elif level != 0:
         # ask player with a same level
-        return "{} {} {} {}".format(team, type, value, level)
+        return "{} {} {} {}".format(team, str(type), value, level)
     else:
         # ask food
-        return "{} {} {}".format(team, type, value)
+        return "{} {} {}".format(team, str(type), value)
 
-def broadcast(player:Player, client_socket:socket) -> None:
+def broadcast(player:Player, client_socket:socket, broadcast:list, broadcast_direction:list) -> None:
     """Créate the broadcast message
 
     Args:
@@ -39,11 +39,13 @@ def broadcast(player:Player, client_socket:socket) -> None:
     elif comp_obj(player.obj_list, player.inventory) and player.ask == False and player.level >= 2:
         message = ask(player.team, ASK, PLAYER, player.level)
     if message != None:
-        client_socket.send(("Broadcast " + crypt(message, player.team) + "\n").encode())
-        res = rcvFromatter(client_socket)
+        client_socket.send(("Broadcast " + message + "\n").encode())
+        res = rcvFromatter(client_socket, NORMAL, broadcast, broadcast_direction)
         print(f"broadcast = {res}")
         if res == "ok\n":
             player.ask = True
 
-def analyse_broadcast(player:Player, rcv_data:str) -> str:
-    print(f'{crypt(rcv_data, player.team)}')
+def analyse_broadcast(player:Player, broadcast:list, broadcast_direction:list) -> str:
+    return
+# for i in range(len(broadcast)):
+        # print(player.team, broadcast[i])
