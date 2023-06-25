@@ -35,6 +35,7 @@ static void check_availability(char *buffer, node_t *client, data_t *data)
     while (current != NULL) {
         if (strcmp(current->egg.team->name, buffer) == 0) {
             connect_player_to_egg(client, current->egg.pos);
+            client->client.team->clients_nbr--;
             fmt_egg_conn(data->graphic_fd, current->egg.id);
             remove_egg_node(&data->egg, current->egg.id);
             return;
@@ -69,7 +70,7 @@ int do_ai_first_connect(char *buffer, node_t *client, data_t *data)
     if (team != NULL) {
         client->client.team = team;
         check_availability(buffer, client, data);
-            fmt_conn_new_player(data->graphic_fd, client->client);
+        fmt_conn_new_player(data->graphic_fd, client->client);
         return SUCCESS;
     }
     return FAILURE;
