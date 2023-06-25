@@ -16,11 +16,13 @@ Zappy::BroadCast::~BroadCast()
 {
     _broadCastList.clear();
     _archive.clear();
+    _All.clear();
 }
 
 void Zappy::BroadCast::addBroadCast(broadcast_t newBroadCast)
 {
-    _broadCastList.push_back(newBroadCast);
+    _All.push_back((newBroadCast));
+    _broadCastList.push_back((newBroadCast));
 }
 
 Zappy::broadcast_t Zappy::BroadCast::getFirstBroacCast(void)
@@ -31,4 +33,10 @@ Zappy::broadcast_t Zappy::BroadCast::getFirstBroacCast(void)
     _broadCastList.erase(_broadCastList.begin());
     _archive.push_back(tmp);
     return tmp;
+}
+
+void Zappy::BroadCast::endBroadCast(std::size_t index)
+{
+    _archive.push_back(_broadCastList[index]);
+    _broadCastList.erase(_broadCastList.begin() + index);
 }

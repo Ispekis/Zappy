@@ -20,6 +20,7 @@
     #include "Player.hpp"
     #include "BroadCast.hpp"
     #include "Incantation.hpp"
+    #include "Egg.hpp"
 
 namespace Zappy {
     class GameData {
@@ -65,8 +66,12 @@ namespace Zappy {
 
             BroadCast _broadCast;
             Incantation _incantationList;
+            Egg _egg;
             TimeUnit _timeUnit;
 
+            float _tileSize = 10;
+
+            std::size_t _playerIdSelect = 0;
 
         protected:
         private:

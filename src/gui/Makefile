@@ -23,6 +23,7 @@ MAP =	$(addprefix src/Map/,			\
 			Player.cpp					\
 			BroadCast.cpp					\
 			Incantation.cpp					\
+			Egg.cpp					\
 			Team.cpp					\
 			TimeUnit.cpp 				\
 			Tile.cpp					\
@@ -32,9 +33,17 @@ GRAPHIC =	$(addprefix src/Graphic/,		\
 				Cube.cpp			\
 				Shaders.cpp			\
 				Raylib.cpp			\
+				DrawMap.cpp			\
+				DrawItems.cpp		\
+				DrawEggs.cpp 		\
+				DrawPlayer.cpp 		\
+				DrawBroadCast.cpp 	\
+				MyModel.cpp 		\
 				Gameplay.cpp		\
 				Menu.cpp		\
-				Rectangle.cpp		)
+				Rectangle.cpp		\
+				DrawText3d.cpp	\
+				DrawScoreboard.cpp)
 
 SRC	=	$(addprefix src/,				\
 			Parser.cpp					\
@@ -70,8 +79,6 @@ CPPFLAGS	+=	-I./src/Encapsulation
 CPPFLAGS	+=	-I./src/Communication
 CPPFLAGS	+=	-I./src/Map
 CPPFLAGS	+=	-I./src/Map/Ressource
-
-CPPFLAGS	+=	-Wall -Wextra
 
 LDFLAGS	=	-lraylib -lpthread -ldl
 

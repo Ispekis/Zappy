@@ -62,9 +62,16 @@ void Zappy::Data::updateData(std::string response)
     }
 }
 
+void Zappy::Data::sendPinProtocol(std::size_t id)
+{
+    char tmp[1024] = "pin ";
+    strcat(tmp, std::to_string(id).c_str());
+    strcat(tmp, "\n");
+    write(_socket._socket, tmp, sizeof(tmp));
+}
+
 void Zappy::Data::writeToServer(char *str)
 {
-    printf("[%s]\n", str);
     write(_socket._socket, str, sizeof(str));
 }
 
@@ -96,6 +103,7 @@ void Zappy::Data::parseResponse(std::string &response)
     if (_gameUpdater.count(guiProtocol) == 0)
         throw Error("First argument of server response is not valid", guiProtocol);
     _gameUpdater[guiProtocol](words);
+
 }
 
 void Zappy::Data::setUpdateFunction()
@@ -118,7 +126,7 @@ void Zappy::Data::setUpdateFunction()
     _gameUpdater.insert({"pdi", [this](std::vector<std::string> &value) {_gameData.pdi(value);}});
     _gameUpdater.insert({"enw", [this](std::vector<std::string> &value) {_gameData.enw(value);}});
     _gameUpdater.insert({"ebo", [this](std::vector<std::string> &value) {_gameData.ebo(value);}});
-    _gameUpdater.insert({"edi", [this](std::vector<std::string> &value) {_gameData.edi(value);}});
+    _gameUpdater.insert({"eht", [this](std::vector<std::string> &value) {_gameData.edi(value);}});
     _gameUpdater.insert({"sgt", [this](std::vector<std::string> &value) {_gameData.sgt(value);}});
     _gameUpdater.insert({"sst", [this](std::vector<std::string> &value) {_gameData.sst(value);}});
     _gameUpdater.insert({"seg", [this](std::vector<std::string> &value) {_gameData.seg(value);}});
@@ -126,3 +134,4 @@ void Zappy::Data::setUpdateFunction()
     _gameUpdater.insert({"suc", [this](std::vector<std::string> &value) {_gameData.suc(value);}});
     _gameUpdater.insert({"sbp", [this](std::vector<std::string> &value) {_gameData.sbp(value);}});
 }
+

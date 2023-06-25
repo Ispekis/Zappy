@@ -16,14 +16,25 @@ SRC	=	$(addprefix src/, \
 		client_management.c						\
 		read_client.c							\
 		buffer_management.c						\
+		exec_cmd.c								\
 \
 		$(addprefix option/,    				\
 		get_options.c							\
 		set_options.c							)\
 \
+		$(addprefix world/,    					\
+		refill_resources.c						\
+		eat_food.c								\
+		winning.c								\
+		world_clock.c							)\
+\
 		$(addprefix linked_list_utils/,    		\
 		client_linked_list.c					\
-		add_client_list.c						)\
+		add_client_list.c						\
+		remove_client_list.c					\
+		add_elevation_list.c					\
+		remove_elevation_list.c					\
+		egg_linked_list.c						)\
 \
 		$(addprefix init/,    					\
 		init_server.c							\
@@ -40,6 +51,8 @@ SRC	=	$(addprefix src/, \
 		$(addprefix utils/,    					\
 		map_utils.c								\
 		my_strcat.c								\
+		convertion.c							\
+		nb_player.c								\
 		player_utils.c							)\
 \
 		$(addprefix gui_protocol/,    			\
@@ -64,7 +77,11 @@ SRC	=	$(addprefix src/, \
 		ai_action.c								\
 		ai_info.c								\
 		ai_interact.c							\
+		ai_incantation.c						\
+		ai_incantation_status.c					\
 		ai_look.c								\
+		ai_look_orien.c							\
+		ai_broadcast_traj.c						\
 		ai_movement.c							))
 
 MAIN_SRC	=	src/main.c
@@ -83,7 +100,7 @@ CPPFLAGS	=	-I./include
 
 CFLAGS	=	-Wall -Wextra
 
-LDFLAGS	=	-luuid
+LDFLAGS	=	-luuid -lm
 
 all: $(NAME)
 

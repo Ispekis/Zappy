@@ -26,3 +26,6 @@ ccs
 
 # Graphic Team output for GUI
 guioutput.txt
+src/gui/include/libs/*.hpp
+src/gui/include/libs/*.h
+src/gui/include/libs/*.a

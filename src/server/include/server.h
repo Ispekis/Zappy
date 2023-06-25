@@ -19,6 +19,8 @@
     #include <sys/signalfd.h>
     #include <uuid/uuid.h>
     #include <time.h>
+    #include <stdint.h>
+    #include <sys/timerfd.h>
     #include "server_structs.h"
 
 /**
@@ -41,9 +43,41 @@ static const char *AI_CMD_LIB[] __attribute__((unused)) = {
     "Connect_nbr", "Fork", "Eject", "Take", "Set", "Incantation", NULL
 };
 
+static const int AI_ACTION_CD[] __attribute__((unused)) = {
+    COOLDOWN_FORWARD, COOLDOWN_RIGHT, COOLDOWN_LEFT, COOLDOWN_LOOK,
+    COOLDOWN_INVENTORY, COOLDOWN_BROADCAST, 0, COOLDOWN_FORK, COOLDOWN_EJECT,
+    COOLDOWN_TAKE, COOLDOWN_SET, 0
+};
+
 static const char *RESOURCES_LIB[] __attribute__((unused)) = {
     FOOD_NAME, LINEMATE_NAME, DERAUMERE_NAME, SIBUR_NAME, MENDIANE_NAME,
     PHIRAS_NAME, THYSTAME_NAME, NULL
+};
+
+static const int broadcast_base[] __attribute__((unused)) = {
+    2, 1, 8,
+    3, 0, 7,
+    4, 5, 6
+};
+
+typedef struct elevation_ritual_s {
+    int req_player;
+    int req_linemate;
+    int req_deraumere;
+    int req_sibur;
+    int req_mendiane;
+    int req_phiras;
+    int req_thystame;
+} elevation_ritual_t;
+
+static const elevation_ritual_t elev_requir[] __attribute__((unused)) = {
+    {1, 1, 0, 0, 0, 0, 0}, /* Level 1*/
+    {2, 1, 1, 1, 0, 0, 0}, /* Level 2*/
+    {2, 2, 0, 1, 0, 2, 0}, /* Level 3*/
+    {4, 1, 1, 2, 0, 1, 0}, /* Level 4*/
+    {4, 1, 2, 1, 3, 0, 0}, /* Level 5*/
+    {6, 1, 2, 3, 0, 1, 0}, /* Level 6*/
+    {6, 2, 2, 2, 2, 2, 1}  /* Level 7*/
 };
 
 /**
@@ -143,6 +177,68 @@ bool can_convert_to_int(const char* str);
 int get_cmd_pos(char *str, const char **lib);
 
 /**
+ * @brief Get the opposite direction
+ *
+ * @param direction
+ * @return int
+ */
+int get_opposite_direction(int direction);
+
+/**
+ * @brief Elevation successful
+ *
+ * @param players
+ * @param fd
+ */
+void success_elevate(node_t *players, int fd, int graph_fd);
+
+/**
+ * @brief Elevation failure
+ *
+ * @param players
+ * @param fd
+ */
+void failure_elevate(node_t *players, int fd);
+
+/**
+ * @brief Set done elevation data
+ *
+ * @param players
+ * @param fd
+ */
+void done_elevate(node_t *players, int fd);
+
+/**
+ * @brief Convert seconds to nano seconds
+ *
+ * @param seconds
+ * @return uint64_t
+ */
+uint64_t sec_to_nanosec(double seconds);
+
+/**
+ * @brief Handle refill resources
+ *
+ * @param server
+ */
+void handle_world_refill_clock(server_t *server);
+
+/**
+ * @brief Refill the resources
+ *
+ * @param data
+ */
+void refill_resources(data_t *data);
+
+/**
+ * @brief Set the rand resource in tiles
+ *
+ * @param data
+ * @param resources
+ */
+void set_rand_resource_in_tiles(data_t *data, inventory_t resources);
+
+/**
  * @brief Generate random number with a minimum and a maximum
  *
  * @param min
@@ -237,9 +333,14 @@ void read_from_client(server_t *server, node_t *client);
 
 // Linked list utils
 node_t *add_client_node(node_t **head);
+node_t *add_egg_node(node_t **head);
+node_t *add_elevation_node(node_t **head);
 void print_client_list(node_t *head);
 void remove_client_node(node_t **head, int fd);
+void remove_elevation_node(node_t **head, uuid_t uuid);
 node_t *get_client_node(node_t **head, int fd);
+int get_linked_list_length(node_t *node);
+void remove_egg_node(node_t **head, int id);
 
 // Set options
 int set_number_arg(int *opt);
@@ -251,6 +352,12 @@ int check_all_info_set(info_t info);
 void global_free(server_t server);
 void free_server(server_t server);
 void free_game(data_t data, int height);
+/**
+ * @brief Free any nodes
+ *
+ * @param head
+ */
+void free_node(node_t *head);
 
 //** COMMANDS **//
 
@@ -285,7 +392,7 @@ void ai_cmd_left(node_t *client, data_t *data,
 char **params __attribute__((unused)));
 void ai_cmd_look(node_t *client, data_t *data,
 char **params __attribute__((unused)));
-void ai_cmd_inventory(node_t *client, data_t *data,
+void ai_cmd_inventory(node_t *client, data_t *data __attribute__((unused)),
 char **params __attribute__((unused)));
 void ai_cmd_broadcast(node_t *client, data_t *data, char **params);
 void ai_cmd_team_unused_slot(node_t *client, data_t *data,
@@ -299,8 +406,131 @@ void ai_cmd_set_object(node_t *client, data_t *data, char **params);
 void ai_cmd_incantation(node_t *client, data_t *data,
 char **params __attribute__((unused)));
 
+/**
+ * @brief Get the sound trajectory for broadcast
+ *
+ * @param src
+ * @param dest
+ * @param orien
+ * @return int
+ */
+int get_sound_trajectory(pos_t src, pos_t dest, int orien, pos_t delim);
+
+/**
+ * @brief Check prerequis for elevate and elevate all the players
+ *
+ * @param data
+ * @param pos
+ * @param lvl
+ */
+void elevate_met_prereq_players(data_t *data, pos_t pos, int lvl);
+
+/**
+ * @brief Check if the position cross the map, then set it back
+ *
+ * @param x
+ * @param y
+ * @param width
+ * @param height
+ */
 void cross_map_border(int *x, int *y, int width, int height);
+
+/**
+ * @brief Get the correct tile
+ *
+ * @param map
+ * @param x
+ * @param y
+ * @param data
+ * @return tile_t
+ */
 tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
+
+/**
+ * @brief Disconnect player
+ *
+ * @param data
+ * @param client
+ */
+void disconnect_player(data_t *data, node_t *client);
+
+/**
+ * @brief Handle the game's world clock
+ *
+ * @param server
+ */
+void handle_world_clock(server_t *server);
+
+/**
+ * @brief Check if the game ends
+ *
+ * @param data
+ */
+void check_winning_team(data_t *data);
+
+/**
+ * @brief Execute commands that is waiting
+ *
+ * @param current
+ * @param server
+ */
+void execute_waiting_cmd(node_t *current, server_t *server);
+
+/**
+ * @brief Check what is present in tile
+ *
+ * @param tile
+ * @param players
+ * @param msg
+ */
+void check_presence_on_tile(tile_t tile, node_t *players, char **msg);
+
+/**
+ * @brief match the direction of the look
+ *
+ * @param player
+ * @param data
+ * @param msg
+ */
+void match_direction(client_t player, data_t *data, char **msg);
+
+/**
+ * @brief Check if the player on the tile can elevate
+ *
+ * @param client
+ * @param map
+ * @param head
+ * @return true
+ * @return false
+ */
+bool can_elevate(node_t *client, node_t *head, tile_t **map);
+
+/**
+ * @brief Check it can elevate after the elevation
+ *
+ * @param pos
+ * @param lvl
+ * @param head
+ * @param map
+ * @return true
+ * @return false
+ */
+// bool can_elevate_after(pos_t pos, int lvl, node_t *head, tile_t **map);
+
+/**
+ * @brief Elevate the player
+ *
+ * @param elevation
+ * @param data
+ */
+void elevate_player(node_t *elevation, data_t *data);
+
+/**
+ * @brief Eat food in world
+ *
+ * @param data
+ */
+void eat_food(data_t *data);
 
 //** Utils **//
 
@@ -314,6 +544,47 @@ tile_t get_correct_tile(tile_t **map, int x, int y, data_t data);
 int get_nb_players_on_tile(pos_t pos, node_t *head);
 
 /**
+ * @brief Get the number of players on tile with the same level and uuid
+ *
+ * @param pos
+ * @param head
+ * @param lvl
+ * @param uuid
+ * @return int
+ */
+int get_nb_players_on_tile_w_lvl_uuid(pos_t pos, node_t *head, int lvl,
+uuid_t uuid);
+
+/**
+ * @brief Get the number of players on tile with the same level
+ *
+ * @param pos
+ * @param head
+ * @param lvl
+ * @return int
+ */
+int get_nb_players_on_tile_w_lvl(pos_t pos, node_t *head, int lvl);
+
+/**
+ * @brief Get the nb players on tile that done elevating
+ *
+ * @param pos
+ * @param head
+ * @return int
+ */
+int get_nb_players_elev_on_tile(elevation_t elev, pos_t pos, node_t *head);
+
+/**
+ * @brief Get the nb of players on a tile that have the same team's name
+ *
+ * @param pos
+ * @param head
+ * @param team
+ * @return int
+ */
+int get_nb_team_players_on_tile(pos_t pos, node_t *head, char *team);
+
+/**
  * @brief Check if the concerned client is an ai client and its connected,
  * then its returning true else false
  *
@@ -322,6 +593,16 @@ int get_nb_players_on_tile(pos_t pos, node_t *head);
  * @return false
  */
 bool is_ai_player(client_t player);
+
+/**
+ * @brief Check if the concerned client is an ai client and its connected and is
+ * in the corresponding position, then its returning true else false
+ *
+ * @param player
+ * @return true
+ * @return false
+ */
+bool is_player_on_pos(client_t player, pos_t pos);
 
 /**
  * @brief Get a pointer of the resource by name in inventory, return NULL if
@@ -352,9 +633,9 @@ void fmt_egg_conn(int fd, int egg_nb);
 
 void fmt_egg_death(int fd, int egg_nb);
 
-void fmt_player_start_incantation(int fd);
+void fmt_player_start_incantation(int fd, client_t player);
 
-void fmt_player_end_incantation(int fd);
+void fmt_player_end_incantation(int fd, pos_t pos, bool incante_res);
 
 void fmt_map_size(int fd, int width, int height);
 

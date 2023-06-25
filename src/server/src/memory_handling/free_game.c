@@ -26,4 +26,6 @@ void free_game(data_t data, int height)
 {
     free_teams(data);
     free_map(data, height);
+    free_node(data.egg);
+    free_node(data.elevation);
 }

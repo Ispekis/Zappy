@@ -10,6 +10,11 @@
 Zappy::Rect::Rect(Texture2D text)
 {
     _text = text;
+
+    _dest.x = 0;
+    _dest.y = 0;
+    _dest.width = 0;
+    _dest.height = 0;
 }
 
 void Zappy::Rect::setTexture(Texture2D text)
@@ -30,7 +35,6 @@ void Zappy::Rect::drawRect(float width, float height, Vector2 position)
     src.width = _text.width;
     src.height = _text.height;
 
-    _dest;
     _dest.x = position.x;
     _dest.y = position.y;
     _dest.width = width;

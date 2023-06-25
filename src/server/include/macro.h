@@ -13,5 +13,6 @@
     #define MY_EXIT_FAILURE 84
     #define ARG_ERROR_LABEL "Options Error"
     #define UNDEFINED -1
+    #define BUFFER_SIZE 2048
 
 #endif /* !MACRO_H_ */

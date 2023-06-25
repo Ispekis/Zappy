@@ -10,10 +10,11 @@
 
     #include <map>
     #include <string>
+    #include <memory>
+
     #include "raylib-cpp.hpp"
     #include "Cube.hpp"
     #include "Rectangle.hpp"
-    #include <memory>
 
 namespace Zappy {
     class Menu {
@@ -33,7 +34,9 @@ namespace Zappy {
             void settingsEvent();
             void settingsButtonEvent();
             void volumeEvent(std::string);
-            void framerateEvent(std::string);
+
+            void howToPlayEvent();
+            void drawHowToPlay();
 
             void draw();
             void drawText();
@@ -44,11 +47,12 @@ namespace Zappy {
             void drawVolume();
             void drawFramerate();
 
-            void playSound();
-            void playMusic();
-
             void mouseHovering();
             void mouseClicking();
+
+            bool getPrincipaleMenu();
+            void drawReturnButton();
+
         protected:
         private:
             raylib::Camera3D _cameraMenu;
@@ -61,8 +65,22 @@ namespace Zappy {
             Music _music;
             Sound _click;
 
+            bool _principalMenu = true;
+            bool _howToPlay = false;
             bool _settings = false;
-            float _volume = 0.5;
+            bool _return = false;
+            float _volume = 0.0;
+            bool _isVolume = false;
+            bool _isFramerate = false;
+            Rectangle _rect = { 470, 356, 50, 88};
+            Rectangle _rect2 = { 470, 656, 50, 88};
+            Vector2 offset = { 0, 0 };
+            int _fps = 30;
+            const int _maxFps = 90;
+            const int _minFps = 30;
+
+            int _volumePercentage = 1;
+
     };
 }
 

@@ -15,6 +15,7 @@
 
     #include "IRessource.hpp"
     #include "Team.hpp"
+    #include "raylib.h"
 
 namespace Zappy {
     enum Orientation
@@ -24,7 +25,10 @@ namespace Zappy {
         S,
         W
     };
-
+    // struct eggLaying_t {
+        // bool state;
+        // int loading;
+    // };
     class Player
     {
     public:
@@ -103,24 +107,40 @@ namespace Zappy {
          * @brief Set the Incantation state of the player
          * 
          */
-        void setIncantation(bool);
+        void setIncantation(int);
 
-        void setDropAnimation(bool);
-        void setPickAnimation(bool);
+        void setDropAnimation(int);
+
+        void setPickAnimation(int);
+
+        void setEjectAnimation(int);
+
+        void setEggLayingAnimation(int);
+
+        void setCurrentPosition(float tileSize, std::pair<std::size_t, std::size_t> map);
+
+        float _rotation;
+        std::pair<std::size_t, std::size_t> _position;
+        // std::pair<std::size_t, std::size_t> _actualPosition;
+        Vector3 _actualPosition;
+        Vector3 _nextPosition;
+        Vector3 _LastPosition;
+        bool _selected = false;
+        int _incantation = -1;
+        int _drop = -1;
+        int _pick = -1;
+        int _eject = -1;
+        int _egglaying = -1;
 
     protected:
     private:
-        std::pair<std::size_t, std::size_t> _position;
         std::unordered_map<std::string, std::size_t> _inventory;
         Orientation _orientation;
         std::shared_ptr<Team> _team;
         std::size_t _level;
         std::size_t _id;
         // std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
-        bool _incantation;
-
-        bool _drop;
-        bool _pick;
+        // eggLaying_t _egglaying = {false, 0};
     };
 }
 

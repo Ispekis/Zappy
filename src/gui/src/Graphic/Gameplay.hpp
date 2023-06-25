@@ -13,6 +13,9 @@
     #include "raylib-cpp.hpp"
     #include "Data.hpp"
     #include "Cube.hpp"
+    #include "DrawMap.hpp"
+    #include "DrawBroadCast.hpp"
+    #include "DrawScoreboard.hpp"
 
 namespace Zappy {
     class Gameplay {
@@ -21,26 +24,20 @@ namespace Zappy {
             ~Gameplay();
 
             void setData(std::shared_ptr<Data>);
+
             void setCamera();
-
-            void setTexture();
-
-            void setCube();
-
-            void setModel();
 
             void run();
 
             void event();
+
             void cameraEvent();
 
+            void playerSelectionEvent();
+
+            void playerViewCamera();
+
             void draw();
-            void drawMap();
-            void drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map);
-            bool tilehover(float posX, float posY, float posZ, float size);
-            void drawItem(Vector3, std::size_t, std::vector<std::shared_ptr<IRessource>>);
-            void drawSpacedItem(std::size_t qty, Vector3 pos, std::string ressource, std::size_t size, std::size_t i);
-            void drawWater();
 
         protected:
         private:
@@ -52,12 +49,14 @@ namespace Zappy {
             std::map<std::string, raylib::Model> _model;
 
             std::shared_ptr<Data> _data;
+
+            DrawMap _worldMap;
+            DrawBroadCast _broadCast;
+            DrawScoreboard _scoreBoard;
             bool _cameraMove;
             int _cameraMode;
-            bool _animated;
-            float _rotation = 0;
-            float _itemBounce = 0;
-            bool _ret = false;
+            bool _playerView = false;
+            bool _scoreboardView = false;
     };
 }
 
