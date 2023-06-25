@@ -185,9 +185,9 @@ void Zappy::GameData::pic(std::vector<std::string> &content)
         throw Error("Error server response PIC args", "Expected: >= 4, Got: " + std::to_string(content.size()));
     
     _incantationList.addIncantation(content);
-    for (std::size_t id = 3; id != content.size() - 1; id++) {
+    for (std::size_t id = 3; id != content.size(); id++) {
         printf("%ld : %ld\n", content.size(), id);
-        _player[id]->_incantation = 0;
+        _player[std::stoul(content[id])]->_incantation = 0;
     }
     // Incantation start
 }
@@ -218,7 +218,7 @@ void Zappy::GameData::pfk(std::vector<std::string> &content)
     std::size_t id = std::stoul(content[0]);
     if (_player.count(id) == 0)
         throw Error("player id don't exist", content[0]);
-    _player[id]->setEggLayingAnimation(true);
+    _player[id]->setEggLayingAnimation(0);
     printf("player :%ld is laying an egg\n", id);
 }
 

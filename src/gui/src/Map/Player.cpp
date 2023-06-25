@@ -23,7 +23,6 @@ static float getRotationAngle(Zappy::Orientation orientation)
 Zappy::Player::Player(std::vector<std::string> &content, std::shared_ptr<Team> team)
 {
     _id = std::stoi(content[0]);
-    _incantation = false;
     _level = std::stoi(content[4]);
     _orientation = static_cast<Orientation>(std::stoi(content[3]));
     std::cout << "player orientation:" <<content[3] << std::endl;
@@ -84,7 +83,7 @@ void Zappy::Player::setPosition(std::pair<std::size_t, std::size_t> newPosition)
 void Zappy::Player::setInventory(std::vector<std::string> newInventory)
 {
     std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
-    for (std::size_t i = 0; i != newInventory.size() - 1; i++) {
+    for (std::size_t i = 0; i != newInventory.size(); i++) {
         std::cout << ressource[i] << ":" << newInventory[i] << std::endl;
         _inventory[ressource[i]] = std::stoul(newInventory[i]);
     }
