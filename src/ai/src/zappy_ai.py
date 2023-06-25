@@ -37,7 +37,7 @@ class AI:
         self.player:Player
         self.setPlayer(name)
         self.move = Movement(self.client_socket, self.player.item_needed)
-        self.broadcast:Broadcast = Broadcast()
+        self.broadcast:Broadcast = Broadcast(self.client_socket)
 
     def setPlayer(self, name:str) -> None:
         """
@@ -87,7 +87,7 @@ class AI:
         push(self.player, self.client_socket)
         self.reproduction()
         self.broadcast.updatePlayer(self.player)
-        self.broadcast.broadcast(self.player, self.client_socket, self.broadcastmsg, self.broadcast_direction)
+        self.broadcast.broadcast(self.player, self.broadcastmsg, self.broadcast_direction)
 
 
     def run_ai(self) -> int:
