@@ -127,10 +127,10 @@ void Zappy::Cube::drawWaterTexture(Vector3 position, Vector3 size, Color color)
     if (_shader != nullptr)
         EndShaderMode();
     rlSetTexture(_bot);
-        (1.0f, 1.0f); rlVertex3f(x - width/2, y - height/2, z - length/2);
-        (0.0f, 1.0f); rlVertex3f(x + width/2, y - height/2, z - length/2);
-        (0.0f, 0.0f); rlVertex3f(x + width/2, y - height/2, z + length/2);
-        (1.0f, 0.0f); rlVertex3f(x - width/2, y - height/2, z + length/2);
+        rlTexCoord2f(1.0f, 1.0f); rlVertex3f(x - width/2, y - height/2, z - length/2);
+        rlTexCoord2f(0.0f, 1.0f); rlVertex3f(x + width/2, y - height/2, z - length/2);
+        rlTexCoord2f(0.0f, 0.0f); rlVertex3f(x + width/2, y - height/2, z + length/2);
+        rlTexCoord2f(1.0f, 0.0f); rlVertex3f(x - width/2, y - height/2, z + length/2);
     rlEnd();
     rlSetTexture(0);
 }

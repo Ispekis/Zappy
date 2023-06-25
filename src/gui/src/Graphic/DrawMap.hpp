@@ -32,14 +32,18 @@ namespace Zappy {
             void draw(raylib::Camera3D &);
 
             void drawMap();
+
             void drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map);
 
             int tilehover(float posX, float posY, float posZ, float size);
 
             void drawSelectedTile();
+
             void drawBlockInformation();
 
             void tileSelection(std::size_t, std::size_t, int ret);
+
+            void drawSkybox();
 
         protected:
         private:
