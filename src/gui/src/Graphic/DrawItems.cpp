@@ -75,11 +75,15 @@ void Zappy::DrawItems::drawSpacedItem(std::size_t qty, Vector3 pos, std::string 
         x = i - 6;
         y++;
     }
-    _rotation -= 0.01f;
+    float fps = _data->_gameData._timeUnit.getFps();
+    float increment = (0.001 * 60) / fps;
+    float incrementbouncing = (0.00002 * 60) / fps;
+    std::cout << increment << std::endl;
+    _rotation -= increment;
     if (_ret == false)
-        _itemBounce += 0.00008f;
+        _itemBounce += incrementbouncing;
     if (_ret == true)
-        _itemBounce -= 0.00008f;
+        _itemBounce -= incrementbouncing;
     if (_itemBounce > 0.8)
         _ret = true;
     if (_itemBounce < 0)
