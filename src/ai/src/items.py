@@ -8,6 +8,9 @@ class Items:
             client_socket (socket): _description_
         """
         self.client_socket:socket = client_socket
+        self.rareItem:list = []
+        self.rareItem.append("thystame")
+        self.rareItem.append("phiras")
 
     def needsFood(self, inventory:list, ListFilled:list):
         try:
@@ -17,7 +20,18 @@ class Items:
         except KeyError:
             return
 
+    def isThereRareItem(self, sight:str) -> None:
+        for i in range(len(self.rareItem)):
+            try:
+                sight[0].index[self.rareItem[i]]
+                self.client_socket.send(("Take " + self.rareItem[i]+ "\n").encode())
+                res = rcvFromatter(self.client_socket)
+                break
+            except ValueError:
+                continue
+
     def takeItem(self, sight:str, objectives:list, foodList:list, inventory:list) -> None:
+        self.isThereRareItem(sight)
         for i in range(len(objectives)):
             try:
                 sight[0].index(objectives[i])
