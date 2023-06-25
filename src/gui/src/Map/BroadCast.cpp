@@ -21,6 +21,7 @@ Zappy::BroadCast::~BroadCast()
 void Zappy::BroadCast::addBroadCast(broadcast_t newBroadCast)
 {
     _broadCastList.push_back(newBroadCast);
+    _All.push_back(newBroadCast);
 }
 
 Zappy::broadcast_t Zappy::BroadCast::getFirstBroacCast(void)

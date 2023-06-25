@@ -14,6 +14,7 @@
     #include "Data.hpp"
     #include "Cube.hpp"
     #include "DrawMap.hpp"
+    #include "DrawBroadCast.hpp"
 
 namespace Zappy {
     class Gameplay {
@@ -49,6 +50,7 @@ namespace Zappy {
             std::shared_ptr<Data> _data;
 
             DrawMap _worldMap;
+            DrawBroadCast _broadCast;
             bool _cameraMove;
             int _cameraMode;
             bool _playerView = false;

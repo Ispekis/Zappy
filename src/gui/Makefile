@@ -37,6 +37,7 @@ GRAPHIC =	$(addprefix src/Graphic/,		\
 				DrawItems.cpp		\
 				DrawEggs.cpp 		\
 				DrawPlayer.cpp 		\
+				DrawBroadCast.cpp 	\
 				MyModel.cpp 		\
 				Gameplay.cpp		\
 				Menu.cpp		\
