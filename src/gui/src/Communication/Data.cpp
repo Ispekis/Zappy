@@ -62,9 +62,16 @@ void Zappy::Data::updateData(std::string response)
     }
 }
 
+void Zappy::Data::sendPinProtocol(std::size_t id)
+{
+    char tmp[1024] = "pin ";
+    strcat(tmp, std::to_string(id).c_str());
+    strcat(tmp, "\n");
+    write(_socket._socket, tmp, sizeof(tmp));
+}
+
 void Zappy::Data::writeToServer(char *str)
 {
-    printf("[%s]\n", str);
     write(_socket._socket, str, sizeof(str));
 }
 
@@ -96,6 +103,7 @@ void Zappy::Data::parseResponse(std::string &response)
     if (_gameUpdater.count(guiProtocol) == 0)
         throw Error("First argument of server response is not valid", guiProtocol);
     _gameUpdater[guiProtocol](words);
+
 }
 
 void Zappy::Data::setUpdateFunction()
@@ -126,3 +134,4 @@ void Zappy::Data::setUpdateFunction()
     _gameUpdater.insert({"suc", [this](std::vector<std::string> &value) {_gameData.suc(value);}});
     _gameUpdater.insert({"sbp", [this](std::vector<std::string> &value) {_gameData.sbp(value);}});
 }
+

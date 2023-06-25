@@ -139,8 +139,9 @@ void Zappy::GameData::pin(std::vector<std::string> &content)
     auto newPosition = std::make_pair(std::stoul(content[1]), std::stoul(content[2]));
     _player[id]->setCurrentPosition(_tileSize, _mapSize);
     _player[id]->setPosition(newPosition);
-    auto split = separateVectorByIndex(content, 2);
+    auto split = separateVectorByIndex(content, 3);
     _player[id]->setInventory(split.second);
+
     std::cout << "player id:" << id << "inventory set:" << std::endl;
 }
 
@@ -256,9 +257,12 @@ void Zappy::GameData::pdi(std::vector<std::string> &content)
     std::size_t playerId = std::stoul(content[0]);
     if (_player.count(playerId) == 0)
         throw Error("Error player don't exist", std::to_string(playerId));
+    if (_playerIdSelect == playerId) {
+        _player[playerId]->_selected = false;
+        _playerIdSelect = 0;
+    }
     std::shared_ptr<Team> team = _player[playerId]->getTeam();
     team->deletePlayer(playerId);
-
     _player.erase(_player.find(playerId));
     std::cout << "Player : " << playerId << " died" << std::endl;
 }
