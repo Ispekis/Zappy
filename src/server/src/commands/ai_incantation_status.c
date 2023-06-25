@@ -7,13 +7,14 @@
 
 #include "server.h"
 
-void success_elevate(node_t *players, int fd)
+void success_elevate(node_t *players, int fd, int graph_fd)
 {
     node_t *current = players;
 
     while (current != NULL) {
         if (current->client.fd == fd) {
             current->client.level++;
+            fmt_player_lvl(graph_fd, current->client);
             dprintf(current->client.fd, "Current level: %i\n",
             current->client.level);
         }
