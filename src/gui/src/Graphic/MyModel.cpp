@@ -38,7 +38,7 @@ bool Zappy::MyModel::getSelectedModel(Vector3 position, float size)
 
 void Zappy::MyModel::draw(Vector3 pose, std::size_t size, std::pair<std::size_t, std::size_t> map, Color team)
 {
-    std::size_t higher = map.first;
+    float higher = map.first;
     if (map.first < map.second)
         higher = map.second;
     higher *= 0.2;

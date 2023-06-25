@@ -80,8 +80,6 @@ CPPFLAGS	+=	-I./src/Communication
 CPPFLAGS	+=	-I./src/Map
 CPPFLAGS	+=	-I./src/Map/Ressource
 
-CPPFLAGS	+=	-Wall -Wextra
-
 LDFLAGS	=	-lraylib -lpthread -ldl
 
 all: raylib $(NAME)
