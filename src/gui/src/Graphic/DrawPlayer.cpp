@@ -116,14 +116,14 @@ void Zappy::DrawPlayer::allAction(std::shared_ptr<Player> player)
         ejectAnimationPlayer(player);
         return;
     }
-    // if (player->_egglaying != -1)
-    //     eggLayingAnimationPlayer(player);
+    if (player->_egglaying != -1)
+        eggLayingAnimationPlayer(player);
     drawMovementPlayer(player);
 }
 
 void Zappy::DrawPlayer::incantationAnimationPlayer(std::shared_ptr<Player> player)
 {
-    float nbrframe = _data->_gameData._timeUnit.getActionTime(7) / _data->_gameData._timeUnit.getSecondPerFrame();
+    float nbrframe = _data->_gameData._timeUnit.getActionTime(300) / _data->_gameData._timeUnit.getSecondPerFrame();
     float AnimationFrame = _model[player->getId()]->getAnimCount(Animation::incancation) / (nbrframe);
     
     int AnimationFrameRounded = ceil(AnimationFrame);
@@ -134,6 +134,22 @@ void Zappy::DrawPlayer::incantationAnimationPlayer(std::shared_ptr<Player> playe
     if (player->_incantation >= _model[player->getId()]->getAnimCount(Animation::incancation)) {
         _model[player->getId()]->moveAnimationToStart(Animation::incancation);
         player->_incantation = -1;
+    }
+}
+
+void Zappy::DrawPlayer::eggLayingAnimationPlayer(std::shared_ptr<Player> player)
+{
+    float nbrframe = _data->_gameData._timeUnit.getActionTime(47) / _data->_gameData._timeUnit.getSecondPerFrame();
+    float AnimationFrame = _model[player->getId()]->getAnimCount(Animation::laying_egg) / (nbrframe);
+    
+    int AnimationFrameRounded = ceil(AnimationFrame);
+    if (AnimationFrame < 1)
+        AnimationFrameRounded = 1;
+    player->_egglaying += AnimationFrameRounded;
+    _model[player->getId()]->moveAnimation(Animation::laying_egg, AnimationFrameRounded);
+    if (player->_egglaying >= _model[player->getId()]->getAnimCount(Animation::laying_egg)) {
+        _model[player->getId()]->moveAnimationToStart(Animation::laying_egg);
+        player->_egglaying = -1;
     }
 }
 
@@ -196,12 +212,13 @@ void Zappy::DrawPlayer::playerSelection(std::shared_ptr<Player> player, std::siz
             element1.second->_selected = false;
         player->_selected = true;
         _data->_gameData._playerIdSelect = player->getId();
-        std::cout << player->getId() << std::endl;
+        _data->sendPinProtocol(player->getId());
     }
     else if (tmp == true && player->_selected == true) {
         player->_selected = false;
-        _data->_gameData._playerIdSelect = 0;
+        _data->_gameData._playerIdSelect = 0;                             // Camera field-of-view Y
     }
+        
 }
 
 void Zappy::DrawPlayer::drawTeamText(Vector3 pos, std::shared_ptr<Player> player, float size, std::string team)
@@ -298,7 +315,6 @@ void Zappy::DrawPlayer::movePlayerPositionX(std::shared_ptr<Player> player, Vect
     if (std::isinf(animFrame))
         animFrame = 1;
     int animFramePerLoop = std::abs(ceil(animFrame));
-    std::size_t level = player->getLevel();
     float increment;
     if (distance > 0)
         increment = 0.1;
@@ -331,7 +347,6 @@ void Zappy::DrawPlayer::movePlayerPositionY(std::shared_ptr<Player> player, Vect
         animFrame = 1;
     int animFramePerLoop = std::abs(ceil(animFrame));
     std::cout << animFramePerLoop << std::endl;
-    std::size_t level = player->getLevel();
     float increment;
     if (distance > 0)
         increment = 0.1;

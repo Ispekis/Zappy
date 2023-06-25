@@ -139,8 +139,9 @@ void Zappy::GameData::pin(std::vector<std::string> &content)
     auto newPosition = std::make_pair(std::stoul(content[1]), std::stoul(content[2]));
     _player[id]->setCurrentPosition(_tileSize, _mapSize);
     _player[id]->setPosition(newPosition);
-    auto split = separateVectorByIndex(content, 2);
+    auto split = separateVectorByIndex(content, 3);
     _player[id]->setInventory(split.second);
+
     std::cout << "player id:" << id << "inventory set:" << std::endl;
 }
 
@@ -184,9 +185,9 @@ void Zappy::GameData::pic(std::vector<std::string> &content)
         throw Error("Error server response PIC args", "Expected: >= 4, Got: " + std::to_string(content.size()));
     
     _incantationList.addIncantation(content);
-    for (std::size_t id = 3; id != content.size() - 1; id++) {
+    for (std::size_t id = 3; id != content.size(); id++) {
         printf("%ld : %ld\n", content.size(), id);
-        _player[id]->_incantation = 0;
+        _player[std::stoul(content[id])]->_incantation = 0;
     }
     // Incantation start
 }
@@ -217,7 +218,7 @@ void Zappy::GameData::pfk(std::vector<std::string> &content)
     std::size_t id = std::stoul(content[0]);
     if (_player.count(id) == 0)
         throw Error("player id don't exist", content[0]);
-    _player[id]->setEggLayingAnimation(true);
+    _player[id]->setEggLayingAnimation(0);
     printf("player :%ld is laying an egg\n", id);
 }
 
@@ -256,9 +257,12 @@ void Zappy::GameData::pdi(std::vector<std::string> &content)
     std::size_t playerId = std::stoul(content[0]);
     if (_player.count(playerId) == 0)
         throw Error("Error player don't exist", std::to_string(playerId));
+    if (_playerIdSelect == playerId) {
+        _player[playerId]->_selected = false;
+        _playerIdSelect = 0;
+    }
     std::shared_ptr<Team> team = _player[playerId]->getTeam();
     team->deletePlayer(playerId);
-
     _player.erase(_player.find(playerId));
     std::cout << "Player : " << playerId << " died" << std::endl;
 }

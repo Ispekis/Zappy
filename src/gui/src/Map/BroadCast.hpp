@@ -32,9 +32,8 @@ namespace Zappy {
 
     protected:
     private:
-            std::vector<broadcast_t> _broadCastList;
+        std::vector<broadcast_t> _broadCastList;
         std::vector<broadcast_t> _archive;
-
     };
 }
 
