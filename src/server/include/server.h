@@ -177,6 +177,14 @@ bool can_convert_to_int(const char* str);
 int get_cmd_pos(char *str, const char **lib);
 
 /**
+ * @brief Get the opposite direction
+ *
+ * @param direction
+ * @return int
+ */
+int get_opposite_direction(int direction);
+
+/**
  * @brief Elevation successful
  *
  * @param players

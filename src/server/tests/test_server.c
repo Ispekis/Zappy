@@ -31,13 +31,21 @@ Test(Look, test_look_cmd_cross_border)
     int x = 10;
     int y = 11;
 
-    cross_map_border(&x, &y, data);
+    cross_map_border(&x, &y, data.width, data.height);
     cr_assert_eq(x, 0);
     cr_assert_eq(y, 1);
 
     x = -1;
     y = -2;
-    cross_map_border(&x, &y, data);
+    cross_map_border(&x, &y, data.width, data.height);
     cr_assert_eq(x, 9);
     cr_expect_eq(y, 8);
+}
+
+Test(Orientation, test_opposite_direction)
+{
+    cr_assert_eq(get_opposite_direction(NORTH), SOUTH);
+    cr_assert_eq(get_opposite_direction(SOUTH), NORTH);
+    cr_assert_eq(get_opposite_direction(EAST), WEST);
+    cr_assert_eq(get_opposite_direction(WEST), EAST);
 }
