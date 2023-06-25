@@ -45,18 +45,43 @@ void Zappy::DrawMap::setTexture()
     _texture.insert({"Linemate", raylib::Texture("src/gui/assets/items/texture/coal.png")});
     _texture.insert({"Food", raylib::Texture("src/gui/assets/items/texture/carrot.png")});
 
+    _texture.insert({"sky", raylib::Texture("src/gui/assets/InGameSkybox/sky.png")});
+    _texture.insert({"est", raylib::Texture("src/gui/assets/InGameSkybox/est.png")});
+    _texture.insert({"nord", raylib::Texture("src/gui/assets/InGameSkybox/nord.png")});
+    _texture.insert({"ouest", raylib::Texture("src/gui/assets/InGameSkybox/ouest.png")});
+    _texture.insert({"bot", raylib::Texture("src/gui/assets/InGameSkybox/bot.png")});
+    _texture.insert({"sud", raylib::Texture("src/gui/assets/InGameSkybox/sud.png")});
 }
 
 void Zappy::DrawMap::setCube()
 {
     _cube.insert({"water", Cube(_texture["water"].GetId(), _texture["clearbackground"].GetId(), _texture["water"].GetId(), _shader["waterWave"])});
     _cube.insert({"grass", Cube(_texture["grassTop"].GetId(), _texture["grassSide"].GetId(), _texture["dirt"].GetId())});
+
+    _cube.insert({"sky", Cube(_texture["sky"].GetId(), _texture["sky"].GetId(), _texture["sky"].GetId())});
+    _cube.insert({"est", Cube(_texture["est"].GetId(), _texture["est"].GetId(), _texture["est"].GetId())});
+    _cube.insert({"nord", Cube(_texture["nord"].GetId(), _texture["nord"].GetId(), _texture["nord"].GetId())});
+    _cube.insert({"ouest", Cube(_texture["ouest"].GetId(), _texture["ouest"].GetId(), _texture["ouest"].GetId())});
+    _cube.insert({"bot", Cube(_texture["bot"].GetId(), _texture["bot"].GetId(), _texture["bot"].GetId())});
+    _cube.insert({"sud", Cube(_texture["sud"].GetId(), _texture["sud"].GetId(), _texture["sud"].GetId())});
+
+}
+
+void Zappy::DrawMap::drawSkybox()
+{
+    _cube["est"].drawBlockTexture(Vector3{1.0f, 1.0f, 1.0f - _data->_gameData._tileSize * 40}, Vector3{_data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40}, WHITE);
+    _cube["sud"].drawBlockTexture(Vector3{1.0f - _data->_gameData._tileSize * 40, 1.0f, 1.0f}, Vector3 {_data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40}, WHITE);
+    _cube["ouest"].drawBlockTexture(Vector3{1.0f, 1.0f, 1.0f + _data->_gameData._tileSize * 40}, Vector3{_data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40}, WHITE);
+    _cube["nord"].drawBlockTexture(Vector3{1.0f + _data->_gameData._tileSize * 40, 1.0f, 1.0f}, Vector3 {_data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40}, WHITE);
+    _cube["sky"].drawBlockTexture(Vector3{1.0f, 1.0f + _data->_gameData._tileSize * 40, 1.0f}, Vector3 {_data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40}, WHITE);
+    _cube["bot"].drawBlockTexture(Vector3{1.0f, 1.0f - _data->_gameData._tileSize * 40, 1.0f}, Vector3 {_data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40, _data->_gameData._tileSize * 40}, WHITE);
 }
 
 void Zappy::DrawMap::draw(raylib::Camera3D &camera)
 {
     _camera = camera;
     _camera.BeginMode();
+    drawSkybox();
     drawMap();
     drawSelectedTile();
     _player.draw(_camera);
@@ -78,7 +103,7 @@ void Zappy::DrawMap::drawMap()
         for (std::size_t y = 0; y != mapSize.second; y++) {
             drawTile(x, y, mapSize);
         }
-    _cube["water"].drawWaterTexture((Vector3){0, 0.9, 0}, (Vector3){size * 20, size / 0.9f, size * 20}, GRAY);
+    _cube["water"].drawWaterTexture((Vector3){0, 0.9, 0}, (Vector3){size * 40, size / 0.9f, size * 40}, GRAY);
 }
 
 void Zappy::DrawMap::drawTile(std::size_t x, std::size_t y, std::pair<std::size_t, std::size_t> map)
