@@ -1,6 +1,7 @@
 from macro import *
 from utils import comp_obj, crypt, rcvFromatter
 from player import Player
+import random
 import socket
 
 def ask(team:str, type:int, value:str=None, level:int=0) -> str:
@@ -16,12 +17,13 @@ def ask(team:str, type:int, value:str=None, level:int=0) -> str:
     Returns:
         str: Message for the broadcast
     """
+    msg_id = random.randint(0, 1000)
     if level == 0:
         # ask stone
-        return "{} {} {}".format(team, str(type), value)
+        return "{} {} {} {}".format(msg_id, team, str(type), value)
     elif level != 0:
         # ask player with a same level
-        return "{} {} {} {}".format(team, str(type), value, level)
+        return "{} {} {} {} {}".format(msg_id, team, str(type), value, level)
 
 def broadcast(player:Player, client_socket:socket, broadcast:list, broadcast_direction:list) -> None:
     """Créate the broadcast message
@@ -37,16 +39,14 @@ def broadcast(player:Player, client_socket:socket, broadcast:list, broadcast_dir
         message = ask(player.team, ASK, PLAYER, player.level)
     if message != None:
         # message = crypt(player.team, message)
-        # print(message)
-        client_socket.send(("Broadcast " + message + "\n").encode())
-        res = rcvFromatter(client_socket, NORMAL, broadcast, broadcast_direction)
-        print(f"broadcast = {res}")
+        client_socket.send(("Broadcast" + message + "\n").encode())
+        res = rcvFromatter(client_socket, BROADCAST, broadcast, broadcast_direction)
         if res == "ok\n":
             player.ask = True
 
 def analyse_broadcast(player:Player, broadcast:list, broadcast_direction:list) -> str:
     for i in range(len(broadcast)):
-            print(f"crypter = {broadcast[i]}")
-            # print(f"decrpter = {crypt(player.team, broadcast[i])}")
+            print(f"chiffre = {len(broadcast[i])}")
+            print(f"dechiffrer = {crypt(player.team, broadcast[i])}")
             print(broadcast_direction[i])
     return
