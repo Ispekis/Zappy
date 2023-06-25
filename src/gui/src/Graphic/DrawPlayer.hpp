@@ -48,7 +48,7 @@ namespace Zappy {
             void dropAnimationPlayer(std::shared_ptr<Player>);
             void checkPlayerModel(std::shared_ptr<Player>);
 
-            void playerSelection(std::shared_ptr<Player>, std::size_t, raylib::Camera &);
+            void playerSelection(std::shared_ptr<Player>, std::size_t);
 
             void allAction(std::shared_ptr<Player>);
 

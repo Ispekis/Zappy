@@ -280,7 +280,7 @@ void Zappy::Menu::drawHowToPlay()
 
     DrawRectangleRec(rec, GRAY);
     DrawRectangleLinesEx(rec, 5, BLACK);
-    for (int i = 0; level.size() != i; ++i) {
+    for (std::size_t i = 0; level.size() != i; ++i) {
         _texture[level[i]].Draw((Vector2) { x, 600 }, 0, 0.2, WHITE);
         DrawRectangle(x, 850, 140, 40, GRAY);
         DrawText(TextFormat("Level %d", i + 1), x + 15, 860, 30, BLACK);

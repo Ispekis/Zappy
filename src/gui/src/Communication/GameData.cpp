@@ -276,7 +276,7 @@ void Zappy::GameData::enw(std::vector<std::string> &content)
     std::size_t eggId = std::stoul(content[0]);
     std::pair<std::size_t, std::size_t> position = {std::stoul(content[2]), std::stoul(content[3])};
     _egg.addEgg(eggId, position,_player[playerId]->getTeam()->getName(), playerId);
-    printf("EGG id:%d [%d:%d]\n", eggId, position.first, position.second);
+    printf("EGG id:%ld [%ld:%ld]\n", eggId, position.first, position.second);
 }
 
 void Zappy::GameData::ebo(std::vector<std::string> &content)
@@ -289,7 +289,7 @@ void Zappy::GameData::ebo(std::vector<std::string> &content)
     if (_egg._eggList.count(eggId) == 0)
         throw Error("Error egg don't exist", std::to_string(eggId));
     _egg.connexionEgg(eggId);
-    printf("player connected to egg id :%d\n", eggId);
+    printf("player connected to egg id :%ld\n", eggId);
 }
 
 void Zappy::GameData::edi(std::vector<std::string> &content)
@@ -302,7 +302,7 @@ void Zappy::GameData::edi(std::vector<std::string> &content)
     if (_egg._eggList.count(eggId) == 0)
         throw Error("Error egg don't exist", std::to_string(eggId));
     _egg.failedEgg(eggId);
-    printf("egg id :%d destroyed\n", eggId);
+    printf("egg id :%ld destroyed\n", eggId);
 }
 
 void Zappy::GameData::sgt(std::vector<std::string> &content)
