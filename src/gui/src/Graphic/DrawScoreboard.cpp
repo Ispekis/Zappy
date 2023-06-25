@@ -9,6 +9,7 @@
 
 Zappy::DrawScoreboard::DrawScoreboard()
 {
+    // getPlayer();
 }
 
 Zappy::DrawScoreboard::~DrawScoreboard()
@@ -17,29 +18,47 @@ Zappy::DrawScoreboard::~DrawScoreboard()
 
 void Zappy::DrawScoreboard::getTeam()
 {
-    std::cout << "Number of teams: " << _gameData->_teams.size();
-    // for (const auto &pair : _gameData._teams) {
-    //     std::cout << "Team: " << pair.first << std::endl;
-    //     // _teamNameString = pair.first;
-    //     // _teamName.push_back(_teamNameString);
-    // }
-
-    // for (const std::string &team : _teamName)
-    //     std::cout << "Team: " << team << std::endl;
+    _teamSize = _data->_gameData._teams.size();
+    for (const auto &pair : _data->_gameData._teams) {
+        _teamNameString = pair.first;
+        _teamName.push_back(_teamNameString);
+    }
 }
 
-void Zappy::DrawScoreboard::setData(std::shared_ptr<Data> data, std::shared_ptr<GameData> gameData)
+void Zappy::DrawScoreboard::getPlayer()
+{
+    _playerSize = _data->_gameData._player.size();
+    for (const auto &pair : _data->_gameData._player) {
+        _playerIdSize = pair.first;
+        _playerId.push_back(_playerIdSize);
+    }
+}
+
+void Zappy::DrawScoreboard::setData(std::shared_ptr<Data> data)
 {
     std::shared_ptr<Data> tmp(data, data.get());
-    std::shared_ptr<GameData> tmp2(gameData, gameData.get());
     _data = tmp;
-    _gameData = tmp2;
 }
 
 void Zappy::DrawScoreboard::drawScoreboard()
 {
     getTeam();
-    Rectangle rec = {400, 0, 1100, 250};
-    DrawRectangleRec(rec, Fade(SKYBLUE, 0.5f));
-    DrawRectangleLinesEx(rec, 5, BLACK);
+    getPlayer();
+    DrawRectangleRec(_scoreboardRec, Fade(SKYBLUE, 0.5f));
+    DrawRectangleLinesEx(_scoreboardRec, 5, BLACK);
+
+    // for (size_t i = 0; i < _teamSize; i++) {
+    //     DrawText(_teamName[i].c_str(), 300 + (i * 200), 50, 20, BLACK);
+    // }
+    for (size_t i = 0; i < _teamSize; i++) {
+        DrawText(_teamName[i].c_str(), 350 + (i * 150), 50, 20, RED);
+        for (size_t i = 0; i < _playerSize; i++) {
+            // std::shared_ptr<Player> player = _data->_gameData._player[i];
+            // _data->_gameData._player[i]->getTeam();
+            // if (player->_team->getName() == _teamName[i]) {
+            //     std::string test = std::to_string(_playerId[i]);
+            //     DrawText(test, 300, 100 + (i * 50), 20, BLACK);
+            // }
+        }
+    }
 }

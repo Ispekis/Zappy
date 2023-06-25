@@ -23,7 +23,9 @@ namespace Zappy {
 
             void getTeam();
 
-            void setData(std::shared_ptr<Data>, std::shared_ptr<GameData>);
+            void getPlayer();
+
+            void setData(std::shared_ptr<Data>);
 
             void drawScoreboard();
 
@@ -35,7 +37,14 @@ namespace Zappy {
             std::map<std::string, std::shared_ptr<Rect>> _rectangle;
 
             std::vector<std::string> _teamName;
+            std::vector<std::size_t> _playerId;
             std::string _teamNameString;
+            std::size_t _playerIdSize;
+
+            Rectangle _scoreboardRec = {200, 0, 1500, 250};
+            size_t _teamSize = 0;
+            size_t _playerSize = 0;
+
     };
 }
 

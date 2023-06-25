@@ -22,6 +22,7 @@ void Zappy::Gameplay::setData(std::shared_ptr<Data> data)
     std::shared_ptr<Data> tmp(data, data.get());
     _data = tmp;
     _worldMap.setData(tmp);
+    _scoreboard.setData(tmp);
 }
 
 void Zappy::Gameplay::setCamera()
