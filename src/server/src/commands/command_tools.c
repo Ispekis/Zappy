@@ -6,6 +6,7 @@
 */
 
 #include "server.h"
+#include "game_macro.h"
 
 int get_cmd_pos(char *str, const char **lib)
 {
@@ -15,4 +16,20 @@ int get_cmd_pos(char *str, const char **lib)
         }
     }
     return -1;
+}
+
+int get_opposite_direction(int direction)
+{
+    switch (direction) {
+        case NORTH:
+            return SOUTH;
+        case SOUTH:
+            return NORTH;
+        case EAST:
+            return WEST;
+        case WEST:
+            return EAST;
+        default:
+            return -1;
+    }
 }

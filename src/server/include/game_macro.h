@@ -45,7 +45,7 @@
     #define FOOD_LIVE_TIME 126
     #define COOLDOWN_REFILL 20
     #define PLAYER_TO_WIN 6
-    #define FOOD_REFILL_TICK_AMPL 2
-    #define FOOD_REFILL_TICK 5
+    #define FOOD_REFILL_TICK_AMPL 1
+    #define FOOD_REFILL_TICK 2
 
 #endif /* !ZAPPY_MACRO_H_ */

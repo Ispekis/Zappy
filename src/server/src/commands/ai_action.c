@@ -47,6 +47,7 @@ static void move_player(node_t *player, int orient, int width, int height)
     }
     cross_map_border(&player->client.pos.x, &player->client.pos.y, width,
     height);
+    dprintf(player->client.fd, "eject: %i\n", get_opposite_direction(orient));
 }
 
 void eject_eggs(pos_t pos, data_t *data)
