@@ -101,8 +101,8 @@ void Zappy::DrawMap::drawPlayerInventory()
             return;
         std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
         auto player = _data->_gameData._player[id];
-        int rectWidth = _windowSize.first * 0.2;
-        int rectHeight = _windowSize.second * 0.15;
+        float rectWidth = _windowSize.first * 0.2;
+        float rectHeight = _windowSize.second * 0.15;
         float x = _windowSize.first * 0.005;
         float y = _windowSize.second * 0.05;
         std::string teamName = player->getTeam()->getName();
@@ -118,9 +118,9 @@ void Zappy::DrawMap::drawPlayerInventory()
         auto rss = player->getInventory();
         for (std::size_t i = 0; i != ressource.size(); i++)
         {
-            // std::string e = std::to_string(rss[ressource[i]]);
-            DrawTextureEx(_texture[ressource[i]], (Vector2){x + rectWidth * 0.1 * (i + 1), y + rectHeight * 0.5}, 0.0, 2, WHITE);
-            DrawText(std::to_string(rss[ressource[i]]).c_str(), x + rectWidth * 0.105 * (i + 1), y + rectHeight * 0.8, 20, WHITE);
+            float tmp = i;
+            DrawTextureEx(_texture[ressource[i]], (Vector2){static_cast<float>(x + rectWidth * 0.1 * (tmp + 1), y + rectHeight * 0.5)}, 0.0, 2, WHITE);
+            DrawText(std::to_string(rss[ressource[i]]).c_str(), x + rectWidth * 0.105 * (tmp + 1), y + rectHeight * 0.8, 20, WHITE);
         }
     }
 }
