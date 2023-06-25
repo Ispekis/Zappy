@@ -13,6 +13,7 @@
     #include "Data.hpp"
     #include "raylib-cpp.hpp"
     #include "Cube.hpp"
+
 namespace Zappy {
     class DrawItems {
         public:

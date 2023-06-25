@@ -30,10 +30,13 @@ namespace Zappy {
 
         broadcast_t getFirstBroacCast(void);
 
-    protected:
-    private:
         std::vector<broadcast_t> _broadCastList;
         std::vector<broadcast_t> _archive;
+        std::vector<broadcast_t> _All;
+
+    protected:
+    private:
+        
     };
 }
 
