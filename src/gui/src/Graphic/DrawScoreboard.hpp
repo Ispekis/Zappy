@@ -21,15 +21,21 @@ namespace Zappy {
             DrawScoreboard();
             ~DrawScoreboard();
 
-            void setData(std::shared_ptr<Data>);
+            void getTeam();
+
+            void setData(std::shared_ptr<Data>, std::shared_ptr<GameData>);
 
             void drawScoreboard();
 
         protected:
         private:
             std::shared_ptr<Data> _data;
+            std::shared_ptr<GameData> _gameData;
             std::map<std::string, raylib::Texture2D> _texture;
             std::map<std::string, std::shared_ptr<Rect>> _rectangle;
+
+            std::vector<std::string> _teamName;
+            std::string _teamNameString;
     };
 }
 
