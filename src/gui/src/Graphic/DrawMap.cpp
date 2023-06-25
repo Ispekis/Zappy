@@ -98,10 +98,9 @@ void Zappy::DrawMap::drawPlayerInventory()
         if (_data->_gameData._player.count(id) == 0)
             return;
         std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
-        // std::vector<std::string> ressource = {"Food", "Linemate", "Deraumere", "Sibur", "Mendiane", "Phiras", "Thystame"};
         auto player = _data->_gameData._player[id];
-        int rectWidth = 400;
-        int rectHeight = 150;
+        int rectWidth = _windowSize.first * 0.2;
+        int rectHeight = _windowSize.second * 0.15;
         float x = _windowSize.first * 0.005;
         float y = _windowSize.second * 0.05;
         std::string teamName = player->getTeam()->getName();
@@ -110,8 +109,8 @@ void Zappy::DrawMap::drawPlayerInventory()
         std::string Level = "Level : " + std::to_string(player->getLevel());
         Name.append(" : ID ");
         Name.append(playerId);
-        DrawText(Name.c_str(), x + rectWidth * 0.1 , y + rectHeight * 0.1, 20, WHITE);
-        DrawText(Level.c_str(), x + rectWidth * 0.1 , y + rectHeight * 0.3, 20, WHITE);
+        DrawText(Name.c_str(), x + rectWidth * 0.1 , y + rectHeight * 0.1, 20, RED);
+        DrawText(Level.c_str(), x + rectWidth * 0.1 , y + rectHeight * 0.3, 20, MAROON);
         DrawRectangle(x, y, rectWidth, rectHeight, Fade(SKYBLUE, 0.5f));
         DrawRectangleLines( x, y, rectWidth, rectHeight, BLACK);
         auto rss = player->getInventory();

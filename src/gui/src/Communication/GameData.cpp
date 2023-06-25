@@ -163,14 +163,18 @@ void Zappy::GameData::pbc(std::vector<std::string> &content)
 {
     std::cout << "pbc";
     std::size_t id = std::stoul(content[0]);
-    if (content.size() != 2)
+    if (content.size() < 2)
         throw Error("Error server response PIN args", "Expected: 2, Got: " + std::to_string(content.size()));
-    checkInt(content);
+    // checkInt(content);
     if (_player.count(id) == 0)
         throw Error("player id don't exist", content[0]);
     auto position = _player[id]->getPosition();
-
-    broadcast_t e = {id, position, content[1]};
+    std::string message;
+    for (std::size_t i = 1; i != content.size(); i++) {
+        message.append(content[i]);
+        message.append(" ");
+    }
+    broadcast_t e = {id, position, message};
     _broadCast.addBroadCast(e);
     std::cout << ": New broadcast by player" << content[0] << ":" << content[1] << std::endl;
 }
@@ -276,7 +280,6 @@ void Zappy::GameData::enw(std::vector<std::string> &content)
     if (_player.count(playerId) == 0)
         throw Error("Error player don't exist", std::to_string(playerId));
     std::cout << "enw" << std::endl;
-    _player[playerId]->setEggLayingAnimation(false);
     std::size_t eggId = std::stoul(content[0]);
     std::pair<std::size_t, std::size_t> position = {std::stoul(content[2]), std::stoul(content[3])};
     _egg.addEgg(eggId, position,_player[playerId]->getTeam()->getName(), playerId);
