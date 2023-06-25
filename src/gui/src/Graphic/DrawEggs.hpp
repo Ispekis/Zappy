@@ -28,8 +28,6 @@ namespace Zappy {
 
             void draw();
 
-            void drawEggs();
-
         protected:
         private:
             std::shared_ptr<Data> _data;

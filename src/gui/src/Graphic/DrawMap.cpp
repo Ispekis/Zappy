@@ -24,6 +24,7 @@ void Zappy::DrawMap::setData(std::shared_ptr<Data> data)
 {
     std::shared_ptr<Data> tmp(data, data.get());
     _data = tmp;
+    _egg.setData(tmp);
     _items.setData(tmp);
     _player.setData(tmp);
 }
@@ -84,6 +85,7 @@ void Zappy::DrawMap::draw(raylib::Camera3D &camera)
     drawSkybox();
     drawMap();
     drawSelectedTile();
+    _egg.draw();
     _player.draw(_camera);
     _camera.EndMode();
     drawBlockInformation();
