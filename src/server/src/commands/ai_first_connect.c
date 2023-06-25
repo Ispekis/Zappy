@@ -17,9 +17,6 @@ static void connect_player(node_t *client, data_t data)
     client->client.inventory.food.quantity = 10;
     client->client.orientation = rand_nbr(1, NUMBER_OF_ORIENTATION);
     client->client.level = 1;
-
-    client->client.pos.x = 0;
-    client->client.pos.y = 0;
 }
 
 static void connect_player_to_egg(node_t *client, pos_t egg_pos)
@@ -72,9 +69,7 @@ int do_ai_first_connect(char *buffer, node_t *client, data_t *data)
     if (team != NULL) {
         client->client.team = team;
         check_availability(buffer, client, data);
-        if (data->graphic_fd != UNDEFINED) {
             fmt_conn_new_player(data->graphic_fd, client->client);
-        }
         return SUCCESS;
     }
     return FAILURE;
