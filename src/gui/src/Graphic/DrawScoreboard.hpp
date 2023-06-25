@@ -41,7 +41,7 @@ namespace Zappy {
             std::string _teamNameString;
             std::size_t _playerIdSize;
 
-            Rectangle _scoreboardRec = {200, 0, 1500, 250};
+            Rectangle _scoreboardRec = {200, 0, 0, 100};
             size_t _teamSize = 0;
             size_t _playerSize = 0;
 

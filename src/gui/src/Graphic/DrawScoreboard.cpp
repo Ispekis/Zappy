@@ -44,21 +44,17 @@ void Zappy::DrawScoreboard::drawScoreboard()
 {
     getTeam();
     getPlayer();
+
+    float scoreboardWidth = _teamSize * 150 + 100;
+    float scoreboardX = (GetScreenWidth() - scoreboardWidth) / 2.0f;
+
+    _scoreboardRec.x = scoreboardX;
+    _scoreboardRec.width = scoreboardWidth;
+
     DrawRectangleRec(_scoreboardRec, Fade(SKYBLUE, 0.5f));
     DrawRectangleLinesEx(_scoreboardRec, 5, BLACK);
 
-    // for (size_t i = 0; i < _teamSize; i++) {
-    //     DrawText(_teamName[i].c_str(), 300 + (i * 200), 50, 20, BLACK);
-    // }
     for (size_t i = 0; i < _teamSize; i++) {
-        DrawText(_teamName[i].c_str(), 350 + (i * 150), 50, 20, RED);
-        for (size_t i = 0; i < _playerSize; i++) {
-            // std::shared_ptr<Player> player = _data->_gameData._player[i];
-            // _data->_gameData._player[i]->getTeam();
-            // if (player->_team->getName() == _teamName[i]) {
-            //     std::string test = std::to_string(_playerId[i]);
-            //     DrawText(test, 300, 100 + (i * 50), 20, BLACK);
-            // }
-        }
+        DrawText(_teamName[i].c_str(), (_scoreboardRec.x + 100) + (i * 150), 50, 20, RED);
     }
 }
