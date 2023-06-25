@@ -69,13 +69,14 @@ def eventMessages(string:str, broadcast:list, broadcast_direction:list, action:i
     if len(string.split()) > 1 and (action == SIGHT and (string.split()[1].split(",")[0] != "player")):
         return True
     if (len(string.split()) > 1 and string.split()[0] == "message"):
-        # logic for catching broadcast
+        # logic for catching broadcast
         print("MESSAGE FROM BROADCAST")
         broadcast_direction.append(string.split()[1][0])
-        broadcast.append(string.split(",")[1])
+        broadcast.append(string.split(",")[1].split())
+        print(string)
         return True
     if (len(string.split()) == 2 and string.split()[0] == "Elevation" and string.split()[1] == "underway") or action == INCANTATION:
-        # logic after getting freezed
+        # logic after getting freezed
         print("Get freezed")
         return True
     # if (action == MOVE or action == BROADCAST or action == FORK or action == TAKE or action == SET) and string != "ok":
@@ -85,7 +86,15 @@ def eventMessages(string:str, broadcast:list, broadcast_direction:list, action:i
 def rcvFromatter(client_socket:socket, action:int=NORMAL, broadcast:list=[], broadcast_direction:list=[]) -> str:
     string:str = client_socket.recv(1024).decode()
     if (eventMessages(string, broadcast, broadcast_direction, action)):
+        # print("here")
         string = client_socket.recv(1024).decode()
-        if eventMessages(string, broadcast, broadcast_direction, action):
+        # print("afeter")
+        if len(string.split()) > 1 and string.split()[0] == "message":
+            broadcast_direction.append(string.split()[1][0])
+            # msg = string.split(",")[1].replace(" ", "")
+            # msg = msg.replace("\n", "")
+            broadcast.append(string.split(",")[1].split())
+            string = client_socket.recv(1024).decode()
+        if (len(string.split()) == 2 and string.split()[0] == "Elevation" and string.split()[1] == "underway"):
             string = client_socket.recv(1024).decode()
     return string

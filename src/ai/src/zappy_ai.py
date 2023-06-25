@@ -30,13 +30,14 @@ class AI:
             self.client_socket = tc.connection(machine, port)
         except (socket.gaierror, ConnectionRefusedError) as e:
             raise myexception.Exception(e)
-        self.broadcast:list = []
+        self.broadcastmsg:list = []
         self.broadcast_direction:list = []
         self.client_socket.send((name + "\n").encode())
         self.itemHandling = Items(self.client_socket)
         self.player:Player
         self.setPlayer(name)
         self.move = Movement(self.client_socket, self.player.item_needed)
+        self.broadcast:Broadcast = Broadcast()
 
     def setPlayer(self, name:str) -> None:
         """
@@ -61,14 +62,14 @@ class AI:
         Set the sight, invetory and update the team slot free
         """
         self.client_socket.send(("Look\n").encode())
-        self.player.sight = parseLook(rcvFromatter(self.client_socket, SIGHT, self.broadcast, self.broadcast_direction)[2:-2])
+        self.player.sight = parseLook(rcvFromatter(self.client_socket, SIGHT, self.broadcastmsg, self.broadcast_direction)[2:-2])
         # print(f'sight = {self.player.sight}')
         self.client_socket.send(("Inventory\n").encode())
-        self.player.inventory = parseInventory(rcvFromatter(self.client_socket, NORMAL, self.broadcast, self.broadcast_direction)[2:-2])
+        self.player.inventory = parseInventory(rcvFromatter(self.client_socket, NORMAL, self.broadcastmsg, self.broadcast_direction)[2:-2])
         # print(f'inventory = [{self.player.inventory}]')
         try:
             self.client_socket.send(("Connect_nbr\n").encode())
-            self.player.nb_player = int(rcvFromatter(self.client_socket, NORMAL, self.broadcast, self.broadcast_direction))
+            self.player.nb_player = int(rcvFromatter(self.client_socket, NORMAL, self.broadcastmsg, self.broadcast_direction))
         except ValueError:
             return
         # print(f'nbplayer = {self.player.nb_player}')
@@ -76,16 +77,17 @@ class AI:
     def reproduction(self) -> None:
         if check_if_need_fork(self.player, self.player.sight):
             self.client_socket.send("fork\n".encode())
-            rcv_data = rcvFromatter(self.client_socket, NORMAL, self.broadcast, self.broadcast_direction)
+            rcv_data = rcvFromatter(self.client_socket, NORMAL, self.broadcastmsg, self.broadcast_direction)
 
     def playerAction(self) -> None:
-        levelUp(self.player, self.client_socket, self.broadcast, self.broadcast_direction)
+        levelUp(self.player, self.client_socket, self.broadcastmsg, self.broadcast_direction)
         self.itemHandling.needsFood(self.player.inventory, self.player.needList)
-        self.itemHandling.takeItem(self.player.sight, self.player.item_needed, self.player.needList, self.player.inventory, self.broadcast, self.broadcast_direction)
+        self.itemHandling.takeItem(self.player.sight, self.player.item_needed, self.player.needList, self.player.inventory, self.broadcastmsg, self.broadcast_direction)
         self.move.handleMovement(self.player.sight, self.player.needList)
         push(self.player, self.client_socket)
         self.reproduction()
-        broadcast(self.player, self.client_socket, self.broadcast, self.broadcast_direction)
+        self.broadcast.updatePlayer(self.player)
+        self.broadcast.broadcast(self.player, self.client_socket, self.broadcastmsg, self.broadcast_direction)
 
 
     def run_ai(self) -> int:
@@ -101,7 +103,7 @@ class AI:
                 if self.player.inventory != "{}":
                     # print("inv ok")
                     self.playerAction()
-                    analyse_broadcast(self.player, self.broadcast, self.broadcast_direction)
+                    self.broadcast.analyse_broadcast(self.broadcastmsg, self.broadcast_direction)
         except KeyboardInterrupt:
             return SUCCESS
         except BrokenPipeError:
