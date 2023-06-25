@@ -72,6 +72,8 @@ namespace Zappy {
              */
             void updateData(std::string);
 
+            void sendPinProtocol(std::size_t id);
+
             GameData _gameData;
 
         protected:
