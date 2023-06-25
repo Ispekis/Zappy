@@ -97,12 +97,11 @@ void Zappy::Menu::setCube()
 void Zappy::Menu::run()
 {
     UpdateMusicStream(_music);
-    event();
     if (_settings == true)
         settingsEvent();
-    if (_howToPlay == true) {
+    else if (_howToPlay == true)
         howToPlayEvent();
-    }
+    event();
     draw();
 }
 
@@ -208,13 +207,14 @@ void Zappy::Menu::drawBackground()
 void Zappy::Menu::draw()
 {
     drawBackground();
-    if (!_settings && !_howToPlay && _data->_gameData._menu == true) {
+    if (!_settings && !_howToPlay && _data->_gameData._menu == true && _principalMenu == true) {
         drawLogo();
         drawButton();
         drawText();
-    } else if (_settings && !_howToPlay)
+    }
+    else if (_settings && _principalMenu == false && !_howToPlay)
         drawSettings();
-    else if (!_settings && _howToPlay)
+    else if (_howToPlay && _principalMenu == false && !_settings)
         drawHowToPlay();
 }
 
@@ -299,15 +299,15 @@ void Zappy::Menu::mouseClicking()
         for (; it != _rectangle.end(); ++it) {
             if (CheckCollisionPointRec(mousePos, it->second->getRect())) {
                 PlaySound(_click);
-                if (it->first == "menuPlayButton")
+                if (it->first == "menuPlayButton" && _principalMenu && !_settings && !_howToPlay)
                     _data->_gameData._menu = false;
-                else if (it->first == "menuHowToPlayButton") {
+                else if (it->first == "menuHowToPlayButton" && !_settings) {
                     _howToPlay = true;
                     _principalMenu = false;
-                } else if (it->first == "menuSettingsButton") {
+                } else if (it->first == "menuSettingsButton" && !_howToPlay) {
                     _settings = true;
                     _principalMenu = false;
-                } else if (it->first == "menuQuitButton")
+                } else if (it->first == "menuQuitButton" && _principalMenu && !_settings && !_howToPlay)
                     _data->_gameData._end = true;
                 else if (it->first == "returnButton") {
                     _principalMenu = true;
