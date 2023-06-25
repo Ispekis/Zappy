@@ -39,11 +39,19 @@ char *msg)
 
 void ai_cmd_broadcast(node_t *client, data_t *data, char **params)
 {
+    char msg[BUFFER_SIZE] = "";
+
     if (params[0] == NULL) {
         fmt_cmd_parameter(client->client.fd);
     } else {
-        fmt_player_broadcast(data->graphic_fd, client->client, params[0]);
-        send_all_client(data, client->client.pos, client->client.fd, params[0]);
+        strcat(msg, params[0]);
+        for (int i = 1; params[i] != NULL; i++) {
+            strcat(msg, " ");
+            strcat(msg, params[i]);
+        }
+        msg[strlen(msg)] = '\0';
+        fmt_player_broadcast(data->graphic_fd, client->client, msg);
+        send_all_client(data, client->client.pos, client->client.fd, msg);
         dprintf(client->client.fd, "ok\n");
     }
 }
