@@ -70,7 +70,8 @@ void elevate_player(node_t *elevation, data_t *data)
         remove_item_from_tile(elevation->elevation.level,
         &data->map[elevation->elevation.pos.y][elevation->elevation.pos.x]);
         for (int i = 0; i < elevation->elevation.nb_players; i++)
-            success_elevate(data->clients, elevation->elevation.player_fds[i]);
+            success_elevate(data->clients, elevation->elevation.player_fds[i],
+            data->graphic_fd);
         fmt_player_end_incantation(data->graphic_fd, elevation->elevation.pos,
         true);
     } else {
