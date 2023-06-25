@@ -7,6 +7,10 @@
 
 #include "MyModel.hpp"
 
+Zappy::MyModel::MyModel(std::string path, unsigned int animsCount) : _animation(LoadModelAnimations(path.c_str(), &animsCount)), _model(path.c_str())
+{
+}
+
 Zappy::MyModel::MyModel(std::string path, unsigned int animsCount, std::string texture): _animation(LoadModelAnimations(path.c_str(), &animsCount)), _model(path.c_str()), _texture(texture.c_str())
 {
     SetMaterialTexture(&_model.materials[0], MATERIAL_MAP_DIFFUSE, _texture);
@@ -30,6 +34,13 @@ bool Zappy::MyModel::getSelectedModel(Vector3 position, float size)
         if (GetRayCollisionBox(GetMouseRay(GetMousePosition(), _camera), _boundingBox).hit)
             return true;
     return false;
+}
+
+void Zappy::MyModel::draw(Vector3 pose, std::size_t size)
+{
+    Vector3 scale = {size * 3, size * 3, size * 3};
+
+    _model.Draw(pose, (Vector3){0, 1, 0}, 0, scale, BLACK);
 }
 
 void Zappy::MyModel::draw(Vector3 pose, float orientation, std::size_t size, bool selected)
